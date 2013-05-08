@@ -1,4 +1,1 @@
-silcnitc.github.io
-==================
-
-The page
+SILCNITC page
