@@ -23,7 +23,7 @@
     <p class="fleft">Documentation</p>
   </header>
   <aside class="column4 mright">
-    <p class="mbottom">At the beginner level, it is required to have a good understanding of the LEX and YACC tools, inorder to develop an efficient compiler. Here, you may access the documentations related to developing the intial stages of the compiler using the tools.</p>
+    <p class="mbottom">At the beginner level, it is required to have a good understanding of the LEX and YACC tools, inorder to develop an efficient compiler. Here, you may download the documentation related to developing the intial stages of the compiler using the tools.</p>
     <!--<menu>
     <ul>
       <li><a href="#navteam" class="arrow more">Introduction</a></li>
@@ -68,10 +68,7 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="works.html">Works</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="uc.html">Contact</a></li>
     </ul>
   </nav>
 </footer>
