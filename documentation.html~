@@ -56,13 +56,14 @@
   </section>
 </div>
 <footer class="center part clearfix">
-  <ul class="social column3 mright">
-    <li><a href="#">RSS</a></li>
-    <li><a href="#">Facebook</a></li>
+<ul class="social column3 mright">
+    <li><a href="https://github.com/silcnitc">Github</a></li>
+ <!--   <li><a href="#">Facebook</a></li>
     <li><a href="#">Twitter</a></li>
     <li><a href="#">Google+</a></li>
     <li><a href="#">Flickr</a></li>
-  </ul>
+  -->
+</ul>
   <div class="up column3 mright"> <a href="#navtop" class="ir">Go up</a> </div>
   <nav class="column3">
     <ul>
