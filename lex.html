@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>LEX</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/style.css">
+<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+<div class="container">
+
+<header class="center clearfix" id="navtop"> <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+  <nav class="fright">
+    <ul>
+      <li><a href="index.html" >Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="documentation.html" class="navactive">Documentation</a></li>
+      <li><a href="uc.html">Code</a></li>
+      <li><a href="uc.html">Roadmap</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+<div class="services-page main grid-wrap">
+
+		<header class="grid col-full">
+			<hr>
+			<p class="fleft" align="right">LEX</p>			<br/><br/>
+					<a href="https://github.com/silcnitc/documentation/blob/master/lex/Lex.pdf?raw=true" class="button"> Download as PDF </a>
+		</header>
+ 		
+		
+    <aside class="grid col-one-quarter mq2-col-full">
+		
+			<menu>
+				<ul>
+					<li><a href="#navintro" class="sec" >Introduction</a></li>
+					<li><a href="#navstructure" class="sec">The Structure of Lex Programme</a></li>
+					<li><a href="#navvariables" class="sec">The yyvariables</a></li>
+					<li><a href="#navfunctions" class="sec" >The yyfunctions</a></li>				
+					<li><a href="#navcompleteexample" class="sec" >A complete Lex Programme</a></li>
+					<li><a href="#navdisambiguation" class="sec" >Disambiguation rules</a></li>
+					<li><a href="#navpatternmatching" class="sec" >Pattern Matching Using Lex</a></li>
+	            <li><a href="#navsimulator" class="sec" >A token simulator program</a></li>
+	            <li><a href="#navdfaconstruction" class="sec" >Construction of a DFA from a regular expression</a></li>			
+					<li><a href="#navusingthelexicalanalyzer" class="sec" >Using the generated lexical analyzer</a></li>
+					<li><a href="#navreferences" class="sec" >References</a></li>				
+				
+				</ul>
+			</menu>
+		</aside>		
+		
+	  	<section class="grid col-three-quarters mq2-col-full">
+		
+			<div class="grid-wrap">
+		   
+		   <article  id="navintro" class="grid col-full">
+				<h2>Introduction</h2>
+				<p>
+				LEX is a tool used to generate a lexical analyzer.
+				This document is a tutorial for the use of LEX for SIL Compiler development.
+			  Technically, LEX translates a set of regular expression specifications (given as input in input_file.l) into a
+			   C implementation of a corresponding finite state machine (lex.yy.c).  
+			   This C program, when compiled, yields an executable lexical analyzer.              
+				</p>
+				<img src="img/lex_1.png" style="max-width:70%" /> 
+				<p>The source SIL program is fed as the input to the the lexical analyzer which produces  a sequence of tokens as output. 
+				 (Tokens are explained below).Conceptually, a lexical analyzer scans a given source SIL program and produces an output of tokens.
+				  A token is a single element of the SIL programming language that is recognized by the compiler. 
+				  For instance <b>integer, boolean, begin, end, if, while</b> etc. are tokens in SIL.  
+              <br>  
+              Example:				  
+				  <b> “integer”	&nbsp	{return ID_TYPE_INTEGER;} </b>
+				  <br>
+				  This example demonstrates the specification of  rule in LEX.
+				  This rule in this example specifies that the lexical analyzer must return the token named <b> ID_TYPE_INTEGER</b> when the pattern<b> “integer” </b>
+				  is found in the input file.
+				   A rule in a LEX program comprises of a pattern part (specified by a regular expression) and a corresponding (semantic) action part (a sequence of C statements). 
+				   In the above example, <b> “integer”</b> is the pattern and <b>{return ID_TYPE_INTEGER;}</b> is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.   
+
+
+				
+				</p>
+			</article>
+			<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			</div>
+			
+			 <article  id="navstructure" class="grid col-full">
+				<h2>The structure of LEX programs</h2>
+				<p>
+				A LEX program consists of three sections : Declarations, Rules and Auxiliary functions              
+				</p>
+				<img src="img/lex_1.png" style="max-width:70%" /> 
+				<p>The source SIL program is fed as the input to the the lexical analyzer which produces  a sequence of tokens as output. 
+				 (Tokens are explained below).Conceptually, a lexical analyzer scans a given source SIL program and produces an output of tokens.
+				  A token is a single element of the SIL programming language that is recognized by the compiler. 
+				  For instance <b>integer, boolean, begin, end, if, while</b> etc. are tokens in SIL.  
+              <br>  
+              Example:				  
+				  <b> “integer”	&nbsp	{return ID_TYPE_INTEGER;} </b>
+				  <br>
+				  This example demonstrates the specification of  rule in LEX.
+				  This rule in this example specifies that the lexical analyzer must return the token named <b> ID_TYPE_INTEGER</b> when the pattern<b> “integer” </b>
+				  is found in the input file.
+				   A rule in a LEX program comprises of a pattern part (specified by a regular expression) and a corresponding (semantic) action part (a sequence of C statements). 
+				   In the above example, <b> “integer”</b> is the pattern and <b>{return ID_TYPE_INTEGER;}</b> is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.   
+
+
+				
+				</p>
+			</article>	
+		   
+		  </div>
+		
+		
+		</section>
+   		
+
+  		
+	   
+	   
+	</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
