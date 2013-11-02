@@ -105,7 +105,7 @@
                						<div class="syntax"> 
 <pre>
 %{
-	#include "stdio.h"
+	#include &ltstdio.h&gt
 	int global_variable; 		//Auxiliary declarations 
 %}
 number 	[0-9]+				//Regular definitions
@@ -588,7 +588,7 @@ int main()
 <pre>
 I: -
 O: MINUS
-
+<
 I: --
 O: DECREMENT
 
@@ -615,13 +615,201 @@ O: DECREMENT MINUS
  	 The finite state machine used by LEX is deterministic finite state automation.  The lex.yy.c simulates the DFA. </p>
 	</article>	
 				 <div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top &uarr;</a>
-	</div>
+		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+	          </div>
 			
+		<article  id="navsimulator" class="grid col-full">
+        <h2>A token simulator program</h2>
+			          <div class="syntax"> 
+<pre>
+%{ 
+/* Scan and return a token for identifiers of the format : 				
+             (string)(number) 
+	Note : strings are not case sensitive 
+	examples : a0 , A1 , ab2 , AB4 , aBc5 
+*/ 
+#include<stdio.h> 
+
+#define ID 1	//Identifier token 
+#define ER 2	//Error token 
+
+%} 
+low_case [a-z] 
+upp_case [A-Z] 
+number	[0-9] 
+
+%option noyywrap 
+
+%% 
+({low_case}|{upp_case})({low_case}|{upp_case})*({number})
+								   return ID; 
+(.)*								return ER; 
+
+%% 
+int main() 
+{ 
+	int token = yylex(); 
+	if(token==ID) 
+		printf("Acceptable\n"); 
+	else if(token==ER) 
+		printf("Unacceptable\n"); 
+	return 1; 
+} 
+</pre>
+						</div>
+						
+						<p>In this program, the main() function obtains the tokens returned by <b>yylex()</b> and checks if the input contains a valid identifier.
+						 </p>
 			
-			
-			
-			
+			<b> Sample Input/Output : </b>
+			<div class="syntax"> 
+<pre>
+I: Var9
+O: Acceptable
+</pre>
+						</div>
+						<p> When <b>Var9</b> is provided as the input, the DFA constructed by LEX accepts the string,
+						 and the corresponding action <b>return ID</b> executed.
+						  As a result yylex() returns the token <b>ID</b>, and the main() function prints <b>Acceptable</b> on the screen. </p>
+   
+         
+   
+   </article>		
+   
+    <div class="up grid col-one-third" style="float:right">
+		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+	          </div>
+	          
+	   <article  id="navdfaconstruction" class="grid col-full">
+        <h2>Construction of a DFA from a regular expression</h2>
+	      <p> The construction of a DFA from a regular expression takes place in two steps.</p>    
+	      <ul>
+          <li>Constructing a syntax tree from the regular expression
+           </li>	
+           <li> Converting the syntax tree into a DFA </li>     
+           
+       	          </ul>
+       	          
+       <b><big> 9.1	The intermediate syntax tree</big></b>	  
+       <p>  Consider the first rule in the token simulator program in section 8.
+        It consists of the following regular expression :</p>        
+           <b>({low_case}|{upp_case})({low_case}|{upp_case})*({number})</b> 
+           <p>For convenience in representation , let it be represented by :</p>
+           <b> ( a | A ) ( a | A )* (N)</b>    	   
+           <p>where, 'a' represents <b>{low_case}</b>, 'A' represents <b>{upp_case}</b> and 'N' represents <b>{number}</b>. 
+             The syntax tree constructed for the above regular expression would look like :	</p>  
+             <img src="img/lex_5.png" style="max-width:70%" />   
+             <p> In the above figure <b> º </b>represents the <b>'cat'</b> (concatenation) operator, 
+             <b>*</b> represents the 'star' operator (a unary operator) and <b>|</b> represents the 
+              'or' operator. In the syntax tree the inner nodes are operators
+               while the leaves are the operands.
+               The subscript assigned to every leaf is called the position of the leaf.
+                The position of a leaf plays a vital role in the process of constructing states for the DFA. 
+             </p> 
+             
+             <p> NOTE:
+             <br>
+      This syntax tree is an intermediate data structure.
+     There will be no traces of this in lex.yy.c file, because it is only used in the construction of the DFA.</p> 
+     
+     <b><big> 9.2	The intermediate syntax tree</big></b>	
+      <p>Constructing the DFA involves two steps:</p>
+       <ul> 
+      <li>Constructing the set of states of the DFA</li>       
+        <li>Constructing all the possible transitions made by the DFA from one state to another on different inputs. </li>       
+       </ul>
+	          <p> The language represented by the regular expression ( a | A ) ( a | A )* (N),
+	           can only possibly start with an 'a' or 'A'. From the syntax tree we may infer that these could only correspond to positions 1 or 2 . Let the set of these positions {1,2} be the start state of the DFA.
+	           For convenience it has been named as state I.</p>
+	           <p> Consider the position 1 ('a'), it could be followed by either of the positions 3,4 or 5. 
+	           Let this be a new state {3,4,5} represented by II. 
+	           The position 2 ('A') could be possibly followed by either of the positions 3,4 or 5.
+	            But a new state is not required as {3,4,5} has already been represented by II. 
+	            Similarly the positions 3 and 4 could be followed by the position 3 or 4 or 5.
+	             If followed by 5, the DFA must accept and terminate (syntax tree ends at position 5). 
+	             Hence let the final (accept) state be III. 
+Thus, the transitions maybe formulated as :</p>
+
+    <img src="img/lex_3.jpeg" style="max-width:70%" />
+    <br> 
+    
+	   <b><big> 9.3	The intermediate syntax tree</big></b>
+	   <p> The DFA obtained for the above syntax tree would look like :</p>
+	   <img src="img/lex_4.png" style="max-width:70%" />
+	          <p> This DFA represents the regular expression provided as a specification 
+	          (i.e. pattern to be matched) in the first rule of the token
+	           simulator program in section 9. When the DFA is in the final state i.e. III, 
+	           then the corresponding action is executed as instructed in the lex.yy.c file.
+	           The constructed DFA is simulated using a simulation algorithm. </p>
+	           <br>
+	           
+	           
+	           <b><big> 9.4	The DFA simulation algorithm</big></b>
+	           <p> The working of the constructed DFA is simulated using the following algorithm.</p>
+	           			<div class="syntax"> 
+<pre>
+DFA_simulator()
+	current_state = start_state
+	c = get_next_char()
+	while(c != EOF)
+		current_sate = transition(current_state , c)
+ 		c = get_next_char()
+		if(current_state ∈ Final_states)
+			/*ACCEPT*/
+		else
+			/*REJECT*/
+
+</pre>
+						</div>
+	           <p> The information about all the transitions made by the DFA 
+	           can be obtained from the decision
+	            table (generally a two dimensional matrix) through the <b>transition()</b> function. 
+              </p>
+	           
+	          
+	       </article>
+	        <div class="up grid col-one-third" style="float:right">
+		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+	          </div>
+	          
+	          
+	           <article  id="navusingthelexicalanalyzer" class="grid col-full">
+        <h2>Using the generated lexical analyzer</h2>
+	          <p> The generated lex.yy.c file is the code for the scanner. 
+	          This is compiled using a C compiler and the generated object file (the executable scanner) 
+	          is executed. LEX is just a tool which helps generate a smart scanner in C. 
+	The lexical analyzer only checks for recognizable pattern sequences in the source program
+	 and produces an output of tokens (fed to the parser) , it cannot be used to check for syntax.
+	  Syntax analysis is done by the parser. The parser is built using YACC , a parser generator.
+	   YACC obtains the tokens from LEX through yylex() and the associated attributes from yylval, 
+	    which it uses for parsing and rest of the the compilation process. In this case, the programmer
+	     need not call yylex() in the LEX program, it is automatically called by YACC to read the tokens.
+	      The parser , when given an input source program obtains all the tokens from the lexical analyzer
+	       and checks for correctness of the syntax. Hence, the next step towards compiling a given source program would be to build a parser.   
+             </p>
+	          </article>
+	          
+	          <div class="up grid col-one-third" style="float:right">
+		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+	          </div>
+	          
+	      <article  id="navreferences" class="grid col-full">
+        <h2>References</h2>
+	    <p> For further details on the topics covered in this document, the reader may refer to the following :</p>
+	    <ul>
+	    <li> Compilers : Principles,Techniques and Tools by Alfred V.Aho, Monica S. Lam, Ravi Sethi and Jeffrey D.Ulman .</li>  
+     	    <li>Modern Compiler Implementation in C by Andrew W.Appel</li>
+	    <li> Flex & Bison by John Levine</li>
+	    <li> http://dinosaur.compilertools.net/</li>
+	    
+	    </ul>
+
+    	    <div class="up grid col-one-third" style="float:right">
+		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+	          </div>
+	    
+	    
+	     </article>    	
 			</div>
 		</section>
 		
