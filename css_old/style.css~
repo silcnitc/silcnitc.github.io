@@ -33,10 +33,10 @@ html
 body 
 { 
 	margin: 0; 
-	font-size: 14px; 
+	font-size: 13px; 
 	line-height: 1.6;
 }
-body, button, input, select, textarea {font-family: Arial, sans-serif; color: #000000;}
+body, button, input, select, textarea {font-family: Museo Sans, sans-serif; color: #555;}
 ::-moz-selection { background: #37DAC1; color: #fff; text-shadow: none; }
 ::selection { background: #37DAC1; color: #fff; text-shadow: none; }	
 
@@ -82,7 +82,7 @@ blockquote
 	font-style: italic; 
 	color: #6F6C6C; 
 }
-b, strong, .strong { font-weight: bold; }
+b, strong, .strong { font-weight: 400; }
 small, .small { font-size: 85%; }
 address{font-style: normal;}
 /* LIST */
