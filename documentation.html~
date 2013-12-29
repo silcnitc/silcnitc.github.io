@@ -3,7 +3,7 @@
 <head>
 <title>SILC | Documentation</title>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css_old/style.css">
 <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -20,10 +20,10 @@
 </header>
 <div class="about center part clearfix">
   <header class="title">
-    <p class="fleft">Documentation</p>
+    <!--<p class="fleft">Documentation</p>-->
   </header>
   <aside class="column4 mright">
-    <p class="mbottom">At the beginner level, it is required to have a good understanding of the LEX and YACC tools, inorder to develop an efficient compiler. Here, you may download the documentation related to developing the intial stages of the compiler using the tools.</p>
+    <p class="mbottom"><h3>DISCLAIMER</h3>This stage of the project is still under construction. The documentation available here is an image of the draft version.</p>
     <!--<menu>
     <ul>
       <li><a href="#navteam" class="arrow more">Introduction</a></li>
@@ -32,27 +32,23 @@
       <li><a href="#navother" class="arrow more">Our lorem</a></li>
     </ul> 
     </menu>--> </aside>
-  <section class="columnthird content"> <img src="img/doc.jpg" alt="" />
-    <article id="navteam" class="detail">
+  <section class="columnthird content"> <h2 class="mright"> DOCUMENTATION</h2>
+    <article id="navlex" class="detail"><br>
       <h2>Using LEX</h2>
-      <p>LEX is a tool used to generate a lexical analyzer. This document covers all aspects regarding the use of LEX for SILC development. Technically, LEX is a compiler which compiles a LEX program (prog_file.l) and generates a C file (lex.yy.c) which is in turn compiled using a C compiler to generate an executable file, which is the generated lexical analyzer.</p>
-	<p>Download this document <a href="https://github.com/silcnitc/documentation/blob/master/Lex.pdf?raw=true">here</a></p>
+      <p>LEX is a tool used to generate a lexical analyzer. This document covers all aspects
+      regarding the use of LEX for SILC development. Technically, LEX is a compiler
+		which compiles a LEX program (prog_file.l) and generates a C file (lex.yy.c) which
+	is in turn compiled using a C compiler to generate an executable file....
+
+	<a href ="https://github.com/silcnitc/documentation/blob/master/lex/Lex.pdf?raw=true"> download the draft version</a></p>     
     </article>
-    <!--<article id="navphilo" class="detail">
-      <h2>Our philosophy</h2>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
-    </article>
-    <article id="navplace" class="detail">
-      <h2>Our place</h2>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
-    </article>
-    <article id="navother" class="detail">
-      <h2>Our lorem</h2>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit.</p>
-    </article> -->
+	<article id="navyacc" class="detail"><br>
+      <h2>Using YACC</h2>
+      <p>YACC (Yet Another Compiler Compiler) is a tool used to generate a parser. This document is a tutorial for the use
+	of YACC to generate a parser for SIL...
+
+	<a href ="https://github.com/silcnitc/documentation/blob/master/yacc/yacc.pdf?raw=true"> download the draft version</a> </p>
+   
   </section>
 </div>
 <footer class="center part clearfix">
