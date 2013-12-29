@@ -116,8 +116,8 @@ op 		[-|+|*|/|^|=]
 %%
 	/* Auxiliary functions */
  </pre>
-						</div>
-						<br>
+						</div> </p>
+						<p><br>
 						A regular definition in LEX is of the form :
 							D &nbsp	R  
 						<br>
@@ -131,9 +131,10 @@ op 		[-|+|*|/|^|=]
          <p>
          Rules in a LEX program consists of two parts :         
          </p> 
+         
          <ol>
-          <li> The pattern to be matched</li>
-          <li> The corresponding action to be executed</li>
+          <li><b> The pattern to be matched</b></li>
+          <li> <b> The corresponding action to be executed</b></li>
          </ol> 
 		  <b> Example :</b>
                						<div class="syntax"> 
@@ -194,8 +195,8 @@ int main()
 }
 </pre>
 						</div>
-		The C code in the auxiliary section and the declarations in the declaration section are copied as such to the lex.yy.c file
-
+		<p>The C code in the auxiliary section and the declarations in the declaration section are copied as such to the lex.yy.c file
+ </p>
 			</article>	
 			
 			<div class="up grid col-one-third" style="float:right">
@@ -342,7 +343,7 @@ O: Number of digits = 4
      <li><b> yylex()</b></li>         
      <li> <b>yywrap()</b></li>
          </ul>
-<p> <big><b>4.1 &nbspyylex()</b></big> </p
+<p> <big><b>4.1 &nbspyylex()</b></big> </p>
 <p> <b>yylex()</b> is a function of return type <b>int</b>. LEX automatically defines <b>yylex()</b> in lex.yy.c but does not call it.
      The programmer must call <b>yylex()</b> in the Auxiliary functions section of the LEX program.
     LEX generates code for the definition of <b>yylex()</b> according to the rules specified in the Rules section. </p>
@@ -413,7 +414,7 @@ the example LEX programs under section 3.2 and 4.1 for the following input :
 	</p>
 	
 	
-	<p> <big><b>4.2 &nbsp yywrap()</b></big> </p			
+	<p> <big><b>4.2 &nbsp yywrap()</b></big> </p>			
 	<p>LEX declares the function <b>yywrap()</b> of return type <b>int</b> in lex.yy.c . 
 	LEX does not provide any definition for <b>yywrap()</b>. <b>yylex()</b> makes makes a call to <b>yywrap()</b>
 	 when it encounters the end of an input. If <b>yywrap()</b> returns zero (indicating <i>false</i>) <b>yylex()</b> assumes

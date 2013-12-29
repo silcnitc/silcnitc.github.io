@@ -33,10 +33,10 @@ html
 body 
 { 
 	margin: 0; 
-	font-size: 13px; 
+	font-size: 14px; 
 	line-height: 1.6;
 }
-body, button, input, select, textarea {font-family: Museo Sans; color: #555;}
+body, button, input, select, textarea {font-family: Museo Sans; color: #333;}
 ::-moz-selection { background: #37DAC1; color: #fff; text-shadow: none; }
 ::selection { background: #37DAC1; color: #fff; text-shadow: none; }	
 

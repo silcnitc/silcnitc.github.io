@@ -41,7 +41,7 @@ html, button, input, select, textarea {
 	font-smoothing: antialiased;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.004);}
 
-body { margin: 0; font-size: 13px; line-height: 1.6; }
+body { margin: 0; font-size: 14px; line-height: 1.6;  }
 
 a { color: #0078CF; font-weight: normal;
 	cursor: pointer;  text-decoration: none;
@@ -56,7 +56,7 @@ a:hover { color: #000; text-decoration: underline; background: rgba(0, 0, 0, .02
 ::-moz-selection { background: #0078CF; color: #fff; text-shadow: none; }
 ::selection { background: #0078CF; color: #fff; text-shadow: none; }	
 
-p{margin: 0 0 1em;}
+p{margin: 0 0 1em;color: #000}
 p:last-child {margin-bottom: 0;}
 
 a:visited{opacity:0.9;}
@@ -78,7 +78,7 @@ sup{top:-0.5em}
 sub{bottom:-0.25em}
 dd{margin:0 0 0 40px} dt{font-weight: 700;}
 
-aside ul, header ul, footer ul, aside ol, header ol, footer ol{list-style:none; list-style-image:none; margin:0; padding:0;}
+aside ul, header ul, footer ul, aside ol, header ol, footer ol{list-style:none; list-style-image:none; margin:0; padding:0; }
 article ol{list-style:decimal; }
 img{border:0; -ms-interpolation-mode:bicubic; vertical-align:middle}
 svg:not(:root){overflow:hidden}
@@ -147,7 +147,7 @@ label.error { color: #0078CF; margin: 0.5em 0 0 0.5em; font-weight: normal; font
 /* -- BUTTONS 
 ------------------------------------------------------------- */
 .button, input[type="submit"], button, .toggle-title {
-	color: #666;
+	color: #0078CF;
 	font-size: 1.1em;
 	font-weight: normal;
 	padding: 0.6em 1.2em;
@@ -207,7 +207,7 @@ h1 {font-size: 4.1em;
 	color: #555;
 	margin: 0 0 0.5em; 
 	font-weight: normal; }
-h2 { font-size: 2.5em; margin: 0 0 20px; letter-spacing: -0.05em; color: #555; line-height: 1; }
+h2 { font-size: 2.5em; margin: 0 0 20px; letter-spacing: -0.05em; color: #0078CF; line-height: 1; }
 h3 { font-size: 1.75em; }
 h4 { font-size: 1.5em; }
 h5 { font-size: 1.25em;   color: #555; }
