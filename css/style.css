@@ -10,6 +10,11 @@ Author URI: http://sylvainlafitte.com
 /* --- CUSTOM RESET --- */
 /* using h5bp.com/css by HTML5 Boilerplate and Normalize.css by Nicolas Gallagher and Jonathan Neal */
 
+@font-face{
+        font-family: Museo Sans;
+        src: url('MuseoSans-300.otf');
+
+}
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section
 {
