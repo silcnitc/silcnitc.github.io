@@ -184,6 +184,11 @@ h5
 }
 h6 { font-size: 12px; margin-bottom: 2px; }
 body { width: 100%; min-width: 988px; overflow: hidden; }
+.homeimage
+{
+	width: 25%;
+	height: 30%;
+}	
 .center 
 { 
 	margin-left: auto; 

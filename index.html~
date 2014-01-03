@@ -3,7 +3,7 @@
 <head>
 <title>SILC | Home</title>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="css_old/style.css">
+<link rel="stylesheet" href="css/style.css">
 <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -31,7 +31,7 @@
 	</p>
 	<p>Proceed to <a href="#S1">Step 1</a> to get started. </p>   
 </div> 
-<img class = "fright " src="img/compiler.gif" style ="width: 45%; height:50%"> 
+<img class ="fright homeimage" src="img/compiler.gif"> 
   <!-- <div id="slides" class="slider column2">
       <div class="slides_container">
         <div class="slide">
