@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <title>LEX</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/style.css">
@@ -12,7 +10,7 @@
 <header class="center clearfix" id="navtop"> <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
   <nav class="fright">
     <ul>
-      <li><a href="index.html" >Home</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="documentation.html" class="navactive">Documentation</a></li>
       <li><a href="uc.html">Code</a></li>
@@ -22,40 +20,40 @@
 </header>
 
 
-<div class="services-page main grid-wrap">
+<div class="about center part clearfix">
 
-		<header class="grid col-full">
-			<hr>
-			<p class="fleft" align="right">LEX</p>			<br/><br/>
+		<header class="title">
+			
+			<h2 class="mright">LEX</h2>			
 					<a href="https://github.com/silcnitc/documentation/blob/master/lex/Lex.pdf?raw=true" class="button"> Download as PDF </a>
 		</header>
  		
 		
-    <aside class="grid col-one-quarter mq2-col-full">
+    <aside class="column4 mthird">
 		
 			<menu>
 				<ul>
-					<li><a href="#navintro" class="sec" >Introduction</a></li>
+					<li><a href="#navintro" class="sec">Introduction</a></li>
 					<li><a href="#navstructure" class="sec">The Structure of Lex Programme</a></li>
 					<li><a href="#navvariables" class="sec">The yyvariables</a></li>
-					<li><a href="#navfunctions" class="sec" >The yyfunctions</a></li>				
-					<li><a href="#navcompleteexample" class="sec" >A complete Lex Programme</a></li>
-					<li><a href="#navdisambiguation" class="sec" >Disambiguation rules</a></li>
-					<li><a href="#navpatternmatching" class="sec" >Pattern Matching Using Lex</a></li>
-	            <li><a href="#navsimulator" class="sec" >A token simulator program</a></li>
-	            <li><a href="#navdfaconstruction" class="sec" >Construction of a DFA from a regular expression</a></li>			
-					<li><a href="#navusingthelexicalanalyzer" class="sec" >Using the generated lexical analyzer</a></li>
-					<li><a href="#navreferences" class="sec" >References</a></li>				
+					<li><a href="#navfunctions" class="sec">The yyfunctions</a></li>				
+					<li><a href="#navcompleteexample" class="sec">A complete Lex Programme</a></li>
+					<li><a href="#navdisambiguation" class="sec">Disambiguation rules</a></li>
+					<li><a href="#navpatternmatching" class="sec">Pattern Matching Using Lex</a></li>
+	            <li><a href="#navsimulator" class="sec">A token simulator program</a></li>
+	            <li><a href="#navdfaconstruction" class="sec">Construction of a DFA from a regular expression</a></li>			
+					<li><a href="#navusingthelexicalanalyzer" class="sec">Using the generated lexical analyzer</a></li>
+					<li><a href="#navreferences" class="sec">References</a></li>				
 				
 				</ul>
 			</menu>
 		</aside>		
 		
-	  	<section class="grid col-three-quarters mq2-col-full">
+	  	<section class="columnthird content">
 		
 			<div class="grid-wrap">
 		   
-		   <article  id="navintro" class="grid col-full">
+		   <article id="navintro" class="grid col-full">
 				<h2>Introduction</h2>
 				<p>
 				LEX is a tool used to generate a lexical analyzer.
@@ -64,14 +62,14 @@
 			   C implementation of a corresponding finite state machine (lex.yy.c).  
 			   This C program, when compiled, yields an executable lexical analyzer.              
 				</p>
-				<img src="img/lex_1.png" style="max-width:70%" /> 
+				<img src="img/lex_1.png" style="max-width:70%"> 
 				<p>The source SIL program is fed as the input to the the lexical analyzer which produces  a sequence of tokens as output. 
 				 (Tokens are explained below).Conceptually, a lexical analyzer scans a given source SIL program and produces an output of tokens.
 				  A token is a single element of the SIL programming language that is recognized by the compiler. 
 				  For instance <b>integer, boolean, begin, end, if, while</b> etc. are tokens in SIL.  
               <br>  
               Example:				  
-				  <b> “integer”	&nbsp	{return ID_TYPE_INTEGER;} </b>
+				  <b> “integer”	&nbsp;	{return ID_TYPE_INTEGER;} </b>
 				  <br>
 				  This example demonstrates the specification of  rule in LEX.
 				  This rule in this example specifies that the lexical analyzer must return the token named <b> ID_TYPE_INTEGER</b> when the pattern<b> “integer” </b>
@@ -85,15 +83,15 @@
 			</article>
 			
 			<div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			<a href="#navtop" title="Go back up"> top ↑</a>
 			</div>
 			
-			 <article  id="navstructure" class="grid col-full">
+			 <article id="navstructure" class="grid col-full">
 				<h2>The structure of LEX programs</h2>
 				<p>
 				A LEX program consists of three sections : Declarations, Rules and Auxiliary functions              
 				</p>
-				<img src="img/lex_2.png" style="max-width:70%" /> 
+				<img src="img/lex_2.png" style="max-width:70%"> 
              <br>				
 				<p> <big><b>2.1 Declarations</b></big>  
               <br>  
@@ -102,10 +100,9 @@
                The auxiliary declarations are copied as such by LEX to the output lex.yy.c file.
                <br>
                <b>Example : </b>
-               						<div class="syntax"> 
-<pre>
-%{
-	#include &ltstdio.h&gt
+               						</p><div class="syntax"> 
+<pre>%{
+	#include &lt;stdio.h&gt;
 	int global_variable; 		//Auxiliary declarations 
 %}
 number 	[0-9]+				//Regular definitions
@@ -116,10 +113,10 @@ op 		[-|+|*|/|^|=]
 %%
 	/* Auxiliary functions */
  </pre>
-						</div> </p>
+						</div> <p></p>
 						<p><br>
 						A regular definition in LEX is of the form :
-							D &nbsp	R  
+							D &nbsp;	R  
 						<br>
 						where <b>D</b> is the  symbol representing the regular expression <b>R</b>. 
 						The auxiliary declarations (which are optional) are written in C language and are enclosed within   ' %{ ' and ' %} ' .
@@ -138,9 +135,7 @@ op 		[-|+|*|/|^|=]
          </ol> 
 		  <b> Example :</b>
                						<div class="syntax"> 
-<pre>
-
-	/* Declarations*/
+<pre>	/* Declarations*/
 %%
 
 {number}	{printf(“ number”);}
@@ -154,8 +149,7 @@ op 		[-|+|*|/|^|=]
 
       <p> The pattern to be matched is specified as a regular expression.<br>Sample Input/Output for the above example: </p>
 <div class="syntax"> 
-<pre>
-I: 234
+<pre>I: 234
 O:  number
 
 I: *
@@ -181,9 +175,7 @@ O:  number operator number
          
          <b> Example :</b>
             <div class="syntax"> 
-<pre>
-
-	/* Declarations */
+<pre>	/* Declarations */
 %%
 	/* Rules */
 %%
@@ -200,11 +192,11 @@ int main()
 			</article>	
 			
 			<div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			<a href="#navtop" title="Go back up"> top ↑</a>
 			</div>
 		   
 		  
-		  <article  id="navvariables" class="grid col-full">
+		  <article id="navvariables" class="grid col-full">
         <h2>The yyvariables</h2>		  
         <p> The following variables are offered by LEX to aid the programmer in designing sophisticated lexical analyzers.
          These variables are accessible in the LEX program and are automatically declared by LEX in lex.yy.c.</p>
@@ -213,22 +205,20 @@ int main()
         <li><b>yytext</b></li>
         <li><b>yyleng</b></li>          
           </ul>
-          <p> <big><b>3.1 &nbspyyin</b></big> </p> 
+          <p> <big><b>3.1 &nbsp;yyin</b></big> </p> 
           <p><b>yyin</b> is a variable of the type <b>FILE*</b> and points to the input file.
             yyin is defined by LEX automatically. 
             If the programmer assigns an input file to <b>yyin</b> in the auxiliary functions section, then <b>yyin</b> is set to point to that file.
             Otherwise LEX assigns <b>yyin</b> to <b>stdin</b>(console input). </p>
           <b>Example :</b>
                       <div class="syntax"> 
-<pre>
-
-	/* Declarations */
+<pre>	/* Declarations */
 %%
 	/* Rules */
 %%
 main(int argc, char* argv[]) 
 { 
-	if(argc > 1) 
+	if(argc &gt; 1) 
 		{	 
 			FILE *fp = fopen(argv[1], “r”
 			if(fp)
@@ -243,8 +233,7 @@ main(int argc, char* argv[])
 		<b>Excercise</b>
 		<p> In the generated lex.yy.c, the following code segment can be found under the definition of <b>yylex()</b>.</p>	
 		                      <div class="syntax"> 
-<pre>
-if( ! yyin ) 
+<pre>if( ! yyin ) 
 	yyin = stdin;
 </pre>
 						</div>	
@@ -255,7 +244,7 @@ if( ! yyin )
    The above statement indicates that if the programmer does not define <b>yyin</b>, then <b>yylex()</b> by default sets <b>yyin</b>  to the console input.
  Hence, any re-definition for <b>yyin</b> must be made before invoking <b>yylex()</b>.  (This will be explained in detail later).  </p>	
  
- <p> <big><b>3.2 &nbspyytext</b></big> </p>
+ <p> <big><b>3.2 &nbsp;yytext</b></big> </p>
  <p> <b>yytext</b> is of the type <b>char*</b> and it contains the lexeme currently found.
    A lexeme is a sequence of characters in the input stream that matches some pattern in the Rules Section. 
    (In fact, it is the first matching sequence in the input from the position pointed to by <b>yyin</b>.)    
@@ -266,10 +255,9 @@ if( ! yyin )
  	<b> Example</b>
           
           		                      <div class="syntax"> 
-<pre>
-{%
-	#include &ltstdlib.h&gt
-	#include &ltstdio.h&gt
+<pre>{%
+	#include &lt;stdlib.h&gt;
+	#include &lt;stdio.h&gt;
 %}
 number 	[0-9]+
 
@@ -291,8 +279,7 @@ int main()
         <br>
         Sample Input/Output:	
         		                      <div class="syntax"> 
-<pre>
-I: 25
+<pre>I: 25
 O: Found : 25
 </pre>
 						</div>		   
@@ -308,13 +295,12 @@ O: Found : 25
 <p> <i>Suggest a modification in the above example to check whether a number found is even or odd.
 </i></p>
 
-<p> <big><b>3.3 &nbspyyleng</b></big> </p>
+<p> <big><b>3.3 &nbsp;yyleng</b></big> </p>
 <p> <b>yyleng</b> is a variable of the type <b>int</b> and it stores the length of the lexeme pointed to by <b>yytext</b>.</p>
 
 <b>Example</b>
 			<div class="syntax"> 
-<pre>
-/* Declarations */
+<pre>/* Declarations */
 %%
 	/* Rules */
 %%
@@ -324,8 +310,7 @@ O: Found : 25
 						<b>Sample Input/Output</b>	
 						
 			<div class="syntax"> 
-<pre>
-I: 1234
+<pre>I: 1234
 O: Number of digits = 4
 </pre>
 						</div>	   
@@ -333,24 +318,23 @@ O: Number of digits = 4
 </article>
 		
 		<div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			<a href="#navtop" title="Go back up"> top ↑</a>
 			</div>
 			
 			
- <article  id="navfunctions" class="grid col-full">
+ <article id="navfunctions" class="grid col-full">
         <h2>The yyfunctions</h2>	
         <ul>
      <li><b> yylex()</b></li>         
      <li> <b>yywrap()</b></li>
          </ul>
-<p> <big><b>4.1 &nbspyylex()</b></big> </p>
+<p> <big><b>4.1 &nbsp;yylex()</b></big> </p>
 <p> <b>yylex()</b> is a function of return type <b>int</b>. LEX automatically defines <b>yylex()</b> in lex.yy.c but does not call it.
      The programmer must call <b>yylex()</b> in the Auxiliary functions section of the LEX program.
     LEX generates code for the definition of <b>yylex()</b> according to the rules specified in the Rules section. </p>
     <b> Example :</b>
     	<div class="syntax"> 
-<pre>
-/* Declarations */
+<pre>/* Declarations */
 %%
 
 {number}	{return atoi(yytext);}
@@ -369,8 +353,7 @@ int main()
 <p> Sample Input/Output :</p>
 
 <div class="syntax"> 
-<pre>
-I: 42
+<pre>I: 42
 O: Found: 42
 </pre>
 						</div>	 
@@ -414,7 +397,7 @@ the example LEX programs under section 3.2 and 4.1 for the following input :
 	</p>
 	
 	
-	<p> <big><b>4.2 &nbsp yywrap()</b></big> </p>			
+	<p> <big><b>4.2 &nbsp; yywrap()</b></big> </p>			
 	<p>LEX declares the function <b>yywrap()</b> of return type <b>int</b> in lex.yy.c . 
 	LEX does not provide any definition for <b>yywrap()</b>. <b>yylex()</b> makes makes a call to <b>yywrap()</b>
 	 when it encounters the end of an input. If <b>yywrap()</b> returns zero (indicating <i>false</i>) <b>yylex()</b> assumes
@@ -435,9 +418,7 @@ the example LEX programs under section 3.2 and 4.1 for the following input :
 	  	
 						
 		<div class="syntax"> 
-<pre>
-
-	/* Declarations */
+<pre>	/* Declarations */
 %%
 	/* Rules */
 %%
@@ -485,22 +466,20 @@ Suggest a modification in the above example LEX program to make the generated le
         </article>
         
    <div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
-        <article  id="navcompleteexample" class="grid col-full">
+        <article id="navcompleteexample" class="grid col-full">
         <h2>Even-Odd.l , a complete LEX program</h2>	
         <div class="syntax"> 
-<pre>
-
-%{ 
+<pre>%{ 
 /* 
 1.Request input of an even and an odd number 
 2.indicate input characteristic : Even/Odd [digit_length] 
 3.check for input's correctness and print result 
 */ 
 
-#include &ltstdlib.h&gt  
-#include &ltstdio.h&gt
+#include &lt;stdlib.h&gt;  
+#include &lt;stdio.h&gt;
 
 int number_1; 
 int number_2; 
@@ -547,10 +526,10 @@ int main()
         </article>
         
      <div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
 	
-	<article  id="navdisambiguation" class="grid col-full">
+	<article id="navdisambiguation" class="grid col-full">
         <h2>Disambiguation Rules</h2>	
         <p> <b>yylex()</b> uses two important disambiguation rules in selecting the right action to execute
          in case there is more than one pattern that matches a string in the given input: </p>
@@ -562,8 +541,7 @@ int main()
  <b> Example :</b>
  
 <div class="syntax"> 
-<pre>
-   “break”                 { return BREAK; }
+<pre>   “break”                 { return BREAK; }
    [a-zA-Z][a-zA-Z0-9]*    { return IDENTIFIER; }
 </pre>
 						</div>
@@ -572,8 +550,7 @@ int main()
 	    in such a manner that LEX uses its first disambiguation rule to execute <b>return BREAK</b>;</p>
      <b> Example :</b>
    <div class="syntax"> 
-<pre>
-/* Declarations section */
+<pre>/* Declarations section */
 %%
 
 “-”		{return MINUS;}
@@ -586,10 +563,9 @@ int main()
 						<p> Assume that the function calling yylex() prints the name of the token.</p>       
          <b>  Sample Input/Output :</b>
             <div class="syntax"> 
-<pre>
-I: -
+<pre>I: -
 O: MINUS
-<
+&lt;
 I: --
 O: DECREMENT
 
@@ -604,9 +580,9 @@ O: DECREMENT MINUS
 	
 	</article>
 	 <div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top &uarr;</a>
+			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
-		<article  id="navpatternmatching" class="grid col-full">
+		<article id="navpatternmatching" class="grid col-full">
         <h2>Pattern matching using LEX</h2>
 	<p> Conceptually, LEX constructs a finite state machine to recognize all the regular expression patterns specified
 	 in the LEX program file.  The code written by the programmer in the action part is executed when the machine is in accept state. 
@@ -616,14 +592,13 @@ O: DECREMENT MINUS
  	 The finite state machine used by LEX is deterministic finite state automation.  The lex.yy.c simulates the DFA. </p>
 	</article>	
 				 <div class="up grid col-one-third" style="float:right">
-		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+		      	<a href="#navtop" title="Go back up"> top ↑</a>
 	          </div>
 			
-		<article  id="navsimulator" class="grid col-full">
+		<article id="navsimulator" class="grid col-full">
         <h2>A token simulator program</h2>
 			          <div class="syntax"> 
-<pre>
-%{ 
+<pre>%{ 
 /* Scan and return a token for identifiers of the format : 				
              (string)(number) 
 	Note : strings are not case sensitive 
@@ -656,7 +631,7 @@ int main()
 		printf("Unacceptable\n"); 
 	return 1; 
 } 
-</pre>
+</stdio.h></pre>
 						</div>
 						
 						<p>In this program, the main() function obtains the tokens returned by <b>yylex()</b> and checks if the input contains a valid identifier.
@@ -664,8 +639,7 @@ int main()
 			
 			<b> Sample Input/Output : </b>
 			<div class="syntax"> 
-<pre>
-I: Var9
+<pre>I: Var9
 O: Acceptable
 </pre>
 						</div>
@@ -678,10 +652,10 @@ O: Acceptable
    </article>		
    
     <div class="up grid col-one-third" style="float:right">
-		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+		      	<a href="#navtop" title="Go back up"> top ↑</a>
 	          </div>
 	          
-	   <article  id="navdfaconstruction" class="grid col-full">
+	   <article id="navdfaconstruction" class="grid col-full">
         <h2>Construction of a DFA from a regular expression</h2>
 	      <p> The construction of a DFA from a regular expression takes place in two steps.</p>    
 	      <ul>
@@ -699,7 +673,7 @@ O: Acceptable
            <b> ( a | A ) ( a | A )* (N)</b>    	   
            <p>where, 'a' represents <b>{low_case}</b>, 'A' represents <b>{upp_case}</b> and 'N' represents <b>{number}</b>. 
              The syntax tree constructed for the above regular expression would look like :	</p>  
-             <img src="img/lex_5.png" style="max-width:70%" />   
+             <img src="img/lex_5.png" style="max-width:70%">   
              <p> In the above figure <b> º </b>represents the <b>'cat'</b> (concatenation) operator, 
              <b>*</b> represents the 'star' operator (a unary operator) and <b>|</b> represents the 
               'or' operator. In the syntax tree the inner nodes are operators
@@ -731,12 +705,12 @@ O: Acceptable
 	             Hence let the final (accept) state be III. 
 Thus, the transitions maybe formulated as :</p>
 
-    <img src="img/lex_3.jpeg" style="max-width:70%" />
+    <img src="img/lex_3.jpeg" style="max-width:70%">
     <br> 
     
 	   <b><big> 9.3	The intermediate syntax tree</big></b>
 	   <p> The DFA obtained for the above syntax tree would look like :</p>
-	   <img src="img/lex_4.png" style="max-width:70%" />
+	   <img src="img/lex_4.png" style="max-width:70%">
 	          <p> This DFA represents the regular expression provided as a specification 
 	          (i.e. pattern to be matched) in the first rule of the token
 	           simulator program in section 9. When the DFA is in the final state i.e. III, 
@@ -748,8 +722,7 @@ Thus, the transitions maybe formulated as :</p>
 	           <b><big> 9.4	The DFA simulation algorithm</big></b>
 	           <p> The working of the constructed DFA is simulated using the following algorithm.</p>
 	           			<div class="syntax"> 
-<pre>
-DFA_simulator()
+<pre>DFA_simulator()
 	current_state = start_state
 	c = get_next_char()
 	while(c != EOF)
@@ -770,11 +743,11 @@ DFA_simulator()
 	          
 	       </article>
 	        <div class="up grid col-one-third" style="float:right">
-		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+		      	<a href="#navtop" title="Go back up"> top ↑</a>
 	          </div>
 	          
 	          
-	           <article  id="navusingthelexicalanalyzer" class="grid col-full">
+	           <article id="navusingthelexicalanalyzer" class="grid col-full">
         <h2>Using the generated lexical analyzer</h2>
 	          <p> The generated lex.yy.c file is the code for the scanner. 
 	          This is compiled using a C compiler and the generated object file (the executable scanner) 
@@ -791,22 +764,22 @@ DFA_simulator()
 	          </article>
 	          
 	          <div class="up grid col-one-third" style="float:right">
-		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+		      	<a href="#navtop" title="Go back up"> top ↑</a>
 	          </div>
 	          
-	      <article  id="navreferences" class="grid col-full">
+	      <article id="navreferences" class="grid col-full">
         <h2>References</h2>
 	    <p> For further details on the topics covered in this document, the reader may refer to the following :</p>
 	    <ul>
 	    <li> Compilers : Principles,Techniques and Tools by Alfred V.Aho, Monica S. Lam, Ravi Sethi and Jeffrey D.Ulman .</li>  
      	    <li>Modern Compiler Implementation in C by Andrew W.Appel</li>
-	    <li> Flex & Bison by John Levine</li>
+	    <li> Flex &amp; Bison by John Levine</li>
 	    <li> http://dinosaur.compilertools.net/</li>
 	    
 	    </ul>
 
     	    <div class="up grid col-one-third" style="float:right">
-		      	<a href="#navtop" title="Go back up"> top &uarr;</a>
+		      	<a href="#navtop" title="Go back up"> top ↑</a>
 	          </div>
 	    
 	    
@@ -814,39 +787,21 @@ DFA_simulator()
 			</div>
 		</section>
 		
-		
-		
-   		
 
-  		
-	   
-	   
 	</div>
-
-
-
-
-
-
-
-
-
 
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
+<!-- Javascript - jQuery 
+<script src="http://code.jquery.com/jquery.min.js"></script>-->
+<script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
+
+<!--[if (gte IE 6)&(lte IE 8)]>
+<script src="js/selectivizr.js"></script>
+<![endif]-->
+
+<script src="js/scripts.js"></script>
 
 </html>
