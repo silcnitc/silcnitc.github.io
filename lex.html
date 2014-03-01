@@ -24,36 +24,39 @@
 
 		<header class="title">
 			
-			<h2 class="mright">LEX</h2>			
-					<a href="https://github.com/silcnitc/documentation/blob/master/lex/Lex.pdf?raw=true" class="button"> Download as PDF </a>
+			<br>			
+					
 		</header>
  		
 		
-    <aside class="column4 mthird">
+    <aside class="column4 mright">
 		
 			<menu>
 				<ul>
 					<li><a href="#navintro" class="sec">Introduction</a></li>
-					<li><a href="#navstructure" class="sec">The Structure of Lex Programme</a></li>
-					<li><a href="#navvariables" class="sec">The yyvariables</a></li>
-					<li><a href="#navfunctions" class="sec">The yyfunctions</a></li>				
-					<li><a href="#navcompleteexample" class="sec">A complete Lex Programme</a></li>
+					<li><a href="#navstructure" class="sec">Structure of LEX Programs</a></li>
+					<li><a href="#navvariables" class="sec">yyvariables</a></li>
+					<li><a href="#navfunctions" class="sec">yyfunctions</a></li>				
+					<li><a href="#navcompleteexample" class="sec">A complete LEX Program</a></li>
 					<li><a href="#navdisambiguation" class="sec">Disambiguation rules</a></li>
-					<li><a href="#navpatternmatching" class="sec">Pattern Matching Using Lex</a></li>
-	            <li><a href="#navsimulator" class="sec">A token simulator program</a></li>
-	            <li><a href="#navdfaconstruction" class="sec">Construction of a DFA from a regular expression</a></li>			
-					<li><a href="#navusingthelexicalanalyzer" class="sec">Using the generated lexical analyzer</a></li>
-					<li><a href="#navreferences" class="sec">References</a></li>				
+					<li><a href="#navpatternmatching" class="sec">Pattern Matching Using LEX</a></li>
+	            			<li><a href="#navsimulator" class="sec">An example program</a></li>
+	            			<li><a href="#navdfaconstruction" class="sec">Reg. exp -> DFA</a></li>			
+					<li><a href="#navusingthelexicalanalyzer" class="sec">Using the lexical analyzer</a></li>
+					<li><a href="#navreferences" class="sec">References</a></li>
+					<br>
+					<a class="button" href="www.blah.org">Download as PDF</a>				
 				
 				</ul>
+				
 			</menu>
 		</aside>		
-		
+		<h1 class="mright"> LEX </h1>
 	  	<section class="columnthird content">
-		
+			
 			<div class="grid-wrap">
 		   
-		   <article id="navintro" class="grid col-full">
+		   <article id="navintro" class="detail">
 				<h2>Introduction</h2>
 				<p>
 				LEX is a tool used to generate a lexical analyzer.
@@ -86,7 +89,7 @@
 			<a href="#navtop" title="Go back up"> top ↑</a>
 			</div>
 			
-			 <article id="navstructure" class="grid col-full">
+			 <article id="navstructure" class="detail">
 				<h2>The structure of LEX programs</h2>
 				<p>
 				A LEX program consists of three sections : Declarations, Rules and Auxiliary functions              
@@ -196,7 +199,7 @@ int main()
 			</div>
 		   
 		  
-		  <article id="navvariables" class="grid col-full">
+		  <article id="navvariables" class="detail">
         <h2>The yyvariables</h2>		  
         <p> The following variables are offered by LEX to aid the programmer in designing sophisticated lexical analyzers.
          These variables are accessible in the LEX program and are automatically declared by LEX in lex.yy.c.</p>
@@ -322,7 +325,7 @@ O: Number of digits = 4
 			</div>
 			
 			
- <article id="navfunctions" class="grid col-full">
+ <article id="navfunctions" class="detail">
         <h2>The yyfunctions</h2>	
         <ul>
      <li><b> yylex()</b></li>         
@@ -468,7 +471,7 @@ Suggest a modification in the above example LEX program to make the generated le
    <div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
-        <article id="navcompleteexample" class="grid col-full">
+        <article id="navcompleteexample" class="detail">
         <h2>Even-Odd.l , a complete LEX program</h2>	
         <div class="syntax"> 
 <pre>%{ 
@@ -529,7 +532,7 @@ int main()
 			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
 	
-	<article id="navdisambiguation" class="grid col-full">
+	<article id="navdisambiguation" class="detail">
         <h2>Disambiguation Rules</h2>	
         <p> <b>yylex()</b> uses two important disambiguation rules in selecting the right action to execute
          in case there is more than one pattern that matches a string in the given input: </p>
@@ -582,7 +585,7 @@ O: DECREMENT MINUS
 	 <div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
-		<article id="navpatternmatching" class="grid col-full">
+		<article id="navpatternmatching" class="detail">
         <h2>Pattern matching using LEX</h2>
 	<p> Conceptually, LEX constructs a finite state machine to recognize all the regular expression patterns specified
 	 in the LEX program file.  The code written by the programmer in the action part is executed when the machine is in accept state. 
@@ -595,7 +598,7 @@ O: DECREMENT MINUS
 		      	<a href="#navtop" title="Go back up"> top ↑</a>
 	          </div>
 			
-		<article id="navsimulator" class="grid col-full">
+		<article id="navsimulator" class="detail">
         <h2>A token simulator program</h2>
 			          <div class="syntax"> 
 <pre>%{ 
@@ -655,7 +658,7 @@ O: Acceptable
 		      	<a href="#navtop" title="Go back up"> top ↑</a>
 	          </div>
 	          
-	   <article id="navdfaconstruction" class="grid col-full">
+	   <article id="navdfaconstruction" class="detail">
         <h2>Construction of a DFA from a regular expression</h2>
 	      <p> The construction of a DFA from a regular expression takes place in two steps.</p>    
 	      <ul>
@@ -747,7 +750,7 @@ Thus, the transitions maybe formulated as :</p>
 	          </div>
 	          
 	          
-	           <article id="navusingthelexicalanalyzer" class="grid col-full">
+	           <article id="navusingthelexicalanalyzer" class="detail">
         <h2>Using the generated lexical analyzer</h2>
 	          <p> The generated lex.yy.c file is the code for the scanner. 
 	          This is compiled using a C compiler and the generated object file (the executable scanner) 
@@ -767,7 +770,7 @@ Thus, the transitions maybe formulated as :</p>
 		      	<a href="#navtop" title="Go back up"> top ↑</a>
 	          </div>
 	          
-	      <article id="navreferences" class="grid col-full">
+	      <article id="navreferences" class="detail">
         <h2>References</h2>
 	    <p> For further details on the topics covered in this document, the reader may refer to the following :</p>
 	    <ul>
