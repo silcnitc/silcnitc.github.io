@@ -900,8 +900,8 @@ IMPORTANT NOTE:  Reduce-reduce conflicts are bad to have in a grammar.  They are
     This can be achieved using a variable called <big>yylval</big>.  The following program demonstrates the use of  <big>yylval</big>.
    
    
-   <div class="syntax">
-<pre>
+   <div id="navexy1"class="syntax">
+<pre id="navexy1d">
 %{ 
 
 #include &ltstdio.h&gt 
@@ -911,19 +911,20 @@ IMPORTANT NOTE:  Reduce-reduce conflicts are bad to have in a grammar.  They are
 %token DIGIT 
 
 %% 
-
-start : expr '\n'			{printf("\nComplete");exit(1);} 
+</pre>
+<pre id="navexy1r">
+start : expr '\n'		{printf("\nComplete");exit(1);} 
 	; 
 
 expr:  expr '+' expr		{printf("+ ");} 
 	| expr '*' expr		{printf("* ");} 
 	| '(' expr ')'	 
-	| DIGIT				{printf("%d ",$1);} 
+	| DIGIT			{printf("%d ",$1);} 
 	; 
 
 %% 
-
-
+</pre>
+<pre id="navexy1a">
 yyerror() 
 { 
 	printf("Error"); 
