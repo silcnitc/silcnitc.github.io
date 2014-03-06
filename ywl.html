@@ -36,7 +36,7 @@
    <h2>Integrating LEX with YACC</h2>
      <p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "http://silcnitc.github.io/yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "http://silcnitc.github.io/lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c. We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream. Till now, for simplicity we had written a user-defined yylex() in the YACC program. In this section of the document we will use LEX to generate the definition of yylex() and make YACC use this definition for retrieving tokens. </p>
      <h4>Including lex.yy.c in y.tab.c</h4>
-     <p>This can be done by <i>including</i> the lex.yy.c file in the auxiliary functions section of the YACC program as shown below. Including lex.yy.c in the auxiliary functions section would result in all of the contents of lex.yy.c being copied to y.tab.c as YACC copies all the contents of the auxiliary functions section as such into the y.tab.c file. As a result, the definition for yylex() is also contained in y.tab.c (as lex.yy.c contains the definition of yylex). </p>
+     <p>This can be done by <i>including</i> the lex.yy.c file in the auxiliary functions section of the YACC program as shown below. (Including lex.yy.c in the auxiliary functions section would result in all of the contents of lex.yy.c including the yylex() definition are copied to y.tab.c ) </p>
      <div class="syntax">
       <pre>
 		/* Declarations section */
