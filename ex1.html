@@ -55,8 +55,8 @@
     %% 
     start : expr '\n'           {printf("\nComplete");exit(1);} 
 	    ; 
-    expr:  expr '+' expr        {printf("+ ");} 
-	    | expr '*' expr     {printf("* ");} 
+    expr:  expr PLUS expr        {printf("+ ");} 
+	    | expr STAR expr     {printf("* ");} 
 	    | '(' expr ')'	 
 	    | DIGIT             {printf("%d ",$1);} 
 	    ; 
