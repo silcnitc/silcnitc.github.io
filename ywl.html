@@ -36,7 +36,7 @@
    <h2>Integrating LEX with YACC</h2>
    <h3>LEX to YACC Communication</h3>
      <p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c. We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream. Till now, for simplicity we had written a <a href="yacc.html#navexy0al">user-defined yylex()</a> in the YACC program. In this section of the document we will use LEX to generate the definition of yylex() and make YACC use this definition for retrieving tokens. </p>
-     <p>For yyparse() to use yylex() in the y.tab.c file, the definition of yylex() must be available in the Auxiliary functions section of the YACC program. As the definition of yylex() has been generated in the the lex.yy.c file, the lex.yy.c file must be <i>included</i> in the auxiliary functions section of the YACC program. (This results in all of the contents of lex.yy.c including the yylex() definition being copied to y.tab.c) </p>
+     <p>For yyparse() to use yylex(), the definition of yylex() must be available in y.tab.c file. We will add this definiton of yylex() to the Auxiliary functions section of the YACC program. As the definition of yylex() has been generated in the the lex.yy.c file, the lex.yy.c file must be <i>included</i> in the auxiliary functions section of the YACC program. (This results in all of the contents of lex.yy.c including the yylex() definition being copied to y.tab.c) </p>
      <div class="syntax">
       <pre>
 		/* Declarations section */
