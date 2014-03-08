@@ -34,11 +34,11 @@
 			<menu>
 				<ul>
 					<li><a href="#navintro" class="sec">Introduction to YACC</a></li>
-					<li><a href="#navstructure" class="sec">The Structure of YACC programme</a></li>
-					<li><a href="#navshiftreduce" class="sec">A working introduction to shift-reduce parsing</a></li>
+					<li><a href="#navstructure" class="sec">Structure of YACC programs</a></li>
+					<li><a href="#navshiftreduce" class="sec">Shift-reduce parsing</a></li>
 					<li><a href="#navinfixtopostfix" class="sec">Infix to Postfix program</a></li>				
 					<li><a href="#navconflict" class="sec">Conflict in parsing using YACC</a></li>
-					<li><a href="#navpassingvalues" class="sec">Passing values from the yylex() to yyparse()</a></li>			
+					<li><a href="#navpassingvalues" class="sec">Token attributes</a></li>			
 				
 				</ul>
 			</menu>
@@ -279,11 +279,11 @@ Every non-terminal in the grammar must appear in the head part of at least one p
      The auxiliary functions section of our example [Link to Auxiliary functions section of eg_in2_post_no-att.y] 
      program uses no user defined functions. You will need to write your supporting functions later in this project.  
 
+
      
      </p>         
-
-<div class="syntax"> 
-<pre>	
+<div id = "navexy0" class="syntax"> 
+<pre id = "navexy0d">	
 expr:  expr '+' expr	{op_print('+');} 
 	| expr '*' expr	{op_print('*');} 
 	| '(' expr ')'	
@@ -306,6 +306,8 @@ yyerror()
 	printf("error");	
 	return; 
 } 
+</pre>
+<pre id="navexy0al">
 
 yylex() 
 { 
@@ -317,7 +319,9 @@ yylex()
 		return DIGIT; 
 	} 
 	return c; 
-} 
+}
+</pre>
+<pre id= "navexy0am">
 
 main() 
 { 

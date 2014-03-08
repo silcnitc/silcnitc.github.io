@@ -31,13 +31,12 @@
      </ul>
     </menu>
   </aside>
-  <section class="columnthird content"> <h1 class="mright">USING YACC WITH LEX</h1>
+  <section class="columnthird content"> <h1 class="mright">USING LEX WITH YACC</h1>
    <article id="navily" class="detail">
    <h2>Integrating LEX with YACC</h2>
-   <h3>LEX->YACC Communication</h3>
-     <p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "http://silcnitc.github.io/yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "http://silcnitc.github.io/lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c. We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream. Till now, for simplicity we had written a user-defined yylex() in the YACC program. In this section of the document we will use LEX to generate the definition of yylex() and make YACC use this definition for retrieving tokens. </p>
-     <h4>Including lex.yy.c in y.tab.c</h4>
-     <p>This can be done by <i>including</i> the lex.yy.c file in the auxiliary functions section of the YACC program as shown below. (This results in all of the contents of lex.yy.c including the yylex() definition being copied to y.tab.c) </p>
+   <h3>LEX to YACC Communication</h3>
+     <p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c. We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream. Till now, for simplicity we had written a <a href="yacc.html#navexy0al">user-defined yylex()</a> in the YACC program. In this section of the document we will use LEX to generate the definition of yylex() and make YACC use this definition for retrieving tokens. </p>
+     <p>For yyparse() to use yylex() in the y.tab.c file, the definition of yylex() must be available in the Auxiliary functions section of the YACC program. As the definition of yylex() has been generated in the the lex.yy.c file, the lex.yy.c file must be <i>included</i> in the auxiliary functions section of the YACC program. (This results in all of the contents of lex.yy.c including the yylex() definition being copied to y.tab.c) </p>
      <div class="syntax">
       <pre>
 		/* Declarations section */
@@ -49,12 +48,8 @@
 		/* Auxiliary Functions */    
          </pre>
 	</div>
-	<h4>Providing multiple arguments to gcc</h4>
-	 <div class="syntax">
-        user@localhost:~$ gcc y.tab.c lex.yy.c 
-      </div>
-	
-    <h3>YACC->LEX Communication</h3>
+     <p> NOTE: In this case, we need not provide a <a href="lex.html#navexl0">main() definition in the LEX program</a> calling yylex(), as there already exists a <a href="yacc.html#navexy0am">main() function in the YACC program</a> which calls yyparse() which inturns calls yylex(). We will see an example of a LEX program without a main() definition <a href="#navexywl0l">below</a></p>
+    <h3>YACC to LEX Communication</h3>
      <p>Recall that yyparse() attempts to parse the given input by calling yylex() to obtain tokens. In an <a href="yacc.html#navexy1">example</a> in the YACC documentation, we had used a user defined definition of yylex() in the YACC program. The YACC program consists of the declaration of token DIGIT in the <a href="yacc.html#navexy1d">declarations section</a> and definition of the token DIGIT in the <a href="yacc.html#navexy1a">auxiliary functions section</a> under the definition of yylex(). Now we are trying to use the LEX generated yylex() instead of a user defined yylex(). We know that LEX generates the definition for the DIGIT token under yylex() according to the rules in the LEX program and yyparse() calls yylex() to find DIGIT in the input stream. Thus we may infer that all the tokens in the <a href="yacc.html#navintro">CFG</a> must be declared in the YACC program (to be used in the CFG) and defined in the LEX program (to be identified by yylex()). <br><br> This example shows the declaration of the token DIGIT in the YACC program:</p>
      <div class="syntax">
       <pre>
@@ -75,33 +70,94 @@
 
 	%%
 	
-	"+"     return PLUS;
+	[0-9]+     return DIGIT;
 	
 	%%
 		/* LEX Auxiliary Functions */    
      </pre>
     </div>
-    <p> In the above examples we can see that a YACC program contains the declarations of a token while LEX contains the definition of a token. But for LEX to identify the declared tokens, there must exist some way in which YACC communicates the declared tokens to LEX. This communication from a YACC program to a LEX program is established through a file named "y.tab.h" which contains the declarations of all the tokens in YACC. The "y.tab.h" is automatically generated by YACC when the yacc command is executed with the -d flag in the terminal.</p>
+    <p> In the above examples we can see that a YACC program contains the declarations of a token while LEX contains the definition of a token. But for LEX define the declared tokens, there must exist some way in which YACC communicates the declared tokens to LEX. This communication from a YACC program to a LEX program is established through a file named "y.tab.h" which contains the declarations of all the tokens in YACC. The "y.tab.h" is automatically generated by YACC when the yacc command is executed with the -d flag in the terminal.</p>
     <div class="syntax">
 		user@localhost:~$ yacc -d yaccprogram.y   
     </div>
-    <p>The example of the contents of y.tab.h file is shown below. 
+    <p>An example of the contents of y.tab.h file is shown below. 
     <div class="syntax">
         #define DIGIT  253  
      </div>   
-     <p>Note that '253' is a YACC generated constant to represent PLUS.</p>  
-    <p>The y.tab.h file is <i>included</i> in the declarations section of the LEX program. As a result of which, LEX has access to the declarations in the YACC file. Note that in the following example of a LEX program, no explicit definition of the token PLUS is requied as y.tab.h (which contains the declaration of PLUS) has been included in the declarations section</p>
+     <p>Note that '253' is a YACC generated constant to represent DIGIT.</p>  
+    <p>The y.tab.h file is <i>included</i> in the declarations section of the LEX program. As a result of which, LEX has access to the declarations in the YACC file. Note that in the following example of a LEX program, no explicit definition of the token PLUS is requied as y.tab.h (which contains the declaration of DIGIT) has been included in the declarations section</p>
     <div class="syntax">
 	 <pre>
 	#include "y.tab.h"
 
 	%%
 	
-	"+"     return PLUS;
+	[0-9]+     return DIGIT;
 	
 	%%
 		/* LEX Auxiliary Functions */    
      </pre>   
+    </div>
+    <p>We will now demonstrate the <a href="#navexywl0l">LEX program</a> and <a href="#navexywl0y">YACC program</a> for building an infix to postfix convertor which we had <a href="yacc.html#navexy1">previously done</a> independant of LEX:</p>
+     <big id="navexywl0l">in2post.l</big>
+     <div class="syntax"> 
+      <pre>
+	%{ 
+		#include <q><</q>stdio.h<q>></q> <!--Dummy tags to display '<' and '>' -->
+		#include "y.tab.h"
+	%} 
+	%% 
+	[0-9]+	return DIGIT;
+	'+'	return PLUS;
+	'*'	return STAR;
+	'('	return *yytext;		
+	')'	return *yytext;	
+	%% 
+	yywrap()
+	{
+		return 1;
+	}
+      </pre>
+     </div>
+	
+     <big id="navexywl0y">in2post.y</big>
+     <div class="syntax">
+      <pre>
+      %{ 
+      #include &ltstdio.h&gt 
+      %} 
+		/* Multiple tokens can be declared in one line*/
+      %token DIGIT PLUS MUL
+      %% 
+      start : expr '\n'			{printf("\nComplete"); exit(1);} 
+	    ; 
+      expr:  expr PLUS expr		{printf("+ ");} 
+	  | expr STAR expr		{printf("* ");} 
+	  | '(' expr ')'	 
+	  | DIGIT			{printf("%d ",$1);} 
+	  ; 
+     %% 
+     #include "lex.yy.c"
+     yyerror() 
+     { 
+	printf("Error"); 
+     } 
+     main() 
+     { 
+	yyparse(); 
+	return 1; 
+     } 
+     </pre>   
+    </div>
+    <p> Compiling and executing:</p>
+    <div class="syntax">
+		user@localhost:~$ yacc -d in2post.y <br>
+		user@localhost:~$ lex in2post.l <br> 
+		user@localhost:~$ gcc y.tab.c <br>
+		user@localhost:~$ ./a.out <br>
+		1+2*3 <br>
+		1 2 3 * + <br>
+		user@localhost:~$ 
     </div>
     
     <div class="up grid col-one-third" style="float:right">
