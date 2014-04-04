@@ -1,15 +1,12 @@
-<!doctype html>
+<!Doctype html>
 <html lang="en">
 <head>
 <title>LEX</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/style.css">
-<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
 <body>
-<div class="container">
-
-<header class="center clearfix" id="navtop"> <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+ <header class="center clearfix" id="navtop"> <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
   <nav class="fright">
     <ul>
       <li><a href="index.html">Home</a></li>
@@ -20,18 +17,11 @@
     </ul>
   </nav>
 </header>
-
-
 <div class="about center part clearfix">
-
 		<header class="title">
-			
 			<h3 class="fleft">Contents</h3>			
 		</header>
- 		
-		
-    <aside class="column4 mthird">
-		
+    <aside class="column4 mright">
 			<menu>
 				<ul>
 				<li><a href="#navintro" class="sec">Introduction</a></li>
@@ -41,23 +31,20 @@
 				<li><a href="#navcompleteexample" class="sec">A complete LEX Program</a></li>
 				<li><a href="#navdisambiguation" class="sec">Disambiguation rules</a></li>
 				<li><a href="#navpatternmatching" class="sec">Pattern Matching Using LEX</a></li>
-	            		<li><a href="#navsimulator" class="sec">A token simulator program</a></li>
-	            		<li><a href="#navdfaconstruction" class="sec">DFA -> regular expression</a><li>			
+	            <li><a href="#navsimulator" class="sec">A token simulator program</a></li>
+	            <li><a href="#navdfaconstruction" class="sec">DFA -> regular expression</a><li>			
 				<li><a href="#navusingthelexicalanalyzer" class="sec">Using the generated lexical analyzer</a></li>
 				<li><a href="#navreferences" class="sec">References</a></li>
-				<br>			
-				<li><a href="https://github.com/silcnitc/documentation/blob/master/lex/Lex.pdf?raw=true" class="button"> Download as PDF </a></li>	
+				<li><!--For blank space between lins and download button--> &nbsp;</li>			
+				<li><a href="https://github.com/silcnitc/documentation/blob/master/lex/Lex.pdf?raw=true" class="button"> Download as PDF </a></li>
+				<li><!--Blank line for space between download button and main title--> &nbsp;</li>			
 				</ul>
 			</menu>
 			
 		</aside>		
 		
-	  	<section class="columnthird content">
-		<h1 class="mright">USING LEX</h1>
-		
-			<div class="grid-wrap">
-		   
-		   <article id="navintro" class="detail">
+	  	<section class="columnthird content"><h1 class="mright">USING LEX</h1>
+		   <article id="navily" class="detail">
 				<h2>Introduction</h2>
 				<p>
 				LEX is a tool used to generate a lexical analyzer.
@@ -78,9 +65,6 @@
 				  is found in the input file.
 				   A rule in a LEX program comprises of a pattern part (specified by a regular expression) and a corresponding (semantic) action part (a sequence of C statements). 
 				   In the above example, <b> “integer”</b> is the pattern and <b>{return ID_TYPE_INTEGER;}</b> is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.   
-
-
-				
 				</p>
 			</article>
 			
@@ -191,13 +175,10 @@ int main()
 						</div>
 		<p>The C code in the auxiliary section and the declarations in the declaration section are copied as such to the lex.yy.c file
  </p>
-			</article>	
-			
+ 			</article>	
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
-			</div>
-		   
-		  
+			</div>		  
 		  <article id="navvariables" class="detail">
         <h2>The yyvariables</h2>		  
         <p> The following variables are offered by LEX to aid the programmer in designing sophisticated lexical analyzers.
@@ -792,16 +773,25 @@ Thus, the transitions maybe formulated as :</p>
 
 	</div>
 
-</div>
+<footer class="center part clearfix">
+<ul class="social column3 mright">
+    <li><a href="https://github.com/silcnitc">Github</a></li>
+</ul>
+  <div class="up column3 mright"> <a href="#navtop" class="ir">Go up</a> </div>
+  <nav class="column3">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="uc.html">Contact</a></li>
+    </ul>
+  </nav>
+</footer>
 </body>
 <!-- Javascript - jQuery 
 <script src="http://code.jquery.com/jquery.min.js"></script>-->
 <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
-
 <!--[if (gte IE 6)&(lte IE 8)]>
 <script src="js/selectivizr.js"></script>
 <![endif]-->
-
 <script src="js/scripts.js"></script>
-
 </html>
