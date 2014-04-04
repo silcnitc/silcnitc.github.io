@@ -4,6 +4,12 @@
 <title>YACC</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/style.css">
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:5px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-e3zv{font-weight:bold}
+</style>
 </head>
 <body>
 <header class="center clearfix" id="navtop"> <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
@@ -561,10 +567,108 @@ On reaching accepting configuration, the parser quits iterating.
 The following table summarizes the step-by-step change in the parser's configuration after each action taken by a shift reduce parser.
 <br> 
 </p>
-<img src="img/yacc_2.jpg" style="max-width:100%">
-</img>
-<br>
-<img src="img/yacc_3.jpg" style="max-width:100%">
+<table class="tg">
+  <tr>
+    <th class="tg-e3zv">STACK</th>
+    <th class="tg-e3zv">I/P BUFFER<br></th>
+    <th class="tg-e3zv">PARSER-ACTION EXECUTED<br></th>
+  </tr>
+  <tr>
+    <td class="tg-031e"></td>
+    <td class="tg-031e">2 + 3 * (4 + 5) $<br></td>
+    <td class="tg-031e">_</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$2</td>
+    <td class="tg-031e">+ 3 * ( 4 + 5 ) $<br></td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr</td>
+    <td class="tg-031e">+ 3 * ( 4 + 5 ) $</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr +<br></td>
+    <td class="tg-031e">3 * ( 4 + 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + 3<br></td>
+    <td class="tg-031e">* ( 4 + 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr<br></td>
+    <td class="tg-031e">* ( 4 + 5) $<br></td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr *<br></td>
+    <td class="tg-031e">( 4 + 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr * (<br></td>
+    <td class="tg-031e">4 + 5 ) $<br></td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr * ( 4<br></td>
+    <td class="tg-031e">+ 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr * ( expr<br></td>
+    <td class="tg-031e">+ 5 ) $</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr * ( expr +<br></td>
+    <td class="tg-031e">5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr * ( expr + 5<br></td>
+    <td class="tg-031e">) $<br></td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr * ( expr + expr <br></td>
+    <td class="tg-031e">) $<br></td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr * ( expr<br></td>
+    <td class="tg-031e">) $<br></td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr * ( expr )<br></td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr * expr<br></td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr <br></td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">#expr</td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr</td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">ACCEPT</td>
+  </tr>
+</table>
   
   <br>
   <p>There are several variants of shift-reduce parsing like the LR(1), 
@@ -679,8 +783,81 @@ while (true)
 </pre>  
   </div>
   The following table summarizes the parsing process in every iteration of the above algorithm.
-  <br>
-    <img src="img/yacc_4.jpg" style="max-width:100%">
+  <br><br>
+<table class="tg">
+  <tr>
+    <th class="tg-e3zv">Input buffer<br></th>
+    <th class="tg-e3zv">new_ token<br></th>
+    <th class="tg-e3zv">parser_action() returns<br></th>
+    <th class="tg-e3zv">Stack contents after parser-action <br></th>
+    <th class="tg-e3zv">Action executed by yyparse()<br></th>
+    <th class="tg-e3zv">Output</th>
+  </tr>
+  <tr>
+    <td class="tg-031e">1+2$</td>
+    <td class="tg-031e">DIGIT</td>
+    <td class="tg-031e">_</td>
+    <td class="tg-031e">_</td>
+    <td class="tg-031e">_</td>
+    <td class="tg-031e">_</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">1+2$</td>
+    <td class="tg-031e">DIGIT</td>
+    <td class="tg-031e">SHIFT</td>
+    <td class="tg-031e">DIGIT $<br></td>
+    <td class="tg-031e">_</td>
+    <td class="tg-031e">_</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">+2$</td>
+    <td class="tg-031e">+</td>
+    <td class="tg-031e">REDUCE</td>
+    <td class="tg-031e">expr $<br></td>
+    <td class="tg-031e">printf("NUM%d", pos);</td>
+    <td class="tg-031e">NUM1</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">+2$</td>
+    <td class="tg-031e">+</td>
+    <td class="tg-031e">SHIFT</td>
+    <td class="tg-031e">+ expr $<br></td>
+    <td class="tg-031e">_</td>
+    <td class="tg-031e">NUM1</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">2$</td>
+    <td class="tg-031e">DIGIT</td>
+    <td class="tg-031e">SHIFT</td>
+    <td class="tg-031e">DIGIT + expr $<br></td>
+    <td class="tg-031e">_</td>
+    <td class="tg-031e">NUM1</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">REDUCE</td>
+    <td class="tg-031e">expr + expr $<br></td>
+    <td class="tg-031e">printf("NUM%d", pos);</td>
+    <td class="tg-031e">NUM1 NUM2<br></td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">REDUCE</td>
+    <td class="tg-031e">expr $<br></td>
+    <td class="tg-031e">printf("+ ");<br></td>
+    <td class="tg-031e">NUM1 NUM2 +<br></td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">$<br></td>
+    <td class="tg-031e">ACCEPT</td>
+    <td class="tg-031e">expr $<br></td>
+    <td class="tg-031e">_</td>
+    <td class="tg-031e">NUM1 NUM2 +<br></td>
+  </tr>
+</table>
   </p>
 <br>
 <br>
@@ -792,9 +969,44 @@ the input buffer has a greater precedence than the production of the handle on t
  if the production corresponding to the handle is left associative and shifts if they are right associative. 
  (NOTE: If the production and token in such a case of equal
  precedence occur and they both are non associative, YACC reports an error).
- 
- <img src="img/yacc_5.jpg" style="max-width:100%">
- <img src="img/yacc_6.jpg" style="max-width:100%">
+ <br><br>
+<table class="tg">
+  <tr>
+    <th class="tg-e3zv">STACK</th>
+    <th class="tg-e3zv">I/P BUFFER<br></th>
+    <th class="tg-e3zv">PARSER-ACTION EXECUTED<br></th>
+  </tr>
+  <tr>
+    <td class="tg-031e"></td>
+    <td class="tg-031e">2 + 3 * (4 + 5) $<br></td>
+    <td class="tg-031e">_</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$2</td>
+    <td class="tg-031e">+ 3 * ( 4 + 5 ) $<br></td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr</td>
+    <td class="tg-031e">+ 3 * ( 4 + 5 ) $</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr +<br></td>
+    <td class="tg-031e">3 * ( 4 + 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + 3<br></td>
+    <td class="tg-031e">* ( 4 + 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr + expr<br></td>
+    <td class="tg-031e">* ( 4 + 5) $<br></td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  </table><br>
  At the last configuration of the above table,
  The parser faces a shift reduce configuration. To resolve this the parser refers to the precedence declarations (Assuming precedence has been declared), and finds:
 <div class="syntax">
@@ -805,9 +1017,14 @@ the input buffer has a greater precedence than the production of the handle on t
 </div>
 On finding that the '*' token has a greater precedence than '+', the parser chooses
  to shift '*' instead of reducing the handle  “expr + expr”. Recall, that a handle's precedence and associativity is the precedence and associativity of the last token in the handle. Hence, the handle “expr+expr” has the same precedence as its last token '+'. On comparing the precedence of “expr + expr” and '*', parser finds that '*' has a
- greater precedence, and hence it decides to shift, resulting in the configuration:
-<img src="img/yacc_6.jpg" style="max-width:100%">
-
+ greater precedence, and hence it decides to shift, resulting in the configuration:<br><br>
+<table class="tg">
+ <tr>
+    <td class="tg-031e">$expr + expr<br></td>
+    <td class="tg-031e">* ( 4 + 5) $<br></td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  </table><br>
 And the parser continues to iterate till it reaches accept configuration. 
 <br>
 
@@ -828,6 +1045,7 @@ conditional :  if boolean then stmt else stmt
 </pre>
 </div>
 And the configuration to be:
+
 <div class="syntax">
 <pre>
 STACK     :    $ if boolean then stmt else stmt
