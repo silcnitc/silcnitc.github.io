@@ -12,7 +12,8 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<header class="center clearfix" id="navtop"> <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+<header class="center clearfix" id="navtop">
+<a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
   <nav class="fright">
     <ul>
       <li><a href="index.html">Home</a></li>
@@ -23,7 +24,6 @@
     </ul>
   </nav>
 </header>
-
 <div class="about center part clearfix">
  <header class="title">
 	<h3 class="fleft">YACC</h3>	
@@ -37,7 +37,7 @@
 					<li><a href="#navconflict" class="sec">Conflict in parsing using YACC</a></li>
 					<li><a href="#navpassingvalues" class="sec">Token attributes</a></li>
 					<li><!--For blank space between lines and download button--> &nbsp;</li>
-					<li><a href="https://github.com/silcnitc/documentation/blob/master/yacc/yacc.odt?raw=true" class="button"> Download </a></li>
+					<li><a href="https://github.com/silcnitc/documentation/blob/master/yacc/yacc.odt?raw=true" class="button"> Download as pdf</a></li>
 					<li><!--Blank line for space between download button and main title--> &nbsp;</li>		
 				</ul>
 			</menu>
@@ -659,7 +659,7 @@ The following table summarizes the step-by-step change in the parser's configura
     <td class="tg-031e">REDUCE</td>
   </tr>
   <tr>
-    <td class="tg-031e">#expr</td>
+    <td class="tg-031e">$expr</td>
     <td class="tg-031e">$</td>
     <td class="tg-031e">REDUCE</td>
   </tr>
@@ -1197,16 +1197,12 @@ The action prints the attribute associated with the token DIGIT obtained through
 YYSTYPE can be defined to be of any data type by the programmer. To return an attribute of a type other than int,<big>yylval</big> maybe overridden by a user defined <big>yylval</big> 
 in the auxiliary declarations section.
  </p>   
-         
-	
 	</article>
 	 <div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
 					</div>
 		</section>
-		
-
 	</div>
 <footer class="center part clearfix">
 <ul class="social column3 mright">
@@ -1221,7 +1217,6 @@ in the auxiliary declarations section.
     </ul>
   </nav>
 </footer>
-
 
 </body>
 <!-- Javascript - jQuery 
