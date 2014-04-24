@@ -76,7 +76,7 @@ In the above example, <b> “integer”</b> is the pattern and <b>{return ID_TYP
 <article id="navstructure" class="detail">
 <h2>The structure of LEX programs</h2>
 <p>
-A LEX program consists of three sections : Declarations, Rules and Auxiliary functions
+A LEX program consists of three sections : <i>Declarations</i>, <i>Rules</i> and <i>Auxiliary functions</i>
 </p>
 <img src="img/lex_2.png" style="max-width:70%">
              <br>	
@@ -132,9 +132,9 @@ It is generally used to declare functions, include header files, or define globa
                 <div class="syntax">
 <pre>	/* Declarations*/
 %%
-
-{number} {printf(“ number”);}
-{op} {printf(“ operator”);}
+	
+	{number} {printf(“ number”);}
+	{op} {printf(“ operator”);}
 
 %%
 /* Auxiliary functions */
@@ -169,16 +169,16 @@ the declarations section and generates code into a function <b>yylex()</b> in th
          The auxiliary functions section allows the programmer to achieve this.</p>
          
          <b> Example :</b>
-            <div id = "navexl0" class="syntax">
-<pre>	/* Declarations */
+<div id = "navexl0" class="syntax">
+<pre>/* Declarations */
 %%
 /* Rules */
 %%
 
 int main()
 {
-yylex();
-return 1;
+	yylex();
+	return 1;
 }
 </pre>
 </div>
