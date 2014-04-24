@@ -97,12 +97,10 @@ A LEX program consists of three sections : Declarations, Rules and Auxiliary fun
 	#include &lt;stdio.h&gt;
 	int global_variable; 
 %}
-/*Auxiliary declaration end here*/
+/*Auxiliary declarations end here and Regular definitions start here*/
 
-/*Regular definitions*/
-	number [0-9]+ 
-	op [-|+|*|/|^|=]
-/*Regular definition here*/
+	number [0-9]+ 		//Regular definition
+	op [-|+|*|/|^|=]	//Regular definition
 
 /*Declarations section ends here*/
 %%
