@@ -61,10 +61,10 @@ For instance <b>integer, boolean, begin, end, if, while</b> etc. are tokens in S
 “integer” &nbsp;	{return ID_TYPE_INTEGER;}
 </div>
 
-This example demonstrates the specification of rule in LEX.
+This example demonstrates the specification of a <i>rule</i> in LEX.
 The rule in this example specifies that the lexical analyzer must return the token named <b> ID_TYPE_INTEGER</b> when the pattern <b>“integer” </b>
 is found in the input file.
-A rule in a LEX program comprises of a pattern part (specified by a regular expression) and a corresponding (semantic) action part (a sequence of C statements).
+A <i>rule</i> in a LEX program comprises of a pattern part (specified by a regular expression) and a corresponding (semantic) action part (a sequence of C statements).
 In the above example, <b> “integer”</b> is the pattern and <b>{return ID_TYPE_INTEGER;}</b> is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.
 </p>
 </article>
@@ -80,7 +80,7 @@ A LEX program consists of three sections : Declarations, Rules and Auxiliary fun
 </p>
 <img src="img/lex_2.png" style="max-width:70%">
              <br>	
-<p> <big><b>2.1 Declarations</b>
+<p> <b>2.1 Declarations</b>
               <br>
               The declarations section consists of two parts, regular definitions and auxiliary declarations.
                LEX allows the use of short-hands and extensions to regular expressions for the regular definitions.
