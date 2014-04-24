@@ -80,9 +80,9 @@ A LEX program consists of three sections : Declarations, Rules and Auxiliary fun
 </p>
 <img src="img/lex_2.png" style="max-width:70%">
              <br>	
-<p> <b>2.1 Declarations</b>
+<p> <big>2.1 Declarations</big>
               <br>
-              The declarations section consists of two parts, regular definitions and auxiliary declarations.
+              The declarations section consists of two parts, <i>regular definitions</i> and <i>auxiliary declarations</i>.
                LEX allows the use of short-hands and extensions to regular expressions for the regular definitions.
                The auxiliary declarations are copied as such by LEX to the output lex.yy.c file. The C code consists of instructions to the C compiler and are not processed by the LEX tool.
                <br>
@@ -90,19 +90,26 @@ A LEX program consists of three sections : Declarations, Rules and Auxiliary fun
                 </p>
 <div class="syntax">
 <pre>
+/*Declarations section start here*/
+
 /* Auxiliary declarations start here*/
 %{
-#include &lt;stdio.h&gt;
-int global_variable; 
+	#include &lt;stdio.h&gt;
+	int global_variable; 
 %}
-number [0-9]+ //Regular definitions
-op [-|+|*|/|^|=]
 /*Auxiliary declaration end here*/
+
+/*Regular definitions*/
+	number [0-9]+ 
+	op [-|+|*|/|^|=]
+/*Regular definition here*/
+
+/*Declarations section ends here*/
 %%
 /* Rules */
 %%
 /* Auxiliary functions */
- </pre>
+</pre>
 </div> 
 <p></p>
 <p><br>
