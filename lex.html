@@ -56,12 +56,13 @@ Technically, LEX translates a set of regular expression specifications (given as
 (Tokens are explained below).Conceptually, a lexical analyzer scans a given source SIL program and produces an output of tokens.
 A token is a single element of the SIL programming language that is recognized by the compiler.
 For instance <b>integer, boolean, begin, end, if, while</b> etc. are tokens in SIL.
-              <br>
-              Example:
-<b> “integer” &nbsp;	{return ID_TYPE_INTEGER;} </b>
-<br>
+
+<div class="syntax">
+“integer” &nbsp;	{return ID_TYPE_INTEGER;}
+</div>
+
 This example demonstrates the specification of rule in LEX.
-This rule in this example specifies that the lexical analyzer must return the token named <b> ID_TYPE_INTEGER</b> when the pattern<b> “integer” </b>
+The rule in this example specifies that the lexical analyzer must return the token named <b> ID_TYPE_INTEGER</b> when the pattern <b>“integer” </b>
 is found in the input file.
 A rule in a LEX program comprises of a pattern part (specified by a regular expression) and a corresponding (semantic) action part (a sequence of C statements).
 In the above example, <b> “integer”</b> is the pattern and <b>{return ID_TYPE_INTEGER;}</b> is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.
@@ -79,34 +80,38 @@ A LEX program consists of three sections : Declarations, Rules and Auxiliary fun
 </p>
 <img src="img/lex_2.png" style="max-width:70%">
              <br>	
-<p> <big><b>2.1 Declarations</b></big>
+<p> <big><b>2.1 Declarations</b>
               <br>
               The declarations section consists of two parts, regular definitions and auxiliary declarations.
                LEX allows the use of short-hands and extensions to regular expressions for the regular definitions.
-               The auxiliary declarations are copied as such by LEX to the output lex.yy.c file.
+               The auxiliary declarations are copied as such by LEX to the output lex.yy.c file. The C code consists of instructions to the C compiler and are not processed by the LEX tool.
                <br>
                <b>Example : </b>
-                </p><div class="syntax">
-<pre>%{
+                </p>
+<div class="syntax">
+<pre>
+/* Auxiliary declarations start here*/
+%{
 #include &lt;stdio.h&gt;
-int global_variable; //Auxiliary declarations
+int global_variable; 
 %}
 number [0-9]+ //Regular definitions
 op [-|+|*|/|^|=]
-
+/*Auxiliary declaration end here*/
 %%
 /* Rules */
 %%
 /* Auxiliary functions */
  </pre>
-</div> <p></p>
+</div> 
+<p></p>
 <p><br>
 A regular definition in LEX is of the form :
 D &nbsp;	R
 <br>
 where <b>D</b> is the symbol representing the regular expression <b>R</b>.
 The auxiliary declarations (which are optional) are written in C language and are enclosed within ' %{ ' and ' %} ' .
-It is generally used to declare functions, include header files, or define global variables and constants.
+It is generally used to declare functions, include header files, or define global variables and constants. 
 
 </p>
          <p> <big><b>2.2 Rules</b></big>
@@ -116,8 +121,8 @@ It is generally used to declare functions, include header files, or define globa
          </p>
          
          <ol>
-          <li><b> The pattern to be matched</b></li>
-          <li> <b> The corresponding action to be executed</b></li>
+          <li><i> The pattern to be matched</i></li>
+          <li> <i> The corresponding action to be executed</i></li>
          </ol>
 <b> Example :</b>
                 <div class="syntax">
@@ -194,21 +199,21 @@ return 1;
             If the programmer assigns an input file to <b>yyin</b> in the auxiliary functions section, then <b>yyin</b> is set to point to that file.
             Otherwise LEX assigns <b>yyin</b> to <b>stdin</b>(console input). </p>
           <b>Example :</b>
-                      <div class="syntax">
-<pre>	/* Declarations */
+<div class="syntax">
+<pre>/* Declarations */
 %%
 /* Rules */
 %%
 main(int argc, char* argv[])
 {
-if(argc &gt; 1)
-{
-FILE *fp = fopen(argv[1], “r”
-if(fp)
-yyin = fp;
-}
-yylex();
-return 1;
+	if(argc &gt; 1)
+	{
+		FILE *fp = fopen(argv[1], “r”
+		if(fp)
+			yyin = fp;
+	}
+	yylex();
+	return 1;
 }
 </pre>
 </div>
@@ -227,9 +232,9 @@ lexical analyzer?
    The above statement indicates that if the programmer does not define <b>yyin</b>, then <b>yylex()</b> by default sets <b>yyin</b> to the console input.
  Hence, any re-definition for <b>yyin</b> must be made before invoking <b>yylex()</b>. (This will be explained in detail later). </p>	
  
- <p> <big><b>3.2 &nbsp;yytext</b></big> </p>
- <p> <b>yytext</b> is of the type <b>char*</b> and it contains the lexeme currently found.
-   A lexeme is a sequence of characters in the input stream that matches some pattern in the Rules Section.
+ <p> <big>3.2 &nbsp;yytext</b></big> </p>
+ <p> <b>yytext</b> is of the type <b>char*</b> and it contains the <i>lexeme</i> currently found.
+   A <i>lexeme</i> is a sequence of characters in the input stream that matches some pattern in the Rules Section.
    (In fact, it is the first matching sequence in the input from the position pointed to by <b>yyin</b>.)
 
  Each invocation of the function <b>yylex()</b> results in <b>yytext</b> carrying a pointer to the lexeme found in
@@ -253,8 +258,8 @@ int main()
 yylex();
 return 1;
 }
-</pre>
 </div>
+</pre>
           
 
 <p> In the above example, if a lexeme is found for the pattern defined by <b>number</b> then corresponding action is executed .
@@ -273,6 +278,9 @@ The corresponding action in the above rule uses a built-in function <b>atoi()</b
 Note that the header file <b>“stdlib.h”</b> is called in the auxiliary declarations section in order to invoke <b>atoi()</b> in
 the actions part of the rule.</p>
 <br>
+<p>
+NOTE: The lexeme found by LEX is stored in some memory allocated by LEX which can be accessed through the character pointer yytext. 
+</p>
 <b>Exercise:</b>
 
 <p> <i>Suggest a modification in the above example to check whether a number found is even or odd.
@@ -356,19 +364,14 @@ The value stored in this variable is then printed on screen using <b>printf()</b
  executes a <b>return</b> statement or till the end of input (<i>input end-marker</i> ) has
   been encountered. In case of the above example, <b>yylex()</b> terminates immediately after executing the rule because it consists
    of a return statement.
- Note that if none of the actions in the Rules section executes a return statement, <b>yylex()</b>would:</p>	
- <ul>
-<li>(In case of an input file) continue scanning for more matching patterns till it finds <b>EOF</b> in the file
-  </li>
-  <li> (In case of console input) wait for more input through the console</li>
- 
- </ul>	
- <p> In the latter case, since there is no input end-marker, the user will have to input <b>ctrl+d</b> in the terminal
+ Note that if none of the actions in the Rules section executes a return statement, <b>yylex()</b> would:</p>	
+<p>In case of an input file continue scanning for more matching patterns in the input file till an <b>EOF</b> in the file</p>	
+  <p> In the case of console input yylex() would wait for more input through the console. In this case, since there is no input end-marker, the user will have to input <b>ctrl+d</b> in the terminal
   to indicate the end of input. As a result, yylex() will terminate.
 <br>
  <b> NOTE :</b>
   If <b>yylex()</b> is called more than once, it simply starts scanning from
-   the position in the input file where it had ceased in the previous call.
+   the position in the input file where it had returned in the previous call.
     </p>	
 <p>
  <i> <b> Excercise:</b>
