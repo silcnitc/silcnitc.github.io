@@ -55,17 +55,17 @@ Technically, LEX translates a set of regular expression specifications (given as
 <p>The source SIL program is fed as the input to the the lexical analyzer which produces a sequence of tokens as output.
 (Tokens are explained below).Conceptually, a lexical analyzer scans a given source SIL program and produces an output of tokens.
 A token is a single element of the SIL programming language that is recognized by the compiler.
-For instance <b>integer, boolean, begin, end, if, while</b> etc. are tokens in SIL.
+For instance integer, boolean, begin, end, if, while etc. are tokens in SIL.
 
 <div class="syntax">
 “integer” &nbsp;	{return ID_TYPE_INTEGER;}
 </div>
 
 This example demonstrates the specification of a <i>rule</i> in LEX.
-The rule in this example specifies that the lexical analyzer must return the token named <b> ID_TYPE_INTEGER</b> when the pattern <b>“integer” </b>
+The rule in this example specifies that the lexical analyzer must return the token named  ID_TYPE_INTEGER when the pattern “integer” 
 is found in the input file.
 A <i>rule</i> in a LEX program comprises of a pattern part (specified by a regular expression) and a corresponding (semantic) action part (a sequence of C statements).
-In the above example, <b> “integer”</b> is the pattern and <b>{return ID_TYPE_INTEGER;}</b> is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.
+In the above example,  “integer” is the pattern and {return ID_TYPE_INTEGER;} is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.
 </p>
 </article>
 
@@ -86,7 +86,7 @@ A LEX program consists of three sections : <i>Declarations</i>, <i>Rules</i> and
                LEX allows the use of short-hands and extensions to regular expressions for the regular definitions.
                The auxiliary declarations are copied as such by LEX to the output lex.yy.c file. The C code consists of instructions to the C compiler and are not processed by the LEX tool.
                <br>
-               <b>Example : </b>
+               Example : 
                 </p>
 <div class="syntax">
 <pre>
@@ -114,12 +114,12 @@ A LEX program consists of three sections : <i>Declarations</i>, <i>Rules</i> and
 A regular definition in LEX is of the form :
 D &nbsp;	R
 <br>
-where <b>D</b> is the symbol representing the regular expression <b>R</b>.
+where D is the symbol representing the regular expression R.
 The auxiliary declarations (which are optional) are written in C language and are enclosed within ' %{ ' and ' %} ' .
 It is generally used to declare functions, include header files, or define global variables and constants. 
 
 </p>
-         <p> <big><b>2.2 Rules</b></big>
+         <p> <big>2.2 Rules</big>
          </p>
          <p>
          Rules in a LEX program consists of two parts :
@@ -128,7 +128,7 @@ It is generally used to declare functions, include header files, or define globa
           <p><i>The pattern to be matched</i></p>
           <p><big>The corresponding action to be executed</big></p>
 
-<b> Example :</b>
+ Example :
                 <div class="syntax">
 <pre>	/* Declarations*/
 %%
@@ -156,25 +156,24 @@ O: number operator number
 </pre>
 </div>
 
-          <p> LEX obtains the regular expressions of the symbols <b>number</b> and <b>op</b> from
-the declarations section and generates code into a function <b>yylex()</b> in the <b>lex.yy.c</b> file.
+          <p> LEX obtains the regular expressions of the symbols number and op from
+the declarations section and generates code into a function yylex() in the lex.yy.c file.
             This function checks the input stream for the first match to one of the patterns
              specified and executes code in the action part corresponding to the pattern. </p>
              
              
-      <p> <big><b>2.3 Auxiliary functions</b></big> </p>
-      <p> LEX generates C code for the rules specified in the Rules section and places this code into a single function called <b>yylex()</b>.
+      <p> <big>2.3 Auxiliary functions</big> </p>
+      <p> LEX generates C code for the rules specified in the Rules section and places this code into a single function called yylex().
        (To be discussed in detail later).
-        In addition to this LEX generated code, the programmer may wish to add his own code to the <b>lex.yy.c</b> file.
+        In addition to this LEX generated code, the programmer may wish to add his own code to the lex.yy.c file.
          The auxiliary functions section allows the programmer to achieve this.</p>
          
-         <b> Example :</b>
+          Example :
 <div id = "navexl0" class="syntax">
 <pre>/* Declarations */
 %%
-/* Rules */
+	/* Rules */
 %%
-
 int main()
 {
 	yylex();
@@ -193,16 +192,16 @@ int main()
         <p> The following variables are offered by LEX to aid the programmer in designing sophisticated lexical analyzers.
          These variables are accessible in the LEX program and are automatically declared by LEX in lex.yy.c.</p>
          <ul>
-        <li><b>yyin</b></li>
-        <li><b>yytext</b></li>
-        <li><b>yyleng</b></li>
+        <li>yyin</li>
+        <li>yytext</li>
+        <li>yyleng</li>
           </ul>
-          <p> <big><b>3.1 &nbsp;yyin</b></big> </p>
-          <p><b>yyin</b> is a variable of the type <b>FILE*</b> and points to the input file.
+          <p> <big>3.1 &nbsp;yyin</big> </p>
+          <p>yyin is a variable of the type FILE* and points to the input file.
             yyin is defined by LEX automatically.
-            If the programmer assigns an input file to <b>yyin</b> in the auxiliary functions section, then <b>yyin</b> is set to point to that file.
-            Otherwise LEX assigns <b>yyin</b> to <b>stdin</b>(console input). </p>
-          <b>Example :</b>
+            If the programmer assigns an input file to yyin in the auxiliary functions section, then yyin is set to point to that file.
+            Otherwise LEX assigns yyin to stdin(console input). </p>
+          Example :
 <div class="syntax">
 <pre>/* Declarations */
 %%
@@ -222,8 +221,8 @@ main(int argc, char* argv[])
 </pre>
 </div>
 
-<b>Excercise</b>
-<p> In the generated lex.yy.c, the following code segment can be found under the definition of <b>yylex()</b>.</p>	
+Excercise
+<p> In the generated lex.yy.c, the following code segment can be found under the definition of yylex().</p>	
 <div class="syntax">
 <pre>if( ! yyin )
 yyin = stdin;
@@ -231,42 +230,45 @@ yyin = stdin;
 </div>	
 
 <p> Try to locate this code segment in the lex.yy.c.
-What could be the consequences of removing this code segment from <b>lex.yy.c</b> before compiling it for generating the
+What could be the consequences of removing this code segment from lex.yy.c before compiling it for generating the
 lexical analyzer?
-   The above statement indicates that if the programmer does not define <b>yyin</b>, then <b>yylex()</b> by default sets <b>yyin</b> to the console input.
- Hence, any re-definition for <b>yyin</b> must be made before invoking <b>yylex()</b>. (This will be explained in detail later). </p>	
+   The above statement indicates that if the programmer does not define yyin, then yylex() by default sets yyin to the console input.
+ Hence, any re-definition for yyin must be made before invoking yylex(). (This will be explained in detail later). </p>	
  
- <p> <big>3.2 &nbsp;yytext</b></big> </p>
- <p> <b>yytext</b> is of the type <b>char*</b> and it contains the <i>lexeme</i> currently found.
+ <p> <big>3.2 &nbsp;yytext</big> </p>
+ <p> yytext is of the type char* and it contains the <i><big>lexeme</big></i> currently found.
    A <i>lexeme</i> is a sequence of characters in the input stream that matches some pattern in the Rules Section.
-   (In fact, it is the first matching sequence in the input from the position pointed to by <b>yyin</b>.)
+   (In fact, it is the first matching sequence in the input from the position pointed to by yyin.)
 
- Each invocation of the function <b>yylex()</b> results in <b>yytext</b> carrying a pointer to the lexeme found in
-  the input stream by <b>yylex()</b>.
- The value of <b>yytext</b> will be overwritten after the next <b>yylex()</b> invocation.</p>
-  <b> Example</b>
+ Each invocation of the function yylex() results in yytext carrying a pointer to the lexeme found in
+  the input stream by yylex().
+ The value of yytext will be overwritten after the next yylex() invocation.</p>
+   Example
           
            <div class="syntax">
 <pre>{%
-#include &lt;stdlib.h&gt;
-#include &lt;stdio.h&gt;
+	#include &lt;stdlib.h&gt;
+	#include &lt;stdio.h&gt;
 %}
+	
 number [0-9]+
 
 %%
+
 {number} {printf("Found : %d",atoi(yytext));}
+
 %%
 
 int main()
 {
-yylex();
-return 1;
+	yylex();
+	return 1;
 }
 </div>
 </pre>
           
 
-<p> In the above example, if a lexeme is found for the pattern defined by <b>number</b> then corresponding action is executed .
+<p> In the above example, if a lexeme is found for the pattern defined by number then corresponding action is executed .
 Consider the following sample i/o,</p>
         <br>
         Sample Input/Output:
@@ -275,25 +277,25 @@ Consider the following sample i/o,</p>
 O: Found : 25
 </pre>
 </div>	
-<p> In this case when <b>yylex()</b> is called, the input is read from the location given by <b>yyin</b> and a string “25” is found as a match to
-<b>number</b>.
-This location of this string in the memory is pointed to by <b>yytext</b>.
-The corresponding action in the above rule uses a built-in function <b>atoi()</b> to convert the string <b>“25”</b> (of type <b>char*</b>) to the integer <b>25</b> (of the type <b>int</b>) and then prints the result on the screen.
-Note that the header file <b>“stdlib.h”</b> is called in the auxiliary declarations section in order to invoke <b>atoi()</b> in
+<p> In this case when yylex() is called, the input is read from the location given by yyin and a string “25” is found as a match to
+number.
+This location of this string in the memory is pointed to by yytext.
+The corresponding action in the above rule uses a built-in function atoi() to convert the string “25” (of type char*) to the integer 25 (of the type int) and then prints the result on the screen.
+Note that the header file “stdlib.h” is called in the auxiliary declarations section in order to invoke atoi() in
 the actions part of the rule.</p>
 <br>
 <p>
 NOTE: The lexeme found by LEX is stored in some memory allocated by LEX which can be accessed through the character pointer yytext. 
 </p>
-<b>Exercise:</b>
+Exercise:
 
 <p> <i>Suggest a modification in the above example to check whether a number found is even or odd.
 </i></p>
 
-<p> <big><b>3.3 &nbsp;yyleng</b></big> </p>
-<p> <b>yyleng</b> is a variable of the type <b>int</b> and it stores the length of the lexeme pointed to by <b>yytext</b>.</p>
+<p> <big>3.3 &nbsp;yyleng</big> </p>
+<p> yyleng is a variable of the type int and it stores the length of the lexeme pointed to by yytext.</p>
 
-<b>Example</b>
+Example
 <div class="syntax">
 <pre>/* Declarations */
 %%
@@ -302,7 +304,7 @@ NOTE: The lexeme found by LEX is stored in some memory allocated by LEX which ca
 {number} printf("Number of digits = %d",yyleng);
 </pre>
 </div>
-<b>Sample Input/Output</b>	
+Sample Input/Output	
 
 <div class="syntax">
 <pre>I: 1234
@@ -320,14 +322,15 @@ O: Number of digits = 4
  <article id="navfunctions" class="detail">
         <h2>The yyfunctions</h2>	
         <ul>
-     <li><b> yylex()</b></li>
-     <li> <b>yywrap()</b></li>
+     <li> yylex()</li>
+     <li> yywrap()</li>
          </ul>
-<p> <big><b>4.1 &nbsp;yylex()</b></big> </p>
-<p> <b>yylex()</b> is a function of return type <b>int</b>. LEX automatically defines <b>yylex()</b> in lex.yy.c but does not call it.
-     The programmer must call <b>yylex()</b> in the Auxiliary functions section of the LEX program.
-    LEX generates code for the definition of <b>yylex()</b> according to the rules specified in the Rules section. </p>
-    <b> Example :</b>
+<p> <big>4.1 &nbsp;yylex()</big> </p>
+<p> yylex() is a function of return type int. LEX automatically defines yylex() in lex.yy.c but does not call it.
+     The programmer must call yylex() in the Auxiliary functions section of the LEX program.
+    LEX generates code for the definition of yylex() according to the rules specified in the Rules section. </p>
+	<p>NOTE: That yylex() need not necessarily be invoked in the Auxilar</p>
+     Example :
      <div class="syntax">
 <pre>/* Declarations */
 %%
@@ -338,9 +341,9 @@ O: Number of digits = 4
 
 int main()
 {
-int num = yylex();
-printf(“Found: %d”,num);
-return 1;
+	int num = yylex();
+	printf(“Found: %d”,num);
+	return 1;
 }
 </pre>
 </div>	
@@ -353,32 +356,26 @@ O: Found: 42
 </pre>
 </div>	
 
-<p> When <b>yylex()</b> is invoked, it reads the input as pointed to by <b>yyin</b> and scans
+<p> When yylex() is invoked, it reads the input as pointed to by yyin and scans
 through the input looking for a matching pattern. When the input or a part of the input
-matches one of the given patterns, <b>yylex()</b> executes the corresponding action associated
+matches one of the given patterns, yylex() executes the corresponding action associated
 with the pattern as specified in the Rules section.
 In the above example, since there is no explicit definition of
- <b>yyin</b>, the input is taken from the console. If a match is found in the
-  input for the pattern number, <b>yylex()</b> executes the corresponding action , i.e.
-   return <b>atoi(yytext)</b>. As a result <b>yylex()</b> returns the number matched. The value returned by <b>yylex()</b> is
-    stored in the variable <b>num</b>.
-The value stored in this variable is then printed on screen using <b>printf()</b>.</p>	
-<p> <b>yylex()</b> continues scanning through the input
+ yyin, the input is taken from the console. If a match is found in the
+  input for the pattern <b>number</b>, yylex() executes the corresponding action , i.e.
+   return atoi(yytext). As a result yylex() returns the number matched. The value returned by yylex() is
+    stored in the variable num.
+The value stored in this variable is then printed on screen using printf().</p>	
+<p> yylex() continues scanning the input
  till one of the actions corresponding to a matched pattern
- executes a <b>return</b> statement or till the end of input (<i>input end-marker</i> ) has
-  been encountered. In case of the above example, <b>yylex()</b> terminates immediately after executing the rule because it consists
+ executes a return statement or till the end of input has
+  been encountered. In case of the above example, yylex() terminates immediately after executing the rule because it consists
    of a return statement.
- Note that if none of the actions in the Rules section executes a return statement, <b>yylex()</b> would:</p>	
-<p>In case of an input file continue scanning for more matching patterns in the input file till an <b>EOF</b> in the file</p>	
-  <p> In the case of console input yylex() would wait for more input through the console. In this case, since there is no input end-marker, the user will have to input <b>ctrl+d</b> in the terminal
-  to indicate the end of input. As a result, yylex() will terminate.
-<br>
- <b> NOTE :</b>
-  If <b>yylex()</b> is called more than once, it simply starts scanning from
-   the position in the input file where it had returned in the previous call.
+ <p>Note that if none of the actions in the Rules section executes a return statement, yylex() continues scanning for more matching patterns in the input file till the end of the file.</p>	
+  <p> In the case of console input, yylex() would wait for more input through the console. The user will have to input ctrl+d in the terminal to terminate yylex(). If yylex() is called more than once, it simply starts scanning from the position in the input file where it had returned in the previous call.
     </p>	
 <p>
- <i> <b> Excercise:</b>
+ <i>  Excercise:
  
 What would be the outputs of the lexical analyzer generated by
 the example LEX programs under section 3.2 and 4.1 for the following input :
@@ -387,24 +384,23 @@ the example LEX programs under section 3.2 and 4.1 for the following input :
 </p>
 
 
-<p> <big><b>4.2 &nbsp; yywrap()</b></big> </p>	
-<p>LEX declares the function <b>yywrap()</b> of return type <b>int</b> in lex.yy.c .
-LEX does not provide any definition for <b>yywrap()</b>. <b>yylex()</b> makes makes a call to <b>yywrap()</b>
-when it encounters the end of an input. If <b>yywrap()</b> returns zero (indicating <i>false</i>) <b>yylex()</b> assumes
-there is more input and it continues scanning from the location pointed to by <b>yyin</b>.
-If <b>yywrap()</b> returns a non-zero value (indicating true),
-<b>yylex()</b> terminates the scanning process and returns 0 (i.e. “wraps up”).
-<br>
+<p> <big>4.2 &nbsp; yywrap()</big> </p>	
+<p>LEX declares the function yywrap() of return-type int in lex.yy.c .
+LEX does not provide any definition for yywrap(). yylex() makes a call to yywrap()
+when it encounters the end of input. If yywrap() returns zero (indicating <i>false</i>) yylex() assumes
+there is more input and it continues scanning from the location pointed to by yyin.
+If yywrap() returns a non-zero value (indicating true),
+yylex() terminates the scanning process and returns 0 (i.e. “wraps up”).
     If the programmer wishes to scan more than one input file using the generated lexical analyzer,
-it can be simply done by setting <b>yyin</b> to a new input file in <b>yywrap()</b>'s definition which returns zero.
+it can be simply done by setting yyin to a new input file in yywrap() and return 0.
 </p>
-<p> As LEX does not define <b>yywrap()</b> in lex.yy.c file but
-makes a call to it under <b>yylex()</b>,
+<p> As LEX does not define yywrap() in lex.yy.c file but
+makes a call to it under yylex(),
 the programmer must define it in the Auxiliary functions section
-or provide <b>%option noyywrap</b> in the declarations section.
-This options removes the call to yywrap() in the lex.yy.c file. Note that, it is <big><b>mandatory</b> </big>to either define yywrap()
-or indicate the absence using the <b>%option</b> feature. If not, LEX will flag an error</p>	
-<b>Example</b>
+or provide %option noyywrap in the declarations section.
+This options removes the call to yywrap() in the lex.yy.c file. Note that, it is <b>mandatory </b>to either define yywrap()
+or indicate the absence using the %option feature. If not, LEX will flag an error</p>	
+Example
 
 
 <div class="syntax">
@@ -435,16 +431,16 @@ return 1;
 </pre>
 </div>
 
-<p> When <b>yylex()</b> finishes scanning the first input file, <b>input_file.l</b> <b>yylex()</b> invokes <b>yywrap()</b>.
-The above definition of <b>yywrap()</b> sets the input file pointer to <b>input_file_2.l</b> and returns 0 .
-As a result, the scanner continues scanning in <b>input_file_2.l</b> .
- When <b>yylex()</b> calls <b>yywrap()</b> on encountering <b>EOF</b> of <b>input_file_2.l</b>, <b>yywrap()</b> returns 0 and thus <b>yylex()</b> ceases scanning.</p>	
+<p> When yylex() finishes scanning the first input file, input_file.l yylex() invokes yywrap().
+The above definition of yywrap() sets the input file pointer to input_file_2.l and returns 0 .
+As a result, the scanner continues scanning in input_file_2.l .
+ When yylex() calls yywrap() on encountering EOF of input_file_2.l, yywrap() returns 0 and thus yylex() ceases scanning.</p>	
 
-<i><b> Excercise :</b>
+<i> Excercise :
 Suggest a modification in the above example LEX program to make the generated lexical analyzer read input
 <ul>
-<li> Initially from the console and then from a file <b>input_file.l</b></li>
-<li> Initially from a file <b>input_file.l</b> and then from the console</li>
+<li> Initially from the console and then from a file input_file.l</li>
+<li> Initially from a file input_file.l and then from the console</li>
 <li> Twice from the console</li>
 
 </ul>
@@ -521,24 +517,22 @@ return 1;
 
 <article id="navdisambiguation" class="detail">
         <h2>Disambiguation Rules</h2>	
-        <p> <b>yylex()</b> uses two important disambiguation rules in selecting the right action to execute
+        <p> yylex() uses two important disambiguation rules in selecting the right action to execute
          in case there is more than one pattern that matches a string in the given input: </p>
          <ol>
      <li> Order of occurrence is assigned as the pattern's matching priority.</li>
      <li>“Longest match” is preferred.
      </li>
          </ol>
- <b> Example :</b>
+  Example :
  
 <div class="syntax">
 <pre> “break” { return BREAK; }
    [a-zA-Z][a-zA-Z0-9]* { return IDENTIFIER; }
 </pre>
 </div>
-<p> Here, <b>break</b> is matched by both the regular expressions,
-but <b>break</b> is a keyword and not an identifier hence it is ordered
-in such a manner that LEX uses its first disambiguation rule to execute <b>return BREAK</b>;</p>
-     <b> Example :</b>
+<p> If "break" is found in the input, it is matched with the first pattern and yylex() returns BREAK. If "breakdown" is found, it is matched with the second pattern and yylex() returns IDENTIFIER. Note the use of disambiguation rules here. </p>
+      Example :
    <div class="syntax">
 <pre>/* Declarations section */
 %%
@@ -551,7 +545,7 @@ in such a manner that LEX uses its first disambiguation rule to execute <b>retur
 </pre>
 </div>
 <p> Assume that the function calling yylex() prints the name of the token.</p>
-         <b> Sample Input/Output :</b>
+          Sample Input/Output :
             <div class="syntax">
 <pre>I: -
 O: MINUS
@@ -564,8 +558,8 @@ O: DECREMENT MINUS
 </pre>
 </div>
 
-<p>Note that, in case of an<b> ---</b> input to the lexical analyzer, <b>yylex()</b> does not return two <b>MINUS</b> tokens,
-but instead returns a <b>DECREMENT</b> token, by the second disambiguation rule.</p>
+<p>Note that, in case of an -- input to the lexical analyzer, yylex() does not return two MINUS tokens,
+but instead returns a DECREMENT token, by the second disambiguation rule.</p>
          
 
 </article>
@@ -577,7 +571,7 @@ but instead returns a <b>DECREMENT</b> token, by the second disambiguation rule.
 <p> Conceptually, LEX constructs a finite state machine to recognize all the regular expression patterns specified
 in the LEX program file. The code written by the programmer in the action part is executed when the machine is in accept state.
 The lex.yy.c program stores information about the finite state machine in the form of a decision table (transition table).
-  A <b>transition(current_state,input_char)</b> function is used to access the decision table.
+  A transition(current_state,input_char) function is used to access the decision table.
   LEX makes it's decision table visible if we compile the program with the -T flag.
   The finite state machine used by LEX is deterministic finite state automation. The lex.yy.c simulates the DFA. </p>
 </article>	
@@ -624,18 +618,18 @@ return 1;
 </stdio.h></pre>
 </div>
 
-<p>In this program, the main() function obtains the tokens returned by <b>yylex()</b> and checks if the input contains a valid identifier.
+<p>In this program, the main() function obtains the tokens returned by yylex() and checks if the input contains a valid identifier.
 </p>
 
-<b> Sample Input/Output : </b>
+ Sample Input/Output : 
 <div class="syntax">
 <pre>I: Var9
 O: Acceptable
 </pre>
 </div>
-<p> When <b>Var9</b> is provided as the input, the DFA constructed by LEX accepts the string,
-and the corresponding action <b>return ID</b> executed.
-As a result yylex() returns the token <b>ID</b>, and the main() function prints <b>Acceptable</b> on the screen. </p>
+<p> When Var9 is provided as the input, the DFA constructed by LEX accepts the string,
+and the corresponding action return ID executed.
+As a result yylex() returns the token ID, and the main() function prints Acceptable on the screen. </p>
    
          
    
@@ -655,17 +649,17 @@ As a result yylex() returns the token <b>ID</b>, and the main() function prints 
            
         </ul>
        
-       <b><big> 9.1 The intermediate syntax tree</big></b>	
+       <big> 9.1 The intermediate syntax tree</big>	
        <p> Consider the first rule in the token simulator program in section 8.
         It consists of the following regular expression :</p>
-           <b>({low_case}|{upp_case})({low_case}|{upp_case})*({number})</b>
+           ({low_case}|{upp_case})({low_case}|{upp_case})*({number})
            <p>For convenience in representation , let it be represented by :</p>
-           <b> ( a | A ) ( a | A )* (N)</b>
-           <p>where, 'a' represents <b>{low_case}</b>, 'A' represents <b>{upp_case}</b> and 'N' represents <b>{number}</b>.
+            ( a | A ) ( a | A )* (N)
+           <p>where, 'a' represents {low_case}, 'A' represents {upp_case} and 'N' represents {number}.
              The syntax tree constructed for the above regular expression would look like : </p>
              <img src="img/lex_5.png" style="max-width:70%">
-             <p> In the above figure <b> º </b>represents the <b>'cat'</b> (concatenation) operator,
-             <b>*</b> represents the 'star' operator (a unary operator) and <b>|</b> represents the
+             <p> In the above figure  º represents the 'cat' (concatenation) operator,
+             * represents the 'star' operator (a unary operator) and | represents the
               'or' operator. In the syntax tree the inner nodes are operators
                while the leaves are the operands.
                The subscript assigned to every leaf is called the position of the leaf.
@@ -677,7 +671,7 @@ As a result yylex() returns the token <b>ID</b>, and the main() function prints 
       This syntax tree is an intermediate data structure.
      There will be no traces of this in lex.yy.c file, because it is only used in the construction of the DFA.</p>
      
-     <b><big> 9.2 The intermediate syntax tree</big></b>	
+     <big> 9.2 The intermediate syntax tree</big>	
       <p>Constructing the DFA involves two steps:</p>
        <ul>
       <li>Constructing the set of states of the DFA</li>
@@ -698,7 +692,7 @@ Thus, the transitions maybe formulated as :</p>
     <img src="img/lex_3.jpeg" style="max-width:70%">
     <br>
     
-<b><big> 9.3 The intermediate syntax tree</big></b>
+<big> 9.3 The intermediate syntax tree</big>
 <p> The DFA obtained for the above syntax tree would look like :</p>
 <img src="img/lex_4.png" style="max-width:70%">
 <p> This DFA represents the regular expression provided as a specification
@@ -709,7 +703,7 @@ The constructed DFA is simulated using a simulation algorithm. </p>
 <br>
 
 
-<b><big> 9.4 The DFA simulation algorithm</big></b>
+<big> 9.4 The DFA simulation algorithm</big>
 <p> The working of the constructed DFA is simulated using the following algorithm.</p>
 <div class="syntax">
 <pre>DFA_simulator()
@@ -727,7 +721,7 @@ else
 </div>
 <p> The information about all the transitions made by the DFA
 can be obtained from the decision
-table (generally a two dimensional matrix) through the <b>transition()</b> function.
+table (generally a two dimensional matrix) through the transition() function.
               </p>
 
 </article>
@@ -765,11 +759,13 @@ and checks for correctness of the syntax. Hence, the next step towards compiling
 <li> Flex &amp; Bison by John Levine</li>
 <li> http://dinosaur.compilertools.net/</li>
 </ul>
-     <div class="up grid col-one-third" style="float:right">
-<a href="#navtop" title="Go back up"> top ↑</a>
-</div>
 </article>
+<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top ↑</a>
+	</div>
+					</div>
 </section>
+
 <footer class="center part clearfix">
 <ul class="social column3 mright">
     <li><a href="https://github.com/silcnitc">Github</a></li>
@@ -783,6 +779,7 @@ and checks for correctness of the syntax. Hence, the next step towards compiling
     </ul>
   </nav>
 </footer>
+
 </body>
 <!-- Javascript - jQuery
 <script src="http://code.jquery.com/jquery.min.js"></script>-->

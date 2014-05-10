@@ -89,7 +89,7 @@ blockquote
 	font-style: italic; 
 	color: #6F6C6C; 
 }
-b, strong, .strong { font-weight: 400; }
+b, strong, .strong { font-weight: 2000; }
 small, .small { font-size: 85%; }
 address{font-style: normal;}
 /* LIST */
