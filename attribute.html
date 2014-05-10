@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>SILC | LEX-YACC</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+ <header class="center clearfix" id="navtop"> <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+  <nav class="fright">
+   <ul>
+    <li><a href="index.html" >Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="documentation.html" class="navactive">Documentation</a></li>
+    <li><a href="uc.html">Code</a></li>
+    <li><a href="uc.html">Roadmap</a></li>
+   </ul>
+  </nav>
+ </header>
+ <div class="about center part clearfix">
+  <header class="title">
+    <h3 class="fleft">Contents</h3>
+  </header>
+  <aside class="column4 mright">
+    <menu>
+     <ul>
+      <li><a href="#" class="sec">Lorem sipsum</a></li>	
+      <li><!--For blank space between lins and download button--> &nbsp;</li> 
+      <li><a href="#" class="button"> Download as PDF </a></li>	
+      <li><!--Blank line for space between download button and main title--> &nbsp;</li>    
+     </ul>
+    </menu>
+  </aside>
+  <section class="columnthird content"> <h1 class="mright">USING LEX WITH YACC</h1>
+   <article id="navily" class="detail">
+   <h2>Integrating LEX with YACC</h2>
+	<p>In the <a href="#">last section</a> of the YACC documentation we noted that it is possible to pass values associated with tokens from yylex() to yyparse(). We had described the term 'attribute' as a value associated with a token. YACC uses yylval to facilitate passing values from the lexical analyzer to the parser. yylval is a global variable of the default return type int, declared by YACC in y.tab.c.  In the YACC documentation, we had seen an <a href="#">example</a> which illustrates the passing of attributes from yylex() to yyparse(). If the programmer were to use LEX to generate yylex(), then the attributes will have to be passed to yyparse() in a similar fashion i.e, using yylval (as shown below). In the LEX program, the yylex() simply returns the token by its name while the associated attribute is assigned to yylval which can be accessed by yyparse(). Note that, for LEX to return a token, the token must be declared in the declarations section of the YACC program. The following example is a LEX program which returns a token DIGIT when it finds a string matching the "number" pattern.    
+	</p>
+	<div class="syntax">
+      <pre>
+%{
+
+	#include "y.tab.h"
+	#include<stdlib.h>
+	#include<stdio.h>
+		
+%}
+
+	number  [0-9]+
+
+%%
+
+	{number}	{
+							yylval = atoi(yytext);
+							return DIGIT;
+						}
+	
+	.					return *yytext;					
+
+%%
+      </pre>
+	</div>
+	<p><a href="#">Recall</a> from the LEX documentaion that yytext returns the lexeme found in the input stream. In this example, we want to return the token DIGIT when an integer is found in the input stream. In addition to the token, we need to pass the value found in the input stream to yyparse(). The lexeme found in the input stream is a string which contains the integer found. atoi() is a built-in function of the type int defined in the stdlib.h header file. We use atoi() to obtain the integer equivalent of the lexeme found. The obtained integer value is then assigned to yylval.
+</p>
+<p> The following code segment is a YACC program which declares the token DIGIT. <a href="#">Recall</a> that the following program must be run with a -d flag to the yacc command. This flag is used to create the y.tab.h file which facilitates a one way communication from YACC to LEX i.e., it is used to communicate the tokens declared in the YACC program to the LEX program. Let us refer to the task of LEX obtaining the token declarations from YACC as LEX <i>importing</i> the declarations. The y.tab.h file contains declarations of all the tokens in the YACC program. Note that the LEX program above includes the y.tab.h file in the auxiliary declarations section to <i>import</i> the declarations.
+</p>
+	<div class="syntax">
+      <pre>
+	
+
+	%{ 
+
+	#include <<e>stdio.h</e>> 
+
+	%} 
+
+	%token DIGIT 
+	
+	%% 
+
+	start : expr '\n'		{printf("\nComplete");exit(1);} 
+		; 
+
+	expr:  expr '+' expr		{printf("+ ");} 
+		| expr '*' expr		{printf("* ");} 
+		| '(' expr ')'	 
+		| DIGIT			{printf("%d ",$1);} 
+		; 
+
+	%% 
+
+	yyerror() 
+	{ 
+		printf("Error"); 
+	} 
+
+	main() 
+	{ 
+		yyparse(); 
+		return 1; 
+	} 
+
+
+      </pre>
+	</div>
+	<p>
+	The above program converts an infix expression to a postfix form. Now consider the problem of evaluating an expression. Inorder to do that, we would need to simply modify the semantic actions of the above program. The value of an expression can be calculated by simply calculating the value of its subexpressions. For example: the value of 5+3+2 can be calculated by adding 5 and 3 initially and then adding 2 to it. i.e., (5+3)+2 (As '+' is left associative). Inorder to achieve this, we need to introduce attribute values to non-terminals. Thus we extend our notion of an attribute to: "An attribute is a value associated with a terminal or non-terminal grammar symbol". The attribute of a grammar symbol in a production can be referred to in the actions section of a rule using a special YACC syntax: $1 for the first symbol in the body of a production, $2 for the second symbol, $3 for the thrird and so on. For example consider the following example of a YACC rule.  
+	</p>
+	<div class="syntax">
+		<pre>
+					X: B C D
+		</pre>
+	</div>
+	<p>
+	The value of a symbol 'B' can be referred to by $1, value of 'B' can be referred to by $2 and value of symbol 'C' can be referred to by $3. It is also possible to assign a value to the non-terminal which occurs as the head of a rule's production using $$. A value can be assigned to the symbol X using $$. </p>
+<p>
+	Consider the problem of displaying two numbers in an input stream if they occur as a pair separated by a comma. Also suppose that the numbers must be displayed ONLY after a pair is found. Let us look at a YACC program that solves the problem. 
+	</p>
+	<div class="syntax">
+		<pre>
+		pair: number ',' number		{ printf("pair(%d,%d),$1,$3"); }
+			;
+		number: DIGIT			{ $$=$1; }
+			;</pre>
+	</div>
+	<p>
+		In the program segment, the first rule displays the value of the 'number' symbols when found as a pair in the input stream. The action of the rule refers to the value of the first number symbol as $1 and and the second number as $3. (Note that $2 refers to the <i>literal token</i> ',' which does not have any value associated with it). Since 'number' is a non-terminal, its attribute cannot be set by yylex(). <a href="3">Recall</a> that every non-terminal symbol in the CFG must have a corresponding production with the non-terminal  as the head. The attribute value of a non-terminal is set by the action of the rule which contains the corresponding production. In the example, the value of the non-terminal 'number' is set by the rule:
+</p>
+<div class="syntax">
+	number: DIGIT			{ $$=$1; }
+</div>
+<p>
+	The action of the rule sets the value of 'number' (reffered to using $$) to the value of DIGIT (referred to using $1).
+</p>  
+<p>
+Sample I/O:
+<p>
+<div class="syntax">
+	I: 2,5<br>
+	O: pair(2,5)<br><br>
+	I: 3,5,7<br>
+	O: syntax error
+</div>
+
+	<div class="syntax">
+      <pre>
+	
+
+	%{ 
+
+	#include <<e>stdio.h</e>> 
+	int result;
+	%} 
+
+	%token DIGIT 
+
+	%left '+'
+	%left '*'
+	
+	%% 
+
+	start : expr '\n'		{result = $1; exit(1);} 
+		; 
+
+	expr:  expr '+' expr		{$$ = $1 + $2;} 
+		| expr '*' expr		{$$ = $1 * $3;} 
+		| '(' expr ')'	 	{$$ = $2;}
+		| DIGIT			{$$ = $1;} 
+		; 
+
+	%% 
+
+	yyerror() 
+	{ 
+		printf("Error"); 
+	} 
+
+	main() 
+	{ 
+		yyparse(); 
+		printf("Expression value = %d",result);
+		return 1; 
+	} 
+
+
+      </pre>
+	</div>
+
+   </article>
+  </section>
+ </div>
+<footer class="center part clearfix">
+<ul class="social column3 mright">
+    <li><a href="https://github.com/silcnitc">Github</a></li>
+</ul>
+  <div class="up column3 mright"> <a href="#navtop" class="ir">Go up</a> </div>
+  <nav class="column3">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="uc.html">Contact</a></li>
+    </ul>
+  </nav>
+</footer>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-1.5.1.min.js"><\/script>')</script>
+<script src="js/scripts.js"></script>
+</body>
+</html>
