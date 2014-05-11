@@ -36,7 +36,7 @@
    <article id="navily" class="detail">
    <h2>Integrating LEX with YACC</h2>
      <p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c. We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream. Till now, for simplicity we had written a <a href="yacc.html#navexy0al">user-defined yylex()</a> in the YACC program. In this section of the document we will use LEX to generate the definition of yylex() and make YACC use this definition for retrieving tokens. </p>
-     <p id="navinc">For yyparse() to use yylex(), the definition of yylex() must be available in y.tab.c file. We will add this definiton of yylex() to the Auxiliary functions section of the YACC program. As the definition of yylex() has been generated in the the lex.yy.c file, the lex.yy.c file must be <i>included</i> in the auxiliary functions section of the YACC program. (This results in all of the contents of lex.yy.c including the yylex() definition being copied to y.tab.c) </p>
+     <p id="navinc">For yyparse() to use yylex(), the definition of yylex() must be available in y.tab.c file. We will add this definiton of yylex() to the Auxiliary functions section of the YACC program. As the definition of yylex() has been generated in the lex.yy.c file, the lex.yy.c file must be <i>included</i> in the auxiliary functions section of the YACC program. (This results in all of the contents of lex.yy.c including the yylex() definition being copied to y.tab.c) </p>
      <div class="syntax">
       <pre>
 		/* Declarations section */
@@ -76,7 +76,7 @@
         #define DIGIT  253  
      </div>   
      <p>Note that '253' is a YACC generated constant to represent DIGIT.</p>   
-	<p>The next example example shows the definition of the token DIGIT in the LEX program. For a complete working example <a href="ex1.html#nav2">click here</a></p>
+	<p>The next example example shows the definition of the token DIGIT in the LEX program. For a complete working example <a href="ex1.html#nav2">click here</a>. The example also includes definitions of other tokens like PLUS and STAR.</p>
 	<div class="syntax">
      <pre>
 		/* LEX Declarations */
