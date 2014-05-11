@@ -11,9 +11,10 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="documentation.html" class="navactive">Documentation</a></li>
-      <li><a href="uc.html">Code</a></li>
-      <li><a href="uc.html">Roadmap</a></li>
+			<li><a href="#">Help</a></li>      
+			<li><a href="#">Code</a></li>
+			<li><a href="#">Roadmap</a></li>
+			<li><a href="documentation.html" class="navactive">Documentation</a></li>
     </ul>
   </nav>
 </header>
@@ -192,11 +193,11 @@ int main()
         <p> The following variables are offered by LEX to aid the programmer in designing sophisticated lexical analyzers.
          These variables are accessible in the LEX program and are automatically declared by LEX in lex.yy.c.</p>
          <ul>
-        <li>yyin</li>
-        <li>yytext</li>
-        <li>yyleng</li>
+        <li> <a href="#navyyin">yyin</a></li>
+        <li> <a href="#navyytext">yytext</a></li>
+        <li> <a href="#navyyleng">yyleng</a></li>
           </ul>
-          <p> <big>3.1 &nbsp;yyin</big> </p>
+          <h3 id="navyyin">3.1 yyin </h3>
           <p>yyin is a variable of the type FILE* and points to the input file.
             yyin is defined by LEX automatically.
             If the programmer assigns an input file to yyin in the auxiliary functions section, then yyin is set to point to that file.
@@ -235,7 +236,7 @@ lexical analyzer?
    The above statement indicates that if the programmer does not define yyin, then yylex() by default sets yyin to the console input.
  Hence, any re-definition for yyin must be made before invoking yylex(). (This will be explained in detail later). </p>	
  
- <p> <big>3.2 &nbsp;yytext</big> </p>
+ <h3 id="navyytext">3.2 yytext </h3>
  <p> yytext is of the type char* and it contains the <i><big>lexeme</big></i> currently found.
    A <i>lexeme</i> is a sequence of characters in the input stream that matches some pattern in the Rules Section.
    (In fact, it is the first matching sequence in the input from the position pointed to by yyin.)
@@ -292,7 +293,7 @@ Exercise:
 <p> <i>Suggest a modification in the above example to check whether a number found is even or odd.
 </i></p>
 
-<p> <big>3.3 &nbsp;yyleng</big> </p>
+<h3 id="navyyleng">3.3 yyleng </h3>
 <p> yyleng is a variable of the type int and it stores the length of the lexeme pointed to by yytext.</p>
 
 Example

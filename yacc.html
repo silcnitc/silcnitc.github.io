@@ -12,9 +12,11 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="documentation.html" class="navactive">Documentation</a></li>
-      <li><a href="uc.html">Code</a></li>
-      <li><a href="uc.html">Roadmap</a></li>
+			<li><a href="#">Help</a></li>      
+			<li><a href="#">Code</a></li>
+			<li><a href="#">Roadmap</a></li>
+			<li><a href="documentation.html" class="navactive">Documentation</a></li>
+      
     </ul>
   </nav>
 </header>
@@ -199,10 +201,10 @@ production_head	:	production_body	{action in C } ;
 %% 	 
 </pre>
 						</div>
-      The rules in our example can be found here [Link to Rules section in eg_in2post_no-att.y]  
+     <p> The rules in our example can be found here [Link to Rules section in eg_in2post_no-att.y]  </p>
 		  
 		  
-		  <p> <big><b>2.2.1 Productions </b></big> 
+		  <h3 id="navprod">2.2.1 Productions</h3> 
          </p>
          Each production consists of a production head and a production body.
          Consider a production from our example [Link to productions of eg_in2post_no-att.y]:
@@ -427,19 +429,19 @@ STACK: &nbsp &nbsp 	$ expr &nbsp &nbsp &nbsp			I/P BUFFER:	&nbsp &nbsp	$
 <br>
 At each step of parsing, the parser takes an action resulting in a configuration change. 
 A shift-reduce parser can take four possible <i>parser-actions</i>: 
-<ul>
-<li> 1. <big>Shift</big>  is the parser-action of removing the next unread terminal from the input buffer and pushing it into the stack.
+<ul id="navparseact">
+<li> 1. <b>Shift</b>  is the parser-action of removing the next unread terminal from the input buffer and pushing it into the stack.
   (The input terminal gets “shifted” to the stack).</li>
-<li> 2. <big>Reduce</big> is the parser-action of replacing one or more grammar symbols from the top of the stack that matches a body of a production,
-  with the corresponding production head. The contents on top of the stack which matches the right side of a production is called a <i>handle</i>.  
+<li> 2. <b>Reduce</b> is the parser-action of replacing one or more grammar symbols from the top of the stack that matches a body of a production,
+  with the corresponding production head. The contents on top of the stack which matches the right side of a production is called a <i><big>handle</big></i>.  
      The process of replacing a handle with the corresponding production head is called a <i>reduction</i>.</li>
-<li> 3.<big> Accept</big> is the parser-action indicating that the entire input has been parsed successfully. 
+<li> 3.<b> Accept</b> is the parser-action indicating that the entire input has been parsed successfully. 
       The parser executes an accept action only if it reaches the accepting configuration –  one in which 
      the input buffer is empty and the stack contains just the start variable followed by '$'.
  <br> 
  Accepting configuration: &nbsp &nbsp &nbsp        STACK:	$ &ltstart_variable&gt	&nbsp &nbsp		I/P BUFFER:       $	     
 </li>
-<li> 4. <big>Error</big> indicates that an error was encountered while parsing the input.
+<li> 4. <b>Error</b> indicates that an error was encountered while parsing the input.
     In our example, there is no error.  We will see error conditions later.
 </li>
 
