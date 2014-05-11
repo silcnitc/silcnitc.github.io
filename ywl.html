@@ -49,8 +49,11 @@
          </pre>
 	</div>
      <p> NOTE: In this case, we must not provide a <a href="lex.html#navexl0">main() definition in the LEX program</a> calling yylex(), as there already exists a <a href="yacc.html#navexy0al">main() function in the YACC program</a> which calls yyparse() which in turn calls yylex().</p>
-     <p>-----------Add other cases here----------</p>
-
+     <p>The is an alternative method in which the defintion of yylex() can be made visible to yyparse(). An example has been shown below: </p>
+<div class="syntax">
+gcc lex.yy.c y.tab.c
+</div>	
+<p> In this case, the programmer need not explictly include the lex.yyc file in the auxiliary functions section.</p>
     <!--<h3>YACC to LEX Communication</h3>-->
      <p>Recall that yyparse() attempts to parse the given input by calling yylex() to obtain tokens. In the <a href="yacc.html#navexy1">infix to postfix conversion example</a> in the YACC documentation, we had used a user defined definition of yylex() in the YACC program. In this example, the YACC program consists of the declaration of token DIGIT in the <a href="yacc.html#navexy1d">declarations section</a> and definition of the token DIGIT in the <a href="yacc.html#navexy1a">auxiliary functions section</a> under yylex(). Now we are trying to use the LEX generated yylex() instead of a user defined yylex(). <!--We know that LEX generates the definition for the DIGIT token under yylex() according to the rules in the LEX program and yyparse() calls yylex() to find DIGIT in the input stream. Thus we may infer that all the tokens in the <a href="yacc.html#navintro">CFG</a> must be declared in the YACC program (to be used in the CFG) and defined in the LEX program (to be identified by yylex()). --><br>
      <p>To do this, first we must write a YACC program to generate yyparse(). The token DIGIT must be declared in the declaration section to be used in the Rules section. </p>
@@ -98,8 +101,8 @@
     <div class="syntax">
         user@localhost:~$ gcc y.tab.c <br>
 		user@localhost:~$ ./a.out <br>
-		1+2*3 <br>
-		1 2 3 * + <br>
+		11+22*33 <br>
+		11 22 33 * + <br>
 		user@localhost:~$
 	</div>
     <div class="up grid col-one-third" style="float:right">
