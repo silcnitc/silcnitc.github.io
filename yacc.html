@@ -50,7 +50,7 @@
 				 a corresponding <a href="http://en.wikipedia.org/wiki/Pushdown_automaton"> push down automaton </a> (i.e., a finite state machine with a stack). 
 				 This C program when compiled, yields an executable parser.              
 				</p>
-				<img src="img/yacc_1.jpg" style="max-width:70%"> 
+				<img src="img/yacc_1.png" style="max-width:70%"> 
 				<p> The source SIL program is fed as the input to the generated parser ( <i> a.out </i>).  
 				   The parser checks whether the program satisfies the syntax specification given in the <i> input_file.y</i> file.  
 				
@@ -143,7 +143,20 @@ O:	NUM1 error
 				A YACC program consists of three sections: Declarations, Rules and Auxiliary functions. 
 				(Note the similarity with the structure of LEX programs).              
 				</p>
-				<img src="img/lex_2.png" style="max-width:70%"> 
+				
+  <div class="syntax">
+<pre>
+DECLARATIONS
+
+%%
+
+RULES
+
+%%
+
+AUXILIARY FUNCTIONS
+</pre>
+</div>
              <br>				
 				<p> <big><b>2.1 Declarations</b></big>  
               <br>  
