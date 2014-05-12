@@ -50,7 +50,7 @@
     %{ 
     #include &ltstdio.h&gt 
     %} 
-    %token DIGIT 
+    %token DIGIT PLUS STAR
     %% 
     start : expr '\n'           {printf("\nComplete");exit(1);} 
 	    ; 
