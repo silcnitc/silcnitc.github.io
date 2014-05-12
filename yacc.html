@@ -471,41 +471,45 @@ Several details are left out in this description.
  Instead, we will try to see how the parser operates in the case of our running example.
 <div class="syntax">
 <pre>
-(1)STACK: $		I/P BUFFER:	2 + 3 * ( 4 + 5 ) $
+(1)	STACK: $				I/P BUFFER:	2 + 3 * ( 4 + 5 ) $
 </pre>
 </div>	
 <br>
 At this configuration, the parser executes a <i>shift</i> action i.e. 2 is pushed onto the stack resulting in the configuration:
 <div class="syntax">
 <pre>
-(2)STACK: $ 2		I/P BUFFER:	+ 3 * ( 4+ 5 ) $
-
+(2)	STACK: $ 2				I/P BUFFER:	+ 3 * ( 4+ 5 ) $
+</pre>
 </div>
 <br>
 Now, the top of the stack matches the right side (body) of Production 4 i.e., the 2 on the stack is 
 the <big>handle</big> in this case and a reduction takes place replacing the handle with the production head <i>expr</i>.
 <div class="syntax">
 <pre>
-(3)STACK: $ expr		I/P BUFFER:	+ 3 * ( 4 + 5 ) $	
+(3)	STACK: $ expr				I/P BUFFER:	+ 3 * ( 4 + 5 ) $	
+</pre>
 </div>
 <br>
 As there is no further handles to perform reductions, the parser shifts  the next terminal '+' from the input to the stack.
 <div class="syntax">
 <pre>
-(4)STACK: $ expr +		I/P BUFFER:	3 * ( 4 + 5 ) $
+(4)	STACK: $ expr +				I/P BUFFER:	3 * ( 4 + 5 ) $
+</pre>
 </div>
 <br>
 In the next iteration, as no reductions are possible, the parser again shifts the next input:
 <div class="syntax">
 <pre>
-(5)STACK: $ expr + 3			I/P BUFFER:	* ( 4 + 5 ) $	 
+(5) STACK: $ expr + 3				I/P BUFFER:	* ( 4 + 5 ) $	 
+</pre>
 </div>
 <br>
 Now, the parser can apply Production 4 and  <i>reduce</i>  the handle '3'  on the top of the stack to  <i>expr</i>.
 Thus the parser reduces by Production 4 and replaces '3' with expr.
 <div class="syntax">
 <pre>
-(6)STACK: $ expr + expr		I/P BUFFER:	* ( 4 + 5 ) $
+(6) STACK: $ expr + expr			I/P BUFFER:	* ( 4 + 5 ) $
+</pre>
 </div>
 <br>
 At this point there is a further reduction possible using Production 1.  
@@ -516,44 +520,52 @@ However, the “valid” action here is not to perform the reduction, but shift 
  (Some more details on how this will be done will be explained in the later sections.)  Hence, the next action is a shift. 
 <div class="syntax">
 <pre>
-(7)STACK: $ expr + expr *		I/P BUFFER:	( 4 + 5 )$
+(7) STACK: $ expr + expr *			I/P BUFFER:	( 4 + 5 )$
+</pre>
 </div>
 <br>
-In the next five iterations, the parser continuously shifts as there are no valid reductions. Hence the resultant configuration:
+In the next few iterations, the parser continuously shifts and reduces to reach the configuration:
 <div class="syntax">
-(8)STACK: $ expr + expr * ( expr + expr		I/P BUFFER:	) $
+<pre>
+(8) STACK: $ expr + expr * ( expr + expr	I/P BUFFER:	) $
+</pre>
 </div>
 <br>
 Now, the handle “expr+expr” matches the body of production 1, hence the parser reduces by production 1.
 <div class="syntax">
 <pre>
-(9)STACK: $ expr + expr * ( expr		I/P BUFFER:	) $
+(9) STACK: $ expr + expr * ( expr		I/P BUFFER:	) $
+</pre>
 </div>
 <br>
 The parser continues to iterate as the accepting configuration has not been reached. 
 In the next iteration, the parser shifts, as a result emptying the input buffer.
 <div class="syntax">
 <pre>
-(10)STACK: $ expr + expr * ( expr )		I/P BUFFER:	$
+(10) STACK: $ expr + expr * ( expr )		I/P BUFFER:	$
+</pre>
 </div>
 <br>
 Now the parser reduces the handle “ ( expr ) ” by production 3,
 <div class="syntax">
 <pre>
-(11)STACK: $ expr + expr * expr		I/P BUFFER:	$
+(11) STACK: $ expr + expr * expr		I/P BUFFER:	$
+</pre>
 </div>
 <br>
 In the next iteration, as yet another valid reduction is possible, the parser reduces by Production 2
 <div class="syntax">
 <pre>
-(12)STACK: $ expr + expr		I/P BUFFER:	$
+(12) STACK: $ expr + expr			I/P BUFFER:	$
+</pre>
 </div>
 <br>
 As the parser has not reached accepting configuration and there exists another handle top of the stack, the parser further reduces the entire contents of the stack,
  i.e., the handle “expr + expr” with production 1 and thus puts the start symbol expr on the stack.
 <div class="syntax">
 <pre>
-(13)STACK: $ expr		I/P BUFFER:	$
+(13) STACK: $ expr			I/P BUFFER:	$
+</pre>
 </div>
 <br>
 On reaching accepting configuration, the parser quits iterating.
