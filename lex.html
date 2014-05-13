@@ -745,18 +745,7 @@ table (generally a two dimensional matrix) through the transition() function.
 
 <article id="navusingthelexicalanalyzer" class="detail">
         <h2>Using the generated lexical analyzer</h2>
-<p> The generated lex.yy.c file is the code for the scanner.
-This is compiled using a C compiler and the generated object file (the executable scanner)
-is executed. LEX is just a tool which helps generate a smart scanner in C.
-The lexical analyzer only checks for recognizable pattern sequences in the source program
-and produces an output of tokens (fed to the parser) , it cannot be used to check for syntax.
-Syntax analysis is done by the parser. The parser is built using YACC , a parser generator.
-YACC obtains the tokens from LEX through yylex() and the associated attributes from yylval,
-which it uses for parsing and rest of the the compilation process. In this case, the programmer
-need not call yylex() in the LEX program, it is automatically called by YACC to read the tokens.
-The parser , when given an input source program obtains all the tokens from the lexical analyzer
-and checks for correctness of the syntax. Hence, the next step towards compiling a given source program would be to build a parser.
-             </p>
+<p> <!---ADD CONTENT HERE----->         </p>
 </article>
 
 <div class="up grid col-one-third" style="float:right">
@@ -767,10 +756,10 @@ and checks for correctness of the syntax. Hence, the next step towards compiling
         <h2>References</h2>
 <p> For further details on the topics covered in this document, the reader may refer to the following :</p>
 <ul>
-<li> Compilers : Principles,Techniques and Tools by Alfred V.Aho, Monica S. Lam, Ravi Sethi and Jeffrey D.Ulman .</li>
-      <li>Modern Compiler Implementation in C by Andrew W.Appel</li>
-<li> Flex &amp; Bison by John Levine</li>
-<li> http://dinosaur.compilertools.net/</li>
+<li>1. Compilers : Principles,Techniques and Tools by Alfred V.Aho, Monica S. Lam, Ravi Sethi and Jeffrey D.Ulman .</li>
+      <li>2. Modern Compiler Implementation in C by Andrew W.Appel</li>
+<li>3. Flex &amp; Bison by John Levine</li>
+<li>4. <a href="http://dinosaur.compilertools.net/"> http://dinosaur.compilertools.net/</a></li>
 </ul>
 </article>
 <div class="up grid col-one-third" style="float:right">
