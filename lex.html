@@ -662,38 +662,35 @@ As a result yylex() returns the token ID, and the main() function prints Accepta
            
         </ul>
        
-       <big> 9.1 The intermediate syntax tree</big>	
+       <b><big> 9.1 The intermediate syntax tree</big></b>	
        <p> Consider the first rule in the token simulator program in section 8.
         It consists of the following regular expression :</p>
-           ({low_case}|{upp_case})({low_case}|{upp_case})*({number})
+          <p> ({low_case}|{upp_case})({low_case}|{upp_case})*({number})</p>
            <p>For convenience in representation , let it be represented by :</p>
             ( a | A ) ( a | A )* (N)
            <p>where, 'a' represents {low_case}, 'A' represents {upp_case} and 'N' represents {number}.
              The syntax tree constructed for the above regular expression would look like : </p>
-             <img src="img/lex_5.png" style="max-width:70%">
+             <center><img src="img/lex_5.png" style="max-width:70%"></center>
              <p> In the above figure  º represents the 'cat' (concatenation) operator,
-             * represents the 'star' operator (a unary operator) and | represents the
+             <b>*</b> represents the 'star' operator (a unary operator) and <b>|</b> represents the
               'or' operator. In the syntax tree the inner nodes are operators
                while the leaves are the operands.
-               The subscript assigned to every leaf is called the position of the leaf.
-                The position of a leaf plays a vital role in the process of constructing states for the DFA.
+               The subscript assigned to every leaf is called the <b>position</b> of the leaf. The positions have been assigned to the leaves starting from the left-most leaf proceedig towards the right. We are trying to represent the original regular expression with annotated positions. The position of a leaf plays a vital role in the process of constructing states for the DFA because it represents the possible position a token maybe found in the input stream.
              </p>
-             
-             <p> NOTE:
-             <br>
-      This syntax tree is an intermediate data structure.
+             <p>NOTE: Each token may have multiple positions corresponding to it as it can be found in more than one leaves. For example 'a' can be possible found in the input at positions 1 and/or 3.</p>
+             <p> NOTE: This syntax tree is an intermediate data structure.
      There will be no traces of this in lex.yy.c file, because it is only used in the construction of the DFA.</p>
      
-     <big> 9.2 The intermediate syntax tree</big>	
+    <p> <big> <b>9.2 The intermediate syntax tree</big></b></p>	
       <p>Constructing the DFA involves two steps:</p>
        <ul>
-      <li>Constructing the set of states of the DFA</li>
-        <li>Constructing all the possible transitions made by the DFA from one state to another on different inputs. </li>
+      <li>1. Constructing the set of states of the DFA</li>
+        <li>2. Constructing all the possible transitions made by the DFA from one state to another on different inputs. </li>
        </ul>
 <p> The language represented by the regular expression ( a | A ) ( a | A )* (N),
 can only possibly start with an 'a' or 'A'. From the syntax tree we may infer that these could only correspond to positions 1 or 2 . Let the set of these positions {1,2} be the start state of the DFA.
 For convenience it has been named as state I.</p>
-<p> Consider the position 1 ('a'), it could be followed by either of the positions 3,4 or 5.
+<p> Consider the position 1 (position of 'a'), it could be followed by either of the positions 3,4 or 5 (i.e, it can be followed by 'a','A' or 'N').
 Let this be a new state {3,4,5} represented by II.
 The position 2 ('A') could be possibly followed by either of the positions 3,4 or 5.
 But a new state is not required as {3,4,5} has already been represented by II.
@@ -745,6 +742,11 @@ table (generally a two dimensional matrix) through the transition() function.
 
 <article id="navusingthelexicalanalyzer" class="detail">
         <h2>Using the generated lexical analyzer</h2>
+<p> <!---ADD CONTENT HERE----->         </p>
+</article>
+
+<article id="navexercise" class="detail">
+        <h2>Exercise</h2>
 <p> <!---ADD CONTENT HERE----->         </p>
 </article>
 
