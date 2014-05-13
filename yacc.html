@@ -564,7 +564,7 @@ As the parser has not reached accepting configuration and there exists another h
  i.e., the handle “expr + expr” with production 1 and thus puts the start symbol expr on the stack.
 <div class="syntax">
 <pre>
-(13) STACK: $ expr			I/P BUFFER:	$
+(13) STACK: $ expr				I/P BUFFER:	$
 </pre>
 </div>
 <br>
@@ -683,7 +683,7 @@ The following table summarizes the step-by-step change in the parser's configura
   SLR(1) and LALR(1) parsing methods.  The notion of valid shift or a valid reduce 
   depends on the particular parsing method and can be fairly involved.  
    We will see how routine situations like precedence and associativity of operators can be easily handled when you are using YACC. 
-    YACC uses an LALR(1) parsing method. (See ... References and links).  An understanding of the general
+    YACC uses an <a href="http://en.wikipedia.org/wiki/LALR_parser">LALR(1) parsing method</a>. An understanding of the general
    principles of shift-reduce parsing at the level presented here will be sufficient for most of this project. </p>
   
   
@@ -700,7 +700,7 @@ The following table summarizes the step-by-step change in the parser's configura
               
      
 <p> When yacc_file.y is fed to YACC, it generates a y.tab.c file. 
-    When compiled, this program yields a parser. [Link to Introduction to Yacc].
+    When compiled, this program yields a <a href="#navintro">parser</a>.
     The generated parser uses shift-reduce parsing to parse the given input. 
     Yacc copies the C declarations (in the Declaration section of input_file.y) and all
     the auxiliary functions (in the Auxiliary functions section of input_file.y) directly into y.tab.c without any modification.
@@ -712,15 +712,15 @@ It is important to understand that, y.tab.c contains the following :
 <p>
 
 
-<li>The C declarations from the input_file.y file [Link to part in y.tab.c]</li>
-<li>Generated yyparse() definition  [Link to part in y.tab.c]</li>
-<li>All the auxiliary functions from the input_file.y [Link to part in y.tab.c]</li>
+<li>The C declarations from the input_file.y file </li>
+<li>Generated yyparse() definition </li>
+<li>All the auxiliary functions from the input_file.y </li>
 
 <br>
-Recall our infix to postfix program [link]
+Recall our <a href="#navexy0">infix to postfix program</a>.
 <br>
 Here is a Sample Input and Output:
-<div class="syntax">
+<div class="syntax" id="navsam1">
 <pre>
 I: 2+3*(4+5)   
 O: NUM1 NUM2 NUM3 NUM4 + * + 
@@ -1092,8 +1092,7 @@ IMPORTANT NOTE:  Reduce-reduce conflicts are bad to have in a grammar.  They are
  The previous infix to postfix program prints the structure of the postfix expression and not the postfix expression itself.
   For the parser to print the postfix expression it would need the value associated with every <big>DIGIT</big> token. 
   <br> 
-  For example, the value associated with the token NUM in the first sample input/output is 2. 
-   SAMPLE INPUT&gt&gt  The value associated with a token is called an attribute  of the token.
+  For example, the value associated with the token NUM1 in the first <a href="#navsam1">sample input/output</a> is 2. The value associated with a token is called an attribute  of the token.
    <br>
    In the previous program,  <big>yylex()</big> simply returns the token DIGIT to <big>yyparse()</big> and does not return 
    any value associated with it. In order to access the value of the token DIGIT, there must be some method

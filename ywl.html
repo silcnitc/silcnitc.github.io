@@ -52,6 +52,7 @@
     <!--<h3>YACC to LEX Communication</h3>-->
      <p>Recall that yyparse() attempts to parse the given input by calling yylex() to obtain tokens. In the <a href="yacc.html#navexy1">infix to postfix conversion example</a> in the YACC documentation, we had used a user defined definition of yylex() in the YACC program. In this example, the YACC program consists of the declaration of token DIGIT in the <a href="yacc.html#navexy1d">declarations section</a> and definition of the token DIGIT in the <a href="yacc.html#navexy1a">auxiliary functions section</a> under yylex(). Now we are trying to use the LEX generated yylex() instead of a user defined yylex(). <!--We know that LEX generates the definition for the DIGIT token under yylex() according to the rules in the LEX program and yyparse() calls yylex() to find DIGIT in the input stream. Thus we may infer that all the tokens in the <a href="yacc.html#navintro">CFG</a> must be declared in the YACC program (to be used in the CFG) and defined in the LEX program (to be identified by yylex()). --><br>
      <p id="navexctok">To do this, first we must write a YACC program to generate yyparse(). The token DIGIT must be declared in the declaration section to be used in the Rules section. </p>
+			
      <p>The following example shows the declaration of the token DIGIT in the YACC program. For a complete working example <a href="ex1.html#nav1">click here</a>. Note that the working example consists of other tokens like PLUS and STAR. We consider only DIGIT in the below example for explaining the concepts involved as all the other tokens in the program are treated in a similar manner.</p>
      <div class="syntax">
       <pre>
@@ -133,7 +134,7 @@ gcc lex.yy.c y.tab.c
 </footer>
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/jquery-1.5.1.min.js"><\/script>')</script>
-<script src="js/scripts.js"></script>
+<script src="js/new.js"></script>
 <!--[if (gte IE 6)&(lte IE 8)]>
 <script src="js/selectivizr.js"></script>
 <![endif]-->
