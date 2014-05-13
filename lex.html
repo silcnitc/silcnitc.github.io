@@ -665,9 +665,9 @@ As a result yylex() returns the token ID, and the main() function prints Accepta
        <b><big> 9.1 The intermediate syntax tree</big></b>	
        <p> Consider the first rule in the token simulator program in section 8.
         It consists of the following regular expression :</p>
-          <p> ({low_case}|{upp_case})({low_case}|{upp_case})*({number})</p>
+          <p> <center>({low_case}|{upp_case})({low_case}|{upp_case})*({number})</center></p>
            <p>For convenience in representation , let it be represented by :</p>
-            ( a | A ) ( a | A )* (N)
+           <p><center> ( a | A ) ( a | A )* (N)</center></p>
            <p>where, 'a' represents {low_case}, 'A' represents {upp_case} and 'N' represents {number}.
              The syntax tree constructed for the above regular expression would look like : </p>
              <center><img src="img/lex_5.png" style="max-width:70%"></center>
@@ -675,7 +675,7 @@ As a result yylex() returns the token ID, and the main() function prints Accepta
              <b>*</b> represents the 'star' operator (a unary operator) and <b>|</b> represents the
               'or' operator. In the syntax tree the inner nodes are operators
                while the leaves are the operands.
-               The subscript assigned to every leaf is called the <b>position</b> of the leaf. The positions have been assigned to the leaves starting from the left-most leaf proceedig towards the right. We are trying to represent the original regular expression with annotated positions. The position of a leaf plays a vital role in the process of constructing states for the DFA because it represents the possible position a token maybe found in the input stream.
+               The subscript assigned to every leaf is called the <b>position</b> of the leaf. The positions have been assigned to the leaves starting from the left-most leaf proceedig towards the right. We are trying to represent the original regular expression with annotated positions. An annotated regular expression in this case:</p><p><center>( a1 | A2 ) ( a3 | A4 )* (N5)</center></p><p>The position of a leaf plays a vital role in the process of constructing states for the DFA because it represents the possible position a token maybe found in the input stream.
              </p>
              <p>NOTE: Each token may have multiple positions corresponding to it as it can be found in more than one leaves. For example 'a' can be possible found in the input at positions 1 and/or 3.</p>
              <p> NOTE: This syntax tree is an intermediate data structure.
