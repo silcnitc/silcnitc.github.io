@@ -337,7 +337,7 @@ YACC maintains a parse stack to achieve <a href="yacc.html#navshiftreduce">shift
 </article>
 <article id="navyystype" class="detail">
 <h2>YYSTYPE</h2>
-<p>	Attributes of terminals can be passed from yylex() to yyparse() and attributes of a non-terminal can be <i>synthesized</i>. An attribute of a non-terminal grammar symbol is said to <i>synthesized</i> if it has been calculated from the attribute values of it's children in the <a href="http://en.wikipedia.org/wiki/Parse_tree">parse tree</a>. A synthesized attribute is an attribute of a non-terminal than has been calculated using the attribute values of the symbols in the handle that it replaces. An example of synthesized attribute:      
+<p>	Attributes of terminals can be passed from yylex() to yyparse() and attributes of a non-terminal can be <i>synthesized</i>. An attribute of a non-terminal grammar symbol is said to <b><i>synthesized</i></b> if it has been calculated from the attribute values of it's children in the <a href="http://en.wikipedia.org/wiki/Parse_tree">parse tree</a>. A synthesized attribute is an attribute of a non-terminal than has been calculated using the attribute values of the symbols in the handle that it replaces. An example of synthesized attribute:      
 </p>
 <div class="syntax">
 <pre>Z: X			{printf("Result=%d",$1);}
