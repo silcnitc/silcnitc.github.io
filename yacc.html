@@ -1160,7 +1160,7 @@ O:	2 7 + 4 *
    
    </div>
    <p id="navyystypedt">
-   When yylex() recgonizes a token, the variable yylval can be used to store the attribute value of the token. yylval is 
+   When yylex() recognizes a token, the variable yylval can be used to store the attribute value of the token. yylval is 
    a global variable of the type YYSTYPE declared in y.tab.c.
     By default, YYSTYPE is of the type int. This is evident from the following code segment found in y.tab.c
     </p>
@@ -1182,7 +1182,7 @@ return DIGIT;
 </pre>
 </div>
 <p>
-The attribute of a token (i.e., the value of yylval associated with the token when it was returned by yylex())
+Note that in the above code segment, the automatic type casting feature of a C compiler has been implicitly used. The attribute of a token (i.e., the value of yylval associated with the token when it was returned by yylex())
  can be accessed in the action of a YACC rule using $i (where i is the position of the token in the body of a production).
 
 </p>
