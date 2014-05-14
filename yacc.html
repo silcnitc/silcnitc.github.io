@@ -1194,7 +1194,7 @@ expr: DIGIT   {printf(“%d”,$1);}
 </div> 
 The action prints the attribute associated with the token DIGIT obtained through $1.
 <br>
-YYSTYPE can be re-defined to any user-defined data type by the programmer in the YACC declarations section. To return an attribute of a type other than int, YYSTYPE (the type of yylval) maybe overridden by a user defined type in the auxiliary declarations section. We will see more about attributes in the later stages of the documentation.
+YYSTYPE can be re-defined to any user-defined data type by the programmer in the YACC declarations section. This will allow yylex() to return attributes of types other than integer. To return an attribute of a type other than int, YYSTYPE (the type of yylval) maybe overridden by a user defined type in the auxiliary declarations section. We will see more about attributes in the later stages of the documentation.
  </p>   
 	</article>
 	 <div class="up grid col-one-third" style="float:right">
