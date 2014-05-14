@@ -159,7 +159,7 @@ expr: expr '+' expr
       </pre>
      </div>
     <p>No explicit declaration of the token DIGIT is requied in the LEX program as y.tab.h (which contains the declaration of DIGIT) has been included in the declarations section.</p>
-		<p id="navlittokdef"><b>NOTE</b>: As stated <a href="#navlittok">above</a> we return the lexeme found in case of a literal token. Note that yylex() is function of return type int but the above LEX program makes yylex() return *yytext where yytext is a character pointer. *yytext fetches the value of the type character dereferenced by the character pointer yytext. We are able to return a character because - when the action containing the return statement is executed by a C compiler, the character value is type casted to integer value automatically.</p> 
+		<p id="navlittokdef"><b>NOTE</b>: As noted earlier we return the lexeme found in case of a <a href="#navlittok">literal tokens</a>: '+','*','(',')'. Note that yylex() is function of return type int but the above LEX program makes yylex() return *yytext where yytext is a character pointer. *yytext fetches the value of the type character dereferenced by the character pointer yytext. We are able to return a character because - when the action containing the return statement is executed by a C compiler, the character value is type casted to integer value automatically.</p> 
 		</p>
     <p> Inorder to generate lex.yy.c for the lex program in the file in2post.l, do:</p>
     <div class="syntax">
