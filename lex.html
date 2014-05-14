@@ -137,12 +137,13 @@ It is generally used to declare functions, include header files, or define globa
          Rules in a LEX program consists of two parts :
          </p>
          
-          <p><i>The pattern to be matched</i></p>
-          <p><big>The corresponding action to be executed</big></p>
+          <p>1. The pattern to be matched</p>
+          <p>2. The corresponding action to be executed</p>
 
- Example :
+<p> Example :</p>
                 <div class="syntax">
-<pre>	/* Declarations*/
+<pre>	
+/* Declarations*/
 %%
 	
 	{number} {printf(“ number”);}
@@ -154,14 +155,13 @@ It is generally used to declare functions, include header files, or define globa
 </pre>
 </div>
 
-      <p> The pattern to be matched is specified as a regular expression.<br>Sample Input/Output for the above example: </p>
+      <p> The pattern to be matched is specified as a regular expression.</p><p>Sample Input/Output for the above example: </p>
 <div class="syntax">
 <pre>I: 234
 O: number
 
 I: *
 O: operator
-
 
 I: 2+3
 O: number operator number

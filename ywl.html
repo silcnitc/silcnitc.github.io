@@ -96,7 +96,7 @@ The token DIGIT must be declared in the declaration section to be used in the Ru
     } 
     </pre>   
    </div>
-	<p id="navlittok">In the above example we can see that the YACC program contains the declaration of the token DIGIT. Note that the grammar consists of other terminals like '+', '-', '(' and ')' which are also tokens. These tokens are called <i>literal tokens</i>. Literal tokens are tokens with fixed lexemes i.e., the <a href="lex.html#navyytext">lexeme</a> corresponding to a literal token is a constant. A literal token does not require any expicit declaration in a YACC program. We will see more about defining literal tokens <a href="#navlittokdef">later</a>.</p>
+	<p id="navlittok">In the above example we can see that the YACC program contains the declaration of the token DIGIT. Note that the grammar consists of other terminals like '+', '-', '(' and ')' which are also tokens. These tokens are called <i>literal tokens</i>. Literal tokens are tokens with fixed lexemes i.e., the <a href="lex.html#navyytext">lexeme</a> corresponding to a literal token is a constant. A literal token does not require any expicit declaration in a YACC program. We will see more about defining literal tokens later.</p>
 <p><b>NOTE</b>: Conceptually, the lexeme of a literal token can be a character or a string. But, not all versions of YACC support string literal tokens. Hence, in our project we will use only character literal tokens.
 </p>
 <p> Example of literal tokens:</p>
