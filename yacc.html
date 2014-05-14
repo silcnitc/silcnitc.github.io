@@ -256,12 +256,12 @@ Every non-terminal in the grammar must appear in the head part of at least one p
       
       
       <p> The action part of a rule consists of C statements enclose within a '{' and '}'. These statements are 
-      executed when the input is matched with the body of a production and a <i>reduction</i> takes place. The notion of a <i>reduction</i> will be explained later. In the <a href="#navexy0r">example</a> consider the following rule: 
+      executed when the input is matched with the body of a production and a <i>reduction</i> takes place. The notion of a <i>reduction</i> will be explained later. From the <a href="#navexy0r">example</a> below, consider the following rule: 
       </p>
 			<div class="syntax">
 			expr:  DIGIT		{printf("NUM%d ",pos);}
 			</div>		
-			<p>In this rule, when the input matches with the body of the production DIGIT, it is reduced to expr and the action {printf("NUM%d ",pos);} is executed. </p>
+			<p>In this rule, when the input matches with the body of the production DIGIT, it is <i>reduced</i> to expr and the action {printf("NUM%d ",pos);} is executed. </p>
          <p> <big><b>2.2.3 Auxiliary Functions</b></big> </p>
          
          
