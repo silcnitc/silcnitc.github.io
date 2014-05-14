@@ -63,8 +63,7 @@ For instance integer, boolean, begin, end, if, while etc. are tokens in SIL.
 </div>
 
 This example demonstrates the specification of a <i>rule</i> in LEX.
-The rule in this example specifies that the lexical analyzer must return the token named  ID_TYPE_INTEGER when the pattern “integer” 
-is found in the input file.
+The rule in this example specifies that the lexical analyzer must return the token named  ID_TYPE_INTEGER when the pattern “integer” is found in the input file.
 A <i>rule</i> in a LEX program comprises of a pattern part (specified by a regular expression) and a corresponding (semantic) action part (a sequence of C statements).
 In the above example,  “integer” is the pattern and {return ID_TYPE_INTEGER;} is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.
 </p>
@@ -249,8 +248,8 @@ lexical analyzer?
  Hence, any re-definition for yyin must be made before invoking yylex(). (This will be explained in detail later). </p>	
  
  <h3 id="navyytext">3.2 yytext </h3>
- <p> yytext is of the type char* and it contains the <i><big>lexeme</big></i> currently found.
-   A <i>lexeme</i> is a sequence of characters in the input stream that matches some pattern in the Rules Section.
+ <p> yytext is of the type char* and it contains the <i>lexeme</i> currently found.
+   A <b>lexeme</b> is a sequence of characters in the input stream that matches some pattern in the Rules Section.
    (In fact, it is the first matching sequence in the input from the position pointed to by yyin.)
 
  Each invocation of the function yylex() results in yytext carrying a pointer to the lexeme found in
@@ -338,7 +337,7 @@ O: Number of digits = 4
      <li> yylex()</li>
      <li> yywrap()</li>
          </ul>
-<p> <big>4.1 &nbsp;yylex()</big> </p>
+<p> <b><big>4.1 &nbsp;yylex()</big></b> </p>
 <p> yylex() is a function of return type int. LEX automatically defines yylex() in lex.yy.c but does not call it.
      The programmer must call yylex() in the Auxiliary functions section of the LEX program.
     LEX generates code for the definition of yylex() according to the rules specified in the Rules section. </p>
@@ -397,7 +396,7 @@ the example LEX programs under section 3.2 and 4.1 for the following input :
 </p>
 
 
-<p> <big>4.2 &nbsp; yywrap()</big> </p>	
+<p> <b><big id="navyywrap">4.2 &nbsp; yywrap()</big></b> </p>	
 <p>LEX declares the function yywrap() of return-type int in lex.yy.c .
 LEX does not provide any definition for yywrap(). yylex() makes a call to yywrap()
 when it encounters the end of input. If yywrap() returns zero (indicating <i>false</i>) yylex() assumes
@@ -544,7 +543,7 @@ return 1;
    [a-zA-Z][a-zA-Z0-9]* { return IDENTIFIER; }
 </pre>
 </div>
-<p> If "break" is found in the input, it is matched with the first pattern and yylex() returns BREAK. If "breakdown" is found, it is matched with the second pattern and yylex() returns IDENTIFIER. Note the use of disambiguation rules here. </p>
+<p>If "break" is found in the input, it is matched with the first pattern and yylex() returns BREAK. If "breakdown" is found, it is matched with the second pattern and yylex() returns IDENTIFIER. Note the use of disambiguation rules here. </p>
       Example :
    <div class="syntax">
 <pre>/* Declarations section */
@@ -704,7 +703,9 @@ Thus, the transitions maybe formulated as :</p>
     
 <b><big> 9.3 The intermediate syntax tree</big></b>
 <p> The DFA obtained for the above syntax tree would look like :</p>
+
 <center><img src="img/lex_4.png" style="max-width:70%"></center>
+<br>
 <p> This DFA represents the regular expression provided as a specification
 (i.e. pattern to be matched) in the first rule of the token
 simulator program in section 9. When the DFA is in the final state i.e. III,

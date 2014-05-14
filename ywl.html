@@ -48,27 +48,75 @@
 		/* Auxiliary Functions */    
          </pre>
 	</div>
-     <p> NOTE: In this case, we must not provide a <a href="lex.html#navexl0">main() definition in the LEX program</a> calling yylex(), as there already exists a <a href="yacc.html#navexy0al">main() function in the YACC program</a> which calls yyparse() which in turn calls yylex().</p>
+     <p> NOTE: In this case, we <b>must not</b> provide a <a href="lex.html#navexl0">main() definition in the LEX program</a> calling yylex(), as there already exists a <a href="yacc.html#navexy0al">main() function in the YACC program</a> which calls yyparse() which in turn calls yylex().</p>
     <!--<h3>YACC to LEX Communication</h3>-->
-     <p>Recall that yyparse() attempts to parse the given input by calling yylex() to obtain tokens. In the <a href="yacc.html#navexy1">infix to postfix conversion example</a> in the YACC documentation, we had used a user defined definition of yylex() in the YACC program. In this example, the YACC program consists of the declaration of token DIGIT in the <a href="yacc.html#navexy1d">declarations section</a> and definition of the token DIGIT in the <a href="yacc.html#navexy1a">auxiliary functions section</a> under yylex(). Now we are trying to use the LEX generated yylex() instead of a user defined yylex(). <!--We know that LEX generates the definition for the DIGIT token under yylex() according to the rules in the LEX program and yyparse() calls yylex() to find DIGIT in the input stream. Thus we may infer that all the tokens in the <a href="yacc.html#navintro">CFG</a> must be declared in the YACC program (to be used in the CFG) and defined in the LEX program (to be identified by yylex()). --><br>
-     <p id="navexctok">To do this, first we must write a YACC program to generate yyparse(). The token DIGIT must be declared in the declaration section to be used in the Rules section. </p>
-			
-     <p>The following example shows the declaration of the token DIGIT in the YACC program. For a complete working example <a href="ex1.html#nav1">click here</a>. Note that the working example consists of other tokens like PLUS and STAR. We consider only DIGIT in the below example for explaining the concepts involved as all the other tokens in the program are treated in a similar manner.</p>
-     <div class="syntax">
-      <pre>
-		/* YACC Declarations */
-	
-	%token DIGIT
+     <p>Recall that yyparse() attempts to parse the given input by calling yylex() to obtain tokens. In the <a href="yacc.html#navexy1">infix to postfix conversion example</a> in the YACC documentation, we had used a user defined definition of yylex() in the YACC program. In this example, the YACC program consists of the declaration of token DIGIT in the <a href="yacc.html#navexy1d">declarations section</a> and definition of the token DIGIT in the <a href="yacc.html#navexy1a">auxiliary functions section</a> under yylex(). Now we are trying to use the LEX generated yylex() instead of a user defined yylex().
+</p>
+     <p id="navexctok">To do this, first we must write a YACC program to generate yyparse(). </p>
+</artcile>
+<br>
+<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top ↑</a>
+</div>
+<article class="detail">
+<h2>Declaring tokens</h2>
+The token DIGIT must be declared in the declaration section to be used in the Rules section. A token can be declared specifying it in the <a href="yacc.html#decl">YACC declarations section</a> using the <b>%token</b> feature offered by YACC. The following example shows the declaration of the token DIGIT in a YACC program. </p>
+     <big>in2post.y</big>	   
+    <div id="navy"class="syntax">
+    <pre id="navyd">
+    %{ 
 
-	%%
-		/* Rules */
-	%%
-		/* YACC Auxiliary Functions */    
-      </pre>
+    #include &ltstdio.h&gt 
+
+    %} 
+
+    %token DIGIT
+		 <c id="navyr"></c>
+    %% 
+
+    start : expr '\n'           {printf("\nComplete");exit(1);} 
+	    ; 
+
+    expr:  expr '+' expr        {printf("+ ");} 
+	    | expr '-' expr     {printf("* ");} 
+	    | '(' expr ')'	 
+	    | DIGIT             {printf("%d ",$1);} 
+	    ; 
+
+    %% 
+    <c id="navya"></c>
+    yyerror() 
+    { 
+	    printf("Error"); 
+    } 
+    main() 
+    { 
+	    yyparse(); 
+	    return 1; 
+    } 
+    </pre>   
+   </div>
+	<p id="navlittok">In the above example we can see that the YACC program contains the declaration of the token DIGIT. Note that the grammar consists of other terminals like '+', '-', '(' and ')' which are also tokens. These tokens are called <i>literal tokens</i>. Literal tokens are tokens with fixed lexemes i.e., the <a href="lex.html#navyytext">lexeme</a> corresponding to a literal token is a constant. A literal token does not require any expicit declaration in a YACC program. We will see more about defining literal tokens <a href="#navlittokdef">later</a>.</p>
+<p><b>NOTE</b>: Conceptually, the lexeme of a literal token can be a character or a string. But, not all versions of YACC support string literal tokens. Hence, in our project we will use only character literal tokens.
+</p>
+<p> Example of literal tokens:</p>
+<div class="syntax">
+'+' '*' '-'
+</div>
+<p>A lexical analyzer returns a token when it finds a corresponding lexeme. In case of a literal token, the lexical analyzer returns the lexeme itself. For a literal token, yylex() must return the lexeme and YACC refers to the token using it's lexeme. For example in the <a href="#navyr">above</a> YACC program, the literal token + has been referred to using it's corresponding lexeme '+' itself.</p>
+<div class="syntax">
+expr: expr '+' expr
+</div> 
+<p>This is because, the LEX program has ben written in such a way that yylex() returns the lexeme itself when it finds a literal token. We are yet to write a LEX program (defining DIGIT and the literal tokens) to generate yylex().</p>
+</article>
+<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
-	<p id="navdflag">In the above example we can see that the YACC program contains the declaration of the token DIGIT. We are yet to write a LEX program (defining token DIGIT) to generate yylex(). But before that, there must be some way by which the YACC program can tell the LEX program that the token DIGIT has been declared in the YACC program. This communication is facilitated by the file  "y.tab.h" which contains the declarations of all the tokens in the YACC program. The "y.tab.h" is automatically generated by YACC when the 'yacc' command is executed with the -d flag.</p>
+<article class="detail">
+<h2>y.tab.h</h2>
+<p> Before writing the LEX program, there must be some way by which the YACC program can tell the LEX program that the token DIGIT has been declared in the YACC program. This communication is facilitated by the file  "y.tab.h" which contains the declarations of all the tokens in the YACC program. The "y.tab.h" is automatically generated by YACC when the 'yacc' command is executed with the -d flag.</p>
 
-<p>In order to generate <a href="#navily">y.tab.c</a> and y.tab.h for the YACC program in in2post.y, do:</p>
+<p id="navdflag">In order to generate <a href="#navily">y.tab.c</a> and y.tab.h for the YACC program in in2post.y, do:</p>
     <div class="syntax">
 		user@localhost:~$ yacc -d in2post.y <br>   
     </div>
@@ -76,31 +124,48 @@
     <div class="syntax">
         #define DIGIT  253  
      </div>   
-     <p>Note that '253' is a YACC generated constant to represent DIGIT. The constant may vary at different executions of YACC. YACC represents a token by defining a <a href="http://gcc.gnu.org/onlinedocs/cpp/Macros.html">macro identifier</a> corresponding to it. If there are multiple tokens, every macro will have a unique value to it.</p><p> Example:</p>
-<div class="syntax">
-        #define DIGIT  253<br>	
-				#define PLUS  254<br>
-				#define STAR  255  
-     </div>   
-	<p>The next example example shows the definition of the token DIGIT in the LEX program. For a complete working example <a href="ex1.html#nav2">click here</a>. The example also includes definitions of other tokens like PLUS and STAR. We exclude them in the code segment for the same reason as <a href="#navexctok">above</a>.</p>
-	<div class="syntax">
-     <pre>
-		/* LEX Declarations */
+     <p>Note that '253' is a YACC generated constant to represent DIGIT. The constant may vary at different executions of YACC. YACC represents a token by defining a <a href="http://gcc.gnu.org/onlinedocs/cpp/Macros.html">macro identifier</a> corresponding to it. </p>
+<p>The y.tab.h file must be <i>included</i> in the declarations section of the LEX program. As a result of which, LEX has access to the token declarations. We will see an example in the next section.</p>   
 
-	%%
-	
-	[0-9]+     return DIGIT;
-	
-	%%
-		/* LEX Auxiliary Functions */    
-     </pre>
-    </div>
-    <p>The y.tab.h file must be <i>included</i> in the declarations section of the LEX program. As a result of which, LEX has access to the declarations in the YACC program file. No explicit declaration of the token DIGIT is requied in the LEX program as y.tab.h (which contains the declaration of DIGIT) has been included in the declarations section</p>
+</article>
+<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top ↑</a>
+	</div>
+<article class="detail">
+<h2>Defining tokens</h2>
+	<p>The next example example shows the definition of DIGIT and the literal tokens in the LEX program.</p>
+<big>in2post.l</big>
+<div id="navl" class="syntax"> 
+      <pre>
+	%{ 
+		#include <q><</q>stdio.h<q>></q> <!--Dummy tags to display '<' and '>' -->
+		#include "y.tab.h"
+	%} 
+
+	%% 
+
+	[0-9]+	return DIGIT;
+	'+'	return *yytext;
+	'*'	return *yytext;
+	'('	return *yytext;		
+	')'	return *yytext;	
+
+	%% 
+
+	<a href="lex.html#navyywrap">yywrap</a>()
+	{
+		return 1;
+	}
+      </pre>
+     </div>
+    <p>No explicit declaration of the token DIGIT is requied in the LEX program as y.tab.h (which contains the declaration of DIGIT) has been included in the declarations section.</p>
+		<p id="navlittokdef"><b>NOTE</b>: As stated <a href="#navlittok">above</a> we return the lexeme found in case of a literal token. Note that yylex() is function of return type int but the above LEX program makes yylex() return *yytext where yytext is a character pointer. *yytext fetches the value of the type character dereferenced by the character pointer yytext. We are able to return a character because - when the action containing the return statement is executed by a C compiler, the character value is type casted to integer value automatically.</p> 
+		</p>
     <p> Inorder to generate lex.yy.c for the lex program in the file in2post.l, do:</p>
     <div class="syntax">
 		user@localhost:~$ lex in2post.l <br> 
     </div>
-    <p> Once y.tab.c and lex.yy.c files have been generated by YACC and LEX respectively, they can be compiled by including lex.yy.c in y.tab.c file (<a href="#navinc">as shown above</a>). The compilation steps and sample input/output of the <a href="ex1.html#nav1">working example</a> are shown below:</p>
+    <p> Once y.tab.c and lex.yy.c files have been generated by YACC and LEX respectively, they can be compiled by including lex.yy.c in y.tab.c file (<a href="#navinc">as shown above</a>). The compilation steps and sample input/output of the above example are shown below:	</p>
     <div class="syntax">
         user@localhost:~$ gcc y.tab.c <br>
 		user@localhost:~$ ./a.out <br>
@@ -108,15 +173,155 @@
 		11 22 33 * + <br>
 		user@localhost:~$
 	</div>
-	<p>There exists an alternative method in which the definition of yylex() can be made visible to yyparse(). It can be done by compiling both the .c files (lex.yy.c & y.tab.c) by providing multiple arguments to gcc. An example has been shown below: </p>
+<!--	<p>There exists an alternative method in which the definition of yylex() can be made visible to yyparse(). It can be done by compiling both the .c files (lex.yy.c & y.tab.c) by providing multiple arguments to gcc. An example has been shown below: </p>
 <div class="syntax">
 gcc lex.yy.c y.tab.c
 </div>	
-<p> <b>NOTE:</b> In this case, the programmer need not explictly include the lex.yyc file in the auxiliary functions section. You may choose between any of the two compilation methods.</p>
-    <div class="up grid col-one-third" style="float:right">
+<p> <b>NOTE:</b> In this case, the programmer need not explictly include the lex.yyc file in the auxiliary functions section. You may choose between any of the two compilation methods.</p>-->    
+<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
-   </article>
+   </article>	 			
+<article class="detail">
+<h2>Working of LEX with YACC</h2>
+<p>In order the understanding the complete working, let us consider the above example of <a href="#navy">YACC program</a> and <a href="#navl">LEX program</a>. </p>
+<p>When the input 
+<div class="syntax">
+		11+22*33 
+</div>
+is given to the executable file (a.out) generated by compiling y.tab.c, <br>1. The <a href="#navya">main() function</a> begins execution. It calls yyparse which inturn calls yylex(). <br>2. Since lex.yy.c has been included in y.tab.c, the definition of yylex() is available and hence is invoked. <br>3. yylex() reads the input and finds that "11" found in the input matches with the pattern for token DIGIT and returns DIGIT.<br>4. yyparse() which obtains the token DIGIT, shifts it to the parse stack. <br>5. Followed by which a reduction takes place as the DIGIT is the handle of the production expr: DIGIT. <br>6. As a result, the C action corresponding to the production is executed i.e., printf("%d ",$1); is executed, which prints 11. </p>
+<p>The execution continues in a similar fashion to complete parsing the entire input.
+</p>
+<p>
+The parsing steps have been summarized in the below table:
+</p>
+<table class="tg">
+  <tr>
+    <th class="tg-e3zv">I/P Buffer<br></th>
+		<th class="tg-e3zv">yylex() returns<br></th>
+    <th class="tg-e3zv">Parser stack<br></th>
+    <th class="tg-e3zv">Parser action on stack<br></th>
+		<th class="tg-e3zv">C Action executed<br></th>
+		<th class="tg-e3zv">Output Stream<br></th>	
+  </tr>
+  <tr>
+    <td class="tg-031e">11 + 22 * 33</td>
+		<td class="tg-031e"></td>
+    <td class="tg-031e"><br></td>
+    <td class="tg-031e">_</td>
+		<td class="tg-e31e"><br></td>
+		<td class="tg-e31e"><br></td>
+  </tr>
+  <tr>
+    <td class="tg-031e">+ 22 * 33</td>
+		<td class="tg-031e">DIGIT</td>
+    <td class="tg-031e">DIGIT<br></td>
+    <td class="tg-031e">SHIFT</td>
+		<td class="tg-e31e"><br></td>
+		<td class="tg-e31e"><br></td>
+  </tr>
+	<tr>
+    <td class="tg-031e">+ 22 * 33</td>
+		<td class="tg-031e"></td>
+    <td class="tg-031e">expr<br></td>
+    <td class="tg-031e">REDUCE</td>
+		<td class="tg-031e">printf("%d ",$1);</td> 
+		<td class="tg-e31e">11<br></td>
+  </tr>
+  <tr>
+    <td class="tg-031e">22 * 33</td>
+		<td class="tg-031e">+</td>
+    <td class="tg-031e">expr +</td>
+    <td class="tg-031e">SHIFT</td>
+		<td class="tg-e31e"></td>
+		<td class="tg-e31e">11</td>
+  </tr>
+	<tr>
+    <td class="tg-031e">* 33</td>
+		<td class="tg-031e">DIGIT</td>
+    <td class="tg-031e">expr + 22</td>
+    <td class="tg-031e">SHIFT</td>
+		<td class="tg-e31e"></td>
+		<td class="tg-e3ze">11</td>
+  </tr>
+	<tr>
+    <td class="tg-031e">* 33</td>
+		<td class="tg-031e"></td>
+    <td class="tg-031e">expr + expr<br></td>
+    <td class="tg-031e">REDUCE</td>
+<td class="tg-031e">printf("%d ",$1);</td>
+		<td class="tg-e31e">11 22</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">33</td>
+		<td class="tg-031e">*</td>
+    <td class="tg-031e">expr + expr *</td>
+    <td class="tg-031e">SHIFT</td>
+		<td class="tg-e31e"></td>
+		<td class="tg-e31e">11 22</td>
+  </tr>
+  <tr>
+    <td class="tg-031e"><br></td>
+		<td class="tg-031e">DIGIT</td>
+    <td class="tg-031e">expr + expr * DIGIT</td>
+    <td class="tg-031e">SHIFT</td>
+		<td class="tg-e31e"></td>
+		<td class="tg-e31e">11 22</td>
+  </tr>
+  <tr>
+    <td class="tg-031e"><br></td>
+		<td class="tg-031e">0</td>
+    <td class="tg-031e">expr + expr * expr</td>
+    <td class="tg-031e">REDUCE</td>
+<td class="tg-031e">printf("%d ",$1);</td> 
+	<td class="tg-e31e">11 22 33</td>
+ </tr>
+<tr>
+    <td class="tg-031e"><br></td>
+		<td class="tg-031e"></b></td>
+    <td class="tg-031e">expr + expr</td>
+    <td class="tg-031e">REDUCE</td>
+	<td class="tg-e31e">printf("* ");</td>
+	<td class="tg-e31e">11 22 33 *</td>
+  </tr>
+  <tr>
+    <td class="tg-031e"><br></td>
+		<td class="tg-031e"></b></td>
+    <td class="tg-031e">expr<br></td>
+    <td class="tg-031e">REDUCE</td>
+		<td class="tg-031e">printf("+ ");</td>
+		<td class="tg-031e">11 22 33 * +</td>
+  </tr>
+</table>
+<br>
+<p>Note that yylex() returns 0 when the input finishes i.e., "end of input" has been encountered. yyparse() does not call yylex() once it has returned 0.</p>
+<p>In this stage, we noted how to integrate the lexical analyzer generated by LEX with the parser generated by YACC. In the next stage, we will learn more about managing attributes using LEX and YACC..</p> 
+</article>
+<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top ↑</a>
+</div>
+<article class="detail">
+<h2>EXERCISES</h2>
+
+</article>
+<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top ↑</a>
+	</div>
+
+<article id="navreferences" class="detail">
+        <h2>References</h2>
+<p> For further details on the topics covered in this document, the reader may refer to the following :</p>
+<ul>
+<li>1. Compilers : Principles,Techniques and Tools by Alfred V.Aho, Monica S. Lam, Ravi Sethi and Jeffrey D.Ulman .</li>
+      <li>2. Modern Compiler Implementation in C by Andrew W.Appel</li>
+<li>3. Flex &amp; Bison by John Levine</li>
+<li>4. <a href="http://dinosaur.compilertools.net/"> http://dinosaur.compilertools.net/</a></li>
+</ul>
+</article>
+<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top ↑</a>
+	</div>
+
   </section>
  </div>
 <footer class="center part clearfix">

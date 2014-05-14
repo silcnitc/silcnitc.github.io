@@ -210,7 +210,7 @@ YACC maintains a parse stack to achieve <a href="yacc.html#navshiftreduce">shift
 	expr:  expr '+' expr		{$$ = $1 + $2;} <br> 
 	expr:  DIGIT			{$$ = $1;} 
 </div>
-<p> When the input 2+3*(4+5) is fed to the parser, yylex() reads the first character and finds a matching token DIGIT. yylex() returns DIGIT and asigns the value 2 to yylval. When yylex() has returned, yyparse() pushes DIGIT to the parse stack and the value of yylval to the attribute stack. $1, $2, $3 etc., refers to the attribute values on top of the stack before a reduction takes place. $$ refers to the to symbol on top of the stack after a reduction has taken place.The following table shows the configuration of the parse stack and the attribute stack at every step of the parsing process. Assume that whenever yylex() returns a token with no attribute, yyparse() pushes a '<b>.</b>' to the attribute stack.</p>
+<p> When the input 2+3*(4+5) is fed to the parser, yylex() reads the first character and finds a matching token DIGIT. yylex() returns DIGIT and asigns the value 2 to yylval. When yylex() has returned, yyparse() pushes DIGIT to the parse stack and the value of yylval to the attribute stack. $1, $2, $3 etc., refers to the attribute values on top of the stack before a reduction takes place. $$ refers to the attribute value of the non-terminal which is the head of the production which contains the handle. When the non-terminal is pushed on to the parse stack, the value of $$ is pushed on to the attribute stack. $$ refers to the symbol on top of the stack after a reduction has taken place. The following table shows the configuration of the parse stack and the attribute stack at every step of the parsing process. Assume that whenever yylex() returns a token with no attribute, yyparse() pushes a '<b>.</b>' to the attribute stack.</p>
 
 <table class="tg">
   <tr>
@@ -396,6 +396,20 @@ expr: expr OP expr { printf("%c %d %d",$2,$1,$3);}
 		<a href="http://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools"> http://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools</a> <br>
 	</p>
 	</artcile>
+<article id="navreferences" class="detail">
+        <h2>References</h2>
+<p> For further details on the topics covered in this document, the reader may refer to the following :</p>
+<ul>
+<li>1. Compilers : Principles,Techniques and Tools by Alfred V.Aho, Monica S. Lam, Ravi Sethi and Jeffrey D.Ulman .</li>
+      <li>2. Modern Compiler Implementation in C by Andrew W.Appel</li>
+<li>3. Flex &amp; Bison by John Levine</li>
+<li>4. <a href="http://dinosaur.compilertools.net/"> http://dinosaur.compilertools.net/</a></li>
+</ul>
+</article>
+<div class="up grid col-one-third" style="float:right">
+			<a href="#navtop" title="Go back up"> top ↑</a>
+	</div>
+
   </section>
  </div>
 <footer class="center part clearfix">
