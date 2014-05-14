@@ -1194,8 +1194,7 @@ expr: DIGIT   {printf(“%d”,$1);}
 </div> 
 The action prints the attribute associated with the token DIGIT obtained through $1.
 <br>
-YYSTYPE can be defined to be of any data type by the programmer. To return an attribute of a type other than int,<big>yylval</big> maybe overridden by a user defined yylval
-in the auxiliary declarations section. We will see more about attributes in the next stages of the documentation.
+YYSTYPE can be defined to be of any data type by the programmer. To return an attribute of a type other than int, YYSTYPE (the type of yylval) maybe overridden by a user defined type in the auxiliary declarations section. We will see more about attributes in the later stages of the documentation.
  </p>   
 	</article>
 	 <div class="up grid col-one-third" style="float:right">
