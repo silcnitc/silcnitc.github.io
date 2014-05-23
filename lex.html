@@ -52,7 +52,7 @@ LEX is a tool used to generate a lexical analyzer.
 This document is a tutorial for the use of LEX for SIL Compiler development.
 Technically, LEX translates a set of regular expression specifications (given as input in input_file.l) into a C implementation of a corresponding finite state machine (lex.yy.c). This C program, when compiled, yields an executable lexical analyzer.
 </p>
-<img src="img/lex_1.png" style="max-width:70%">
+<center><img src="img/lex_1.png" style="max-width:70%"></center>
 <p>The source SIL program is fed as the input to the the lexical analyzer which produces a sequence of tokens as output.
 (Tokens are explained below). Conceptually, a lexical analyzer scans a given source SIL program and produces an output of tokens.</p>
 <p>A <b>token</b> is a single element of the SIL programming language that is recognized by the compiler.
@@ -91,15 +91,12 @@ RULES
 AUXILIARY FUNCTIONS
 </pre>
 </div>
-             <br>	
 <h3>2.1 Declarations</h3>
-              <br>
-              The declarations section consists of two parts, <i>regular definitions</i> and <i>auxiliary declarations</i>.
+<p>              The declarations section consists of two parts, <i>regular definitions</i> and <i>auxiliary declarations</i>.
                LEX allows the use of short-hands and extensions to regular expressions for the regular definitions.
                The auxiliary declarations are copied as such by LEX to the output lex.yy.c file. The C code consists of instructions to the C compiler and are not processed by the LEX tool.
-               <br>
-               Example : 
-                </p>
+               </p>
+               <p><b>Example:</b></p>
 <div class="syntax">
 <pre>
 /*Declarations section start here*/
@@ -121,18 +118,15 @@ AUXILIARY FUNCTIONS
 /* Auxiliary functions */
 </pre>
 </div> 
-<p></p>
-<p><br>
+<p>
 A regular definition in LEX is of the form :
 D &nbsp;	R
 <br>
 where D is the symbol representing the regular expression R.
 The auxiliary declarations (which are optional) are written in C language and are enclosed within ' %{ ' and ' %} ' .
 It is generally used to declare functions, include header files, or define global variables and constants. 
-
 </p>
-         <p><b> <big>2.2 Rules</big></b>
-         </p>
+         <h3>2.2 Rules</h3>
          <p>
          Rules in a LEX program consists of two parts :
          </p>
@@ -140,7 +134,7 @@ It is generally used to declare functions, include header files, or define globa
           <p>1. The pattern to be matched</p>
           <p>2. The corresponding action to be executed</p>
 
-<p> Example :</p>
+<p><b> Example:</b></p>
                 <div class="syntax">
 <pre>	
 /* Declarations*/
@@ -174,13 +168,13 @@ the declarations section and generates code into a function yylex() in the lex.y
              specified and executes code in the action part corresponding to the pattern. </p>
              
              
-      <p> <b><big>2.3 Auxiliary functions</big></b> </p>
+      <h3>2.3 Auxiliary functions</h3>
       <p> LEX generates C code for the rules specified in the Rules section and places this code into a single function called yylex().
        (To be discussed in detail later).
         In addition to this LEX generated code, the programmer may wish to add his own code to the lex.yy.c file.
          The auxiliary functions section allows the programmer to achieve this.</p>
          
-          Example :
+         <p><b> Example:</b></p>
 <div id = "navexl0" class="syntax">
 <pre>/* Declarations */
 %%
@@ -213,27 +207,11 @@ int main()
             yyin is defined by LEX automatically.
             If the programmer assigns an input file to yyin in the auxiliary functions section, then yyin is set to point to that file.
             Otherwise LEX assigns yyin to stdin(console input). </p>
-          Example :
-<div class="syntax">
-<pre>/* Declarations */
-%%
-/* Rules */
-%%
-main(int argc, char* argv[])
-{
-	if(argc &gt; 1)
-	{
-		FILE *fp = fopen(argv[1], “r”
-		if(fp)
-			yyin = fp;
-	}
-	yylex();
-	return 1;
-}
-</pre>
-</div>
+          <p><b>Example:</b></p>
+<!--Gist hosted at https://gist.github.com/nachivpn/904ca0eb320f1c06d143 -->
+<script src="https://gist.github.com/nachivpn/904ca0eb320f1c06d143.js"></script>
 
-Excercise
+<p><b>Excercise:</b></p>
 <p> In the generated lex.yy.c, the following code segment can be found under the definition of yylex().</p>	
 <div class="syntax">
 <pre>if( ! yyin )
@@ -255,30 +233,9 @@ lexical analyzer?
  Each invocation of the function yylex() results in yytext carrying a pointer to the lexeme found in
   the input stream by yylex().
  The value of yytext will be overwritten after the next yylex() invocation.</p>
-   Example
-          
-           <div class="syntax">
-<pre>{%
-	#include &lt;stdlib.h&gt;
-	#include &lt;stdio.h&gt;
-%}
-	
-number [0-9]+
-
-%%
-
-{number} {printf("Found : %d",atoi(yytext));}
-
-%%
-
-int main()
-{
-	yylex();
-	return 1;
-}
-</div>
-</pre>
-          
+   <p><b>Example:</p></b>
+<!--Gist hosted at https://gist.github.com/nachivpn/3cd2e635e7c0b5dba2b7-->          
+<script src="https://gist.github.com/nachivpn/3cd2e635e7c0b5dba2b7.js"></script>          
 
 <p> In the above example, if a lexeme is found for the pattern defined by number then corresponding action is executed .
 Consider the following sample i/o,</p>
@@ -295,19 +252,17 @@ This location of this string in the memory is pointed to by yytext.
 The corresponding action in the above rule uses a built-in function atoi() to convert the string “25” (of type char*) to the integer 25 (of the type int) and then prints the result on the screen.
 Note that the header file “stdlib.h” is called in the auxiliary declarations section in order to invoke atoi() in
 the actions part of the rule.</p>
-<br>
 <p>
 NOTE: The lexeme found by LEX is stored in some memory allocated by LEX which can be accessed through the character pointer yytext. 
 </p>
-Exercise:
+<p><b>Exercise:</b></p>
 
-<p> <i>Suggest a modification in the above example to check whether a number found is even or odd.
-</i></p>
+<p>Suggest a modification in the above example to check whether a number found is even or odd.</p>
 
 <h3 id="navyyleng">3.3 yyleng </h3>
 <p> yyleng is a variable of the type int and it stores the length of the lexeme pointed to by yytext.</p>
 
-Example
+<p><b>Example:</b></p>
 <div class="syntax">
 <pre>/* Declarations */
 %%
@@ -337,28 +292,14 @@ O: Number of digits = 4
      <li> yylex()</li>
      <li> yywrap()</li>
          </ul>
-<p> <b><big>4.1 &nbsp;yylex()</big></b> </p>
+<h3>4.1 &nbsp;yylex()</h3>
 <p> yylex() is a function of return type int. LEX automatically defines yylex() in lex.yy.c but does not call it.
      The programmer must call yylex() in the Auxiliary functions section of the LEX program.
     LEX generates code for the definition of yylex() according to the rules specified in the Rules section. </p>
 	<p>NOTE: That yylex() need not necessarily be invoked in the Auxilar</p>
-     Example :
-     <div class="syntax">
-<pre>/* Declarations */
-%%
-
-{number} {return atoi(yytext);}
-
-%%
-
-int main()
-{
-	int num = yylex();
-	printf(“Found: %d”,num);
-	return 1;
-}
-</pre>
-</div>	
+     <p><b>Example:</b></p>
+<!-- Gist hosted at -https://gist.github.com/nachivpn/e8177641f819e6b1eee9 -->
+<script src="https://gist.github.com/nachivpn/e8177641f819e6b1eee9.js"></script>
 
 <p> Sample Input/Output :</p>
 
@@ -386,17 +327,16 @@ The value stored in this variable is then printed on screen using printf().</p>
  <p>Note that if none of the actions in the Rules section executes a return statement, yylex() continues scanning for more matching patterns in the input file till the end of the file.</p>	
   <p> In the case of console input, yylex() would wait for more input through the console. The user will have to input ctrl+d in the terminal to terminate yylex(). If yylex() is called more than once, it simply starts scanning from the position in the input file where it had returned in the previous call.
     </p>	
-<p>
- <i>  Excercise:
- 
+<p><b>Exercise:</b></p>
+ <p>
 What would be the outputs of the lexical analyzer generated by
 the example LEX programs under section 3.2 and 4.1 for the following input :
- </i> <br> 25 <br> 32 <br> 44 <br>
- <i> Would both the outputs be the same ? If not, explain why.</i>
+ <br> 25 <br> 32 <br> 44 <br>
+ Would both the outputs be the same ? If not, explain why.
 </p>
 
 
-<p> <b><big id="navyywrap">4.2 &nbsp; yywrap()</big></b> </p>	
+<h3 id="navyywrap">4.2 &nbsp; yywrap()</h3>	
 <p>LEX declares the function yywrap() of return-type int in lex.yy.c .
 LEX does not provide any definition for yywrap(). yylex() makes a call to yywrap()
 when it encounters the end of input. If yywrap() returns zero (indicating <i>false</i>) yylex() assumes
@@ -412,54 +352,24 @@ the programmer must define it in the Auxiliary functions section
 or provide %option noyywrap in the declarations section.
 This options removes the call to yywrap() in the lex.yy.c file. Note that, it is <b>mandatory </b>to either define yywrap()
 or indicate the absence using the %option feature. If not, LEX will flag an error</p>	
-Example
+<p><b>Example:</b></p>
 
-
-<div class="syntax">
-<pre>	/* Declarations */
-%%
-/* Rules */
-%%
-
-int yywrap()
-{
-FILE *newfile_pointer;
-newfile_pointer = fopen(“input_file_2.l”,”r”);
-if(yyin != newfile_pointer)
-{
-yyin = newfile_pointer;
-return 0;
-}
-else
-return 1;
-}
-
-int main()
-{
-yyin=fopen(“input_file.l”,”r”);
-yylex();
-return 1;
-}
-</pre>
-</div>
+<!-- Gist hosted at https://gist.github.com/nachivpn/3fff536f2e78c00a2bee-->
+<script src="https://gist.github.com/nachivpn/3fff536f2e78c00a2bee.js"></script>
 
 <p> When yylex() finishes scanning the first input file, input_file.l yylex() invokes yywrap().
 The above definition of yywrap() sets the input file pointer to input_file_2.l and returns 0 .
 As a result, the scanner continues scanning in input_file_2.l .
  When yylex() calls yywrap() on encountering EOF of input_file_2.l, yywrap() returns 0 and thus yylex() ceases scanning.</p>	
 
-<i> Excercise :
-Suggest a modification in the above example LEX program to make the generated lexical analyzer read input
+<p> <b>Exercise:</b> </p>
+<p>Suggest a modification in the above example LEX program to make the generated lexical analyzer read input
 <ul>
-<li> Initially from the console and then from a file input_file.l</li>
-<li> Initially from a file input_file.l and then from the console</li>
-<li> Twice from the console</li>
-
+<li> -> Initially from the console and then from a file input_file.l</li>
+<li> -> Initially from a file input_file.l and then from the console</li>
+<li> -> Twice from the console</li>
 </ul>
-
-
-
-</i>
+</p>
 
         </article>
         
@@ -468,58 +378,8 @@ Suggest a modification in the above example LEX program to make the generated le
 </div>
         <article id="navcompleteexample" class="detail">
         <h2>Even-Odd.l , a complete LEX program</h2>	
-        <div class="syntax">
-<pre>%{
-/*
-1.Request input of an even and an odd number
-2.indicate input characteristic : Even/Odd [digit_length]
-3.check for input's correctness and print result
-*/
-
-#include &lt;stdlib.h&gt;
-#include &lt;stdio.h&gt;
-
-int number_1;
-int number_2;
-%}
-
-
-number_sequence [0-9]*
-
-%%
-
-{number_sequence}[0|2|4|6|8] {
-printf("Even number [%d]",yyleng);
-return atoi(yytext);
-}
-
-{number_sequence}[1|3|5|7|9] {
-printf("Odd number [%d]",yyleng);
-return atoi(yytext);
-}
-%%
-
-int yywrap
-{
-  return 1;
-}
- 
-int main()
-{
-printf("\nInput an even number and an odd number\n");
-  number_1 = yylex();
-number_2 = yylex();
-int diff = number_1 - number_2;
-if(diff%2!=0)
-printf("\nYour inputs were checked for correctness, \nResult : Correct\n");
-else
-printf("\nYour inputs were checked for correctness, \nResult :
-You do not know how to read\n");
-return 1;
-}
-</pre>
-</div>
-              
+				<!--Github Gist hosted at https://gist.github.com/nachivpn/d2c37fa173d12942da5d -->
+					<script src="https://gist.github.com/nachivpn/d2c37fa173d12942da5d.js"></script>              
         
         </article>
         
@@ -532,19 +392,21 @@ return 1;
         <p> yylex() uses two important disambiguation rules in selecting the right action to execute
          in case there is more than one pattern that matches a string in the given input: </p>
          <ol>
-     <li> Order of occurrence is assigned as the pattern's matching priority.</li>
-     <li>“Longest match” is preferred.
+     <li>1. Order of occurrence is assigned as the pattern's matching priority.</li>
+     <li>2. "Longest match" is preferred.
      </li>
          </ol>
-  Example :
+	</p>
+  <p><b>Example:</b></p>
  
 <div class="syntax">
-<pre> “break” { return BREAK; }
-   [a-zA-Z][a-zA-Z0-9]* { return IDENTIFIER; }
+<pre>
+“break”			{ return BREAK; }
+[a-zA-Z][a-zA-Z0-9]*  	{ return IDENTIFIER; }
 </pre>
 </div>
 <p>If "break" is found in the input, it is matched with the first pattern and yylex() returns BREAK. If "breakdown" is found, it is matched with the second pattern and yylex() returns IDENTIFIER. Note the use of disambiguation rules here. </p>
-      Example :
+      <p><b>Example:</b></p>
    <div class="syntax">
 <pre>/* Declarations section */
 %%
@@ -593,42 +455,8 @@ The lex.yy.c program stores information about the finite state machine in the fo
 
 <article id="navsimulator" class="detail">
         <h2>A token simulator program</h2>
-<div class="syntax">
-<pre>%{
-/* Scan and return a token for identifiers of the format :
-             (string)(number)
-Note : strings are not case sensitive
-examples : a0 , A1 , ab2 , AB4 , aBc5
-*/
-#include<stdio.h>
-
-#define ID 1 //Identifier token
-#define ER 2 //Error token
-
-%}
-low_case [a-z]
-upp_case [A-Z]
-number [0-9]
-
-%option noyywrap
-
-%%
-({low_case}|{upp_case})({low_case}|{upp_case})*({number})
-return ID;
-(.)* return ER;
-
-%%
-int main()
-{
-int token = yylex();
-if(token==ID)
-printf("Acceptable\n");
-else if(token==ER)
-printf("Unacceptable\n");
-return 1;
-}
-</stdio.h></pre>
-</div>
+<!--Gist hosted at https://gist.github.com/nachivpn/9ce131d1307394c7f8c7 -->
+<script src="https://gist.github.com/nachivpn/9ce131d1307394c7f8c7.js"></script>
 
 <p>In this program, the main() function obtains the tokens returned by yylex() and checks if the input contains a valid identifier.
 </p>
@@ -664,10 +492,10 @@ As a result yylex() returns the token ID, and the main() function prints Accepta
        <b><big> 9.1 The intermediate syntax tree</big></b>	
        <p> Consider the first rule in the token simulator program in section 8.
         It consists of the following regular expression :</p>
-          <p> <center>({low_case}|{upp_case})({low_case}|{upp_case})*({number})</center></p>
+          <p> <center>({low}|{upp})({low}|{upp})*({number})</center></p>
            <p>For convenience in representation , let it be represented by :</p>
            <p><center> ( a | A ) ( a | A )* (N)</center></p>
-           <p>where, 'a' represents {low_case}, 'A' represents {upp_case} and 'N' represents {number}.
+           <p>where, 'a' represents {low}, 'A' represents {upp} and 'N' represents {number}.
              The syntax tree constructed for the above regular expression would look like : </p>
              <center><img src="img/lex_5.png" style="max-width:70%"></center>
              <p> In the above figure  º represents the 'cat' (concatenation) operator,
@@ -718,16 +546,15 @@ The constructed DFA is simulated using a simulation algorithm. </p>
 <p> The working of the constructed DFA is simulated using the following algorithm.</p>
 <div class="syntax">
 <pre>DFA_simulator()
-current_state = start_state
-c = get_next_char()
-while(c != EOF)
-current_sate = transition(current_state , c)
-  c = get_next_char()
-if(current_state ∈ Final_states)
-/*ACCEPT*/
-else
-/*REJECT*/
-
+	current_state = start_state
+	c = get_next_char()
+	while(c != EOF)
+		current_sate = transition(current_state , c)
+  	c = get_next_char()
+		if(current_state ∈ Final_states)
+			/*ACCEPT*/
+		else
+			/*REJECT*/
 </pre>
 </div>
 <p> The information about all the transitions made by the DFA
