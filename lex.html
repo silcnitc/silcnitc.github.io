@@ -91,7 +91,7 @@ RULES
 AUXILIARY FUNCTIONS
 </pre>
 </div>
-<h3>2.1 Declarations</h3>
+<h3>2.1 Declarations</h3><a id="regdef">
 <p>              The declarations section consists of two parts, <i>regular definitions</i> and <i>auxiliary declarations</i>.
                LEX allows the use of short-hands and extensions to regular expressions for the regular definitions.
                The auxiliary declarations are copied as such by LEX to the output lex.yy.c file. The C code consists of instructions to the C compiler and are not processed by the LEX tool.
@@ -125,7 +125,7 @@ D &nbsp;	R
 where D is the symbol representing the regular expression R.
 The auxiliary declarations (which are optional) are written in C language and are enclosed within ' %{ ' and ' %} ' .
 It is generally used to declare functions, include header files, or define global variables and constants. 
-</p>
+</p></a>
          <h3>2.2 Rules</h3>
          <p>
          Rules in a LEX program consists of two parts :
@@ -234,8 +234,8 @@ lexical analyzer?
   the input stream by yylex().
  The value of yytext will be overwritten after the next yylex() invocation.</p>
    <p><b>Example:</p></b>
-<!--Gist hosted at https://gist.github.com/nachivpn/3cd2e635e7c0b5dba2b7-->          
-<script src="https://gist.github.com/nachivpn/3cd2e635e7c0b5dba2b7.js"></script>          
+<!--Gist hosted at "https://gist.github.com/AshwathyTR/72d3534b5e682d92dc2b.js"-->          
+<script src="https://gist.github.com/AshwathyTR/72d3534b5e682d92dc2b.js"></script>        
 
 <p> In the above example, if a lexeme is found for the pattern defined by number then corresponding action is executed .
 Consider the following sample i/o,</p>
@@ -254,6 +254,9 @@ Note that the header file “stdlib.h” is called in the auxiliary declarations
 the actions part of the rule.</p>
 <p>
 NOTE: The lexeme found by LEX is stored in some memory allocated by LEX which can be accessed through the character pointer yytext. 
+</p>
+<p>
+NOTE: The <i>%option noyywrap</i> is used to inform the compiler that the function yywrap() has not been defined. We will see what this function does later on.
 </p>
 <p><b>Exercise:</b></p>
 
@@ -378,8 +381,8 @@ As a result, the scanner continues scanning in input_file_2.l .
 </div>
         <article id="navcompleteexample" class="detail">
         <h2>Even-Odd.l , a complete LEX program</h2>	
-				<!--Github Gist hosted at https://gist.github.com/nachivpn/d2c37fa173d12942da5d -->
-					<script src="https://gist.github.com/nachivpn/d2c37fa173d12942da5d.js"></script>              
+				<!--Github Gist hosted at https://gist.github.com/AshwathyTR/ab432fa710dfe5d1f22b.js -->
+					<script src="https://gist.github.com/AshwathyTR/ab432fa710dfe5d1f22b.js"></script>              
         
         </article>
         
@@ -578,7 +581,28 @@ table (generally a two dimensional matrix) through the transition() function.
 
 <article id="navexercise" class="detail">
         <h2>Exercises</h2>
-<p> <!---ADD CONTENT HERE----->         </p>
+<p>1.Write a lex file 
+<ul>
+	<li>1.1 to count the number of lines in the input.</li>
+	<li>1.2 to count the number of lines, words, and characters in the input.</li>
+	<li>1.3 to count the number of numbers appearing in the input. Count the number of integers (without a decimal) separately from the number of floating point numbers (with a decimal, and at least one digit on either side of the decimal).<li>
+What you learn: basic lex syntax, regular expressions in lex, defining symbols for regular expressions, compiling and running
+</ul>
+2. Construct using Lex a program for:
+<ul>
+	<li>2.1 translating all letter appearances in a text file into uppercase.</li>
+	<li>2.2 replacing all integer numbers in a text file by its hexadecimal notation.</li>
+	<li>2.3 eliminating all C-like comments from a text file.</li>
+	<li>2.4 translating all Pascal-like keywords from a text file into German/Italian.</li>
+	<li>2.5 reversing each line in a text file.</li>
+	<li>2.6 printing all HTTP tags defined in a text file, in alphabetical order.</li>
+	<li>2.7 replacing in a text file all occurences of ”$USERNAME” with the user’s login name, of ”$TODAY” with the current date, 
+	    and of ”$HOME” with the current home directory.</li>
+	<li>2.8 recognising files (from the output of a ls command) according to their endings, and printing the name of the file and the 
+	    corresponding type. Possible types are pictures files (”.jpeg”, ”.tiff”,”.png”), archive files (”.rar”, ”.zip”, ”.gz”, ”.tar”,
+	    ”.tgz”), text files (”.txt”).</li>
+</ul>
+        </p>
 </article>
 
 <div class="up grid col-one-third" style="float:right">
