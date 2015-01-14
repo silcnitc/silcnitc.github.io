@@ -1116,10 +1116,13 @@ i.e., there are more than one possible reductions. The parser faces a conflict o
 %{ 
 
 #include &ltstdio.h&gt 
+#include &ltstdlib.h&gt
 
 %} 
 
 %token DIGIT 
+%left '+'
+%left '*'
 
 %% 
 </pre>
