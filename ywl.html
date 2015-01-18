@@ -63,7 +63,7 @@
 <h2>Declaring tokens</h2>
 The token DIGIT must be declared in the <i>declaration section</i> to be used in the <i>rules section</i>. The declaration for a token must be made by specifying it in the <a href="yacc.html#decl">YACC declarations section</a> using the <b>%token</b> feature offered by YACC. The following example shows the declaration of the token DIGIT in a YACC program. </p>
      <big>in2post.y</big>	   
-    <div id="navy"class="syntax">
+    <div id="navy" class="syntax">
     <pre id="navyd">
     %{ 
 
@@ -318,7 +318,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 </p><p>  In the YACC documentation, we had seen an <a href="yacc.html#navexy1">example</a> which illustrates the passing of attributes from yylex() to yyparse(). We use the variable yylval to hold the attribute to br passed.  If the programmer were to use LEX to generate yylex(), then the attributes will have to be passed to yyparse() using the same mechanism  i.e, using yylval (see example below). </p>
 <p>In the LEX program, yylex() returns each token by its name. The attribute associated with each token is assigned to yylval and thus becomes accessible to yyparse(). Note that, all tokens except literal tokens must be declared in the declarations section of the YACC program. The following example is a LEX program which returns a token DIGIT when it finds a number.    
 	</p>
-	<div id="navpairexp">class="syntax">
+	<div id="navpairexp" class="syntax">
       <pre>
 %{
 
@@ -399,7 +399,7 @@ X: A B C
 <p>The attribute value of 'A' is accessed by the symbol $1, value of ‘B' by $2 and 'C' can by $3. The symbol $$ refers to the attribute value of ‘X’ which is the head of the production.  Note that the head of a production must be a non-terminal.  Hence, it becomes possible to assign an attribute value to the head of a production by assigning a value to $$.   In the above example, an attribute value can be assigned to X through an assignment to $$. Hence we extend our notion of an attribute to: <i>"An attribute is a value associated with a terminal or non-terminal grammar symbol".</i></p>
  <p>We will make this clear with an example.</p>
 <p>Consider the problem of displaying two numbers in an input stream (ending with a ‘\n’) if they occur as a pair separated by a comma. Also suppose that the numbers must be displayed ONLY after a pair is found. Let us look at a YACC program that solves the problem.</p>
-<p>Example: pair.y></p>
+<p>Example: pair.y</p>
 <div class="syntax">
 <pre>
 
