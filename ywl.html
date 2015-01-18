@@ -35,24 +35,25 @@
   <section class="columnthird content"> <h1 class="mright">USING LEX WITH YACC</h1>
    <article id="navily" class="detail">
    <h2>Integrating LEX with YACC</h2>
-     <p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c. We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream. Till now, for simplicity we had written a <a href="yacc.html#navexy0al">user-defined yylex()</a> in the YACC program. In this section of the document we will use LEX to generate the definition of yylex() and make YACC use this definition for retrieving tokens. </p>
-     <p id="navinc">For yyparse() to use yylex(), the definition of yylex() must be available in y.tab.c file. We will add this definiton of yylex() to the Auxiliary functions section of the YACC program. As the definition of yylex() has been generated in the lex.yy.c file, the lex.yy.c file must be <i>included</i> in the auxiliary functions section of the YACC program. (This results in all of the contents of lex.yy.c including the yylex() definition being copied to y.tab.c) </p>
+     <p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c. We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream. Till now, for simplicity, we had written a <a href="yacc.html#navexy0al">user-defined yylex()</a> in the YACC program. In this section of the document we will use LEX to generate the definition of yylex() and make YACC use this definition for retrieving tokens. </p>
      <div class="syntax">
       <pre>
 		/* Declarations section */
+		int yylex();
 	%%
 		/* Rules */
 	%%
-	#include "lex.yy.c"
+
 
 		/* Auxiliary Functions */    
          </pre>
 	</div>
-     <p> NOTE: In this case, we <b>must not</b> provide a <a href="lex.html#navexl0">main() definition in the LEX program</a> calling yylex(), as there already exists a <a href="yacc.html#navexy0al">main() function in the YACC program</a> which calls yyparse() which in turn calls yylex().</p>
+<p id="compile"> We should now compile it as <i> gcc y.tab.c lex.yy.c -o &lt;objectfilename&rt;</i></p>
+     <p> NOTE: We <b>must not</b> provide a <a href="lex.html#navexl0">main() definition in the LEX program</a> calling yylex(), as there already exists a <a href="yacc.html#navexy0al">main() function in the YACC program</a> which calls yyparse() which in turn calls yylex().</p>
     <!--<h3>YACC to LEX Communication</h3>-->
-     <p>Recall that yyparse() attempts to parse the given input by calling yylex() to obtain tokens. In the <a href="yacc.html#navexy1">infix to postfix conversion example</a> in the YACC documentation, we had used a user defined definition of yylex() in the YACC program. In this example, the YACC program consists of the declaration of token DIGIT in the <a href="yacc.html#navexy1d">declarations section</a> and definition of the token DIGIT in the <a href="yacc.html#navexy1a">auxiliary functions section</a> under yylex(). Now we are trying to use the LEX generated yylex() instead of a user defined yylex().
+     <p>Recall that yyparse() attempts to parse the given input by calling yylex() to obtain tokens. In the <a href="yacc.html#navexy1">infix to postfix conversion example</a> in the YACC documentation, we had used a <a href="yacc.html#yylex">user defined yylex()</a> in the YACC program. In that example, the YACC program contains the declaration for the token DIGIT in the <a href="yacc.html#navexy1d">declarations section</a> . The definition of the token DIGIT is given in the <a href="yacc.html#navexy1a">auxiliary functions section</a> under the function yylex(). Instead, we will now use LEX to generate yylex().
 </p>
-     <p id="navexctok">To do this, first we must write a YACC program to generate yyparse(). </p>
+     <p id="navexctok">First, we will write a YACC program to declare the tokens and generate yyparse().</p>
 </artcile>
 <br>
 <div class="up grid col-one-third" style="float:right">
@@ -60,7 +61,7 @@
 </div>
 <article class="detail">
 <h2>Declaring tokens</h2>
-The token DIGIT must be declared in the declaration section to be used in the Rules section. A token can be declared specifying it in the <a href="yacc.html#decl">YACC declarations section</a> using the <b>%token</b> feature offered by YACC. The following example shows the declaration of the token DIGIT in a YACC program. </p>
+The token DIGIT must be declared in the <i>declaration section</i> to be used in the <i>rules section</i>. The declaration for a token must be made by specifying it in the <a href="yacc.html#decl">YACC declarations section</a> using the <b>%token</b> feature offered by YACC. The following example shows the declaration of the token DIGIT in a YACC program. </p>
      <big>in2post.y</big>	   
     <div id="navy"class="syntax">
     <pre id="navyd">
@@ -78,7 +79,7 @@ The token DIGIT must be declared in the declaration section to be used in the Ru
 	    ; 
 
     expr:  expr '+' expr        {printf("+ ");} 
-	    | expr '-' expr     {printf("* ");} 
+	    | expr '-' expr     {printf("- ");} 
 	    | '(' expr ')'	 
 	    | DIGIT             {printf("%d ",$1);} 
 	    ; 
@@ -96,25 +97,27 @@ The token DIGIT must be declared in the declaration section to be used in the Ru
     } 
     </pre>   
    </div>
-	<p id="navlittok">In the above example we can see that the YACC program contains the declaration of the token DIGIT. Note that the grammar consists of other terminals like '+', '-', '(' and ')' which are also tokens. These tokens are called <b>literal tokens</b>. Literal tokens are tokens with fixed lexemes i.e., the <a href="lex.html#navyytext">lexeme</a> corresponding to a literal token is a constant. A literal token does not require any expicit declaration in a YACC program. We will see more about defining literal tokens later.</p>
+	<p id="navlittok">The YACC program given above contains the declaration of the token DIGIT in the <i>declarations section</i>. Note that the grammar contains other terminals like '+', '-', '(' and ')' that also are tokens, but are not declared in the <i>declaration section</i>. These tokens are called <b>literal tokens</b>. Literal tokens are tokens with fixed lexemes. This means that the <a href="lex.html#navyytext">lexeme</a> corresponding to a literal token is a single character or a character string.Such token do not require an expicit declaration in the YACC program. </p>
 <p><b>NOTE</b>: Conceptually, the lexeme of a literal token can be a character or a string. But, not all versions of YACC support string literal tokens. Hence, in our project we will use only single character literal tokens.
 </p>
 <p> Example of literal tokens:</p>
 <div class="syntax">
 '+' '*' '-'
 </div>
-<p>A lexical analyzer returns a token when it finds a corresponding lexeme. In case of a literal token, the lexical analyzer returns the lexeme itself. For a literal token, yylex() must return the lexeme and YACC refers to the token using it's lexeme. For example in the <a href="#navyr">above</a> YACC program, the literal token + has been referred to using it's corresponding lexeme '+' itself.</p>
+<p>A lexical analyzer returns a token when it finds a corresponding lexeme. In case of a literal token, the lexical analyzer returns the lexeme itself as the token ( A type coercion to integer is done so that the value returned by yylex() is of integer type.). For example in the <a href="#navyr">above</a> YACC program, on encoutering the pattern '+' in the input file, yylex() returns '+' itself as the token.</p>
+<p>In the parser, an expression like :</p>
 <div class="syntax">
 expr: expr '+' expr
 </div> 
-<p>This is because, the LEX program has ben written in such a way that yylex() returns the lexeme itself when it finds a literal token. We are yet to write a LEX program (defining DIGIT and the literal tokens) to generate yylex().</p>
+<p>is valid because YACC automatically identifies '+' as the literal token.</p>
+<p>We must now write a LEX program that contains the <a href="lex.html#regdef">regular definition</a> for DIGIT and the literal tokens.</p>
 </article>
 <div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
 <article class="detail">
 <h2>y.tab.h</h2>
-<p> Before writing the LEX program, there must be some way by which the YACC program can tell the LEX program that the token DIGIT has been declared in the YACC program. This communication is facilitated by the file  "y.tab.h" which contains the declarations of all the tokens in the YACC program. The "y.tab.h" is automatically generated by YACC when the 'yacc' command is executed with the -d flag.</p>
+<p> Before writing the LEX program, there must be some way by which the YACC program can tell the LEX program that DIGIT is a valid token that has been declared in the YACC program. This communication is facilitated by the file  "y.tab.h" which contains the declarations of all the tokens in the YACC program. The "y.tab.h" is automatically generated by YACC when the 'yacc' command is executed with the -d flag.</p>
 
 <p id="navdflag">In order to generate <a href="#navily">y.tab.c</a> and y.tab.h for the YACC program in in2post.y, do:</p>
     <div class="syntax">
@@ -125,7 +128,7 @@ expr: expr '+' expr
         #define DIGIT  253  
      </div>   
      <p>Note that '253' is a YACC generated constant to represent DIGIT. The constant may vary at different executions of YACC. YACC represents a token by defining a <a href="http://gcc.gnu.org/onlinedocs/cpp/Macros.html">macro identifier</a> corresponding to it. </p>
-<p>The y.tab.h file must be <i>included</i> in the declarations section of the LEX program. As a result of which, LEX has access to the token declarations. We will see an example in the next section.</p>   
+<p>The y.tab.h file must be <i>included</i> in the declarations section of the LEX program. This makes the token declarartions accessible to the LEX program. We will see an example in the next section.</p>   
 
 </article>
 <div class="up grid col-one-third" style="float:right">
@@ -152,23 +155,23 @@ expr: expr '+' expr
 
 	%% 
 
-	<a href="lex.html#navyywrap">yywrap</a>()
+	<a id="navyywrapexp" href="lex.html#navyywrap">yywrap</a>()
 	{
 		return 1;
 	}
       </pre>
      </div>
     <p>No explicit declaration of the token DIGIT is requied in the LEX program as y.tab.h (which contains the declaration of DIGIT) has been included in the declarations section.</p>
-		<p id="navlittokdef"><b>NOTE</b>: As noted earlier we return the lexeme found in case of a <a href="#navlittok">literal tokens</a>: '+','*','(',')'. Note that yylex() is function of return type int but the above LEX program makes yylex() return *yytext where yytext is a character pointer. *yytext fetches the value of the type character dereferenced by the character pointer yytext. We are able to return a character because - when the action containing the return statement is executed by a C compiler, the character value is type-casted to integer value automatically.</p> 
+		<p id="navlittokdef"><b>NOTE</b>: As noted earlier we return the lexeme found in case of <a href="#navlittok">literal tokens</a>: '+','*','(',')'. Note that yylex() is a function of return type int but the above LEX program makes yylex() return *yytext where yytext is a character pointer. *yytext de-references to the character value pointed by yytext. Returning a character value does not cause an error because the C compiler type-casts the value to integer automatically.</p> 
 		</p>
-    <p> Inorder to generate lex.yy.c for the lex program in the file in2post.l, do:</p>
+    <p>To generate lex.yy.c, do:</p>
     <div class="syntax">
 		user@localhost:~$ lex in2post.l <br> 
     </div>
-    <p> Once y.tab.c and lex.yy.c files have been generated by YACC and LEX respectively, they can be compiled by including lex.yy.c in y.tab.c file (<a href="#navinc">as shown above</a>). The compilation steps and sample input/output of the above example are shown below:	</p>
+    <p> Once y.tab.c and lex.yy.c files have been generated by YACC and LEX respectively, they can be linked and compiled using the following commands as mentioned <a href="#compile">earlier</a>. The compilation steps and sample input/output of the above example are shown below:	</p>
     <div class="syntax">
-        user@localhost:~$ gcc y.tab.c <br>
-		user@localhost:~$ ./a.out <br>
+        user@localhost:~$ gcc lex.yy.c y.tab.c -o in2post.exe <br>
+		user@localhost:~$ ./in2post.exe <br>
 		11+22*33 <br>
 		11 22 33 * + <br>
 		user@localhost:~$
@@ -183,17 +186,22 @@ gcc lex.yy.c y.tab.c
 	</div>
    </article>	 			
 <article class="detail">
-<h2>Working of LEX with YACC</h2>
-<p>In order to understand the complete working, let us consider the above <a href="#navy">YACC program</a> and <a href="#navl">LEX program</a>. </p>
-<p>When the input 
+
+
+
+<h2>Passing tokens from the Lexer to the Parser</h2>
+<p>Let us consider the <a href="#navy">YACC</a> and <a href="#navl">LEX</a> programs above.</p>
+<p>When the input</p>
+
 <div class="syntax">
 		11+22*33 
 </div>
-is given to the executable file (a.out) generated by compiling y.tab.c, <br><br>1. The <a href="#navya">main() function</a> begins execution. It calls yyparse which inturn calls yylex(). <br>2. Since lex.yy.c has been included in y.tab.c, the definition of yylex() is available and hence is invoked. <br>3. yylex() reads the input and finds that "11" found in the input matches with the pattern for token DIGIT and returns DIGIT.<br>4. yyparse() which obtains the token DIGIT, shifts it to the parse stack. <br>5. Followed by which a reduction takes place as the DIGIT is the handle of the production expr: DIGIT. <br>6. As a result, the C action corresponding to the production is executed i.e., printf("%d ",$1); is executed, which prints 11. </p>
+is given to the executable file (in2post.exe) <br><br>1. The <a href="#navya">main() function</a> in y.tab.c begins execution. It calls yyparse() which inturn calls yylex() for tokens. <br>2. yylex() reads the input and finds that "11" found in the input matches with the pattern for token DIGIT and returns DIGIT.<br>3. yyparse() which obtains the token DIGIT, shifts it to the parser stack. <br>4. A reduction (corresponding to the rule <i>expr: DIGIT</i>) takes place. This results in the terminal getting replaced with the non-terminal(<i>expr</i>) in the parser stack<br>5. The C statement (semantic action) corresponding to the production is executed (i.e., <i>printf("%d ",$1);</i> is executed.). This prints 11. </p>
+<p>We will see what '$1' means and why printing '$1' results in printing the value 11 in detail in the next section.</p>
 <p>The execution continues in a similar fashion to complete parsing the entire input.
 </p>
 <p>
-The parsing steps have been summarized in the below table:
+A complete illustration of all the shift and reduce steps is given <a href="#navattrstack">later</a>.  The parsing steps have been summarised in the below table for now.
 </p>
 <table class="tg">
   <tr>
@@ -294,19 +302,543 @@ The parsing steps have been summarized in the below table:
   </tr>
 </table>
 <br>
-<p>Note that yylex() returns 0 when the input finishes i.e., "end of input" has been encountered. yyparse() does not call yylex() once it has returned 0.</p>
-<p>In this stage, we noted how to integrate the lexical analyzer generated by LEX with the parser generated by YACC. In the next stage, we will learn more about managing attributes using LEX and YACC..</p> 
+<p>Note that yylex() makes a call to yywrap(), when 'End of file' is encountered. We have defined yywrap() to return 1 (We have provided the definition for <a href="#navyywrapexp">yywrap()</a> in our LEX file). <a href="lex.html#navyywrap">Recall</a> that when yylex() receives non-zero value from yywrap(), it returns zero to yyparse(). Also <a href="yacc.html#navyyparse">recall</a> that yyparse() does not call yylex() once it has returned 0. It return zero to main() function to indicate successful parsing.</p>
+<p>We have noted how to integrate the lexical analyzer generated by LEX with the parser generated by YACC. Now, we will learn more about managing attributes using LEX and YACC..</p> 
 </article>
 <div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 </div>
-<article class="detail">
-<h2>EXERCISES</h2>
+</article>
+
+   <article id="navintro" class="detail">
+   <h2>Introduction to attributes</h2>
+	<p>In the <a href="yacc.html#navpassingvalues">last section</a> of the YACC documentation we have noted that it is possible to pass values associated with tokens from yylex() to yyparse(). We had described the term 'attribute' as a value associated with a token. YACC uses yylval to facilitate passing values from the lexical analyzer to the parser. We will now explore how YACC associates attribute values to terminals and  non-terminals in a production. We will also explore the usage of YYSTYPE to define custom (user defined )attribute types. 
+</p>
+<p><a href="yacc.html#navyylval">Recall</a> that yylval is a global variable declared in y.tab.c of type YYSTYPE (YYSTYPE is integer unless defined otherwise. We will let YYSTYPE take its default type of integer since it is simpler to understand how attributes are processed in this case. Later we will see how more complex attribute types can be defined and handled).
+</p><p>  In the YACC documentation, we had seen an <a href="yacc.html#navexy1">example</a> which illustrates the passing of attributes from yylex() to yyparse(). We use the variable yylval to hold the attribute to br passed.  If the programmer were to use LEX to generate yylex(), then the attributes will have to be passed to yyparse() using the same mechanism  i.e, using yylval (see example below). </p>
+<p>In the LEX program, yylex() returns each token by its name. The attribute associated with each token is assigned to yylval and thus becomes accessible to yyparse(). Note that, all tokens except literal tokens must be declared in the declarations section of the YACC program. The following example is a LEX program which returns a token DIGIT when it finds a number.    
+	</p>
+	<div id="navpairexp">class="syntax">
+      <pre>
+%{
+
+	#include "y.tab.h"
+	#include<e><</e>stdlib.h<e>></e>
+	#include<e><</e>stdio.h<e>></e>
+		
+%}
+
+	number  [0-9]+
+
+%%
+
+	{number}	{
+				yylval = atoi(<a href="lex.html#navyytext">yytext</a>);
+				return DIGIT;
+			}
+	
+	.		return *yytext;					
+
+%%
+      </pre>
+	</div>
+	<p>In this example, we want to return the token DIGIT when an integer is found in the input stream. In addition to the token, we need to pass the value found in the input stream to yyparse(). The lexeme found in the input stream is a string which contains the integer found. <a href="http://en.cppreference.com/w/cpp/string/byte/atoi">atoi()</a> is a built-in function of return type <i>int</i> defined in the <i>stdlib.h</i> header file. We use atoi() to obtain the integer equivalent of the lexeme found. The obtained integer value is then assigned to yylval.
+</p>
+<p> The following code segment demonstrates how yyparse() receives the attribute value corresponding to the token DIGIT passed by yylex(). Note that YACC must be run with the <a href="ywl.html#navdflag">-d flag</a> to generate y.tab.h. The LEX program above includes the y.tab.h file in the auxiliary declarations section to <i>import</i> the declarations from y.tab.h.
+</p>
+	<div class="syntax">
+      <pre>
+	
+
+	%{ 
+
+	#include <<e>stdio.h</e>> 
+
+	%} 
+
+	%token DIGIT 
+	
+	%% 
+
+	start : expr '\n'		{printf("\nComplete");exit(1);} 
+		; 
+
+	expr:  expr '+' expr		{printf("+ ");} 
+		| expr '*' expr		{printf("* ");} 
+		| '(' expr ')'	 
+		| DIGIT			{printf("%d ",$1);} 
+		; 
+
+	%% 
+
+	yyerror() 
+	{ 
+		printf("Error"); 
+	} 
+
+	main() 
+	{ 
+		yyparse(); 
+		return 1; 
+	} 
+
+
+      </pre>
+	</div>
+<p>Note the semantic action for the production <i>expr:DIGIT</i>
+<div class="syntax">
+DIGIT			{printf("%d ",$1);}
+</div>
+
+<p>The value corresponding to the token DIGIT, that was assigned to yylval by lex is accessed in YACC using the symbol $1.  Recall that values corresponding to the symbols in the handle of a grammar may be accessed using $1, $2, etc according to its position in the production rule.
+</p><p>Generally, we say that in the YACC program, the attribute of a grammar symbol in a production can be accessed using the following syntax:  $1 for the first symbol in the body of a production, $2 for the second symbol, $3 for the third and so on. For example consider the following example of a YACC rule.
+</p>
+<div class="syntax">
+X: A B C
+</div>
+<p>The attribute value of 'A' is accessed by the symbol $1, value of ‘B' by $2 and 'C' can by $3. The symbol $$ refers to the attribute value of ‘X’ which is the head of the production.  Note that the head of a production must be a non-terminal.  Hence, it becomes possible to assign an attribute value to the head of a production by assigning a value to $$.   In the above example, an attribute value can be assigned to X through an assignment to $$. Hence we extend our notion of an attribute to: <i>"An attribute is a value associated with a terminal or non-terminal grammar symbol".</i></p>
+ <p>We will make this clear with an example.</p>
+<p>Consider the problem of displaying two numbers in an input stream (ending with a ‘\n’) if they occur as a pair separated by a comma. Also suppose that the numbers must be displayed ONLY after a pair is found. Let us look at a YACC program that solves the problem.</p>
+<p>Example: pair.y>
+<div class="syntax">
+<pre>
+
+	%{ 
+
+	#include &ltstdio.h&gt 
+
+	%} 
+
+	%token DIGIT 
+	
+	%% 
+
+	start : pair '\n'		{printf("\nComplete"); } 
+		; 
+
+	pair: num ',' num	{ printf("pair(%d,%d),$1,$3"); }
+	;
+	num: DIGIT			{ $$=$1; }
+	;
+
+	%% 
+
+	yyerror() 
+	{ 
+		printf("Error"); 
+	} 
+
+	main() 
+	{ 
+		yyparse(); 
+		return 1; 
+	} 
+
+</pre>
+</div>
+
+<p>We will use the same <a href="navpairexp">lex program,/a>  to receive tokens and token values (attributes).</p>
+<p>Note: We have assumed that the attribute values of each symbol is an integer.  Later we will see how to allow more complex attributes.</p>
+<p>In the above program segment, the first rule displays the value of the numbers for each pair in the input stream.  In the action part of the rule, $1 refers to the attribute value of the first num and  $3 refers to the attribute value of the and the second num. (Note that $2 refers to the attribute value of the literal token ',' which is the token itself). Since num is a non-terminal, its attribute cannot be set by yylex(). Recall that every non-terminal symbol in the CFG must have at least one production with the non-terminal as the head. The attribute value of a non-terminal must be set by writing semantic rules to set the value of $$ in such productions.  Such an attribute value which is “synthesized” by the semantics actions in a production is called a synthesized attribute.  In the example, the attribute value of the non-terminal num is synthesized by the following rule:</p>
+
+<div class="syntax">
+num: DIGIT { $$=$1; }
+</div>
+
+<p>The action of the rule sets the attribute value of num (referred to using $$) to the attribute value of DIGIT (referred to using $1).
+</p><p>Sample I/O:</p>
+
+<div class="syntax">
+I: 2,5
+O: pair(2,5)
+
+I: 3,5,7
+O: syntax error
+</div>
 
 </article>
-<div class="up grid col-one-third" style="float:right">
-			<a href="#navtop" title="Go back up"> top ↑</a>
-	</div>
+
+<article id="navattrsyn" class="detail">
+<h3>Attribute Synthesis</h3>
+<p>We have seen that attributes of terminals can be passed from yylex() to yyparse(), whereas attributes of a non-terminal can be synthesized. An attribute of a non-terminal grammar symbol is said to synthesized if it has been calculated from the attribute values of it's children in the parse tree. Thus the (synthesized) attribute associated with a non-terminal is calculated using the attribute values of the symbols in the handle that it replaces. For example, consider the following grammar:
+</p>
+
+<div class=syntax">
+Z: X			{printf("Result=%d",$1);}<br>
+X: A '+' B		{ $$ = $1 + $3; }
+</div>
+<p>The attribute value of X is a synthesized attribute as it has been calculated using the attribute values of the symbols in the handle (A ‘+’ B) that it replaces.
+</p><p>We will look at an example now.</p> 
+<p>This is a YACC program that evaluates an expression:</p>
+
+<div class="syntax">
+<pre>
+%{ 
+
+	#include &ltstdio.h&gt 
+	%} 
+
+	%token DIGIT 
+
+	%left '+'
+	%left '*'
+	
+	%% 
+
+	start : expr '\n'  { printf("Expression value = %d",$1);} 
+		; 
+
+	expr:  expr '+' expr		{$$ = $1 + $3;} 
+		| expr '*' expr		{$$ = $1 * $3;} 
+		| '(' expr ')'	 	{$$ = $2;}
+		| DIGIT			{$$ = $1;} 
+		; 
+
+	%% 
+
+	yyerror() 
+	{ 
+		printf("Error"); 
+	} 
+
+	main() 
+	{ 
+		yyparse(); 
+		return 1; 
+	} 
+
+</pre>
+</div>
+<p>Sample I/O:</p>
+<div class="syntax">
+I: 2+3*(4+5)<br>
+O: 29
+</div>
+<p>Each of the semantic actions in the following rules synthesizes the attribute value for expr by assignment to $$.</p>
+<div class="syntax">
+expr:  		 expr '+' expr		{$$ = $1 + $3;}<br> 
+		| expr '*' expr		{$$ = $1 * $3;} <br>
+		| '(' expr ')'	 	{$$ = $2;}<br>
+		| DIGIT			{$$ = $1;} <br>
+		; 
+</div>
+
+<p>We will now see how attribute synthesis is managed internally.</p>
+<article id="navattrstack" class="detail">
+<h2>The Attribute Stack</h2>
+<p><a href="yacc.html#navshiftreduce">Recall</a>  that YACC maintains a parse stack to achieve shift-reduce parsing. The parse stack contains grammar symbols (both terminal and non-terminal ) representing the current configuration of the parser. Similar to the parse stack, YACC also maintains an attribute stack to store the attribute value of each grammar symbol in the parse stack. 
+</p><p>The attribute stack is synchronous with the parse stack -- synchronous because the i'th value on the attribute stack will be the attribute value of the i'th symbol on the parse stack.
+</p><p>We will see how attribute synthesis is done on input 2+3*(4+5).
+</p>
+<p>1. The main() function in y.tab.c begins execution. It calls yyparse() which in turn calls yylex() for tokens.<br>
+2. yylex() reads the input and finds that the lexeme "2" matches with the pattern for the token DIGIT. It assigns ‘2’ to yylval and returns DIGIT. Note that  YYSTYPE is assumed to take its default value of integer and hence yylval is set to integer type by YACC.<br>
+3. yyparse() which obtains the token DIGIT and its attribute value inside the variable yylval, <a href="yacc.html#navshiftreduce">shifts</a> the token DIGIT to the parser stack and pushes the value of yylval (2) to the attribute stack.
+</p>
+
+<left><img src="img/ywl1.png"  style="max-width=50%" alt= "INITIAL PARSER STACK"></left>
+<right><img src="img/ywl1.png" style="max-width=50%" alt="INITIAL ATTRIBUTE STACK"></right>
+<p>&nbsp;&nbsp;&nbsp;INITIAL PARSE STACK &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INITIAL ATTRIBUTE STACK</p>
+
+<left><img src="img/ywl2.png"  style="max-width=50%" alt= "PARSER STACK-AFTER SHIFT"></left>
+<right><img src="img/ywl3.png" style="max-width=50%" alt="ATTRIBUTE STACK-AFTER SHIFT"></right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<p>5. A <a href="yacc.html#navshiftreduce">reduction</a> (corresponding to the rule expr: DIGIT) takes place.  This results in the following  events:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. The terminal ‘ DIGIT’ gets replaced with the non-terminal expr in the parser stack.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.  The semantic action {$$=$1} for the corresponding reduction is executed. (This sets the (attribute) value of the &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non terminal at the head of the rule (‘expr’) to the (attribute) value of the first symbol in the handle (DIGIT).)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. The value of DIGIT (2) is popped from the attribute stack and the synthesized value of ‘expr’(2) is pushed into it.</p> 
+
+
+<p>Note that at any point in the parser’s execution, the symbols $1, $2, $3 etc., refers to the first, second, third etc. attribute values (of the corresponding tokens) on top of the stack.  $$ refers to the attribute value of the non-terminal which is the head of the production.  When the non-terminal is pushed on to the parse stack, the value of $$ is pushed on to the attribute stack. $$ refers to the symbol on top of the stack after a reduction has taken place.</p>
+<left><img src="img/ywl4.png"  style="max-width=50%" </left>
+<right><img src="img/ywl5.png" style="max-width=50%" </right>
+<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+
+<left><img src="img/ywl6.png"  style="max-width=50%" </left>
+<right><img src="img/ywl7.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+
+<p>6. The parser executes a shift action. Now Lex reads and returns the token ‘+’. Since this is a literal token,  its value, ‘+’ gets pushed into both the parse stack and the attribute stack after implicit type coercion . 
+</p>
+<left><img src="img/ywl8.png"  style="max-width=50%" </left>
+<right><img src="img/ywl9.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<p>7. Since there are no possible reductions to be performed, parser executes another shift operation. Lex returns the token DIGIT again as it encounters ‘3’. The token DIGIT gets pushed to the parser stack and its value, ‘3’, gets pushed to the attribute stack.
+</p>
+<left><img src="img/ywl10.png"  style="max-width=50%" </left>
+<right><img src="img/ywl11.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<p>8. The reduction by the rule expr: DIGIT takes place. The token DIGIT in parse stack is replaced by ‘expr’. The semantic action {$$=$1} sets the value of ‘expr’ to ‘3. In the attribute stack, the value of DIGIT (3) gets replaced by the value of expr (3 itself).
+</p>
+<left><img src="img/ywl12.png"  style="max-width=50%" </left>
+<right><img src="img/ywl13.png" style="max-width=50%" </right>
+<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<left><img src="img/ywl14.png"  style="max-width=50%" </left>
+<right><img src="img/ywl15.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+
+<p>9. Now even though a valid reduction is possible for expr + expr, the parser executes a shift action. This is because shift/reduce conflict is resolved by looking at operator precedence. <a href="yacc.html#navlookahead" >Recall</a> shift/reduce parsing.  The next token, ‘*’ is returned by Lex. This is again a literal token and is pushed into both the parse stack and attribute stack.
+</p>
+<left><img src="img/ywl16.png"  style="max-width=50%" </left>
+<right><img src="img/ywl17.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<p>10. Since there are no matching handles in any of the rules, another shift action is executed.  Lex returns ‘(‘ which is again a literal token. The configuration is now
+</p>
+<left><img src="img/ywl18.png"  style="max-width=50%" </left>
+<right><img src="img/ywl19.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<p>11. Again, there are no matching rules. So another shift action is executed.  Lex returns DIGIT for ‘4’.
+</p>
+<left><img src="img/ywl20.png"  style="max-width=50%" </left>
+<right><img src="img/ywl21.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<p>12. A reduction by expr:DIGIT  takes place.</p>
+<left><img src="img/ywl22.png"  style="max-width=50%" </left>
+<right><img src="img/ywl23.png" style="max-width=50%" </right>
+<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<left><img src="img/ywl24.png"  style="max-width=50%" </left>
+<right><img src="img/ywl25.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>13. Since there are no matching rules, a shift action is executed. The literal token ‘+’ is returned by Lex and pushed into both stacks by YACC.
+</p>
+<left><img src="img/ywl26.png"  style="max-width=50%" </left>
+<right><img src="img/ywl27.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<p>14. Since there are no matching rules, another shift action is executed. Lex returns DIGIT for ‘5’.</p>
+<left><img src="img/ywl28.png"  style="max-width=50%" </left>
+<right><img src="img/ywl29.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<p>15. A reduction by the rule expr:DIGIT takes place.</p>
+<left><img src="img/ywl30.png"  style="max-width=50%" </left>
+<right><img src="img/ywl31.png" style="max-width=50%" </right>
+<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<left><img src="img/ywl32.png"  style="max-width=50%" </left>
+<right><img src="img/ywl33.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>16. The parse stack now contains ‘expr + expr’. Now a reduction by the rule expr : expr ‘+’ expr takes place. The tokens ‘expr’, ‘+’ and ‘expr’ in the parse stack are replaced by a single ‘expr’. The semantic action {$$=$1+$3} executes. $1 and $3 refer to the first and third values in the attribute stack , that is, 4 and 5 respectively. Hence the value of the head($$), ‘expr’, is set to 4+5(=9). ‘4’ ,’+’, and ‘5’ are popped out from the stack and ‘9’ is pushed in.</p>
+<left><img src="img/ywl34.png"  style="max-width=50%" </left>
+<right><img src="img/ywl35.png" style="max-width=50%" </right>
+<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<left><img src="img/ywl36.png"  style="max-width=50%" </left>
+<right><img src="img/ywl37.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>17. Since there are no matching reductions, a shift action takes place. Lexer returns the literal token ‘)’ which is pushed to both parser stack and attribute stack. </p>
+<left><img src="img/ywl38.png"  style="max-width=50%" </left>
+<right><img src="img/ywl39.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<p>18. Now a reduction by the rule  expr: ‘(‘ expr ‘)’ takes place. The tokens ‘(‘ , expr and ‘)’ in the parser stack are replace by a single expr and the symbols ‘(‘ ,’9’ and ‘)’  in the attribute stack are replaced by ‘9’. (Since the semantic action sets $$ to $2 which is ‘9’).
+</p>
+<left><img src="img/ywl40.png"  style="max-width=50%" </left>
+<right><img src="img/ywl41.png" style="max-width=50%" </right>
+<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<left><img src="img/ywl42.png"  style="max-width=50%" </left>
+<right><img src="img/ywl43.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>19. Now we have expr*expr on the top of the parser stack. Reduction by the rule expr: expr ‘*’ expr occurs. The tokens ‘expr’, ‘*’ and ‘expr’ are removed from the parse stack and a single ‘expr’ is pushed instead. The symbols ‘3’, ‘*’ and ‘9’ are replaced by ‘27’ (that is, 3*9) in the attribute stack.
+</p>
+<left><img src="img/ywl44.png"  style="max-width=50%" </left>
+<right><img src="img/ywl45.png" style="max-width=50%" </right>
+<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<left><img src="img/ywl46.png"  style="max-width=50%" </left>
+<right><img src="img/ywl47.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+
+<p>20. Reduction by the rule expr: expr ‘+’ expr takes place. Now we have a single ‘expr’ in the parser stack and ‘29’ in the attribute stack.
+</p>
+<left><img src="img/ywl48.png"  style="max-width=50%" </left>
+<right><img src="img/ywl49.png" style="max-width=50%" </right>
+<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<left><img src="img/ywl50.png"  style="max-width=50%" </left>
+<right><img src="img/ywl51.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>21. Finally, lexer returns the ‘\n’ character and the final reduction to ‘start’ occurs by the rule start: expr ‘\n’. The semantic action prints ‘29’. </p>
+<left><img src="img/ywl52.png"  style="max-width=50%" </left>
+<right><img src="img/ywl53.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
+<left><img src="img/ywl54.png"  style="max-width=50%" </left>
+<right><img src="img/ywl55.png" style="max-width=50%" </right>
+<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>,/a
+<left><img src="img/ywl56.png"  style="max-width=50%" </left>
+<right><img src="img/ywl57.png" style="max-width=50%" </right>
+<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>22. Lexer now encounters end of input (You need to enter Ctrl+D to indicate end of input as input is being read from stdout.) As a result yylex calls yywrap() which returns a non-zero value indication end of input. <a href="lex.html#navyywraplink"> yylex() </a>returns 0. (The $ in the input buffer stands for the end of input marker.) 
+</p>
+
+<p>23. When yyparse receives 0 from lexer, it returns 0 to main function to indicate that parsing was successfull.
+</p>
+
+<p>The following table shows the configuration of the parse stack and the attribute stack at every 
+step of the parsing process. Assume that whenever yylex() returns a token with no attribute, yyparse() pushes a '.' to the attribute stack.
+</p>
+<table class="tg">
+  <tr>
+    <th class="tg-e3zv">PARSE STACK<br></th>
+		<th class="tg-e3zv">ATTRIBUTE STACK<br></th>
+    <th class="tg-e3zv">I/P BUFFER<br></th>
+    <th class="tg-e3zv">PARSER-ACTION EXECUTED<br></th>
+  </tr>
+  <tr>
+    <td class="tg-031e"></td>
+		<td class="tg-031e"></td>
+    <td class="tg-031e">2 + 3 * (4 + 5) $<br></td>
+    <td class="tg-031e">_</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">DIGIT</td>
+		<td class="tg-031e">2</td>
+    <td class="tg-031e">+ 3 * ( 4 + 5 ) $<br></td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr</td>
+		<td class="tg-031e">2</td>
+    <td class="tg-031e">+ 3 * ( 4 + 5 ) $</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr +<br></td>
+		<td class="tg-031e">2 <b>.</b></td>
+    <td class="tg-031e">3 * ( 4 + 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + DIGIT<br></td>
+		<td class="tg-031e">2 <b>.</b> 3</td>
+    <td class="tg-031e">* ( 4 + 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr<br></td>
+		<td class="tg-031e">2 <b>.</b> 3</td>
+    <td class="tg-031e">* ( 4 + 5) $<br></td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr *<br></td>
+		<td class="tg-031e">2 <b>.</b> 3 <b>.</b></td>
+    <td class="tg-031e">( 4 + 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr * (<br></td>
+		<td class="tg-031e">2 <b>.</b> 3<b> . .</b></td>
+    <td class="tg-031e">4 + 5 ) $<br></td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr * ( DIGIT<br></td>
+		<td class="tg-031e">2 <b>.</b> 3 <b>. .</b> 4</td>
+    <td class="tg-031e">+ 5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr * ( expr<br></td>
+		<td class="tg-031e">2 <b>.</b> 3 <b>. .</b> 4 </td>
+    <td class="tg-031e">+ 5 ) $</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr * ( expr +<br></td>
+		<td class="tg-031e">2 <b>.</b> 3 <b>. .</b> 4 <b>.</b></td>
+    <td class="tg-031e">5 ) $</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr * ( expr + DIGIT<br></td>
+		<td class="tg-031e">2 <b>.</b> 3 <b>. .</b> 4 <b>.</b> 5</td>
+    <td class="tg-031e">) $<br></td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr * ( expr + expr <br></td>
+		<td class="tg-031e">2 <b>.</b> 3 <b>. .</b> 4 <b>.</b> 5</td>
+    <td class="tg-031e">) $<br></td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr * ( expr<br></td>
+		<td class="tg-031e">2 <b>.</b> 3 <b>. .</b> 9</td>
+    <td class="tg-031e">) $<br></td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr * ( expr )<br></td>
+		<td class="tg-031e">2 <b>.</b> 3 <b>. .</b> 9 .</td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">SHIFT</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr * expr<br></td>
+		<td class="tg-031e">2 <b>.</b> 3 <b>.</b> 9</td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr + expr <br></td>
+		<td class="tg-031e">2 <b>.</b> 27</td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">expr</td>
+		<td class="tg-031e">29</td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">REDUCE</td>
+  </tr>
+  <tr>
+    <td class="tg-031e">$expr</td>
+		<td class="tg-031e">29</td>
+    <td class="tg-031e">$</td>
+    <td class="tg-031e">ACCEPT</td>
+  </tr>
+</table>
+</article>
+<article id="navyystype" class="detail">
+<h2>YYSTYPE</h2>
+<p>The attribute stack consists of attributes of tokens as well as synthesized attributes. The macro YYSTYPE denotes the type of the attribute stack.  For example, in the above production, $$,$1 and $3 are all of the type YYSTYPE. YYSTYPE is int by default. The macro definition  
+</p>
+<div class="syntax">
+#define YYSTYPE int
+</div>
+<p>can be found in the y.tab.c file.  YACC automatically declares yylval to be of the type YYSTYPE. 
+</p><p>Since by default ,YACC defines YYSTYPE to be the type int, only integer valued attributes can be passed from yylex() to yyparse() and only integer attributes can be synthesized by default. If we were to attempt to assign any other value to yylval or any of the attribute stack variables, a type error would be flagged on compiling y.tab.c using gcc. 
+ </p><p>We will now see how to handle attributes of types other than integer.
+</p><p>The default definition of YYSTYPE can overriden with any built-in or userdefined data type. For example if we wanted to print the prefix form of an expression:
+</p>
+<div class="syntax">
+expr: expr OP expr { printf("%c %c %c",$2,$1,$3);}
+</div>
+<p>The type of YYSTYPE can be overriden manually as shown below. The following line has to be added to the declarations section of the YACC program. This may be used (not recommended) to change the type of all the attributes from int to some other type.
+</p>
+<div class="syntax">typedef char YYSTYPE;</div>
+
+<h3>Exercise:</h3>
+<p> 1. Set YYSTYPE to char and do Infix to postfix conversion where lexemes are either operators or single characters instead of numbers.
+</p><p>Sample input: a+b*c</p>
+      <p> Sample output: abc*+</p>
+      <p> Hint: This is similar to infix to postfix conversion in stage 2. Here we need to output the lexemes of a token instead of just the token names. Here each lexeme is a single character.  Use yylval to pass the lexemes as the attribute values for each token. 
+</p>
+<p> 2. Set YYSTYPE to char* and do symbolic infix to postfix conversion: </p>
+       <p>Sample input: hello+my*world</p>
+       <p>Sample output: hello my world * +</p>
+<p>Hint: Now the attribute values to be passed are strings like “hello”.   Hence YYSTYPE has to be set to char*.  Thus yylval can hold a pointer to a character string.  Note that yytext holds the lexeme that was most recently read by yylex(). Hence, if we were to assign yytext directly to yylval, then yylval would point to this lexeme as required. When yylex() returns the token to yyparse(), this pointer gets pushed to the attribute stack corresponding to the token. However, this method fails because the location that yytext points to gets overwritten when the next lexeme is read from the input by yylex(). Hence the previously read string  would be lost from that location. This corrupts the data referenced by the pointer in the attribute stack. To avoid this problem, separate memory should be allocated (using malloc) and the string in yytext should be copied (using strcpy) to this memory and yylval should be set to the newly allocated store. (Alternately the library function strdup may be used. This function allocates a new space, duplicates the string provided as input into this space and returns pointer to it.)
+</p>
+
+
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <article id="navreferences" class="detail">
         <h2>References</h2>
