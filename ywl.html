@@ -399,7 +399,7 @@ X: A B C
 <p>The attribute value of 'A' is accessed by the symbol $1, value of ‘B' by $2 and 'C' can by $3. The symbol $$ refers to the attribute value of ‘X’ which is the head of the production.  Note that the head of a production must be a non-terminal.  Hence, it becomes possible to assign an attribute value to the head of a production by assigning a value to $$.   In the above example, an attribute value can be assigned to X through an assignment to $$. Hence we extend our notion of an attribute to: <i>"An attribute is a value associated with a terminal or non-terminal grammar symbol".</i></p>
  <p>We will make this clear with an example.</p>
 <p>Consider the problem of displaying two numbers in an input stream (ending with a ‘\n’) if they occur as a pair separated by a comma. Also suppose that the numbers must be displayed ONLY after a pair is found. Let us look at a YACC program that solves the problem.</p>
-<p>Example: pair.y>
+<p>Example: pair.y></p>
 <div class="syntax">
 <pre>
 
@@ -437,7 +437,7 @@ X: A B C
 </pre>
 </div>
 
-<p>We will use the same <a href="navpairexp">lex program,/a>  to receive tokens and token values (attributes).</p>
+<p>We will use the same <a href="navpairexp">lex program </a>  to receive tokens and token values (attributes).</p>
 <p>Note: We have assumed that the attribute values of each symbol is an integer.  Later we will see how to allow more complex attributes.</p>
 <p>In the above program segment, the first rule displays the value of the numbers for each pair in the input stream.  In the action part of the rule, $1 refers to the attribute value of the first num and  $3 refers to the attribute value of the and the second num. (Note that $2 refers to the attribute value of the literal token ',' which is the token itself). Since num is a non-terminal, its attribute cannot be set by yylex(). Recall that every non-terminal symbol in the CFG must have at least one production with the non-terminal as the head. The attribute value of a non-terminal must be set by writing semantic rules to set the value of $$ in such productions.  Such an attribute value which is “synthesized” by the semantics actions in a production is called a synthesized attribute.  In the example, the attribute value of the non-terminal num is synthesized by the following rule:</p>
 
