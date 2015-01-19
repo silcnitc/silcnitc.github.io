@@ -1002,7 +1002,7 @@ int main(void) {
 
 <p>5. Similar to step 1,  the Lexer returns a node containing 42 and a reduction similar to step 2 takes place in the parser.</p>
 <left><img src="img/ywlexp7.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp8.png" style="max-width=50%" </right>
+<right><img src="img/ywlexp8.png" style="max-width=50%" </right><br>
 <left><img src="img/ywlexp9.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp10.png" style="max-width=50%" </right>
 <p>Note that the reduction expr : expr ‘+’ expr  does not take place since * has higher precedence over +. The look-ahead hence tells the parser to shift and not reduce [LINK].
@@ -1015,7 +1015,7 @@ int main(void) {
 <right><img src="img/ywlexp14.png" style="max-width=50%" </right>
 <p>8. The integer 21 is read passed to YACC and subsequent reduction takes place similar to steps 1 and 2.</p>
 <left><img src="img/ywlexp15.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp16.png" style="max-width=50%" </right>
+<right><img src="img/ywlexp16.png" style="max-width=50%" </right><br>
 <left><img src="img/ywlexp17.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp18.png" style="max-width=50%" </right>
 <p>9. The operator ‘-‘ is read passed to YACC similar to step 3.
@@ -1025,7 +1025,7 @@ int main(void) {
 <p>
 10. The integer 16 is read passed to YACC and subsequent reduction takes place similar to steps 1 and 2.</p>
 <left><img src="img/ywlexp21.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp22.png" style="max-width=50%" </right>
+<right><img src="img/ywlexp22.png" style="max-width=50%" </right><br>
 <left><img src="img/ywlexp23.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp24.png" style="max-width=50%" </right>
 
@@ -1034,7 +1034,7 @@ int main(void) {
 <right><img src="img/ywlexp26.png" style="max-width=50%" </right>
 <p>12. The literal token ‘(‘ is read and returned. The reduction expr: ‘(‘ expr ‘)’ can now take place. Note how operator precedence is overridden using parentheses.</p>
 <left><img src="img/ywlexp27.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp28.png" style="max-width=50%" </right>
+<right><img src="img/ywlexp28.png" style="max-width=50%" </right><br>
 <left><img src="img/ywlexp29.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp30.png" style="max-width=50%" </right>
 <p>13. Now the reduction expr: expr ‘*‘ expr can take place. The nodes containing 4 and ‘-‘ are set to the l and r fields of the node containing ‘*‘ and the pointer to ‘*‘ is now the attribute value of the head. The tree now looks like this:</p>
@@ -1046,7 +1046,7 @@ int main(void) {
 <right><img src="img/ywlexp34.png" style="max-width=50%" </right>
 <p>15. Lexer now reads ‘\n’ and finally the reduction program: expr ‘\n’ takes place and the function evaltree is called with the rot node containing ‘+’ passed as argument.</p>
 <left><img src="img/ywlexp35.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp36.png" style="max-width=50%" </right>
+<right><img src="img/ywlexp36.png" style="max-width=50%" </right><br>
 <left><img src="img/ywlexp37.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp38.png" style="max-width=50%" </right>
 <p>16.  An inorder evaluation of the tree returns 243 which is printed as result.</p>
