@@ -364,7 +364,7 @@ or indicate the absence using the %option feature. If not, LEX will flag an erro
 <p> When yylex() finishes scanning the first input file, input_file.l yylex() invokes yywrap().
 The above definition of yywrap() sets the input file pointer to input_file_2.l and returns 0 .
 As a result, the scanner continues scanning in input_file_2.l .
- When yylex() calls yywrap() on encountering EOF of input_file_2.l, yywrap() returns 0 and thus yylex() ceases scanning.</p>	
+ When yylex() calls yywrap() on encountering EOF of input_file_2.l, yywrap() returns 1 and thus yylex() ceases scanning.</p>	
 
 <p> <b>Exercise:</b> </p>
 <p>Suggest a modification in the above example LEX program to make the generated lexical analyzer read input
