@@ -932,7 +932,7 @@ If the parser chooses to reduce (like in Case 1), the input would be interpreted
   </div>
  <p>
  Once this had been done, when the parser faces a conflict it 
- refers to the declaration and decides to reduce as the token '+'  has been declared left associative. Tokens can be declared to be right associative or non-associative by using the YACC keywords <b>%right</b> and <b>%nonassoc</b>. As an example,  if you add the production exper -> expr <c>'<'</c> expr  then declaring 
+ refers to the declaration and decides to reduce as the token '+'  has been declared left associative. Tokens can be declared to be right associative or non-associative by using the YACC keywords <b>%right</b> and <b>%nonassoc</b>. As an example,  if you add the production expr -> expr <c>'<'</c> expr  then declaring 
     <div class="syntax">
    % nonassoc '<' 
     </div>
