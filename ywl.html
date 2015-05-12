@@ -793,7 +793,8 @@ step of the parsing process. Assume that whenever yylex() returns a token with n
 </table>
 </article>
 <article id="navyystype" class="detail">
-<h2>YYSTYPE</h2>
+<h2>Customising Attribute Types</h2>
+<h3>YYSTYPE</h3>
 <p>The attribute stack consists of attributes of tokens as well as synthesized attributes. The macro YYSTYPE denotes the type of the attribute stack.  For example, in the above production, $$,$1 and $3 are all of the type YYSTYPE. YYSTYPE is int by default. The macro definition  
 </p>
 <div class="syntax">
