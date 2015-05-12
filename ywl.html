@@ -811,7 +811,7 @@ expr: expr OP expr { printf("%c %c %c",$2,$1,$3);}
 <p>The type of YYSTYPE can be overriden manually as shown below. The following line has to be added to the declarations section of the YACC program. This may be used (not recommended) to change the type of all the attributes from int to some other type.
 </p>
 <div class="syntax">typedef char YYSTYPE;</div>
-<p>Note that the type of yylval is now char and hence, only character variables and constants can be assigned to yylval.</p> 
+<p>The type of yylval is also set to that defined by YYSTYPE by YACC. Hence, in this case, only character variables and constants can be assigned to yylval.</p> 
 <h3>Exercise:</h3>
 <p> 1. Set YYSTYPE to char and do Infix to postfix conversion where lexemes are either operators or single characters instead of numbers.
 </p><p>Sample input: a+b*c</p>
