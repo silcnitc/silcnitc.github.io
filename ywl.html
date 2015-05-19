@@ -463,7 +463,7 @@ O: syntax error
 <p>We have seen that attributes of terminals can be passed from yylex() to yyparse(), whereas attributes of a non-terminal can be synthesized. An attribute of a non-terminal grammar symbol is said to synthesized if it has been calculated from the attribute values of it's children in the parse tree. Thus the (synthesized) attribute associated with a non-terminal is calculated using the attribute values of the symbols in the handle that it replaces. For example, consider the following grammar:
 </p>
 
-<div class=syntax">
+<div class="syntax">
 Z: X			{printf("Result=%d",$1);}<br>
 X: A '+' B		{ $$ = $1 + $3; }
 </div>
