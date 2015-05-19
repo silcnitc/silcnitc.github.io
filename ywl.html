@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>SILC | LEX-YACC</title>
+<title>LEX-YACC</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -990,10 +990,10 @@ int main(void) {
 
 
 <p>Let us now see how the expression tree for the sample input 33+42*(21 - 16) was created.</p>
-<p>1. On reading the lexeme 33, the lexer recognizes the lexeme as a &&&&&&& and creates a node, setting its &&&& field to 33. The flag field is set to 0 indicating that the node contains an integer. This node is passed to the parser by setting yylval to a pointer to this node. The token INTEGER is returned by the lexer to the parser. This means that this pointer is pushed into the attribute stack as the value corresponding to the token INTEGER pushed into the parser stack.  Note that we have set YYSTYPE to node * so that the attribute stack can hold a pointer to a node structure. </p>
+<p>1. On reading the lexeme 33, the lexer recognizes the lexeme as a DIGIT and creates a node, setting its val field to 33. The flag field is set to 0 indicating that the node contains an integer. This node is passed to the parser by setting yylval to a pointer to this node. The token INTEGER is returned by the lexer to the parser. This means that this pointer is pushed into the attribute stack as the value corresponding to the token INTEGER pushed into the parser stack.  Note that we have set YYSTYPE to node * so that the attribute stack can hold a pointer to a node structure. </p>
 <left><img src="img/ywlexp1.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp2.png" style="max-width=50%" </right>
-<p>2. Yacc reduces INTEGER to expr following the rule expr	:	INTEGER and sets the attribute value of expr to the attribute value of INTEGER which is the pointer to the node containing 3.  Yacc then calls yylex for the next token.	</p>
+<p>2. Yacc reduces DIGIT to expr following the rule expr	:	DIGIT and sets the attribute value of expr to the attribute value of INTEGER which is the pointer to the node containing 3.  Yacc then calls yylex for the next token.	</p>
 <left><img src="img/ywlexp3.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp4.png" style="max-width=50%" </right>
 <p>3. On reading + lexer creates a node and sets its op field to +. The flag field is set to 1 indicating that the node contains an operator. This node is passed to the parser by setting yylval to a pointer to this node. </p>
