@@ -991,65 +991,66 @@ int main(void) {
 
 <p>Let us now see how the expression tree for the sample input 33+42*(21 - 16) was created.</p>
 <p>1. On reading the lexeme 33, the lexer recognizes the lexeme as a DIGIT and creates a node, setting its val field to 33. The flag field is set to 0 indicating that the node contains an integer. This node is passed to the parser by setting yylval to a pointer to this node. The token INTEGER is returned by the lexer to the parser. This means that this pointer is pushed into the attribute stack as the value corresponding to the token INTEGER pushed into the parser stack.  Note that we have set YYSTYPE to node * so that the attribute stack can hold a pointer to a node structure. </p>
-<left><img src="img/ywlexp1.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp2.png" style="max-width=50%" </right>
+
+<left><img src="img/ywlexp2.png" style="max-width=50%" </left>
+<right><img src="img/ywlexp1.png"  style="max-width=50%" </right>
 <p>2. Yacc reduces DIGIT to expr following the rule expr	:	DIGIT and sets the attribute value of expr to the attribute value of INTEGER which is the pointer to the node containing 3.  Yacc then calls yylex for the next token.	</p>
-<left><img src="img/ywlexp3.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp4.png" style="max-width=50%" </right>
+<left> <img src="img/ywlexp4.png" style="max-width=50%"</left>
+<right><img src="img/ywlexp3.png"  style="max-width=50%" </right>
 <p>3. On reading + lexer creates a node and sets its op field to +. The flag field is set to 1 indicating that the node contains an operator. This node is passed to the parser by setting yylval to a pointer to this node. </p>
-<left><img src="img/ywlexp5.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp6.png" style="max-width=50%" </right>
+<left> <img src="img/ywlexp6.png" style="max-width=50%"</left>
+<right><img src="img/ywlexp5.png"  style="max-width=50%" </right>
 <p>4. Since no rule in matched in YACC, yylex is called for the next token.</p> 
 
 <p>5. Similar to step 1,  the Lexer returns a node containing 42 and a reduction similar to step 2 takes place in the parser.</p>
-<left><img src="img/ywlexp7.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp8.png" style="max-width=50%" </right><br>
-<left><img src="img/ywlexp9.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp10.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp8.png" style="max-width=50%" </left>
+<right><img src="img/ywlexp7.png"  style="max-width=50%" </right><br>
+<left><img src="img/ywlexp10.png" style="max-width=50%" </left>
+<right><img src="img/ywlexp9.png"  style="max-width=50%" </right>
 <p>Note that the reduction expr : expr ‘+’ expr  does not take place since * has higher precedence over +. The look-ahead hence tells the parser to shift and not reduce [LINK].
 </p>
 <p>6. ‘*’ is read and returned similar to step 3. No reduction takes place in YACC since there are no matching rules.</p>
-<left><img src="img/ywlexp11.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp12.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp12.png" style="max-width=50%" </left>
+<right><img src="img/ywlexp11.png"  style="max-width=50%" </right>
 <p>7. The literal token ‘(‘ is read by lexer and passed to YACC. Again, no reduction takes place.</p>
-<left><img src="img/ywlexp13.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp14.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp14.png" style="max-width=50%" </left>
+<right><img src="img/ywlexp13.png"  style="max-width=50%" </right>
 <p>8. The integer 21 is read passed to YACC and subsequent reduction takes place similar to steps 1 and 2.</p>
-<left><img src="img/ywlexp15.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp16.png" style="max-width=50%" </right><br>
-<left><img src="img/ywlexp17.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp18.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp16.png" style="max-width=50%"</left>
+<right><img src="img/ywlexp15.png"  style="max-width=50%"  </right><br>
+<left> <img src="img/ywlexp18.png" style="max-width=50%"</left>
+<right><img src="img/ywlexp17.png"  style="max-width=50%" </right>
 <p>9. The operator ‘-‘ is read passed to YACC similar to step 3.
 </p>
-<left><img src="img/ywlexp19.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp20.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp20.png" style="max-width=50%" </left>
+<right><img src="img/ywlexp19.png"  style="max-width=50%" </right>
 <p>
 10. The integer 16 is read passed to YACC and subsequent reduction takes place similar to steps 1 and 2.</p>
-<left><img src="img/ywlexp21.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp22.png" style="max-width=50%" </right><br>
-<left><img src="img/ywlexp23.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp24.png" style="max-width=50%" </right>
+<left> <img src="img/ywlexp22.png" style="max-width=50%"</left>
+<right><img src="img/ywlexp21.png"  style="max-width=50%" </right><br>
+<left><img src="img/ywlexp24.png" style="max-width=50%" </left>
+<right><img src="img/ywlexp23.png"  style="max-width=50%" </right>
 
 <p>11. Now the reduction expr: expr ‘-‘ expr can take place. The nodes containing 21 and 16 are set to the l and r fields of the node containing ‘-‘ and the pointer to ‘-‘ is now the attribute value of the head. The bottom most part of the tree has been created.</p>
-<left><img src="img/ywlexp25.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp26.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp26.png"  style="max-width=50%" </left>
+<right><img src="img/ywlexp25.png" style="max-width=50%" </right>
 <p>12. The literal token ‘(‘ is read and returned. The reduction expr: ‘(‘ expr ‘)’ can now take place. Note how operator precedence is overridden using parentheses.</p>
-<left><img src="img/ywlexp27.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp28.png" style="max-width=50%" </right><br>
-<left><img src="img/ywlexp29.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp30.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp28.png"  style="max-width=50%" </left>
+<right><img src="img/ywlexp27.png" style="max-width=50%" </right><br>
+<left><img src="img/ywlexp30.png"  style="max-width=50%" </left>
+<right><img src="img/ywlexp29.png" style="max-width=50%" </right>
 <p>13. Now the reduction expr: expr ‘*‘ expr can take place. The nodes containing 4 and ‘-‘ are set to the l and r fields of the node containing ‘*‘ and the pointer to ‘*‘ is now the attribute value of the head. The tree now looks like this:</p>
-<left><img src="img/ywlexp31.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp32.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp32.png"  style="max-width=50%" </left>
+<right><img src="img/ywlexp31.png" style="max-width=50%" </right>
 <p>14. Now the reduction expr: expr ‘+‘ expr can take place. The nodes containing 33 and ‘*‘ are set to the l and r fields of the node containing ‘+‘ and the pointer to ‘+‘ is now the attribute value of the head. The whole tree now looks like this: has been created.
 </p>
-<left><img src="img/ywlexp33.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp34.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp34.png"  style="max-width=50%" </left>
+<right><img src="img/ywlexp33.png" style="max-width=50%" </right>
 <p>15. Lexer now reads ‘\n’ and finally the reduction program: expr ‘\n’ takes place and the function evaltree is called with the rot node containing ‘+’ passed as argument.</p>
-<left><img src="img/ywlexp35.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp36.png" style="max-width=50%" </right><br>
-<left><img src="img/ywlexp37.png"  style="max-width=50%" </left>
-<right><img src="img/ywlexp38.png" style="max-width=50%" </right>
+<left><img src="img/ywlexp36.png"  style="max-width=50%" </left>
+<right><img src="img/ywlexp35.png" style="max-width=50%" </right><br>
+<left><img src="img/ywlexp38.png"  style="max-width=50%" </left>
+<right><img src="img/ywlexp37.png" style="max-width=50%" </right>
 <p>16.  An inorder evaluation of the tree returns 243 which is printed as result.</p>
 <p>But in order to have multiple custom attribute values, YACC offers a useful feature called %union to customize the type of YYSTYPE. %union is useful when we require to have different tokens of different types. For example if we wanted some tokens to be of the  type int and some tokens to be of the type char. The following code segment can be added to declarations section of the YACC program to achieve that.</p>
 <div class="syntax">
