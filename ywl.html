@@ -843,7 +843,7 @@ expr: expr OP expr { printf("%c %c %c",$2,$1,$3);}
 <p>To build such a data structure, we will use a user defined type tnode containing the following fields:
 <br>
 <br><i>int</i>flag -  We will set this to 0 or 1 to indicate whether the node is a leaf node storing  an integer value (like 16 ) or an internal node storing an operator (like  +).
-<br><i>int</i></div> val – To store the value in case of leaf node.
+<br><i>int</i> val – To store the value in case of leaf node.
 <br><i>char</i> op- To store the operator in case of internal node
 <br><i>struct</i> tnode *right-  To store pointer to right child.
 <br><i>struct</i>tnode *left-  To store pointer to left child.
