@@ -79,8 +79,8 @@ typedef struct TypeTable
 <pre>
 typedef struct fieldList
 {
-			char *Name;
 			struct TypeTable *type;
+			char *Name;
 		       struct fieldList *next;
 }fieldList; 
 </pre>
@@ -203,6 +203,7 @@ decl
 		str name;
                 linkedlist *marks; }
 enddecl
+			char *Name;
 
 gdecl
 	linkedlist studentMarks;
@@ -217,8 +218,7 @@ endgdecl
 </p>
 <center><img src="img/datastr_4.png" style="max-width:70%"></center>
 <center><img src="img/datastr_5.png" style="max-width:70%"></center>
-<p>2. The type field of the above entry is then updated to pointer to type table entry of  linkedlist when the reduction of  linkedlist studentMarks; to a Gdecl[LINK]  takes place using the function AddGType().
-</p>
+<p>2. After the Type field is also set, the situation is as follows</p>
 <center><img src="img/datastr_6.png" style="max-width:70%"></center>
 <p>3. After a similar set of actions for creating an entry for the global declaration, str studentName; , it is appended to the GST using the function  GAppend().
 </p>
@@ -352,4 +352,3 @@ typedef union memstruct{
 <div class="up grid col-one-third" style="float:right">
 <a href="#navtop" title="Go back up"> top ↑</a>
 </div>
-
