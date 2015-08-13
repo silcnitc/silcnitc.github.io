@@ -1,0 +1,374 @@
+<!Doctype html>
+<html lang="en">
+  <head>
+    <title>EXPL Specification</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+<body>
+  <header class="center clearfix" id="navtop"> <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+    <nav class="fright">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+  			<li><a href="#">Help</a></li>
+  			<li><a href="#">Code</a></li>
+  			<li><a href="#">Roadmap</a></li>
+  			<li><a href="documentation.html" class="navactive">Documentation</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="about center part clearfix">
+
+  <header class="title">
+    <h3 class="fleft">Contents</h3>
+  </header>
+
+  <aside class="column4 mright">
+    <menu>
+      <ul>
+        <li><a class="sec" href="#nav-intro">Introduction</a></li>
+        <li><a class="sec" href="#nav-data-types">Suppoerted data types</a></li>
+        <li><a class="sec" href="#nav-general-program-structure">General Program Structure</a</li>
+        <li><a class="sec" href="#nav-stmts-and-exprs">Statements and Expressions</a><li>
+        <li><a class="sec" href="#nav-dynamic-memory-allocation">Dynamic Memory Allocation</a></li>
+        <li><a class="sec" href="#nav-system-call-interface">(High Level) System Call Interface to eXpOS</a></li>
+        <li><a class="sec" href="#nav-sample-programs">Sample Programs</a></li>
+        <li><a class="sec" href="#nav-appendix">Appendix</a></li>
+        <li><!--For blank space between lins and download button--> &nbsp;</li>
+        <li><a href="https://github.com/silcnitc/documentation/blob/master/datastr/datastr.pdf?raw=true" class="button"> Download as PDF </a></li>
+        <li><!--Blank line for space between download button and main title--> &nbsp;</li>
+      </ul>
+    </menu>
+  </aside>
+
+  <section class="columnthird content">
+    <h1 class="mright">ExpL Specification</h1>
+
+    <article id="nav-data-types" class="detail">
+      <h2>Supported data types</h2>
+
+
+    </article>
+<<<<<<< HEAD
+
+
+    <article  class="detail"id="nav-stmts-and-exprs">
+
+      <h2>Statements and Expressions</h2>
+
+      <p>Before taking up statements, we should look at the different kinds of <b>constants</b> and <b>expressions</b> in the language.  ExpL has two kinds of expressions,  a) <b>Arithmetic</b> expressions and b) <b>Logical</b> expressions.    </p>
+
+      <h3>Constants</h3>
+        <p>Any numerical value (Example: 234) is an <i>integer constant</i>.  A quoted string (Example: “hello”) is a <i>string constant</i>.    TRUE and FALSE are the only <i>boolean constants</i>.</p>
+
+      <h3>Arithmetic Expressions</h3>
+        <p>Any integer constant/variable is a valid arithmetic expressions, provided the scope rules  are not violated.  ExpL treats a function returning integer as an expression and the value of a function is its return value.</p>
+        <p>ExpL provides five <b>arithmetic operators</b>, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization hold. eXpL is strongly typed and <b>any type mismatch or scope violation must be reported at compile time</b>.</p>
+        <p><i>Example</i> :  5, a[a[5+x]]+x , (f2() + b[x] + 5) etc. are arithmetic expressions, provided type and scope rules are not violated.  </p>
+
+      <h3>Logical Expressions</h3>
+          <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by eXpL are <, >, <=, >=, ==, and !=. Again <b>standard syntax and semantics conventions apply</b>. TRUE and FALSE are constant logical expressions.  Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.  Note that a relational operator can compare only two arithmetic expressions and not two logical expressions.  </p>
+          <p><i>Variables of string type or user defined types can only be checked for equality using the == operator.    </i></p>
+          <p><i>Example</i> :((x==y)==a[3]) is <b>not valid</b> eXpL expression because (x==y) is a logical expression, while a[3] must be a variable of type integer/string.   The "==" operator can be applied only between expressions of the same type.  </p>
+          <p>(“hello”==a) is a valid logical expression provided, a is a variable of string type.  (p==q) is a valid logical expression provided p and q are variables of the same type.  </p>
+
+      <h3>Assignment Statement</h3>
+          <p>The general syntax of the assignment statement is :</p>
+          <pre>
+            Lvalue = Rvalue;
+          </pre>
+          <p>The possible Lvalues are variables or an indexed array variables.  If the Lvalue has type integer, the Rvalue can be any arithmetic expression.  If the Lvalue has type string, the Rvalue can be a string constant or a variable of type string.   If the Lvalue is a user defined variable, the Rvalue must be a user defined variable.</p>
+          <p><i>Example</i> : q[3]= “hello” ; t= “world” ; are both valid assignments to string variables provided q is declared as a an array of type string and t is declared as a variable of type string.   x=y; is valid if x and y are of the same type and scope rules are not violated.   </p>
+          <p>In an assignment x=y where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>                            <h3>Conditional  Statement</h3>
+          <p>The eXpL conditional statement has the following syntax:</p>
+          <pre>
+          if < Logical Expression > then
+            Statements
+          else
+            Statements
+          endif;
+          </pre>
+          <p>The <b>else</b> part is optional. The statements inside an <b>if</b>-block may be conditional, iterative, assignment, input/output, break or continue statements, but <b>not</b> the return statement.</p>
+
+      <h3>Iterative Statement</h3>
+          <p>The eXpL iterative statement has the following syntax:</p>
+          <pre>
+          while < Logical Expression > do
+            Statements
+          endwhile;
+          </pre>
+          <p>Standard conventions apply in this case too. The statements inside a <b>while</b>-block may be conditional, iterative, assignment, input/output, break or continue statements, but <b>not</b> the return statement.</p>
+
+      <h3>Return Statement</h3>
+        <p>The body of each function (including main) should have <b>exactly one</b> return statement and it should be the <b>last statement</b> in the body. The syntax is:</p>
+        <pre>
+        return < Expression > ;               /* if the return type of the function is integer*/
+        return < string constant/variable > ; /* If the return type is string */
+        return < variable >;                  /* If the return type of the function is a user defined type*/
+        </pre>
+        <p>If the return type of the function does not match the type of the expression/variable returned,  a compilation error should occur.  The <b>return type of main is integer</b> by specification</p>
+
+      <h3>Input/Output</h3>
+        <p>doubt</p>
+
+      <h3>Break and Continue Statements</h3>
+        <p>A <b>break;</b> statement inside a conditional/iterative block tranfers control to the end of the block.  A <b>continue;</b> inside a conditional/iterative block transfers control to the beginning of the block.    These statements do nothing if not inside any conditional/iterative statement.  </p>
+        <p>The next section briefly discusses the library functions for dynamic memory allocation.</p>
+
+    </article>
+
+    <article class="detail" id="nav-dynamic-memory-allocation">
+      <h2>Dynamic memory allocation</h2>
+
+      <p>The library functions <b>alloc()</b> and <b>free()</b> are used as follows:  </p>
+      <pre>
+        t = alloc(); /* Allocates HBSIZE contiguous locations in the heap –
+        t must be a user defined variable */
+        t = free(t);  /* Free the allocated block – t must be a user defined variable */
+      </pre>
+      <p>A call to alloc() allocates HBSIZE contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. In this version of ExpL, HBSIZE is set to 8 words. This address may be stored in a variable of user defined type .  A call to free() deallocates HBSIZE contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns NULL on successful deallocation.  Otherwise, the value of t is unchanged by call to free().    All unallocated user defined variables are set to predefined constant  NULL.</p>
+
+    </article>
+
+    <article id="nav-system-call-interface" class="detail">
+      <h2>(High Level) System call interface to expOS</h2>
+      <p>ExpL programs interact with eXpOS using system calls. The following are the system calls supported by ExpL.</p>
+      <h3>Create</h3>
+      <p>The Create operation takes as input a filename and creates an empty file by that name. It returns 0 if it is a success and an error code otherwise.</p>
+      <p style="text-indent: 5em;"><code> int Create (str filename);</code></p>
+      <h3>Delete</h3>
+      <p>Delete removes the file from the file system. It returns 0 if it is a success and an error code otherwise.</p>
+      <p style="text-indent: 5em;"><code> int Delete (str filename);</code></p>
+      <h3>Open</h3>
+      <p>The Open operation returns a file descriptor for the specified file, if it is a success. This file descriptor acts as an identifier of the open instance of the file.</p>
+      <p style="text-indent: 5em;"><code> int Open (str filename);</code></p>
+      <h3>Close</h3>
+      <p>This system call is used to close an open file. The return value of this system call is 0 in case of success and the appropriate error code in case of failure.</p>
+      <p style="text-indent: 5em;"><code> int Close (int fileDescriptor);</code></p>
+      <h3>Read</h3>
+      <p> The Read operation reads one word from the file and stores it into the variable passed as argument. It returns 0 if it is a success.</p>
+      <p style="text-indent: 5em;"><code> int Read (int fileDescriptor, str/int variable);</code></p>
+      <h3>Write</h3>
+      <p>The Write operation writes the word stored in the variable passed as argument to the file. </p>
+      <p style="text-indent: 5em;"><code> int Write (int fileDescriptor, str/int variable);</code></p>
+      <h3>Seek</h3>
+      <p>The Seek operation allows the application program to change the value of the file pointer so that subsequent Read/Write is performed from a new position in the file. </p>
+      <p style="text-indent: 5em;"><code> int Seek (int fileDescriptor, int offset);</code></p>
+      <h3>Fork</h3>
+      <p> Replicates the process invoking the system call. </p>
+      <p style="text-indent: 5em;"><code> int Fork ();</code></p>
+      <h3>Exec</h3>
+      <p> Exec destroys the present process and loads the executable file given as input into a new memory address space and start its execution.  </p>
+      <p style="text-indent: 5em;"><code> int Exec (str fileName);</code></p>
+      <h3>Exit</h3>
+      <p>Exit system call terminates the execution of the process which invoked it. </p>
+      <p style="text-indent: 5em;"><code> void Exit ();</code></p>
+      <h3>Getpid</h3>
+      <p>Returns the process identifier of the invoking process. The system call does not fail. </p>
+      <p style="text-indent: 5em;"><code> int Getpid ();</code></p>
+      <h3>Getppid</h3>
+      <p>Returns to the calling process the value of the process identifier of its parent. The system call does not fail.</p>
+      <p style="text-indent: 5em;"><code> int Getppid ();</code></p>
+      <h3>Shutdown</h3>
+      <p>Shutdown system call terminates all processes and halts the machine.</p>
+      <p style="text-indent: 5em;"><code> void Shutdown ();</code></p>
+      <h3>Wait</h3>
+      <p>The current process is blocked till the process with PID given as argument executes a Signal system call or exits.</p>
+      <p style="text-indent: 5em;"><code> int Wait (int pid);</code></p>
+      <h3>Signal</h3>
+      <p>All processes waiting for the signaling process are resumed. The system call does not fail.</p>
+      <p style="text-indent: 5em;"><code> int Signal ();</code></p>
+      <h3>FLock</h3>
+      <p>Locks a file so that other applications running concurrently are not permitted to read/write the file till the calling process unlocks it.</p>
+      <p style="text-indent: 5em;"><code> int FLock (int fileDescriptor);</code></p>
+      <h3>FUnLock</h3>
+      <p>FUnLock operation allows an application program to unlock a file which the application had locked earlier, so that other applications are no longer restricted from reading/writing the file.</p>
+      <p style="text-indent: 5em;"><code> int FUnLock (int fileDescriptor);</code></p>
+      <h3>Semget</h3>
+      <p>This system call is used to obtain a binary semaphore.</p>
+      <p style="text-indent: 5em;"><code> int Semget ();</code></p>
+      <h3>Semrelease</h3>
+      <p>This system call is used to release a semaphore descriptor held by the process.</p>
+      <p style="text-indent: 5em;"><code> int Semrelease (int semDescriptor);</code></p>
+      <h3>SemLock</h3>
+      <p>This system call is used to lock the semaphore.</p>
+      <p style="text-indent: 5em;"><code> int SemLock (int semDescriptor);</code></p>
+      <h3>SemUnLock</h3>
+      <p> This system call is used to unlock a semaphore that was previously locked by the calling process.</p>
+      <p style="text-indent: 5em;"><code> int SemUnLock (int semDescriptor);</code></p>
+    </article>
+
+    <article id="nav-sample-programs" class="detail">
+      <h2>Sample Programs</h2>
+      <h3>An Example ExpL Program without user defined types</h3>
+      <p>The following program calculates and prints out the factorial of the first n numbers, value of n read from standard input.</p>
+        <pre>
+  decl
+      int fact(int n);
+  enddecl
+  int fact(int n)
+  {
+      decl
+          int rvalue;
+      enddecl
+      begin
+          if (n==1) then
+              rvalue = 1;
+          else
+              rvalue = n * fact(n-1);
+          endif;
+          return rvalue;   /* Note that only one return statement is allowed.
+      end
+  }
+  int main( )  /* Main definition should always begin like this  */
+      decl
+          int n,i ;
+      enddecl
+      begin
+          read(n); /*WRONG*/
+          i = 1;
+          while ( i <= n)  do
+              write ( fact(i));
+              i = i + 1;
+          endwhile;
+          return 1;  /* Any integer value may be returned */
+      end
+    }
+        </pre>
+      <h3>Sample ExpL program using User Defined types</h3>
+      <p>The following program reads elements into a linked list and prints them.</p>
+        <pre>
+  type
+      List
+      {
+          int data;
+          List next;
+      }
+  endtype
+  decl
+      List head;
+  enddecl
+  int main()
+  {
+      decl
+          int length, x;
+          List p, q;
+      enddecl
+      begin
+          head=NULL;
+          read(length);/*CHECK*/
+          q=head;
+          while (length!=0)  do   /* reading elements to a linked list */
+              read(x);/*CHECK*/
+              p=alloc();
+              p.data=x;
+              p.next=null;
+              if (head==null) then
+                  head=p;
+                  q=p;
+              else
+                  q.next=p;
+                  q=q.next;
+              endif;
+              length=length-1;
+          endwhile;
+          p=head;
+          while(p!=NULL)  do  /* printing elements of the linked list */
+              write(p.data);
+              p=p.next;
+          endwhile;
+          return 1;
+      end   /* End of main */
+    }
+        </pre>
+
+    </article>
+    <article id="nav-appendix" class="detail">
+      <h2>Appendix</h2>
+      <h3>Keywords</h3>
+      <p>The following are the reserved keywords in ExpL and it cannot be used as identifiers.</p>
+      <table style="width:80%;text-align:center;">
+        <tbody>
+          <tr>
+            <td>read</td>
+            <td>write</td>
+            <td>if</td>
+            <td>then</td>
+            <td>else</td>
+          </tr>
+          <tr>
+            <td>endif</td>
+            <td>do</td>
+            <td>endwhile</td>
+            <td>break</td>
+            <td>while</td>
+          </tr>
+          <tr>
+            <td>int</td>
+            <td>str</td>
+            <td>return</td>
+            <td>decl</td>
+            <td>enddecl</td>
+          </tr>
+          <tr>
+            <td>type</td>
+            <td>endtype</td>
+            <td>NULL</td>
+            <td>TRUE</td>
+            <td>FALSE</td>
+          </tr>
+          <tr>
+            <td>continue</td>
+            <td>main</td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <h3>Operators and Delimiters</h3>
+      <p>The following are the operators and delimiters in ExpL</p>
+      <table style="width:80%;text-align:center;">
+        <tbody>
+          <tr>
+              <td>&gt;</td>
+              <td>&lt;</td>
+              <td>&gt;=</td>
+              <td>&lt;=</td>
+              <td>!=</td>
+              <td>==</td>
+              <td>(</td>
+               <td>)</td>
+          </tr>
+          <tr>
+              <td>{</td>
+              <td>}</td>
+              <td>[</td>
+              <td>]</td>
+              <td>/</td>
+              <td>;</td>
+              <td>*</td>
+               <td>=</td>
+          </tr>
+          <tr>
+              <td>+</td>
+              <td>-</td>
+              <td>%</td>
+              <td>AND</td>
+              <td>NOT</td>
+              <td>OR</td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <h3>Identifiers</h3>
+      <p>Identifiers are names of variables and user-defined functions. Identifiers should start with an letter, and may contain both letters and digits. Special characters are not allowed in identifiers.</p>
+      <p style="text-indent: 5em;">letter -&gt; [a-z]|[A-Z]</p>
+      <p style="text-indent: 5em;">digit -&gt; [0-9]</p>
+      <p style="text-indent: 5em;">identifier -&gt; (letter)(letter | digit)*</p>
+      <br/>
+      <h3>Constants</h3>
+      <p>An integer constant  is a sequence of digits representing an integer. Negative integers are represented with a negative sign preceding the sequence of digits. Any sequence of characters enclosed within double quotes (”) are considered as string constant.  Normally,  implementations append a  ’\0’ character which is implicitly appended at the end of a string value.  The maximum size of integers and strings are left to the implementation.    TRUE and FALSE are boolean constant.   The special constant NULL is stored in unallocated user defined variables.</p>
+      <p><i>Examples</i> :  19, -35, "Hello World"</p>
+
+    </article>
+  </section>
