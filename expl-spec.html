@@ -28,7 +28,7 @@
     <menu>
       <ul>
         <li><a class="sec" href="#nav-intro">Introduction</a></li>
-        <li><a class="sec" href="#nav-data-types">Suppoerted data types</a></li>
+        <li><a class="sec" href="#nav-data-types">Supported data types</a></li>
         <li><a class="sec" href="#nav-general-program-structure">General Program Structure</a</li>
         <li><a class="sec" href="#nav-stmts-and-exprs">Statements and Expressions</a><li>
         <li><a class="sec" href="#nav-dynamic-memory-allocation">Dynamic Memory Allocation</a></li>
@@ -48,9 +48,58 @@
     <article id="nav-data-types" class="detail">
       <h2>Supported data types</h2>
 
+      <h3>Primitive data types</h3>
+        <p><b>Integer</b> :  An integer type variable is declared using the keyword <b>int</b>.  <i>Example</i> : </p>
+        <pre>
+            int a, b, c;  /* Declares variables a, b, c of type integer */
+        </pre>
+
+        <p><b>String</b> :  A string is a sequence of characters.  A string type variable is declared using the keyword <b>str</b>.   <i>Example</i> : </p>
+        <pre>
+            str mystring;   /*  Declares a variable mystring of type string.  */
+        </pre>
+
+
+        <p><b>Boolean</b> :  ExpL does not permit boolean variables. But logical expressions like (a < b) or (a==b) & (a<5) are supported and are considered to be of type boolean.  </p>
+
+      <h3>Composite data types</h3>
+        <p><b>Arrays</b></p>
+        <p style="text-indent: 3em;">Arrays can be of <b>integer</b> or <b>string</b> type only.  Only single-dimensional arrays are allowed.   The semantics is similar to that of C programming language.  Arrays are  allocated statically.  </p>
+        <p><i>Example</i> :</p>
+        <pre>
+          int a[10];            /* array a indexed a[0],a[1],..a[9], can store 10 integers*/
+          str stringlist[10];   /* stringlist is an array of 10 strings */
+        </pre>
+        <p><b>User-defined types</b></p> <p style="text-indent: 3em;">ExpL allows user defined data types. The (member) <b>fields</b> of a user defined type may be of type a) integer, b) string,  c) a previously defined user defined type or d) the type that is currently being defined. Arrays of user defined types are <b>not</b> allowed. The maximum number of fields in a user defined type is limited to the constant HBSIZE  by ExpL.  (The value of HBSIZE is left to the implementation).   </p>
+        <p><i>Note</i> : ExpL specifies that the <b>store</b>  for variables of user defined types shall be <b>dynamically allocated</b>. Hence the programmer has to call the library function alloc() to allocate store for variables of user defined types before use.   User defined types take default value NULL unless allocated or assigned otherwise.  Store allocated for a variable of a user defined type is de-allocated using the free() library function.</p>
+        <p><i>Example</i> : A user defined type, mytype is defined as:</p>
+        <pre>
+          mytype
+          {
+            int a;
+            str b;
+          }
+        </pre>
+        <p>a variable of type mytype is declared as:</p>
+        <pre>
+          mytype var;
+        </pre>
+        <p>Storage for the variable is allocated as:</p>
+        <pre>
+          var=alloc();   /* Note:  Access without allocation can lead to run time errors */
+        </pre>
+        <p>Its fields may be accessed as:</p>
+        <pre>
+          var.a=10;     /*  the “.” symbol is used to access member fields */
+          var.b="hello";
+        </pre>
+        <p>The memory allocate may be freed as:</p>
+        <pre>
+          retval = free(var);
+        </pre>
+        <p><i>Note</i> :  The ExpL compiler may internally represent var like a pointer variable. The library function alloc may be designed so as to allocate memory and return pointer to allocated memory. (Library functions are explained in detail later on.) The returned pointer is stored in var.   </p>
 
     </article>
-<<<<<<< HEAD
 
 
     <article  class="detail"id="nav-stmts-and-exprs">
