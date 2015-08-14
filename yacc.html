@@ -12,17 +12,17 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-			<li><a href="#">Help</a></li>      
+			<li><a href="#">Help</a></li>
 			<li><a href="#">Code</a></li>
 			<li><a href="#">Roadmap</a></li>
 			<li><a href="documentation.html" class="navactive">Documentation</a></li>
-      
+
     </ul>
   </nav>
 </header>
 <div class="about center part clearfix">
  <header class="title">
-	<h3 class="fleft">YACC</h3>	
+	<h3 class="fleft">YACC</h3>
  </header>
     <aside class="column4 mright">
 			<menu>
@@ -34,70 +34,69 @@
 					<li><a href="#navpassingvalues" class="sec">Token attributes</a></li>
 					<li><!--For blank space between lines and download button--> &nbsp;</li>
 					<li><a href="https://github.com/silcnitc/documentation/blob/master/yacc/yacc.odt?raw=true" class="button"> Download as pdf</a></li>
-					<li><!--Blank line for space between download button and main title--> &nbsp;</li>		
+					<li><!--Blank line for space between download button and main title--> &nbsp;</li>
 				</ul>
 			</menu>
-		</aside>		
-		
+		</aside>
+
 	  	<section class="columnthird content"><h1 class="mright">USING YACC</h1>
 		   <article id="navintro" class="detail">
 				<h2>Introduction to YACC</h2>
 				<p>
-				YACC (Yet Another Compiler Compiler) is a tool used to generate a parser. 
+				YACC (Yet Another Compiler Compiler) is a tool used to generate a parser.
 				This document is a tutorial for the use of YACC to generate a parser for SIL.
-				 YACC translates a given <a href="#navcfg"> Context Free Grammar (CFG)</a> 
+				 YACC translates a given <a href="#navcfg"> Context Free Grammar (CFG)</a>
 				 specifications (input in input_file.y) into a C implementation (y.tab.c) of
-				 a corresponding <a href="http://en.wikipedia.org/wiki/Pushdown_automaton"> push down automaton </a> (i.e., a finite state machine with a stack). 
-				 This C program when compiled, yields an executable parser.              
+				 a corresponding <a href="http://en.wikipedia.org/wiki/Pushdown_automaton"> push down automaton </a> (i.e., a finite state machine with a stack).
+				 This C program when compiled, yields an executable parser.
 				</p>
 				<center>
-				<img src="img/yacc_1.png" style="max-width:70%"> 
-				</center><br>				
-				<p> The source SIL program is fed as the input to the generated parser ( a.out ).  
-				   The <i>parser</i> checks whether the program satisfies the syntax specification given in the input_file.y file.  
-				
-         <p> 
-            	<big><b>Parser</b>:</big></p><p>A parser is a program that checks whether its input (viewed as a stream of tokens) meets a given grammar specification.  The syntax of SIL can be specified 
+				<img src="img/yacc_1.png" style="max-width:70%">
+				</center><br>
+				<p> The source SIL program is fed as the input to the generated parser ( a.out ).
+				   The <i>parser</i> checks whether the program satisfies the syntax specification given in the input_file.y file.
+
+         <p>
+            	<big><b>Parser</b>:</big></p><p>A parser is a program that checks whether its input (viewed as a stream of tokens) meets a given grammar specification.  The syntax of SIL can be specified
             	 using a Context Free Grammar. As mentioned earlier, YACC takes this specification and generates a parser for SIL. 		  </p>
 		<p id="navcfg">
 				  <big><b>Context Free Grammar (CFG)</b>:</big></p>
 				  <p>
-				  A context free grammar is defined by a four tuple (N,T,P,S) -  a set N of non-terminals, 
-				  a set T of terminals (in our project, these are the <a href="lex.html#navintro">tokens</a> returned by the lexical analyzer and hence we 
-				  may refer to them as tokens occasionally),  set P of productions and a start variable  S. 
-				  Each production consists of a non-terminal on the left side (head part) and a sequence of tokens and 
+				  A context free grammar is defined by a four tuple (N,T,P,S) -  a set N of non-terminals,
+				  a set T of terminals (in our project, these are the <a href="lex.html#navintro">tokens</a> returned by the lexical analyzer and hence we
+				  may refer to them as tokens occasionally),  set P of productions and a start variable  S.
+				  Each production consists of a non-terminal on the left side (head part) and a sequence of tokens and
 				  non-terminals (of zero or more length) on the right side (body part). We will explore productions further in detail <a href="#navprod">later</a> in this documentation.
 				  For more about context free grammars refer to this<a href="http://en.wikipedia.org/wiki/Pushdown_automaton" > wiki </a>.
              </p>
 							<p id="navgramex1">
-              <b>Example:</b>  This example is an  
+              <b>Example:</b>  This example is an
               Infix to Postfix converter implemented using YACC.  The rules part of the YACC program has been shown below:
 							</p>
-<div class="syntax"> 
-<pre>	
+
+<pre>
 start: expr '\n'	{exit(1);}
      ;
 expr:  expr '+' expr	{printf("+ ");}
-    | expr '*' expr	{printf("* ");}  
-    | '(' expr ')'	
+    | expr '*' expr	{printf("* ");}
+    | '(' expr ')'
     | DIGIT		{printf("NUM%d ",pos);}
-    ;   
+    ;
 </pre>
-</div>
      <p>
      In this example:<br> The set of non-terminals are N = {start, expr}<br> The set of terminals are
-     T = {'\n', '+',  '*', '(', ')' , DIGIT } <br>The start symbol S = start.  				
+     T = {'\n', '+',  '*', '(', ')' , DIGIT } <br>The start symbol S = start.
 		</p>
 		<p>Sample Input/Output :</p>
 		<div class="syntax"> 
 I:	1+5<br>
-O:	NUM1 NUM2 + 
+O:	NUM1 NUM2 +
 		</div>
 					<p>
 					When the input expression 1+5 is given to the parser generated by YACC, the parser prints a <a href="http://en.wikipedia.org/wiki/Reverse_Polish_notation">postfix</a> form of the original expression 1+5 as  NUM1 NUM2 +  where, NUM1 represents the first number ( 1 ) in the input and NUM2 represents the second number ( 5 ) in the input.
 				</p>
 		<p>Sample Input/Output :</p>
-		<div class="syntax"> 
+		<div class="syntax">
 I:	3+(1*9)+5<br>
 O:	NUM1 NUM2 NUM3 * + NUM4 + <br><br>
 
@@ -105,62 +104,61 @@ I:	5$<br>
 O:	NUM1 error <br>
 		</div>
 						<p>
-						The <a href="#navgramex1">example</a> above demonstrates the specification of rules in YACC. 
+						The <a href="#navgramex1">example</a> above demonstrates the specification of rules in YACC.
 						 In this example there are five rules. Each rule has a <i>production part</i> and an <i>action part </i> .
 						   The action part consists of C statements enclosed within a { and }.
 						    Each production part has a <i>head</i> and a <i>body</i> separated by a '<b>:</b>'. For example, the first rule
 						 above has production part with start as the head and expr '\n' as the body.
 						   The action part for the rule is {exit(1);}.
 						   The parser reads the input sequentially
-						    and tries to find a pattern match with the body part of each production.  
-						    When it finds a matching production, 
-						   the action part of the corresponding rule is executed. 
+						    and tries to find a pattern match with the body part of each production.
+						    When it finds a matching production,
+						   the action part of the corresponding rule is executed.
 						    The process is repeated till the end of the input.
              </p>
 <p>             In the above example, when the input 1+5 is given to the parser,
               it attempts to match the input with the body of the production of the first rule.
                When the input has been parsed completely and correctly matched with the start production start: expr '\n' the
                 parser executes the action exit(1);. The statements printf("NUM "); and printf("+ ");
-              are executed as result of the input being matched with the productions expr: DIGIT and 
+              are executed as result of the input being matched with the productions expr: DIGIT and
               expr:  expr '+' expr respectively.
-              If the parser fails to find any matching body part, it invokes a special yyerror() function. 
+              If the parser fails to find any matching body part, it invokes a special yyerror() function.
                In our example, the yyerror() function is programmed to print the message “error”.
 				</p>
 			</article>
-			
+
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 			</div>
 			 <article id="navyyparse" class="detail">
 		<h2>yyparse()</h2>
 			<p>
-      The y.tab.c file contains a function yyparse() which is an implementation (in C) of 
+      The y.tab.c file contains a function yyparse() which is an implementation (in C) of
       a push down automaton. yyparse() is responsible for parsing the given input file.
         The function yylex() is invoked by yyparse() to read tokens from the input file.
-         Click <a href="#navexy0al">here</a> to view an example of yylex() definition. 
-         Note that the yyparse() function is automatically generated by YACC  in the y.tab.c file. 
-         Although YACC declares yylex() in the y.tab.c file, it <u>does not generate</u> the definition for yylex().  
+         Click <a href="#navexy0al">here</a> to view an example of yylex() definition.
+         Note that the yyparse() function is automatically generated by YACC  in the y.tab.c file.
+         Although YACC declares yylex() in the y.tab.c file, it <u>does not generate</u> the definition for yylex().
           Hence the yylex() function definition has to be supplied by you (either directly by defining yylex() in
            the <i>auxiliary functions</i> section (explained in the next section) or using a lexical analyzer generator like LEX).
             Each invocation of yylex() must return the next token (from the input steam) to yyparse().
-             The action corresponding to a production is executed by yyparse() only after sufficient number of tokens 
-      has been read  (through repeated invocations of yylex()) to get a complete match with the body of the production.      
+             The action corresponding to a production is executed by yyparse() only after sufficient number of tokens
+      has been read  (through repeated invocations of yylex()) to get a complete match with the body of the production.
       </p>
 			</article>
 
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 			</div>
-		  
+
 			 <article id="navstructure" class="detail">
 				<h2>The structure of YACC programs</h2>
 				<p>
-				A YACC program consists of three sections: Declarations, Rules and Auxiliary functions. 
-				(Note the similarity with the structure of LEX programs).              
+				A YACC program consists of three sections: Declarations, Rules and Auxiliary functions.
+				(Note the similarity with the structure of LEX programs).
 				</p>
-				
-  <div class="syntax">
-<pre>
+
+  <pre>
 DECLARATIONS
 
 %%
@@ -171,112 +169,111 @@ RULES
 
 AUXILIARY FUNCTIONS
 </pre>
-</div>
-             <br>				
-				<h3>2.1 Declarations</h3>  
-              <p>  
+             <br>
+				<h3>2.1 Declarations</h3>
+              <p>
               The declarations section consists of two parts: (i) C declarations and (ii) YACC declarations .
               The C Declarations are delimited by <b>%{</b> and <b>%}</b>.
                This part consists of all the declarations required for the C
-                code written in the <i>Actions</i> section and the <i>Auxiliary functions</i> section. YACC copies the contents of this section  into the generated y.tab.c file without any modification.   
+                code written in the <i>Actions</i> section and the <i>Auxiliary functions</i> section. YACC copies the contents of this section  into the generated y.tab.c file without any modification.
                 <br>
-                The following example shows an abstract outline of the structure of the declarations part of a YACC program:  
+                The following example shows an abstract outline of the structure of the declarations part of a YACC program:
 </p>
                <p><b>Example : </b></p>
-               						<div id="decl" class="syntax"> 
+               						<div id="decl" class="syntax">
 <pre>/* Beginning of Declarations part */
-%{      /* Beginning of C declarations */   
+%{      /* Beginning of C declarations */
 
-%}      /* End of C declarations */    
+%}      /* End of C declarations */
 
-	/* Beginning of YACC declarations  */ 
+	/* Beginning of YACC declarations  */
 
-	
-	/* End of YACC declarations */ 
-	 
+
+	/* End of YACC declarations */
+
 /* End of Declarations Part */
-%% 
+%%
 </pre>
-</div> 
-						
-						The YACC declarations part comprises of declarations of tokens (usually returned by the lexical analyzer). 
+</div>
+
+						The YACC declarations part comprises of declarations of tokens (usually returned by the lexical analyzer).
 						The parser reads the tokens by invoking the function yylex() (To be discussed in detail later).
 				<br>
-				<br>		
-          <h3>2.2 Rules</h3> 
+				<br>
+          <h3>2.2 Rules</h3>
          </p>
-         
+
          <p>
-          A rule in a YACC program comprises of two parts (i) the production part and (ii) the action part. 
+          A rule in a YACC program comprises of two parts (i) the production part and (ii) the action part.
            In this project, the syntax of SIL programming language will be specified in
-           the form of a context free grammar. A rule in YACC is of the form:                  
+           the form of a context free grammar. A rule in YACC is of the form:
          </p>
-         <div class="syntax"> 
+         <div class="syntax">
 production_head	:	production_body	{action in C } ;
 						</div>
-		The following example shows an abstract outline of the structure of the rules part of a YACC program: 
-                  <div class="syntax"> 
+		The following example shows an abstract outline of the structure of the rules part of a YACC program:
+                  <div class="syntax">
 %%	 <br>
 /* Rules Section begins here */ <br>
 <br>
 /* Rules Section ends here */ <br>
 
-%% 	 
+%%
 						</div>
      <p> The rules in our example can be found <a href="#navexy0r">here</a> </p>
-		  
-		  
-		  <big id="navprod"><b>2.2.1 Productions</b></big> 
+
+
+		  <big id="navprod"><b>2.2.1 Productions</b></big>
          </p>
          Each production consists of a production head and a production body.
          Consider a production from our <a href="#navexy0r">example</a>:
-             
-<div class="syntax"> 
+
+<div class="syntax">
 expr	:	expr '+' expr
 </div>
-		<p>The expr on the LHS of the <b>:</b> in the production is called the <i>head</i> of 
-		the production and the expr '+' expr on the RHS of the : is called the <i>body</i> of the production. In the above example, '+' is a terminal (token) and expr is a non-terminal.   Users can give name to a token.  
-(for instance we can give the name 'PLUS' to the token '+').   
- In such cases, the names must be defined in the  declarations section. For example have a look at the definition of the token DIGIT <a href="#navexy0yd">here</a>. The head of a production is always a non-terminal. 
+		<p>The expr on the LHS of the <b>:</b> in the production is called the <i>head</i> of
+		the production and the expr '+' expr on the RHS of the : is called the <i>body</i> of the production. In the above example, '+' is a terminal (token) and expr is a non-terminal.   Users can give name to a token.
+(for instance we can give the name 'PLUS' to the token '+').
+ In such cases, the names must be defined in the  declarations section. For example have a look at the definition of the token DIGIT <a href="#navexy0yd">here</a>. The head of a production is always a non-terminal.
 Every non-terminal in the grammar must appear in the head part of at least one production.
-		
-		</p>            
-		<p>Note that a  non-terminal in the head part of a production may have one or more production bodies separated by a “|”. 
+
+		</p>
+		<p>Note that a  non-terminal in the head part of a production may have one or more production bodies separated by a “|”.
       Consider the non-terminal expr in our <a href="#navexy0">example</a>.
-       The non-terminal has four production bodies expr '+' expr , expr '*' expr , '(' expr ')' and DIGIT. 
+       The non-terminal has four production bodies expr '+' expr , expr '*' expr , '(' expr ')' and DIGIT.
        The first production body has an associated print action op_printf("+") and the second production body has an associated action op_print("*").
         yyparse() executes the action only when the body expr '+' expr has been matched with the input.
-       The action part of a single production may have several statements of C code. 
+       The action part of a single production may have several statements of C code.
       </p>
-             
-             
-             
-             
+
+
+
+
      <p> <big><b>2.2.2 Actions</b></big></p>
-      
-      
-      <p> The action part of a rule consists of C statements enclose within a '{' and '}'. These statements are 
-      executed when the input is matched with the body of a production and a <i>reduction</i> takes place. The notion of a <i>reduction</i> will be explained later. From the <a href="#navexy0r">example</a> below, consider the following rule: 
+
+
+      <p> The action part of a rule consists of C statements enclose within a '{' and '}'. These statements are
+      executed when the input is matched with the body of a production and a <i>reduction</i> takes place. The notion of a <i>reduction</i> will be explained later. From the <a href="#navexy0r">example</a> below, consider the following rule:
       </p>
 			<div class="syntax">
 			expr:  DIGIT		{printf("NUM%d ",pos);}
-			</div>		
+			</div>
 			<p>In this rule, when the input matches with the body of the production DIGIT, it is <i>reduced</i> to expr and the action {printf("NUM%d ",pos);} is executed. </p>
          <p> <big><b>2.2.3 Auxiliary Functions</b></big> </p>
-         
-         
-<p>  The Auxiliary functions section contains the definitions of three mandatory functions main(), yylex() and yyerror(). 
-     You may wish to add your own functions (depending on the the requirement for the application) in the y.tab.c file. 
-     Such functions are written in the auxiliary functions section. 
+
+
+<p>  The Auxiliary functions section contains the definitions of three mandatory functions main(), yylex() and yyerror().
+     You may wish to add your own functions (depending on the the requirement for the application) in the y.tab.c file.
+     Such functions are written in the auxiliary functions section.
      The <a href="#navexy0al">main()</a> function must invoke <a href="#navexy0al">yyparse()</a> to parse the input
-     The auxiliary functions section of our <a href="#navexy0al">example</a> program uses no user defined functions. You will need to write your supporting functions later in this project.   </p> 
+     The auxiliary functions section of our <a href="#navexy0al">example</a> program uses no user defined functions. You will need to write your supporting functions later in this project.   </p>
 
 
-		
+
      <b>Example: intopost.y</b>
-            
-<div id = "navexy0" class="syntax"> 
-<pre id = "navexy0d">	
+
+<div id = "navexy0" class="syntax">
+<pre id = "navexy0d">
 
 %{
 <b>/*** Auxiliary declarations section ***/</b>
@@ -299,16 +296,16 @@ int pos=0;
 %%
 <c id=navexy0r></c>
 <b>/*** Rules Section ***/</b>
-start : expr '\n'		{exit(1);} 
-	; 
+start : expr '\n'		{exit(1);}
+	;
 
-expr:  expr '+' expr	{op_print('+');} 
-	| expr '*' expr	{op_print('*');} 
-	| '(' expr ')'	
-	| DIGIT		{printf("NUM%d ",pos);} 
-	; 
+expr:  expr '+' expr	{op_print('+');}
+	| expr '*' expr	{op_print('*');}
+	| '(' expr ')'
+	| DIGIT		{printf("NUM%d ",pos);}
+	;
 
-%% 
+%%
 <c id=navexy0al></c>
 <b>/*** Auxiliary functions section ***/</b>
 
@@ -319,47 +316,47 @@ void op_print(char op)
 	else if(op == '*')
 		printf("MUL");
 }
-	
-yyerror() 
-{ 
-	printf("error");	
-	return; 
-} 
 
-yylex() 
-{ 
-	int c; 
-	c = getchar(); 
-	if(isdigit(c)) 
-	{ 
-		pos++;		 
-		return DIGIT; 
-	}
-	else
-		return c; 
+yyerror()
+{
+	printf("error");
+	return;
 }
 
-main() 
-{ 
-	yyparse(); 
-	return 1; 
+yylex()
+{
+	int c;
+	c = getchar();
+	if(isdigit(c))
+	{
+		pos++;
+		return DIGIT;
+	}
+	else
+		return c;
+}
+
+main()
+{
+	yyparse();
+	return 1;
 }</pre>
 </div>
 
 <p><i>y.tab.c</i> file can be generated using the command
-	<div class="syntax">
-		yacc intopost.y
-	</div>
+	<pre>
+    	yacc intopost.y
+	</pre>
 	<i>y.tab.c</i> is compiled using C compiler
-	<div class="syntax">
+	<pre>
 		gcc y.tab.c
-	</div>
+	</pre>
 </p>
 <p>NOTE: <i>%left </i> option is used to resolve shift/reduce conflicts. It is explained in detail later. </p>
-						
+
 				<p>Sample Input/Output:
-				
-  <div class="syntax"> 
+
+  <div class="syntax">
 I:	2+2<br>
 O:	NUM1 NUM2 PLUS
 						</div>
@@ -367,233 +364,198 @@ O:	NUM1 NUM2 PLUS
 
 <p>
  When yyparse() matches the input 2+2 with the production body expr '+' expr, it executes the action op_print('+');
- and as a result prints “PLUS” in place of '+' as per the definition of op_print(). 
+ and as a result prints “PLUS” in place of '+' as per the definition of op_print().
 </p>
 <p>
 <b>NOTE</b>: op_print() is used in the example just to show an example of the declaration, definition and usage of a user defined auxliary function. Generally in this project, we use printf() to display content.
-</p>		
-						
-						
-			</article>	
-			
+</p>
+
+
+			</article>
+
 			<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 			</div>
 		  <article id="navshiftreduce" class="detail">
-        <h2>   A working introduction to shift-reduce parsing </h2>		  
-        <p> YACC uses shift-reduce parsing methodology to parse the given input. 
+        <h2>   A working introduction to shift-reduce parsing </h2>
+        <p> YACC uses shift-reduce parsing methodology to parse the given input.
            The shift-reduce parser is essentially a push down automaton.  It consists of a finite state machine with a stack.
             The stack is used to hold terminal and/or non-terminal symbols.
              The following is a gentle introduction to shift-reduce parsing.
-           </p>  
+           </p>
 <p>         Take note of the following points before we proceed:</p>
-         <p>A shift-reduce parser is initialized in the following <i>configuration</i>.</p>          
-         <div class="syntax">
-<pre>
-STACK:	$				I/P BUFFER:	 &ltInput to be parsed&gt $ 
-</pre>  
-          </div> 
-				<p>
-        The input to be parsed, which is a sequence of terminal symbols, is stored in an input buffer with '$' symbol 
-        at the end (used as an end-marker).  The stack is initialized to contain just the symbol '$'.  
+         <p>A shift-reduce parser is initialized in the following <i>configuration</i>.</p>
+      <pre>
+STACK:	$				I/P BUFFER:	 &ltInput to be parsed&gt $
+</pre>
+      	<p>
+        The input to be parsed, which is a sequence of terminal symbols, is stored in an input buffer with '$' symbol
+        at the end (used as an end-marker).  The stack is initialized to contain just the symbol '$'.
         </p>
         <p>The parser works by repeatedly performing the following actions :<br>
         1. Read the next terminal symbol from the input and push it into the stack and removing it from the input.
-            This operation is called a shift.  (The shift operation will be explained in detail <a href="#navparseact">later</a>.)<br>         
+            This operation is called a shift.  (The shift operation will be explained in detail <a href="#navparseact">later</a>.)<br>
         2. Do some conditional operations on the stack.  These operations are called reductions.
-             Not every iteration may involve reductions. (Reductions will be explained in detail <a href="#navparseact">later</a>.) <br> 
-         
+             Not every iteration may involve reductions. (Reductions will be explained in detail <a href="#navparseact">later</a>.) <br>
+
         3. Until an error is encountered or the input is successfully parsed.</p>
         </p>
         <p>Parsing ends successfully when the input buffer is
          empty (except for the end-marker '$') and the stack contains nothing but the '$'
-          followed by the start symbol of the grammar. 
-            Error condition occurs when the input does not belong to 
+          followed by the start symbol of the grammar.
+            Error condition occurs when the input does not belong to
          the language of the grammar and the parser detects the same.  We will look at error conditions later.  </p>
 		<!-----------------------NOTHING ON ERROR CONDITIONS YET------------------------>
-        
+
       <p>
-      Consider the following context free grammar.  This will be used as a running example for this section. </p>     
-      <div class="syntax">
-<pre>
+      Consider the following context free grammar.  This will be used as a running example for this section. </p>
+      <pre>
 (Production 1)	expr :    expr '+' expr
-(Production 2)  | expr '*' expr  
-(Production 3)	| '(' expr ')'	 
+(Production 2)  | expr '*' expr
+(Production 3)	| '(' expr ')'
 (Production 4)	|	'0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
-</pre>      
-      
-      </div><p>
-      The terminal set is {+,*,(,),0,1,2,3,4,5,6,7,8,9}.  The only non-terminal is 'expr'. 
+</pre>
+
+      <p>
+      The terminal set is {+,*,(,),0,1,2,3,4,5,6,7,8,9}.  The only non-terminal is 'expr'.
       Production 4 is actually a collection of 10 productions.  We refer them collectively with one production number for simplicity.</p>
 <p>
-Let us consider parsing of the input 2+2*3 using this grammar. 
+Let us consider parsing of the input 2+2*3 using this grammar.
  When the parsing process begins, the contents of the stack and the input buffer would be as follows:  </p>
-<div class="syntax">
+
 <pre>
-STACK:		$				I/P BUFFER:	&nbsp &nbsp	2 + 2 $  
+STACK:		$				I/P BUFFER:	&nbsp &nbsp	2 + 2 $
 </pre>
-</div>
+
 <p>
  The contents of the stack and the contents of the input buffer together define the <i>configuration</i> of the parser. On successful completion of parsing, the configuration would be:/p>
 <br>
-<div class="syntax">
 <pre>
 STACK: &nbsp &nbsp 	$ expr &nbsp &nbsp &nbsp			I/P BUFFER:	&nbsp &nbsp	$
 </pre>
-</div>      
 <p> Note here that expr is the start variable of the parser's context free grammar.  This is the accepting configuration.</p>
 <p>
-At each step of parsing, the parser takes an action resulting in a configuration change. 
-A shift-reduce parser can take four possible <i>parser-actions</i>: 
+At each step of parsing, the parser takes an action resulting in a configuration change.
+A shift-reduce parser can take four possible <i>parser-actions</i>:
 <ul id="navparseact">
 <li> 1. <b>Shift</b>  is the parser-action of removing the next unread terminal from the input buffer and pushing it into the stack.
   (The input terminal gets “shifted” to the stack).</li>
 <li> 2. <b>Reduce</b> is the parser-action of replacing one or more grammar symbols from the top of the stack that matches a body of a production,
-  with the corresponding production head. The contents on top of the stack which matches the right side of a production is called a <i><big>handle</big></i>.  
+  with the corresponding production head. The contents on top of the stack which matches the right side of a production is called a <i><big>handle</big></i>.
      The process of replacing a handle with the corresponding production head is called a <i>reduction</i>.</li>
-<li> 3.<b> Accept</b> is the parser-action indicating that the entire input has been parsed successfully. 
-      The parser executes an accept action only if it reaches the accepting configuration –  one in which 
+<li> 3.<b> Accept</b> is the parser-action indicating that the entire input has been parsed successfully.
+      The parser executes an accept action only if it reaches the accepting configuration –  one in which
      the input buffer is empty and the stack contains just the start variable followed by '$'. Accepting state would be of the form:
-<div class="syntax">
 <pre>
- STACK:	$ &ltstart_variable&gt			I/P BUFFER:       $	     
+ STACK:	$ &ltstart_variable&gt			I/P BUFFER:       $
 </pre>
-</div>
 </li>
 <li> 4. <b>Error</b> indicates that an error was encountered while parsing the input.
     In our example, there is no error.  We will see error conditions later.
 </li>
 
 </ul>
-  
-   </p>        
-          
- <h3>The parser's Iteration Steps</h3>       
+
+   </p>
+
+ <h3>The parser's Iteration Steps</h3>
         <p>After initialization, the parser executes the following algorithm.</p>
-<div class="syntax">
 <pre>
-Repeat 
+Repeat
       shift the next terminal from the input to the stack.
-      While there is a “valid” reduction 
-        perform the reduction. 
-Until accepting configuration is reached.  
+      While there is a “valid” reduction
+        perform the reduction.
+Until accepting configuration is reached.
 
 </pre>
-</div>        
 <p>At each step of parsing, the shift-reduce parser decides on an action depending on the configuration of the parser.
 </p>
 <p>
-Several details are left out in this description. 
+Several details are left out in this description.
  For instance, what is a “valid reduction”,  or what the error conditions are etc.
   have not been specified. These are determined by the contents of a parsing table maintained by the parser and
    we will not go into the details here.
  Instead, we will try to see how the parser operates in the case of our running example.
 </p>
-<div class="syntax">
 <pre>
 (1)	STACK: $				I/P BUFFER:	2 + 3 * ( 4 + 5 ) $
 </pre>
-</div>	
 <br>
 At this configuration, the parser executes a <i>shift</i> action i.e. 2 is pushed onto the stack resulting in the configuration:
-<div class="syntax">
 <pre>
 (2)	STACK: $ 2				I/P BUFFER:	+ 3 * ( 4+ 5 ) $
 </pre>
-</div>
 <br>
-Now, the top of the stack matches the right side (body) of Production 4 i.e., the 2 on the stack is 
+Now, the top of the stack matches the right side (body) of Production 4 i.e., the 2 on the stack is
 the handle in this case and a reduction takes place replacing the handle with the production head <i>expr</i>.
-<div class="syntax">
 <pre>
-(3)	STACK: $ expr				I/P BUFFER:	+ 3 * ( 4 + 5 ) $	
+(3)	STACK: $ expr				I/P BUFFER:	+ 3 * ( 4 + 5 ) $
 </pre>
-</div>
 <br>
 As there is no further handles to perform reductions, the parser shifts  the next terminal '+' from the input to the stack.
-<div class="syntax">
 <pre>
 (4)	STACK: $ expr +				I/P BUFFER:	3 * ( 4 + 5 ) $
 </pre>
-</div>
 <br>
 In the next iteration, as no reductions are possible, the parser again shifts the next input:
-<div class="syntax">
 <pre>
-(5) STACK: $ expr + 3				I/P BUFFER:	* ( 4 + 5 ) $	 
+(5) STACK: $ expr + 3				I/P BUFFER:	* ( 4 + 5 ) $
 </pre>
-</div>
 <br>
 Now, the parser can apply Production 4 and  <i>reduce</i>  the handle '3'  on the top of the stack to  <i>expr</i>.
 Thus the parser reduces by Production 4 and replaces '3' with expr.
-<div class="syntax">
 <pre>
 (6) STACK: $ expr + expr			I/P BUFFER:	* ( 4 + 5 ) $
 </pre>
-</div>
 <br>
-At this point there is a further reduction possible using Production 1.  
-However, the “valid” action here is not to perform the reduction, but shift the next input to the stack. 
- The reason being that '*' has higher precedence over '+'.  
+At this point there is a further reduction possible using Production 1.
+However, the “valid” action here is not to perform the reduction, but shift the next input to the stack.
+ The reason being that '*' has higher precedence over '+'.
   (similar issues occur with associativity of operators). Unless the parser is somehow is informed about
    what the correct action is (shift/reduce), under every such situation, the correct precedence/associativity may not be respected. For the time being, it is sufficient to understand that there are ways by which the user can force the parser to act in the right way in most practical situations, particularly when using a parser generator like YACC. Hence we hide these issues for now and assume that the parser is somehow capable of finding the “valid” actions.
- (Some more details on how this will be done will be explained in the <a href="#navconflict">later</a> sections.)  Hence, the next action is a shift. 
-<div class="syntax">
+ (Some more details on how this will be done will be explained in the <a href="#navconflict">later</a> sections.)  Hence, the next action is a shift.
 <pre>
 (7) STACK: $ expr + expr *			I/P BUFFER:	( 4 + 5 )$
 </pre>
-</div>
 <br>
 In the next few iterations, the parser continuously shifts and reduces to reach the configuration:
-<div class="syntax">
 <pre>
 (8) STACK: $ expr + expr * ( expr + expr	I/P BUFFER:	) $
 </pre>
-</div>
 <br>
 Now, the handle “expr+expr” matches the body of production 1, hence the parser reduces by production 1.
-<div class="syntax">
 <pre>
 (9) STACK: $ expr + expr * ( expr		I/P BUFFER:	) $
 </pre>
-</div>
 <br>
-The parser continues to iterate as the accepting configuration has not been reached. 
+The parser continues to iterate as the accepting configuration has not been reached.
 In the next iteration, the parser shifts, as a result emptying the input buffer.
-<div class="syntax">
 <pre>
 (10) STACK: $ expr + expr * ( expr )		I/P BUFFER:	$
 </pre>
-</div>
 <br>
 Now the parser reduces the handle “ ( expr ) ” by production 3,
-<div class="syntax">
 <pre>
 (11) STACK: $ expr + expr * expr		I/P BUFFER:	$
 </pre>
-</div>
 <br>
 In the next iteration, as yet another valid reduction is possible, the parser reduces by Production 2
-<div class="syntax">
 <pre>
 (12) STACK: $ expr + expr			I/P BUFFER:	$
 </pre>
-</div>
 <br>
 As the parser has not reached accepting configuration and there exists another handle top of the stack, the parser further reduces the entire contents of the stack,
  i.e., the handle “expr + expr” with production 1 and thus puts the start symbol expr on the stack.
-<div class="syntax">
 <pre>
 (13) STACK: $ expr				I/P BUFFER:	$
 </pre>
-</div>
 <br>
 On reaching accepting configuration, the parser quits iterating.
  Since the I/P BUFFER is empty and the stack contains only the start variable,
  the parser executes an accept action, indicating that the input has been parsed successfully.
 <br>
 The following table summarizes the step-by-step change in the parser's configuration after each action taken by a shift reduce parser.
-<br> 
+<br>
 </p>
 <table class="tg">
   <tr>
@@ -697,31 +659,31 @@ The following table summarizes the step-by-step change in the parser's configura
     <td class="tg-031e">ACCEPT</td>
   </tr>
 </table>
-  
+
   <br>
-  <p>There are several variants of shift-reduce parsing like the LR(1), 
-  SLR(1) and LALR(1) parsing methods.  The notion of valid shift or a valid reduce 
-  depends on the particular parsing method and can be fairly involved.  
-   We will see how routine situations like precedence and associativity of operators can be easily handled when you are using YACC. 
+  <p>There are several variants of shift-reduce parsing like the LR(1),
+  SLR(1) and LALR(1) parsing methods.  The notion of valid shift or a valid reduce
+  depends on the particular parsing method and can be fairly involved.
+   We will see how routine situations like precedence and associativity of operators can be easily handled when you are using YACC.
     YACC uses an <a href="http://en.wikipedia.org/wiki/LALR_parser">LALR(1) parsing method</a>. An understanding of the general
    principles of shift-reduce parsing at the level presented here will be sufficient for most of this project. </p>
-  
-  
+
+
 
 </article>
-		
+
 		<div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 			</div>
-			
-			
+
+
  <article id="navinfixtopostfix" class="detail">
-        <h2>Infix to Postfix program</h2>	
-              
-     
-<p> When yacc_file.y is fed to YACC, it generates a y.tab.c file. 
+        <h2>Infix to Postfix program</h2>
+
+
+<p> When yacc_file.y is fed to YACC, it generates a y.tab.c file.
     When compiled, this program yields a <a href="#navintro">parser</a>.
-    The generated parser uses shift-reduce parsing to parse the given input. 
+    The generated parser uses shift-reduce parsing to parse the given input.
     Yacc copies the C declarations (in the Declaration section of input_file.y) and all
     the auxiliary functions (in the Auxiliary functions section of input_file.y) directly into y.tab.c without any modification.
  In addition to these, YACC generates  the definition of yyparse() in y.tab.c.
@@ -739,72 +701,66 @@ The following table summarizes the step-by-step change in the parser's configura
 <p>Here is a Sample Input and Output:</p>
 <div class="syntax" id="navsam1">
 <pre>
-I: 2+3*(4+5)   
-O: NUM1 NUM2 NUM3 NUM4 + * + 
+I: 2+3*(4+5)
+O: NUM1 NUM2 NUM3 NUM4 + * +
 
 </pre>
-</div> 
+</div>
 <p>When the expression 2+3 is fed as the input to the generated parser,
-the main() function in the auxiliary functions section  invokes yyparse() as below:  (The code for main() from the example is copied below) </p> 
-<div class="syntax">
+the main() function in the auxiliary functions section  invokes yyparse() as below:  (The code for main() from the example is copied below) </p>
 <pre>
-main() 
-{ 
-	yyparse(); 
-	return 1; 
+main()
+{
+	yyparse();
+	return 1;
 }
 
 </pre>
-</div> 
 As noted earlier, yyparse() invokes yylex() to read tokens from the input.
  For example, when yylex() reads the input 2 and returns the token DIGIT (code of yylex() shown below)
 
-<div class="syntax">
 <pre>
-yylex() 
-{ 
-	int c; 
-	c = getchar(); 
+yylex()
+{
+	int c;
+	c = getchar();
 	if(isdigit(c))  /* Every time a number is found in the input stream,
 	               yylex() increments pos and returns a token DIGIT */
-	{ 
-		pos++;		 
-		return DIGIT; 
-	} 
-	return c;   /* If any character other than a number is found, 
-	               yylex() simply returns the character itself to yyparse() */ 
+	{
+		pos++;
+		return DIGIT;
+	}
+	return c;   /* If any character other than a number is found,
+	               yylex() simply returns the character itself to yyparse() */
 }
- 
+
 </pre>
-</div>
 <p>NOTE: As pos was initialized to 0, it holds the value 1 after returning the first DIGIT, 2 after returning the second DIGIT and so on.
 </p>
-<p>yyparse() is the function that parses the given input using shift-reduce parsing. 
-When the reduction of a handle takes place, yyparse() executes the action 
+<p>yyparse() is the function that parses the given input using shift-reduce parsing.
+When the reduction of a handle takes place, yyparse() executes the action
 (specified in the action part of the rule) corresponding to the handle's production in the yacc program.
  On successful parsing of the given input, yyparse() returns 0.
  If yyparse() fails to parse the given input, it returns 1.
 </p>
 <p>A generalized algorithm of yyparse() would look like:  </p>
-  <div class="syntax">
 <pre>
 Initialize the stack with the end-marker $
 new_token = yylex() /* read the first token from the input */
 while (true)
 	switch(parser_action(stack, new_token))
-		case 'reduce': 
+		case 'reduce':
                   pop the handle from stack, replace it with the
                   head of the handle's production.Execute action
                   part in the yacc file corresponding to the handle's production
-		case 'shift': 
+		case 'shift':
                   push new_token into the stack.
 		          new_token = yylex()  /* read the next token from the input */
 		case 'accept':
 			return 0
 		case 'error':
-			return 1	
-</pre>  
-  </div>
+			return 1
+</pre>
   The following table summarizes the parsing process in every iteration of the above algorithm.
   <br><br>
 <table class="tg">
@@ -885,108 +841,95 @@ while (true)
 <br>
 <br>
  </article>
-        
+
    <div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
         <article id="navconflict" class="detail">
-        <h2>CONFLICTS IN PARSING USING YACC</h2>	
+        <h2>CONFLICTS IN PARSING USING YACC</h2>
         <p>As noted earlier, YACC uses the shift-reduce parsing methodology.  Conflicts arise when the parser is unable to make a decision on the action to execute.
          These conflicts are practically of two-types: shift/reduce conflict and reduce/reduce conflict.
         </p>
         <h4>5.1. &nbsp	resolving shift/reduce conflicts</h4>
-        <p>When the parser cannot decide whether to shift or to 
-        reduce in a configuration where both the actions seem to be viable options. 
+        <p>When the parser cannot decide whether to shift or to
+        reduce in a configuration where both the actions seem to be viable options.
         Consider the following grammar:</p>
-    <div class="syntax">
-<pre>
-	expr :	expr '+' expr 
-     	     |	'(' expr ')' 
-     	     |	'0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' 
+  <pre>
+	expr :	expr '+' expr
+     	     |	'(' expr ')'
+     	     |	'0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
      	;</pre>
-    </div>        
-    When the above grammar is fed to YACC, it produces a warning as shown below    
+    When the above grammar is fed to YACC, it produces a warning as shown below
     <div class="syntax">
-yacc: 1 shift/reduce conflict 
-    </div> 
-    
+yacc: 1 shift/reduce conflict
+    </div>
+
 <p>Let us consider an example to demonstrate a shift-reduce conflict.
- Consider an input of 1+2+3 to the parser generated by YACC for the above context free grammar. 
-The input can be interpreted as [1+2]+3 or 1+[2+3].</p> 
-<p><big>Case 1: </big>When the parser reaches a configuration of:</p>        
-     <div class="syntax">
+ Consider an input of 1+2+3 to the parser generated by YACC for the above context free grammar.
+The input can be interpreted as [1+2]+3 or 1+[2+3].</p>
+<p><big>Case 1: </big>When the parser reaches a configuration of:</p>
 	<pre>STACK:	$ expr+expr</td>	&nbspI/P BUFFER:	+3 $</pre>
-	</div>
 	<p>The parser can choose to reduce by reducing the handle expr+expr on top of the stack to expr.</p>
 <p><big>Case 2: </big>When the parser reaches the configuration as in Case 1, it could chose to shift instead of reduce, hence resulting in the configuration of:</p>
-	<div class="syntax">
 	<pre>STACK:	$ expr+expr+expr	&nbspI/P BUFFER:	$</pre>
-	</div>
 	<p>Now, the parser can reduce expr+expr on top of the stack to expr, following which the contents of the stack expr 	+expr can be reduced to the expr.
 
 The parser faces a conflict on deciding between the shift and reduce actions. This conflict is called shift/reduce conflict.
 
-If the parser chooses to reduce (like in Case 1), the input would be interpreted as [1+2]+3 (left associative). If the parser chooses to shift and reduce later on (like in Case 2), the input would be interpreted as 1+[2+3] (right associative). The difference is the interpretations is the associativity of of the '+' operator. As the + operator is left associative , hence we would want the input to be interpreted as (1+2)+3. This can be done by specifying the associativity of the token '+' using the YACC keyword <b>%left</b> in the Declarations section as shown below:</p>     
+If the parser chooses to reduce (like in Case 1), the input would be interpreted as [1+2]+3 (left associative). If the parser chooses to shift and reduce later on (like in Case 2), the input would be interpreted as 1+[2+3] (right associative). The difference is the interpretations is the associativity of of the '+' operator. As the + operator is left associative , hence we would want the input to be interpreted as (1+2)+3. This can be done by specifying the associativity of the token '+' using the YACC keyword <b>%left</b> in the Declarations section as shown below:</p>
      <div class="syntax">
 	%left '+'
   </div>
  <p>
- Once this had been done, when the parser faces a conflict it 
- refers to the declaration and decides to reduce as the token '+'  has been declared left associative. Tokens can be declared to be right associative or non-associative by using the YACC keywords <b>%right</b> and <b>%nonassoc</b>. As an example,  if you add the production expr -> expr <c>'<'</c> expr  then declaring 
+ Once this had been done, when the parser faces a conflict it
+ refers to the declaration and decides to reduce as the token '+'  has been declared left associative. Tokens can be declared to be right associative or non-associative by using the YACC keywords <b>%right</b> and <b>%nonassoc</b>. As an example,  if you add the production expr -> expr <c>'<'</c> expr  then declaring
     <div class="syntax">
-   % nonassoc '<' 
+   % nonassoc '<'
     </div>
    makes the parser return a parser error on inputs like (a&ltb&ltc) ).
  </p>
 	<p>
- The conflict in our example arises because the grammar is an <a href="http://en.wikipedia.org/wiki/Ambiguous_grammar">ambiguous</a>. Note that, a shift-reduce parser cannot successfully parse ambiguous grammars. To overcome this difficulty, YACC offers certain features like the provision for specifying the associativity 
+ The conflict in our example arises because the grammar is an <a href="http://en.wikipedia.org/wiki/Ambiguous_grammar">ambiguous</a>. Note that, a shift-reduce parser cannot successfully parse ambiguous grammars. To overcome this difficulty, YACC offers certain features like the provision for specifying the associativity
   (seen above) and precedence (to be seen below) that allows the use of certain ambiguous grammars.
 </p>
 <p>
- Consider another ambiguous grammar:</p>	
- <div class="syntax">
+ Consider another ambiguous grammar:</p>
 <pre>
 expr:	expr '+' expr
     |	expr '*' expr
     |	'(' expr ')'
     |	'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'
-</pre> 
- </div>
+</pre>
  When fed to YACC, it produces a warning
  <div class="syntax">
-yacc: 4 shift/reduce conflicts. 
+yacc: 4 shift/reduce conflicts.
  </div>
 In this case, we have two operators of the same associativity but of different precedence.
- i.e., + and * both are left associative but, * has a 
+ i.e., + and * both are left associative but, * has a
 greater precedence as compared to +. The precedence of these operators can be specified as shown below:
-<div class="syntax">
 <pre>
 %left '+'   /*    '+' is left associative */
 %left '*'   /*    '*' is left associative and has higher precedence over '+' */
 </pre>
 
-</div>
-
-Here '*' gets higher precedence over '+' as it has been listed below the '+' operator. 
- The declarations for the associativity of operators must be made in increasing order of precedence, with operators declared in each line assuming higher precedence over those declared above.  
+Here '*' gets higher precedence over '+' as it has been listed below the '+' operator.
+ The declarations for the associativity of operators must be made in increasing order of precedence, with operators declared in each line assuming higher precedence over those declared above.
  If more than one tokens are listed on the same line, they will be assigned equal precedence.
-<div class="syntax">
 <pre>
 %left '+' '-'
 %left '*' '/'
 </pre>
-</div>
 <p>
  Here '*' and '/' have the same  precedence, but both have higher precedence than '+' and '-'.</p>
-<p> YACC resolves shift/reduce conflicts using the precedence and associativity declarations. YACC assigns precedence and associativity for a production as well.<u> A handle's precedence and associativity is the precedence and associativity of 
+<p> YACC resolves shift/reduce conflicts using the precedence and associativity declarations. YACC assigns precedence and associativity for a production as well.<u> A handle's precedence and associativity is the precedence and associativity of
 the last token (not non-terminal) in the handle.</u>
 </p>
 <p>
-When YACC encounters a shift/reduce conflict, it shifts if the token in 
+When YACC encounters a shift/reduce conflict, it shifts if the token in
 the input buffer has a greater precedence than the production of the handle on top of
- the stack and reduces if the production of the handle on top of the stack has a higher 
- precedence than the token. If the production and the token have same precedence, it reduces 
- if the production corresponding to the handle is left associative and shifts if they are right associative. 
+ the stack and reduces if the production of the handle on top of the stack has a higher
+ precedence than the token. If the production and the token have same precedence, it reduces
+ if the production corresponding to the handle is left associative and shifts if they are right associative.
  (NOTE: If the production and token in such a case of equal
  precedence occur and they both are non associative, YACC reports an error).
 </p>
@@ -1029,12 +972,10 @@ the input buffer has a greater precedence than the production of the handle on t
   </table><br>
  At the last configuration of the above table,
  The parser faces a shift reduce configuration. To resolve this the parser refers to the precedence declarations (Assuming precedence has been declared), and finds:
-<div class="syntax">
 <pre>
 %left '+' '-'
 %left '*' '/'
 </pre>
-</div>
 On finding that the '*' token has a greater precedence than '+', the parser chooses
  to shift '*' instead of reducing the handle  “expr + expr”. Recall, that a handle's precedence and associativity is the precedence and associativity of the last token in the handle. Hence, the handle “expr+expr” has the same precedence as its last token '+'. On comparing the precedence of “expr + expr” and '*', parser finds that '*' has a
  greater precedence, and hence it decides to shift, resulting in the configuration:<br><br>
@@ -1045,17 +986,16 @@ On finding that the '*' token has a greater precedence than '+', the parser choo
     <td class="tg-031e">REDUCE</td>
   </tr>
   </table><br>
-And the parser continues to iterate till it reaches accept configuration. 
+And the parser continues to iterate till it reaches accept configuration.
 <br>
 
 <b>NOTE</b>: If the precedence and associativity declarations are not specified, YACC shifts by default to resolve a shift/reduce conflict.
 
      </p>
-<h4> 5.2 &nbsp reduce/reduce conflicts</h4>        
+<h4> 5.2 &nbsp reduce/reduce conflicts</h4>
 <p>When the parser cannot decide upon which of several possible reductions to make it faces a reduce/reduce conflict.
 <br>
 For example, consider the following grammar:
-<div class="syntax">
 <pre>
 program     :  statement
             |	conditional
@@ -1063,158 +1003,146 @@ statement   :  if boolean then stmt else stmt
             |  stmt
 conditional :  if boolean then stmt else stmt
 </pre>
-</div>
 And the configuration to be:
 
-<div class="syntax">
 <pre>
 STACK     :    $ if boolean then stmt else stmt
 I/P BUFFER:    $
 </pre>
-</div>
 
 The handle “if boolean then stmt else stmt” can be reduced using
-<div class="syntax">
 <pre>
 statement : if boolean then stmt else stmt
- 
+
  or
-	
+
 conditional	: if boolean then stmt else stmt
 </pre>
 
-</div>
 
 i.e., there are more than one possible reductions. The parser faces a conflict on deciding which of the several (two in this example) productions to reduce by. This conflict is called reduce/reduce conflict.
 </p>
 <p>
-<b>NOTE:</b>  Reduce-reduce conflicts are bad to have in a grammar.  They are indicative of the fact that your grammar is not properly designed.  Always make it a point to modify the grammar so that there are no more reduce-reduce conflicts.  
-</p>        
+<b>NOTE:</b>  Reduce-reduce conflicts are bad to have in a grammar.  They are indicative of the fact that your grammar is not properly designed.  Always make it a point to modify the grammar so that there are no more reduce-reduce conflicts.
+</p>
         </article>
-        
+
      <div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
 	<br>
-	
+
 <article id="navpassingvalues" class="detail">
-        <h2>Passing values from the yylex() to yyparse().</h2>	
+        <h2>Passing values from the yylex() to yyparse().</h2>
  <p>
- 
+
  The previous infix to postfix program prints the structure of the postfix expression and not the postfix expression itself.
-  For the parser to print the postfix expression it would need the value associated with every DIGIT token. 
+  For the parser to print the postfix expression it would need the value associated with every DIGIT token.
   For example, the value associated with the token NUM1 in the first <a href="#navsam1">sample input/output</a> is 2. The value associated with a token is called an <b>attribute</b>  of the token. For example, 2 is an attribute value of NUM1.
    </p>
 	<p>
-   In the previous program, yylex() simply returns the token DIGIT to yyparse() and does not return 
+   In the previous program, yylex() simply returns the token DIGIT to yyparse() and does not return
    any value associated with it. In order to access the value of the token DIGIT, there must be some method
     to return an attribute along with the token from yylex() to yyparse().
     This can be achieved using a variable called yylval.  The following program demonstrates the use of yylval:
 </p>
    <div id="navexy1"class="syntax">
 <pre id="navexy1d">
-%{ 
+%{
 
-#include &ltstdio.h&gt 
+#include &ltstdio.h&gt
 #include &ltstdlib.h&gt
 
-%} 
+%}
 
-%token DIGIT 
+%token DIGIT
 %left '+'
 %left '*'
 
-%% 
+%%
 </pre>
 <pre id="navexy1r">
-start : expr '\n'		{printf("\nComplete");exit(1);} 
-	; 
+start : expr '\n'		{printf("\nComplete");exit(1);}
+	;
 
-expr:  expr '+' expr		{printf("+ ");} 
-	| expr '*' expr		{printf("* ");} 
-	| '(' expr ')'	 
-	| DIGIT			{printf("%d ",$1);} 
-	; 
+expr:  expr '+' expr		{printf("+ ");}
+	| expr '*' expr		{printf("* ");}
+	| '(' expr ')'
+	| DIGIT			{printf("%d ",$1);}
+	;
 
-%% 
+%%
 </pre>
 <pre id="navexy1a">
-yyerror() 
-{ 
-	printf("Error"); 
-} 
+yyerror()
+{
+	printf("Error");
+}
 
-yylex() 
-{ 
-	int c; 
-	c = getchar(); 
-	if(isdigit(c)) 
-	{ 
-		yylval = c - '0'; 
-		return DIGIT; 
-		 
-	} 
-	return c; 
-} 
+yylex()
+{
+	int c;
+	c = getchar();
+	if(isdigit(c))
+	{
+		yylval = c - '0';
+		return DIGIT;
 
-main() 
-{ 
-	yyparse(); 
-	return 1; 
-} 
+	}
+	return c;
+}
 
-</pre>   
+main()
+{
+	yyparse();
+	return 1;
+}
+
+</pre>
    </div>
-   
+
    Sample Input/Output
-   <div class="syntax">
-<pre>
+  <pre>
 I:	1+2*3
 O:	1 2 3 * +
 
 I:	(2+7)*4
 O:	2 7 + 4 *
 
-</pre>   
-   
-   
-   </div>
+</pre>
+
    <p id="navyystypedt">
-  <i> When yylex() recognizes a token, the YACC defined variable <b>yylval</b> is used to store the attribute value of a token</i>. yylval is 
+  <i> When yylex() recognizes a token, the YACC defined variable <b>yylval</b> is used to store the attribute value of a token</i>. yylval is
    a global variable of the type YYSTYPE declared in y.tab.c.
     By default, YYSTYPE is of the type int. This is evident from the following code segment found in y.tab.c
     </p>
     <div class="syntax">
-    typedef int YYSTYPE;    
+    typedef int YYSTYPE;
     </div>
  <p>
  As a result, yylval (which is originally of the type YYSTYPE), has an inferred  type int.
-  It is used to return additional information about the lexeme found 
+  It is used to return additional information about the lexeme found
  to the parser i.e., yylval is used to return an attribute in addition to the token to the parser.
  </p>
  <p>
-In the above example, the yylex() returns the token DIGIT and the value of the token in the 
+In the above example, the yylex() returns the token DIGIT and the value of the token in the
 following code segment under definition of yylex(): </p>
-<div class="syntax">
 <pre>
-yylval = c - '0'; 
+yylval = c - '0';
 return DIGIT;
 </pre>
-</div>
 <p>
 Note that in the above code segment, the automatic type casting feature of a C compiler has been implicitly used. The attribute of a token (i.e., the value of yylval associated with the token when it was returned by yylex())
  can be accessed in the action of a YACC rule using $i (where i is the position of the token in the body of a production).
 
 </p>
 <b>Example :</b>
-<div class="syntax">
 <pre>
 expr: DIGIT   {printf(“%d”,$1);}
 </pre>
-</div> 
 <p>The action prints the attribute associated with the token DIGIT obtained through $1.</p>
 <p>YYSTYPE can be re-defined to any user defined data type by the programmer in the YACC declarations section. This will allow yylex() to return attributes of types other than integer. We will learn more about customizing YYSTYPE in the later stages of this documentation.
- </p>   
+ </p>
 	</article>
 	 <div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
@@ -1257,7 +1185,7 @@ expr: DIGIT   {printf(“%d”,$1);}
   </nav>
 </footer>
 </body>
-<!-- Javascript - jQuery 
+<!-- Javascript - jQuery
 <script src="http://code.jquery.com/jquery.min.js"></script>-->
 <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
 
