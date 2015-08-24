@@ -12,7 +12,7 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-			<li><a href="#">Help</a></li>      
+			<li><a href="#">Help</a></li>
 			<li><a href="#">Code</a></li>
 			<li><a href="#">Roadmap</a></li>
 			<li><a href="documentation.html" class="navactive">Documentation</a></li>
@@ -35,15 +35,15 @@
 				This document is a tutorial for the use of LEX for SIL Compiler development.
 			  	Technically, LEX translates a set of regular expression specifications (given as input in 					input_file.l) into a C implementation of a corresponding finite state machine (lex.yy.c). This C 					program, when compiled, yields an executable lexical analyzer.....
 
-	<a href ="lex.html"> read more</a></p>     
+	<a href ="lex.html"> read more</a></p>
     </article>
 	<article id="navyacc" class="detail"><br>
       <h2>Using YACC</h2>
-      <p>YACC (Yet Another Compiler Compiler) is a tool used to generate a parser. 
+      <p>YACC (Yet Another Compiler Compiler) is a tool used to generate a parser.
 				This document is a tutorial for the use of YACC to generate a parser for SIL.
 				 YACC translates a given Context Free Grammar (CFG)
 				 specifications (input in input_file.y) into a C implementation (y.tab.c) of
-				 a corresponding push down automaton (i.e., a finite state machine with a stack). 
+				 a corresponding push down automaton (i.e., a finite state machine with a stack).
 				 This C program when compiled, yields an executable parser....<a href ="yacc.html"> read more</a> </p>
 
 	<article id = "navywl" class="detail"><br>
@@ -51,6 +51,14 @@
 	<p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c.
 	 We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream....<a href ="ywl.html">read more</a></p>
 	</article>
+
+  <article id = "navywl" class="detail"><br>
+	<h2>Specification of ExpL</h2>
+	<p>This section of the document walks through the specification of compiler for Experimental Language(ExpL).
+	The syntax and semantics are explained with general program structure and sample programs.The Data Types....
+	<a href ="datastr.html">read more</a></p>
+	</article>
+
 
 	<article id = "navywl" class="detail"><br>
 	<h2>Data Structures involved in the implementation of ExpL</h2>
@@ -66,7 +74,7 @@
     <li><a href="https://github.com/silcnitc">Github</a></li>
 </ul>
   <div class="up column3 mright"> <a href="#navtop" class="ir">Go up</a> </div>
-	
+
   <nav class="column3">
     <ul>
       <li><a href="index.html">Home</a></li>

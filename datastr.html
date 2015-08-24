@@ -11,7 +11,7 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-			<li><a href="#">Help</a></li>      
+			<li><a href="#">Help</a></li>
 			<li><a href="#">Code</a></li>
 			<li><a href="#">Roadmap</a></li>
 			<li><a href="documentation.html" class="navactive">Documentation</a></li>
@@ -20,7 +20,7 @@
 </header>
 <div class="about center part clearfix">
 <header class="title">
-<h3 class="fleft">Contents</h3>	
+<h3 class="fleft">Contents</h3>
 </header>
     <aside class="column4 mright">
 <menu>
@@ -28,16 +28,16 @@
 <li><a href="#navintro" class="sec">Introduction</a></li>
 <li><a href="#navtypetable" class="sec">TypeTable</a></li>
 <li><a href="#navsymboltable" class="sec">Symbol Tables</a></li>
-<li><a href="#navgst" class="sec">Global Symbol Table</a></li>	
+<li><a href="#navgst" class="sec">Global Symbol Table</a></li>
 <li><a href="#navlst" class="sec">Local Symbol Table</a></li>
 <li><a href="#navast" class="sec">Abstract Syntax Tree</a></li>
-<li><!--For blank space between lins and download button--> &nbsp;</li>	
+<li><!--For blank space between lins and download button--> &nbsp;</li>
 <li><a href="https://github.com/silcnitc/documentation/blob/master/datastr/datastr.pdf?raw=true" class="button"> Download as PDF </a></li>
-<li><!--Blank line for space between download button and main title--> &nbsp;</li>	
+<li><!--Blank line for space between download button and main title--> &nbsp;</li>
 </ul>
 </menu>
 
-</aside>	
+</aside>
 
 <section class="columnthird content"><h1 class="mright">DATA STRUCTURES</h1>
 <!--<article id="navintro" class="detail">
@@ -54,13 +54,12 @@
 <article id="navtypetable" class="detail">
 <h2>Type Table</h2>
 <p>
-The Type Table stores all necessary information regarding the various user defined types in the source program.  The compiler creates an entry in the Type Table for each user defined type.  In addition to this, there are default entries created for primitive types (int, str) and types internal to the interpreter (null, Boolean and void).   Entries for all internal types and primitive types are made beforehand whereas entries for user defined types are made as the Type Declaration Section of the source code is parsed. 
+The Type Table stores all necessary information regarding the various user defined types in the source program.  The compiler creates an entry in the Type Table for each user defined type.  In addition to this, there are default entries created for primitive types (int, str) and types internal to the interpreter (null, Boolean and void).   Entries for all internal types and primitive types are made beforehand whereas entries for user defined types are made as the Type Declaration Section of the source code is parsed.
 </p>
 <h3>2.1 Structure</h3>
 <p>The following structure can implement a Type Table:
 </p>
 
-<div class="syntax">
 <pre>
 typedef struct TypeTable
 {
@@ -69,22 +68,20 @@ typedef struct TypeTable
 		struct TypeTable *next;
 }TypeTable;
 </pre>
-</div>
 
 
 <li>The name field stores the type name such as integer or a user-defined field,say mytype.</li>
 <li>The fieldList stores information regarding the different fields in case of a user defined type. We will use a linked list to store the the name and type of all the fields. The pointer to the head of this list is stored in fieldlist.
 </li>
-<div class="syntax">
+
 <pre>
 typedef struct fieldList
 {
 			struct TypeTable *type;
 			char *Name;
 		       struct fieldList *next;
-}fieldList; 
+}fieldList;
 </pre>
-</div>
 
 <p>The name field is set to the name of the field (as a string) and type stores a pointer to entry for its type in the Type Table.The next field points to the next field, is set to NULL if there are no more fields.</p>
 <li>The next field stores pointer to the next type table entry.</li>
@@ -101,9 +98,8 @@ typedef struct fieldList
 <br>
 <h3>2.3 Illustration</h3>
 <p>Let us consider the following sample code:</p>
-<div class="syntax">
-<pre>  
- decl 
+<pre>
+ decl
 	linkedlist {
 		int data;
 		linkedlist *next; }
@@ -114,7 +110,6 @@ enddecl
 //… Global Declarations…
 //…Functions….
 </pre>
-</div>
 
 <p>1. The type table is first created and initialized to contain the default entries for each of the primitive data types and internal types. This is done through a call to function,  void TTableCreate()from the main function even before yyparse() is called to start parsing the code.
  </p>
@@ -124,13 +119,12 @@ enddecl
 
 <p>2. Now yyparse() is invoked. It starts parsing the Type Declaration Section of the source code. As the definitions of user defined types are encountered, they are entered in the type table. Consider the first type declaration:
 </p>
-<div class="syntax">
+
 <pre>
 linkedlist {
 		int data;
 		linkedlist *next; }
 </pre>
-</div>
 <p>When the corresponding reductions take place, an intermediate linked list,( intermList { char *type; char *name) is created containing the names and types of all the fields in the field list of the user defined type. Note that the type is stored as a string and not as the pointer to its type table entry as required in the type table. This is because when these reductions take place we don’t yet have an entry for linkedlist itself. So fields of the user defined type that is being currently declared cannot store a pointer to type table entry to indicate type. Hence the type name is stored as a string and a call is made to function, TypeTable* TInstall(char *name, intermList *fields)when the final reduction for ID ‘{‘ fieldlist ‘}’[link] happens to create the required type table entry. It is then passed to the function, TypeTable* TAppend(TypeTable *t1)to be appended to the Type Table.
  </p>
 <center><img src="img/datastr_2.png" style="max-width:70%"></center>
@@ -159,19 +153,17 @@ linkedlist {
 <article id="navgst" class="detail">
 <h2>Global Symbol Table(GST)</h2>
 <h3>4.1 Structure</h3>
-<div class="syntax">
 <pre>
 typedef struct GSymbol{
-      	char *name; 		
-	TypeTable *type; 		
-	int size; 		
-	int BINDING; 		
+      	char *name;
+	TypeTable *type;
+	int size;
+	int BINDING;
 	struct ArgStruct *ARGLIST;
-       struct AST *FBINDING; 	 
-struct GSymbol *next; 	
+       struct AST *FBINDING;
+struct GSymbol *next;
 }GSymbol;
 </pre>
-</div>
 <li>The name field sores the name of the variable/function.</li>
 <li>The type field stores the pointer to the Type Table entry of the variable type/return type of the function.</li>
 <li>The size field stores the size in case of array. (The sizes of all other variables are 1.)</li>
@@ -193,9 +185,8 @@ struct GSymbol *next;
 <h3>4.3 Illustration</h3>
 <p>Continuing the earlier example, let’s add the global declaration section to it. </p>
 
-<div class="syntax">
 <pre>
-decl 
+decl
 	linkedlist {
 		int data;
 		linkedlist *next; }
@@ -213,7 +204,6 @@ gdecl
 	int findAvg(linkedlist marks);
 endgdecl
 </pre>
-</div>
 <p>1. When the declaration for the identifier studentMarks is encountered, an entry of type GSymbol is created by a call to the function GInstall(). Since we do not yet know the type of the variable, we will set it to NULL for the time being. This will be updated later.
 </p>
 <center><img src="img/datastr_4.png" style="max-width:70%"></center>
@@ -247,16 +237,15 @@ endgdecl
 <article id="navlst" class="detail">
 <h2>Local Symbol Table</h2>
 <h3>5.1 Structure</h3>
-<div class="syntax">
+
 <pre>
 typedef struct LSymbol{
-	char *NAME;		
-	TypeTable *Type; 		
-	int BINDING;		
+	char *NAME;
+	TypeTable *Type;
+	int BINDING;
 	struct LSymbol *NEXT;
 }LSymbol;
 </pre>
-</div>
 <li>The name field sores the name of the variable.
 </li>
 <li>The type field stores the pointer to the Type Table entry of its type.
@@ -293,35 +282,32 @@ typedef struct LSymbol{
 <p>The Abstract Synatx Tree structure described below facilitiates implementation of the abstract syntax tree (intermedite form) representation of a sequence of program statements. It is this AST that is finally passed to the interpreter/compiler for evaluation/code generation. (Further explanation may be found in --text ref--.) We create an AST for each function and store the pointer to its root in the function’s Global Symbol Table entry. We will use the following structure to implement the AST:
 </p>
 <h3>6.1 Structure</h3>
-<div class="syntax">
+
 <pre>
 struct AST {
-       struct TypeTable *Type; 			
-       int Nodetype; 		      
-       char *Name; 			
-       union Constant Value; 			
-       struct Tnode *Arglist;		
-       struct Tnode *Ptr1,*Ptr2,*Ptr3;		
-       struct GSymbol *Gentry;			
-       struct LSymbol *Lentry;			
+       struct TypeTable *Type;
+       int Nodetype;
+       char *Name;
+       union Constant Value;
+       struct Tnode *Arglist;
+       struct Tnode *Ptr1,*Ptr2,*Ptr3;
+       struct GSymbol *Gentry;
+       struct LSymbol *Lentry;
 }AST;
 </pre>
-</div>
 <li>The Type field stores the pointer to the Type Table entry indicating the type of value stored in the node.
 </li>
 <li>Nodetype identifies the contents of the node using an integer to indicate each of them.
 </li>
 <li> Value field stores the value in case of constant nodes.
 </li>
-<div class="syntax">
 <pre>
- union Constant { 
-	int intval; 
+ union Constant {
+	int intval;
 	string strval;
-	}; 
+	};
 </pre>
-</div>
-<p>is used to store the value since it may be a string constant or an integer constant. 
+<p>is used to store the value since it may be a string constant or an integer constant.
 </p>
 <li>Arglist stores the pointer to argument list in case of functions.
 </li>
@@ -338,7 +324,7 @@ struct AST {
 </li>
 <li>memstruct interpret(AST *t) – evaluates (interprets) the AST with root t and returns the evaluated result.  Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory. So we make use of the following union:
 </li>
-<div class="syntax">
+
 <pre>
 typedef union memstruct{
 	int value;
@@ -346,7 +332,6 @@ typedef union memstruct{
 	int Bind;
    }memstruct;
 </pre>
-</div>
 </article>
 
 <div class="up grid col-one-third" style="float:right">
