@@ -109,16 +109,16 @@
       <p>Before taking up statements, we should look at the different kinds of <b>constants</b> and <b>expressions</b> in the language.  ExpL has two kinds of expressions,  a) <b>Arithmetic</b> expressions and b) <b>Logical</b> expressions.    </p>
 
       <h3>Constants</h3>
-        <p>Any numerical value (Example: 234) is an <i>integer constant</i>.  A quoted string (Example: “hello”) is a <i>string constant</i>.    TRUE and FALSE are the only <i>boolean constants</i>.</p>
+        <p>Any numerical value (Example: 234) is an <i>integer constant</i>.  A quoted string (Example: “hello”) is a <i>string constant</i>. </p>
 
       <h3>Arithmetic Expressions</h3>
-        <p>Any integer constant/variable is a valid arithmetic expressions, provided the scope rules  are not violated.  ExpL treats a function returning integer as an expression and the value of a function is its return value.</p>
+        <p>Any integer constant/variable is a valid arithmetic expression, provided the scope rules  are not violated.  ExpL treats a function returning integer as an expression and the value of a function is its return value.</p>
         <p>ExpL provides five <b>arithmetic operators</b>, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization hold. eXpL is strongly typed and <b>any type mismatch or scope violation must be reported at compile time</b>.</p>
         <p><i>Example</i> :  5, a[a[5+x]]+x , (f2() + b[x] + 5) etc. are arithmetic expressions, provided type and scope rules are not violated.  </p>
 
       <h3>Logical Expressions</h3>
-          <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by eXpL are <, >, <=, >=, ==, and !=. Again <b>standard syntax and semantics conventions apply</b>. TRUE and FALSE are constant logical expressions.  Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.  Note that a relational operator can compare only two arithmetic expressions and not two logical expressions.  </p>
-          <p><i>Variables of string type or user defined types can only be checked for equality using the == operator.    </i></p>
+          <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by eXpL are <, >, <=, >=, ==, and !=. Again <b>standard syntax and semantics conventions apply</b>. Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.  Note that the relational operators except == and != can compare only two arithmetic expressions and not two logical expressions.  </p>
+          <p><i>Variables of string type or user defined types can only be checked for equality/inequality using the ==/!= operator. </i></p>
           <p><i>Example</i> :((x==y)==a[3]) is <b>not valid</b> eXpL expression because (x==y) is a logical expression, while a[3] must be a variable of type integer/string.   The "==" operator can be applied only between expressions of the same type.  </p>
           <p>(“hello”==a) is a valid logical expression provided, a is a variable of string type.  (p==q) is a valid logical expression provided p and q are variables of the same type.  </p>
 
@@ -128,7 +128,7 @@
             Lvalue = Rvalue;
           </pre>
           <p>The possible Lvalues are variables or an indexed array variables.  If the Lvalue has type integer, the Rvalue can be any arithmetic expression.  If the Lvalue has type string, the Rvalue can be a string constant or a variable of type string.   If the Lvalue is a user defined variable, the Rvalue must be a user defined variable.</p>
-          <p><i>Example</i> : q[3]= “hello” ; t= “world” ; are both valid assignments to string variables provided q is declared as a an array of type string and t is declared as a variable of type string.   x=y; is valid if x and y are of the same type and scope rules are not violated.   </p>
+          <p><i>Example</i> : q[3]= “hello” ; t= “world” ; are both valid assignments to string variables provided q is declared as an array of type string and t is declared as a variable of type string.   x=y; is valid if x and y are of the same type and scope rules are not violated.   </p>
           <p>In an assignment x=y where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>                            <h3>Conditional  Statement</h3>
           <p>The eXpL conditional statement has the following syntax:</p>
           <pre>
@@ -157,9 +157,6 @@
         return < variable >;                  /* If the return type of the function is a user defined type*/
         </pre>
         <p>If the return type of the function does not match the type of the expression/variable returned,  a compilation error should occur.  The <b>return type of main is integer</b> by specification</p>
-
-      <h3>Input/Output</h3>
-        <p>doubt</p>
 
       <h3>Break and Continue Statements</h3>
         <p>A <b>break;</b> statement inside a conditional/iterative block tranfers control to the end of the block.  A <b>continue;</b> inside a conditional/iterative block transfers control to the beginning of the block.    These statements do nothing if not inside any conditional/iterative statement.  </p>
