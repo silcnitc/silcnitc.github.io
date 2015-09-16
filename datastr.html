@@ -63,27 +63,27 @@ The Type Table stores all necessary information regarding the various user defin
 typedef struct TypeTable
 {
 		char *name;			 // type name
-		filedList *fields;	 	 // pointer to the head of the fieldlist
+		fieldList *fields;	 	 // pointer to the head of the fieldlist
 		struct TypeTable *next;
 }TypeTable;
 </pre>
 
 
-<li>The name field stores the type name such as integer or a user-defined field,say mytype.</li>
-<li>The fieldList stores information regarding the different fields in case of a user defined type. We will use a linked list to store the the name and type of all the fields. The pointer to the head of this list is stored in fieldlist.
+<li>The <i>name</i> field stores the type name such as <i>int</i> or a user-defined field, say <i>mytype</i>.</li>
+<li>The fieldList stores information regarding the different fields in the case of a user defined type. We will use a linked list to store the the name and type of all the fields. The pointer to the head of this list is stored in fieldlist.
 </li>
 
 <pre>
 typedef struct fieldList
 {
-			struct TypeTable *type;
-			char *Name;
-		       struct fieldList *next;
+		char *name;				//name of the field
+		struct TypeTable *type;	//pointer to type table entry
+		struct fieldList *next;
 }fieldList;
 </pre>
 
-<p>The name field is set to the name of the field (as a string) and type stores a pointer to entry for its type in the Type Table.The next field points to the next field, is set to NULL if there are no more fields.</p>
-<li>The next field stores pointer to the next type table entry.</li>
+<p>The <i>name</i> field is set to the name of the field (as a string) and <i>type</i> stores a pointer to entry for its type in the Type Table. The <i>next</i> field points to the next entry in the field list. The value of <i>next</i> is set to NULL if there are no more fields.</p>
+<li>The <i>next</i> field of the type table stores pointer to the next type table entry.</li>
 <br>
 <h3>2.2 Associated methods</h3>
 <li>void TTableCreate(): Function to initialize the type table with entries for primitive and internal data types.
