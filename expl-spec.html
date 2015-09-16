@@ -32,7 +32,6 @@
         <li><a class="sec" href="#nav-general-program-structure">General Program Structure</a</li>
         <li><a class="sec" href="#nav-stmts-and-exprs">Statements and Expressions</a><li>
         <li><a class="sec" href="#nav-dynamic-memory-allocation">Dynamic Memory Allocation</a></li>
-        <li><a class="sec" href="#nav-system-call-interface">(High Level) System Call Interface to eXpOS</a></li>
         <li><a class="sec" href="#nav-sample-programs">Sample Programs</a></li>
         <li><a class="sec" href="#nav-appendix">Appendix</a></li>
         <li><!--For blank space between lins and download button--> &nbsp;</li>
@@ -175,74 +174,6 @@
       </pre>
       <p>A call to alloc() allocates HBSIZE contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. In this version of ExpL, HBSIZE is set to 8 words. This address may be stored in a variable of user defined type .  A call to free() deallocates HBSIZE contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns NULL on successful deallocation.  Otherwise, the value of t is unchanged by call to free().    All unallocated user defined variables are set to predefined constant  NULL.</p>
 
-    </article>
-
-    <article id="nav-system-call-interface" class="detail">
-      <h2>(High Level) System call interface to expOS</h2>
-      <p>ExpL programs interact with eXpOS using system calls. The following are the system calls supported by ExpL.</p>
-      <h3>Create</h3>
-      <p>The Create operation takes as input a filename and creates an empty file by that name. It returns 0 if it is a success and an error code otherwise.</p>
-      <p style="text-indent: 5em;"><code> int Create (str filename);</code></p>
-      <h3>Delete</h3>
-      <p>Delete removes the file from the file system. It returns 0 if it is a success and an error code otherwise.</p>
-      <p style="text-indent: 5em;"><code> int Delete (str filename);</code></p>
-      <h3>Open</h3>
-      <p>The Open operation returns a file descriptor for the specified file, if it is a success. This file descriptor acts as an identifier of the open instance of the file.</p>
-      <p style="text-indent: 5em;"><code> int Open (str filename);</code></p>
-      <h3>Close</h3>
-      <p>This system call is used to close an open file. The return value of this system call is 0 in case of success and the appropriate error code in case of failure.</p>
-      <p style="text-indent: 5em;"><code> int Close (int fileDescriptor);</code></p>
-      <h3>Read</h3>
-      <p> The Read operation reads one word from the file and stores it into the variable passed as argument. It returns 0 if it is a success.</p>
-      <p style="text-indent: 5em;"><code> int Read (int fileDescriptor, str/int variable);</code></p>
-      <h3>Write</h3>
-      <p>The Write operation writes the word stored in the variable passed as argument to the file. </p>
-      <p style="text-indent: 5em;"><code> int Write (int fileDescriptor, str/int variable);</code></p>
-      <h3>Seek</h3>
-      <p>The Seek operation allows the application program to change the value of the file pointer so that subsequent Read/Write is performed from a new position in the file. </p>
-      <p style="text-indent: 5em;"><code> int Seek (int fileDescriptor, int offset);</code></p>
-      <h3>Fork</h3>
-      <p> Replicates the process invoking the system call. </p>
-      <p style="text-indent: 5em;"><code> int Fork ();</code></p>
-      <h3>Exec</h3>
-      <p> Exec destroys the present process and loads the executable file given as input into a new memory address space and start its execution.  </p>
-      <p style="text-indent: 5em;"><code> int Exec (str fileName);</code></p>
-      <h3>Exit</h3>
-      <p>Exit system call terminates the execution of the process which invoked it. </p>
-      <p style="text-indent: 5em;"><code> void Exit ();</code></p>
-      <h3>Getpid</h3>
-      <p>Returns the process identifier of the invoking process. The system call does not fail. </p>
-      <p style="text-indent: 5em;"><code> int Getpid ();</code></p>
-      <h3>Getppid</h3>
-      <p>Returns to the calling process the value of the process identifier of its parent. The system call does not fail.</p>
-      <p style="text-indent: 5em;"><code> int Getppid ();</code></p>
-      <h3>Shutdown</h3>
-      <p>Shutdown system call terminates all processes and halts the machine.</p>
-      <p style="text-indent: 5em;"><code> void Shutdown ();</code></p>
-      <h3>Wait</h3>
-      <p>The current process is blocked till the process with PID given as argument executes a Signal system call or exits.</p>
-      <p style="text-indent: 5em;"><code> int Wait (int pid);</code></p>
-      <h3>Signal</h3>
-      <p>All processes waiting for the signaling process are resumed. The system call does not fail.</p>
-      <p style="text-indent: 5em;"><code> int Signal ();</code></p>
-      <h3>FLock</h3>
-      <p>Locks a file so that other applications running concurrently are not permitted to read/write the file till the calling process unlocks it.</p>
-      <p style="text-indent: 5em;"><code> int FLock (int fileDescriptor);</code></p>
-      <h3>FUnLock</h3>
-      <p>FUnLock operation allows an application program to unlock a file which the application had locked earlier, so that other applications are no longer restricted from reading/writing the file.</p>
-      <p style="text-indent: 5em;"><code> int FUnLock (int fileDescriptor);</code></p>
-      <h3>Semget</h3>
-      <p>This system call is used to obtain a binary semaphore.</p>
-      <p style="text-indent: 5em;"><code> int Semget ();</code></p>
-      <h3>Semrelease</h3>
-      <p>This system call is used to release a semaphore descriptor held by the process.</p>
-      <p style="text-indent: 5em;"><code> int Semrelease (int semDescriptor);</code></p>
-      <h3>SemLock</h3>
-      <p>This system call is used to lock the semaphore.</p>
-      <p style="text-indent: 5em;"><code> int SemLock (int semDescriptor);</code></p>
-      <h3>SemUnLock</h3>
-      <p> This system call is used to unlock a semaphore that was previously locked by the calling process.</p>
-      <p style="text-indent: 5em;"><code> int SemUnLock (int semDescriptor);</code></p>
     </article>
 
     <article id="nav-sample-programs" class="detail">
