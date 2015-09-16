@@ -364,8 +364,6 @@
             <td>type</td>
             <td>endtype</td>
             <td>NULL</td>
-            <td>TRUE</td>
-            <td>FALSE</td>
           </tr>
           <tr>
             <td>continue</td>
@@ -416,7 +414,7 @@
       <p style="text-indent: 5em;">identifier -&gt; (letter)(letter | digit)*</p>
       <br/>
       <h3>Constants</h3>
-      <p>An integer constant  is a sequence of digits representing an integer. Negative integers are represented with a negative sign preceding the sequence of digits. Any sequence of characters enclosed within double quotes (”) are considered as string constant.  Normally,  implementations append a  ’\0’ character which is implicitly appended at the end of a string value.  The maximum size of integers and strings are left to the implementation.    TRUE and FALSE are boolean constant.   The special constant NULL is stored in unallocated user defined variables.</p>
+      <p>Interger constants are represented in the standard way. Any sequence of characters enclosed within double quotes (”) are considered as string constant.  Normally,  implementations append a  ’\0’ character which is implicitly appended at the end of a string value.  The maximum size of integers and strings are left to the implementation. ExpL uses the generic constant NULL to indicate the values of unallocated user defined variables and unassigned file descriptors.</p>
       <p><i>Examples</i> :  19, -35, "Hello World"</p>
 
     </article>
