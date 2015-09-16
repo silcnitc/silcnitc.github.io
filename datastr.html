@@ -25,7 +25,6 @@
     <aside class="column4 mright">
 <menu>
 <ul>
-<li><a href="#navintro" class="sec">Introduction</a></li>
 <li><a href="#navtypetable" class="sec">TypeTable</a></li>
 <li><a href="#navsymboltable" class="sec">Symbol Tables</a></li>
 <li><a href="#navgst" class="sec">Global Symbol Table</a></li>
@@ -54,7 +53,7 @@
 <article id="navtypetable" class="detail">
 <h2>Type Table</h2>
 <p>
-The Type Table stores all necessary information regarding the various user defined types in the source program.  The compiler creates an entry in the Type Table for each user defined type.  In addition to this, there are default entries created for primitive types (int, str) and types internal to the interpreter (null, Boolean and void).   Entries for all internal types and primitive types are made beforehand whereas entries for user defined types are made as the Type Declaration Section of the source code is parsed.
+The Type Table stores all necessary information regarding the various user defined types in the source program.  The compiler creates an entry in the Type Table for each user defined type.  In addition to this, there are default entries created for primitive types (int, str) and special entries null, Boolean and void for the internal purposes of the interpreter.  The default and special entries are made beforehand whereas entries for user defined types are made as the Type Declaration Section of the source code is parsed.
 </p>
 <h3>2.1 Structure</h3>
 <p>The following structure can implement a Type Table:

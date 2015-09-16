@@ -294,7 +294,7 @@ int pos=0;
 %left '+'
 %left '*'
 %%
-<c id=navexy0r></c>
+<c id="navexy0r"></c>
 <b>/*** Rules Section ***/</b>
 start : expr '\n'		{exit(1);}
 	;
@@ -306,7 +306,7 @@ expr:  expr '+' expr	{op_print('+');}
 	;
 
 %%
-<c id=navexy0al></c>
+<c id="navexy0al"></c>
 <b>/*** Auxiliary functions section ***/</b>
 
 void op_print(char op)
