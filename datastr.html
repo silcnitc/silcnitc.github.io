@@ -303,7 +303,7 @@ struct AST {
 <pre>
  union Constant {
 	int intval;
-	string strval;
+	char* strval;
 	};
 </pre>
 <p>is used to store the value since it may be a string constant or an integer constant.
@@ -317,7 +317,7 @@ struct AST {
 <li>LEntry stores pointer to the function’s Local Symbol Table.
 </li><br>
 <h3>6.2 Associated Methods</h3>
-<li>AST* Treecreate(TypeTable *type,int nodetype,char *name,int value,AST *arglist,AST *t1,AST *t2,AST *t3)- Creates a node with the appropriate fields set to the corresponding parameters and returns it.
+<li>AST* Treecreate(TypeTable *type,int nodetype,char *name,Constant value,AST *arglist,AST *t1,AST *t2,AST *t3)- Creates a node with the appropriate fields set to the corresponding parameters and returns it.
 </li>
 <li>AST* TreeAppend(AST *t,AST *t1, AST *t2, AST *t3)- Appends sets Ptr1, Ptr2, Ptr3 of t  to t1, t2, t3 respectively.
 </li>
