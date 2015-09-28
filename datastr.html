@@ -288,8 +288,8 @@ struct AST {
        int Nodetype;
        char *Name;
        union Constant Value;
-       struct Tnode *Arglist;
-       struct Tnode *Ptr1,*Ptr2,*Ptr3;
+       struct ASTnode *Arglist;
+       struct ASTnode *Ptr1,*Ptr2,*Ptr3;
        struct GSymbol *Gentry;
        struct LSymbol *Lentry;
 }AST;
