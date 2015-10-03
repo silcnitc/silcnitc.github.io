@@ -32,6 +32,7 @@
         <li><a class="sec" href="#nav-general-program-structure">General Program Structure</a</li>
         <li><a class="sec" href="#nav-stmts-and-exprs">Statements and Expressions</a><li>
         <li><a class="sec" href="#nav-dynamic-memory-allocation">Dynamic Memory Allocation</a></li>
+        <li><a class="sec" href="#nav-file-spec">Files and Input/Output</a></li>
         <li><a class="sec" href="#nav-sample-programs">Sample Programs</a></li>
         <li><a class="sec" href="#nav-appendix">Appendix</a></li>
         <li><!--For blank space between lins and download button--> &nbsp;</li>
@@ -173,6 +174,72 @@
         t = free(t);  /* Free the allocated block – t must be a user defined variable */
       </pre>
       <p>A call to alloc() allocates HBSIZE contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. In this version of ExpL, HBSIZE is set to 8 words. This address may be stored in a variable of user defined type .  A call to free() deallocates HBSIZE contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns NULL on successful deallocation.  Otherwise, the value of t is unchanged by call to free().    All unallocated user defined variables are set to predefined constant  NULL.</p>
+
+    </article>
+
+    <article class="detail" id="nav-file-spec">
+    <h2>Files and Input/Output</h2>
+
+    <p>ExpL specifies a set interfaces (functions) file operations and standard input/output. The implementation of these interfaces may involve translation into the system calls provided by the host operating system. The purpose of these functions is to ensure that ExpL programs using these functions for file/input/output operations does not require modification when the underlying operating system changes.</p>
+    <p>
+        ExpL allows programs to create files of type string only.
+    </p>
+    <pre>
+        Int Fcreate (filename)
+    </pre>
+    <p>Creates a file. Filename must be a constant string or a string variable. If the operaton failed, return value is 0, otherwise 1 is returned on success.
+</p>
+    <p>
+    To delete an already existing file, the library function
+    <pre>
+        Int Fdelete(filename)
+    </pre>
+        must be invoked. The function returns 1 if the file was successfully deleted, and 0 otherwise.
+    </p>
+    <p>
+    Files are accessed using file descriptors. The keyword file is used to declare file descriptors. File descriptors must be declared in the declaration section. (Add a note in the declaration part of ExpL spec. that in addition to variable declarations, file descriptors are also declared in the declaration section, and that a discussion of them is taken up later).
+    Example :
+    <pre>
+        file fd; /* fd is can hold the descriptor for a file */
+    </pre>
+    stdin and stdout are two special descriptors indicating the standard input and standard output.
+    These descriptors does not need any declaration. Their use will explained later.
+    Before accessing a file, the file must be opened by:
+    <pre>
+        fd = Fopen(filename);   /*  File name can either be a string constant or a string variable*/
+    </pre>
+    If the operation fails the pre-defined constant NULL will be assigned to fd. This allows programmers to check whether the operation was successful. The operation fails also when the file does not exist.   A file descriptor can be used to open only one file in a program.  However, a file could be opened several times using different descriptors.
+</p>
+    <p>
+    A file that is opened may be closed by
+    <pre>
+        Int Fclose(fd);
+    </pre>
+    Close fails and returns 0 if the file descriptor does not correspond to any open file. Otherwise, 1 is returned indicating success.
+    </p>
+    <p>
+        The library functions for read and write into files are used to access and modify files. ExpL treats each file as a sequential stream of strings and every read or write operation advances the access position for read/write operation using the corresponding descriptor.
+    </p>
+
+    <pre>
+        Int Fread(fd, var)
+    </pre>
+    <p> This function reads the next number/string from the file and stores the value into a variable. The argument variable (var) must either be of type integer of string. If the variable is of type integer, the read string will be interpreted as an integer and stored in the varable. Details of this conversion is platform dependent and are left unspecified.
+</p>
+    <p>Read fails and returns 0 if the read operation tries to read beyond the limits of the file. Otherwise, the return value is 1 indicating success. Note that a compilation error must result if the descriptor does not correspond to an open file instance (the structure of ExpL makes this possible during compilation) or if the type of var is not integer or string.</p>
+    <p>Fread(stdin, var) reads from the standard input into the variable. The input read is interpreted by ExpL to be of type intger or string depending on the type of the var. The return value is 0 if the read operation fails, 1 otherwise.</p>
+    <pre>
+        Int Fwrite(fd, expr)
+    </pre>
+    <p>Writes the contents of var into the current access location in the file. Write fails if the file cannot be written further (possibily because of non availability of storage space) and returns 0. Otherwise, 1 is returned upon success. Note that the type of fd and expr must be a string or integer. Semantic convension of treating integers and strings in files holds in this case as well.</p>
+    <p>If the file descriptor is stdout, the value of expr is printed on to the output.</p>
+    <p>Finally, the seek function allows the file access location to be shifted by an offset specified.</p>
+    <pre>
+        Int Fseek(fd, offset)
+    </pre>
+    <p>Offset must be an integer expression. The file access position gets adjusted by the offset value. An offset value of zero resets the file access position to the beginning of the file. Seek operation is of no consequence when the descriptor is stdin or stdout.</p>
+    <p>Note: As noted earlier, implementation of the file and standard input/output operations in ExpL is done by tranlating the file operations to the system calls/interface routines provided by the underlying operating sytem. The following LINK describes the application binary interface (ABI) of the eXpOS operating system.</p>
+    </p>
 
     </article>
 
