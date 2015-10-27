@@ -45,7 +45,7 @@
 				 specifications (input in input_file.y) into a C implementation (y.tab.c) of
 				 a corresponding push down automaton (i.e., a finite state machine with a stack).
 				 This C program when compiled, yields an executable parser....<a href ="yacc.html"> read more</a> </p>
-
+    </article>
 	<article id = "navywl" class="detail"><br>
 	<h2>Using YACC with LEX</h2>
 	<p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c.
@@ -66,6 +66,14 @@
 	Each data structure is designed to hold the necessary information gained during the parsing of respective sections.The Type Table....
 	<a href ="datastr.html">read more</a></p>
 	</article>
+
+    <article id = "navywl" class="detail"><br>
+	<h2>Target Application Binary Interface</h2>
+	<p>This section of the document explains the various instructions that will be supported by the target operating system. It explains the
+    format of the executable file which is recognized by the load module of the target OS.Thus, in order to generate an executable, the following information needs to be made available to the compiler : .....
+    <a href="abi.html">Read more</a>
+    </article>
+
 
   </section>
 </div>
