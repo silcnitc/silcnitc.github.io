@@ -1,0 +1,402 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>Target ABI Interface</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/style_new.css">
+
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+        			    <li><a href="#">Help</a></li>
+        			    <li><a href="#">Code</a></li>
+        			    <li><a href="#">Roadmap</a></li>
+        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">Target Application Binary Interface</p>
+                <br>
+                <br>
+                <a class="button" href="">Download as PDF</a>
+            </header>
+            <aside class="grid col-one-quarter mq2-col-full">
+              <menu>
+                <ul>
+                  <li><a class="sec" href="#nav-introduction">Introduction</a></li>
+                  <li><a class="sec" href="#nav-XSM-instruction-set">The XSM virtual machine instruction set</a></li>
+                  <li><a class="sec" href="#nav-irtual-address-space-model">The virutal address space model</a></li>
+                  <li><a class="sec" href="#nav-eXpOS-system-library-interface">The eXpOS library interface</a></li>
+                  <li><a class="sec" href="#nav-XEXE-executable-file-format">XEXE executable file format</a></li>
+
+              </ul>
+              </menu>
+            </aside>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                <article class="grid col-full" id="nav-introduction">
+                    <h2>Introduction</h2>
+                    <p>
+                        The ExpL compiler needs to translate a given source program and generate the <b>target machine code</b> into an <b>executable file</b> in a format which is recognized by the load module of the target operating system. Thus, in order to generater the executable, the following information needs to be made available to the compiler :
+                    </p>
+                    <ol>
+                        <li>The <b>machine instruction set</b> of the target machine.</li>
+                        <li>The (virtual) <b>address space</b> model available for the target program. Conventionally, this address space id logically divided into regions like <b>text(code), data, stack, heap</b> etc.</li>
+                        <li>Interfaces for OS routines that needs to be invoked to get certain high level operations done (for instance file/input/output operations).</li>
+                        <li>The format for the target file(<b>executable format</b>). The compiler typically passes information regarding the sizes and address regions allocated to the code, data, stack, text and heap regions to the loader by setting appropriate values in the <b>header</b> of the executable file.</li>
+                    </ol>
+                    <p>
+                        These specifications depend not only on the target machine architecture, but also on the operating system upon which the target machine code must execute. Typically these specifications are collected together in the OS specification into a document called the Application Binary Interface (ABI).Following is the specification of the assembly language interface.
+                    </p>
+                    <p>
+                        The following sections specify the ABI for the <a href="http://exposnitc.github.io/">eXpOS operating system</a> run on the <a href="http://exposnitc.github.io/support_tools-files/xsm-simulator.html">XSM virtual machine model</a>. The executable format is called the XEXE executable format.
+                    </p>
+                </article>
+                <article class="grid col-full" id="nav-XSM-instruction-set">
+                    <h2> The XSM virtual machine instruction set</h2>
+                    <p>
+                        XSM provides a set of instructions, which are the only instructions available when the machine is executing in the user mode.The instructions are Data Transfer Instructions, Arithmetic Instructions, Logical Instructions, Stack Instructions, Sub-routine instructions, Debug instructions and Software interrupts. Registers available are R0-R19, SP, BP and IP.
+                    </p>
+                    <h4>Data Transfer Instructions</h4>
+                    <table class="doctable" style="text-align:left;">
+                        <tbody>
+                            <tr>
+                                <th>Addressing Type</th>
+                                <th>Syntax</th>
+                                <th>Semantics</th>
+                            </tr>
+                            <tr>
+                                <td>Register Adressing</td>
+                                <td>MOV Ri, Rj</td>
+                                <td>Copies the contents of register Rj to Ri</td>
+                            </tr>
+                            <tr>
+                                <td>Immediate Addressing</td>
+                                <td>MOV Ri, INTEGER/STRING</td>
+                                <td>Copies the INTEGER/STRING to the register Ri</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Register Indirect Addressing</td>
+                                <td>MOV Ri, [Rj]</td>
+                                <td>Copy contents of memory location pointed by Rj to register Ri.</td>
+                            </tr>
+                            <tr>
+                                <td>MOV [Ri], Rj</td>
+                                <td>Copy contents of Rj to the location whose address is in Ri</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Direct Addressing</td>
+                                <td>MOV [LOC], Rj</td>
+                                <td>Copy contents of Rj to the memory address LOC</td>
+                            </tr>
+                            <tr>
+                                <td>MOV Rj, [LOC]</td>
+                                <td>Copy contents of the memory location LOC to the register Rj</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4">Direct Indexed Addressing</td>
+                                <td>MOV [LOC] Rj, Ri</td>
+                                <td>Copy contents of Ri to the memory address LOC + (value in Rj)</td>
+                            </tr>
+                            <tr>
+                                <td>MOV [LOC] Index, Rj</td>
+                                <td>Copy contents of Rj to the memory address LOC + Index. Index must be an integer value</td>
+                            </tr>
+                            <tr>
+                                <td>MOV Ri, [LOC] Rj</td>
+                                <td>Copy contents in the memory address LOC + (value in Rj) to the register Ri</td>
+                            </tr>
+                            <tr>
+                                <td>MOV Ri, [LOC] Index</td>
+                                <td>Copy contents of the memory address LOC + Index to the register Ri. Index must be an integer value</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <h4>Arithmetic Instructions</h4>
+                    <p>
+                        Arithmetic Instructions perform arithmetic operations on registers containing integers. If the register contains a non-integer value, an exception (illegal instruction) is raised.
+                    </p>
+                    <table class="doctable" style="text-align:left;">
+                        <tbody>
+                            <tr>
+                                <th>Instruction</th>
+                                <th>Syntax</th>
+                                <th>Semantics</th>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">ADD, SUB, MUL, DIV and MOD</td>
+                                <td>OP Ri, Rj</td>
+                                <td>The result of Ri op Rj is stored in Ri</td>
+                            </tr>
+                            <tr>
+                                <td>OP Ri, INTEGER</td>
+                                <td>The result of Ri op INTEGER is stored in Ri</td>
+                            </tr>
+                            <tr>
+                                <td>INR, DCR</td>
+                                <td>OP Ri</td>
+                                <td>Increments/Decrements the value of register Ri by 1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        For all the above instructions, Ri/Rj may be any register except IP.
+                    </p>
+                    <br/>
+                    <h4>Logical Instructions</h4>
+                    <p>
+                        Logical instructions are used for comparing values in registers. Strings can also be compared according to the lexicographic ordering of ASCII. If one of the operands is a string, the other operand will also be considered as a string. The logical instructions are LT, GT, EQ, NE, GE and LE.
+                    </p>
+                    <table class="doctable" style="text-align:left">
+                        <tbody>
+                            <tr>
+                                <th>Type</th>
+                                <th>Syntax</th>
+                                <th>Semantics</th>
+                            </tr>
+                            <tr>
+                                <td>LT, GT, EQ, NE, GE, LE</td>
+                                <td>OP Ri, Rj</td>
+                                <td>Stores 1 in Ri if the value stored in Ri is less than/greater than/equal to/not equal to/greater than or equal to/less than or equal to that in Rj. Ri is set to 0 otherwise</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <h4>Branching Instructions</h4>
+                    <p>
+                        Branching is achieved by changing the value of the IP to the word address of the target instruction specified by 'target_address'.
+                    </p>
+                    <table class="doctable" style="text-align:left">
+                        <tbody>
+                            <tr>
+                                <th>Type</th>
+                                <th>Syntax</th>
+                                <th>Semantics</th>
+                            </tr>
+                            <tr>
+                                <td>JZ</td>
+                                <td>JZ Ri, target_address</td>
+                                <td>Jumps to target_address if the contents of Ri is zero</td>
+                            </tr>
+                            <tr>
+                                <td>JNZ</td>
+                                <td>JNZ Ri, target_address</td>
+                                <td>Jumps to target_address if the contents of Ri is not zero</td>
+                            </tr>
+                            <tr>
+                                <td>JMP</td>
+                                <td>JMP target_address</td>
+                                <td>Unconditional jump to target_address</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <h4>Stack Instructions</h4>
+                    <table class="doctable" style="text-align:left">
+                        <tbody>
+                            <tr>
+                                <th>Type</th>
+                                <th>Syntax</th>
+                                <th>Semantics</th>
+                            </tr>
+                            <tr>
+                                <td>PUSH</td>
+                                <td>PUSH Ri</td>
+                                <td>Increment SP by 1 and copy contents of Ri to the location pointed to by SP</td>
+                            </tr>
+                            <tr>
+                                <td>POP</td>
+                                <td>POP Ri</td>
+                                <td>Copy contents of the location pointed to by SP into Ri and decrement SP by 1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        For both these instructions Ri may be any register except IP.
+                    </p>
+                    <br/>
+                    <h4>Subroutine Instructions</h4>
+                    <p>
+                        The CALL instruction copies the address of the next instruction to be fetched(this value must be IP + 2 since each instruction is two memory words) on to location SP + 1. It also increments SP by one and transfers control to the instruction specified by the target_address. The RET instruction restores the IP value stored at location pointed by SP, decrements SP by one and continues execution fetching the next instruction pointed to by IP
+                    </p>
+                    <table class="doctable" style="text-align:left">
+                        <tbody>
+                            <tr>
+                                <th>Type</th>
+                                <th>Syntax</th>
+                                <th>Semantics</th>
+                            </tr>
+                            <tr>
+                                <td>CALL</td>
+                                <td>CALL target_address</td>
+                                <td>Increments SP by 1, transfers IP + 2 to location pointed to by SP and jumps to instruction specified by target_address</td>
+                            </tr>
+                            <tr>
+                                <td>RET</td>
+                                <td>RET</td>
+                                <td>Sets IP to the value pointed to by SP and decrements SP</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <h4>Debug Instructions</h4>
+                    <table class="doctable" style="text-align:left">
+                        <tbody>
+                            <tr>
+                                <th>Syntax</th>
+                                <th>Semantics</th>
+                            </tr>
+                            <tr>
+                                <td>BRKP</td>
+                                <td>The machine when run in debug mode invokes the debugger when this intruction is executed. This instruction can be used for debugging system code.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <h4>Software Interrupts</h4>
+                    <table class="doctable" style="text-align:left">
+                        <tbody>
+                            <tr>
+                                <th>Syntax</th>
+                                <th>Semantics</th>
+                            </tr>
+                            <tr>
+                                <td>INT n</td>
+                                <td>Semantics : Generates an interrupt to the kernel with n (4 to 18) as a parameter. This involves a change of mode from user to kernel mode. It also disables the interrupts. The (virtual) address of the next instruction after the current value of IP is pushed to the Stack, the Stack Pointer is incremented and then, execution mode is switched to Kernel Mode. When INT is invoked from the User Mode, the IP value must contain a virtual address and hence, the value pushed into stack is a virtual address and not a physical address.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </article>
+                <article class="grid col-full" id="nav-virtual-address-space-model">
+                    <h2>The virtual address space model</h2>
+                    <p>
+                        The (virtual) address space of any eXpOS process is logically divided into four parts namely Shared Library, Heap, Code and Stack.
+                    </p>
+                    <img src="img/process_model.png" alt="" />
+                    <p>
+                        <b>Shared library</b> can be shared by more than one executable file. The maximum size of this memory region is X_LSIZE.
+                    </p>
+                    <p>
+                        <b>Note :</b> eXpOS assumes that routines for unified system call interface and dynamic memory allocation are loaded into the shared library region. The eXpOS implementation for the XSM architecture discussed here sets X_LSIZE to 1024 words. Thus the shared library will be loaded into the region between memory addresses 0 and 1023 in the address space of the process.
+                    </p>
+                    <p>
+                        <b>Heap</b> is the portion of the address space of a process reserved as the memory pool from which dynamic memory allocation is done by the allocator routines in the shared library (for example, memory allocated via malloc in C). The maximum size of this memory region is X_HSIZE. Library functions access this portion of memory for dynamic memory allocation and deallocation. The eXpOS execution semantics specify that when a process executes the Fork system call, this region will be shared between the parent process and the child process. The eXpOS implementation for the XSM architecture discussed here sets X_HSIZE to 1024 words. Thus the heap region will be between memory addresses 1024 and 2047 in the address space of the process.
+                    </p>
+                    <p>
+                        <b>Code</b> contains the header and code part of the XEXE executable file, which is loaded by the eXpOS loader from the file system when the Exec system call is executed. The first eight words of the executable file contains the header. The rest of the code region contains the XSM instructions. The total size of code section cannot exceed X_CSIZE. The eXpOS implementation for the XSM architecture discussed here sets X_CSIZE to 1024 words. Hence, the code region will be between memory addressess 2048 and 3071 in the address space of the process.
+                    </p>
+                    <p>
+                        <b>Stack</b> is the space reserved for the runtime stack of the process. Parameters and local variables associated with functions in a program are allocated in the stack. In the XSM architecture, the stack grows upwards and the maximum stack size is X_SSIZE. Global variables must be allocated in the stack as the executable file format does not support a separate <a href="https://en.wikipedia.org/wiki/Data_segment">Data region</a>. The eXpOS implementation for the XSM architecture discussed here sets X_SIZE to 1024 words.Thus the stack will occupy the region betweem memory address 3072 and 4095 in the address space of the process.
+                    </p>
+                    <p>
+                        A description of the user level address space provided by XSM is given here.
+                    </p>
+
+                </article>
+                <article class="grid col-full" id="nav-eXpOS-system-library-interface">
+                    <h2>The eXpOS library interface</h2>
+                    <p>
+                        ExpL file operations and Input/Ouput operations must be mapped to the corresponding system calls of the underlying operating system. The eXpOS library comes with a set of built-in functions that provide a generic interface for invoking the OS sytem calls. The library also provides a set of functions for  heap management (dynamic memory allocation and de-allocation). Thus the ExpL compiler can simply generate code to invoke these library routines to translate the corresponding high level operations.
+                    </p>
+                    <p>
+                        A specification of the eXpOS library interface is given below:
+                    </p>
+                    <p>
+                        The eXpOS library consists of a collection of user level routines provided as part of the operating system. These routines are loaded to the memory during OS start up and can be linked to the address space of any user process by the OS loader (exec system call). The OS loader will link these routines to the shared library region of the address space if the library flag in the header of the executable file being loaded is set to 1. The library provides a <b>uniform system call interface</b> through which application program can invoke system calls by providing the system call number and the arguments. The interface hides the details of the interrupt service routine corresponding to the system call from the application program, thereby making it architecture independent. The library also provides user level routines for <b>dynamic memory management (allocation and de-allocation)</b> from the <i>heap region</i> of the application.
+                    </p>
+                    <h4>Unified System Call Interface</h4>
+                    <p>
+                        This library routine is linked to virtual address 0 of the address space of a process by the OS loader and requires four arguments (system call number and three arguments to the system call) to be passed through the stack. The routine invokes the corresponding low level system call and returns to the user program the return value of the system call through the stack. The following figure shows the contents of the stack immediately after a call to this library routine.
+                    </p>
+                    <img src="img/system_call_interface_stack.png" alt="" />
+                    <h4>Dynamic Memory Management Module Interface</h4>
+                    <p>
+                        The dynamic memory management module interface takes two inputs - a function code (0 for alloc and 1 for free - see high level library interface -- Put Link for specification) and one argument passed through the stack. The retrun value is passed back to the application through the stack. The OS loader of the present version of eXpOS for XSM architecture links this routine to virtual address 512 of the application process. The following figure shows the contents of the stack just before a call to this library routine.
+                    </p>
+                    <img src="img/memory_management.png" alt="" />
+                </article>
+                <article class="grid col-full" id="nav-XEXE-executable-file-format">
+                    <h2>XEXE executable file format</h2>
+                    <p>
+                        The compiler must generate target code into a file in the format specified below so that the eXpOS loader recognizes the format and load the program into memory for execution correctly.   Each executable file contains a header in which the compiler adds information like the initial value to be given to the stack pointer in the virtual addres space, initial value of the instruction pointer etc, the starting (virtual) addresses and sizes of various memory regions like text, stack, heap etc.
+                    </p>
+                    <p>
+                        Executable files in eXpOS must be in the XEXE format as eXpOS executes only files of such format.An XEXE executable file in eXpOS consists of two parts:
+                    </p>
+                    <ul>
+                        <li>Header</li>
+                        <li>Code</li>
+                    </ul>
+                    <img src="img/exe_file.jpeg" alt="" />
+                    <p>
+                        The maximum size of the file (including the header) is limited by the constant EXE_SIZE. The eXpOS implementation for the XSM architecture discussed here sets EXE_SIZE to 1024 words.
+                    </p>
+                    <p>
+                        The first eight words of an executable file are reserved for the header which describes the features of file. The structure of the header is :
+                    </p>
+                    <img src="img/header.png" alt="" />
+                    <p>
+                        <b>XMAGIC</b> is a number indicating the type of executable file. All XEXE files will have magic number 0. For more on Magic Number, click here.
+                    </p>
+                    <p>
+                        <b>Entry point</b> contains the virtual address in memory of the first instruction to be executed (entry point) of the program after the OS loader has loaded it. During loading, the program counter must be initialized to this address.
+                    </p>
+                    <p>
+                        <b>Text Size, Data Size, Heap Size</b> and <b>Stack size</b> indicates the sizes of Text, Data, Heap and Stack regions to be allocated by the OS loader when the file is loaded for execution.
+                    </p>
+                    <p>
+                        Note : The present eXpOS virtual address space model requires that the data and stack must be in the same memory area and must be managed by the compiler / application program. The value of Data Size field is ignored. Moreover, the size allocated for text and stack regions in memory are set to 1024 irrespective of the values present in the header.
+                    </p>
+                    <p>
+                        If the <b>Runtime Library</b> must be included when the file is loaded, the Library Flag is set to 1 in the executable file. If this flag is not set then neither memory is allocated for the heap nor the library linked to the address space of the process at execution time.
+                    </p>
+                    <p>
+                        In summary, the eXpOS loader maps an executable file into its virtual address according to the following table :
+                    </p>
+                    <table class="doctable">
+                        <tbody>
+                            <tr class="success">
+                                <th style="text-align: center;">Region</th>
+                                <th style="text-align: center;">Start Address</th>
+                                <th style="text-align: center;">End Address</th>
+                            </tr>
+                            <tr>
+                                <td>Library<sup style="color:red">*</sup></td>
+                                <td>0</td>
+                                <td>1023</td>
+                            </tr>
+                            <tr>
+                                <td>Heap<sup style="color:red">*</sup></td>
+                                <td>1024</td>
+                                <td>2047</td>
+                            </tr>
+                            <tr>
+                                <td>Code</td>
+                                <td>2048</td>
+                                <td>3071</td>
+                            </tr>
+                            <tr>
+                                <td>Stack<sup style="color:blue">†</sup></td>
+                                <td>3072</td>
+                                <td>4095</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><span style="color:red">*</span> If Library Flag is set to 1 in the executable header.</p>
+                    <p><span style="color:blue">†</span> The Stack Pointer is not initialised to the address 3072 by the eXpOS loader.</p>
+                </article>
+                </div>
+            </section>
+        </div>
+    </div>
+</html>
