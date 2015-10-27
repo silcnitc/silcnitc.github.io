@@ -163,7 +163,7 @@ linkedlist {
 
 <article id="navgst" class="detail">
 <h2>Global Symbol Table(GST)</h2>
-<h3>4.1 Structure</h3>
+<h3>2.1 Structure</h3>
 <pre>
 typedef struct GSymbol{
     char *name;
@@ -183,7 +183,7 @@ typedef struct GSymbol{
 <li><i>fbinding</i> stores pointer to the root of AST of the function [Note:  In the case of a compiler,the call address must be stored here]  </li>
 <li>The <i>next</i> field stores the pointer to the next entry in the GST.</li>
 <br>
-<h3>4.2 Associated functions</h3>
+<h3>2.2 Associated functions</h3>
 <li>GInstall(char*name, TypeTable *type, int size, Argstuct *arglist) : Creates as GST entry of given name, type, size and argument list(in case f functions) and assigns a BINDING to the variable.
 </li>
 <li>Glookup(char *name) : Returns pointer to symbol table entry of variable of given name.
@@ -193,7 +193,7 @@ typedef struct GSymbol{
 <li>AddGType(TypeTable *gtype, GSymbol *g) : Updates the GST entry g by setting its type field to the Type table entry pointed to by the parameter, gtype.
 </li>
 <br>
-<h3>4.3 Illustration</h3>
+<h3>2.3 Illustration</h3>
 <p>Continuing the earlier example, let’s add the global declaration section to it. </p>
 
 <pre>
@@ -247,34 +247,36 @@ endgdecl
 
 <article id="navlst" class="detail">
 <h2>Local Symbol Table</h2>
-<h3>5.1 Structure</h3>
+<h3>3.1 Structure</h3>
 
 <pre>
 typedef struct LSymbol{
-	char *NAME;
-	TypeTable *Type;
-	int BINDING;
-	struct LSymbol *NEXT;
+	char *name;
+	TypeTable *type;
+	int binding;
+	struct LSymbol *next;
 }LSymbol;
 </pre>
-<li>The name field sores the name of the variable.
+<li>The <i>name</i> field sores the name of the variable.
 </li>
-<li>The type field stores the pointer to the Type Table entry of its type.
+<li>The <i>type</i> field stores the pointer to the Type Table entry of its type.
 </li>
-<li>BINDING stores the memory address allocated to the variable.
+<li><i>binding</i> stores the memory address allocated to the variable.
 </li>
-<li>The next field stores the pointer to the next entry in the Local Symbol Table.
+<li>The <i>next</i> field stores the pointer to the next entry in the Local Symbol Table.
 </li><br>
-<h3>5.2 Associated functions</h3>
-<li>LInstall(char*name, TypeTable *type, int size) : Creates as Local Symbol Table entry of given name, type and size.
+<h3>3.2 Associated functions</h3>
+<li>LSymbol* LInstall(char*name, TypeTable *type, int size) : Creates as Local Symbol Table entry of given name, type and size.
 </li>
-<li>Llookup(char *name) : Returns pointer to symbol table entry of variable of given name.
+<li>LSymbol* Llookup(char *name) : Returns pointer to symbol table entry of variable of given name.
 </li>
-<li>LAppend(LSymbol *l1) : Updates the Local Symbol Table by appending the entry for the variable whose information is stored in l1into the it.
+<li>LSymbol* LAppend(LSymbol *l1, LSymbol *l2) : Appends the local symbol table entries l1 and l2 and returns the resultant pointer to the head.
 </li>
-<li>AddLType(TypeTable *ltype,LSymbol *l) : Update the Local Symbol Table entry l by setting its type field to the Type table entry pointed to by the parameter, ltype.
+<li>void AddLType(TypeTable *ltype,LSymbol *l) : Update the Local Symbol Table entry l by setting its type field to the Type table entry pointed to by the parameter, ltype.
+</li>
+<li>void setLocalBindings(LSymbol *LSymbolHead) : Update the Local Symbol Table entries LSymbolHead by setting its binding field to the appropriate relative positions on stack.
 </li><p></p>
-<h3>5.3 Illustration</h3>
+<h3>3.3 Illustration</h3>
 <p>Continuing the above example, we move on to the list of functions. Let us consider the first function,  findSum() to see how the LST is created for it. The function definition is given below:
 </p>
 
@@ -292,25 +294,25 @@ typedef struct LSymbol{
 <h2>Abstract Syntax Tree</h2>
 <p>The Abstract Synatx Tree structure described below facilitiates implementation of the abstract syntax tree (intermedite form) representation of a sequence of program statements. It is this AST that is finally passed to the interpreter/compiler for evaluation/code generation. (Further explanation may be found in --text ref--.) We create an AST for each function and store the pointer to its root in the function’s Global Symbol Table entry. We will use the following structure to implement the AST:
 </p>
-<h3>6.1 Structure</h3>
+<h3>4.1 Structure</h3>
 
 <pre>
 struct AST {
-       struct TypeTable *Type;
-       int Nodetype;
-       char *Name;
-       union Constant Value;
-       struct ASTnode *Arglist;
-       struct ASTnode *Ptr1,*Ptr2,*Ptr3;
+       struct TypeTable *type;
+       int nodetype;
+       char *name;
+       union Constant value;
+       struct ASTnode *arglist;
+       struct ASTnode *ptr1,*ptr2,*ptr3;
        struct GSymbol *Gentry;
        struct LSymbol *Lentry;
 }AST;
 </pre>
-<li>The Type field stores the pointer to the Type Table entry indicating the type of value stored in the node.
+<li>The type field stores the pointer to the Type Table entry indicating the type of value stored in the node.
 </li>
-<li>Nodetype identifies the contents of the node using an integer to indicate each of them.
+<li>nodetype identifies the contents of the node using an integer to indicate each of them.
 </li>
-<li> Value field stores the value in case of constant nodes.
+<li> value field stores the value in case of constant nodes.
 </li>
 <pre>
  union Constant {
@@ -320,28 +322,27 @@ struct AST {
 </pre>
 <p>is used to store the value since it may be a string constant or an integer constant.
 </p>
-<li>Arglist stores the pointer to argument list in case of functions.
+<li>arglist stores the pointer to argument list in case of functions.
 </li>
-<li>Ptr1 , Ptr2 and Ptr3 together facilitate the construction of the tree. How the tree is constructed using these pointers in case of different kinds of statements is listed below: []
+<li>ptr1 , ptr2 and ptr3 together facilitate the construction of the tree. How the tree is constructed using these pointers in case of different kinds of statements is listed below: []
 </li>
-<li>GEntry stores pointer to Global Symbol Table.
+<li>Gentry stores pointer to Global Symbol Table.
 </li>
-<li>LEntry stores pointer to the function’s Local Symbol Table.
+<li>Lentry stores pointer to the function’s Local Symbol Table.
 </li><br>
-<h3>6.2 Associated Methods</h3>
+<h3>4.2 Associated Methods</h3>
 <li>AST* Treecreate(TypeTable *type,int nodetype,char *name,Constant value,AST *arglist,AST *t1,AST *t2,AST *t3)- Creates a node with the appropriate fields set to the corresponding parameters and returns it.
 </li>
 <li>AST* TreeAppend(AST *t,AST *t1, AST *t2, AST *t3)- Appends sets Ptr1, Ptr2, Ptr3 of t  to t1, t2, t3 respectively.
 </li>
 <li>memstruct interpret(AST *t) – evaluates (interprets) the AST with root t and returns the evaluated result.  Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory. So we make use of the following union:
 </li>
-
+<li>void setVariableType(AST *t, int isArray) - the AST of nodetype Identifier is passed as an argument along with a flag isArray to set Lentry and Gentry fields on searching appropriate symbol tables</li>
 <pre>
-typedef union memstruct{
-	int value;
-	char *str;
-	int Bind;
-   }memstruct;
+typedef struct memstruct{
+	int type;
+	Constant value;
+}memstruct;
 </pre>
 </article>
 
