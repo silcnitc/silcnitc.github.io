@@ -194,10 +194,53 @@
                     </article>
                     <article class="grid col-full" id="nav-run-structures">
                         <h2>RUN TIME DATA STRUCTURES</h2>
+                        <p>
+                            A compiler must accurately implement the abstractions embodied in the source language definition. Names,scope, bindings, data types, operators, flow-control constructs are some of the abstractions. Compiler creates and manages a run-time environment in which a variety of issues such as allocation of storage locations for the objects named in the source program, the linkages between procedures, the mechanisms for passing parameters.From the perspective of compiler writer, the executing target program has its own logical address space in which each program value has its location. Following is the representation of run-time memory.
+                        </p>
+                        <img src="img/data_structure_9.png" style="margin-left:40%"></img>
+                        <p>
+                            Stack and heap are dynamic, their size changes as the program executes. We will discuss these structures in detail.
+                        </p>
                     </article>
                     <article class="grid col-full">
                         <h2>Stack</h2>
-
+                        <p>
+                            The stack is used to store data structures called activation records that are generated during procedure calls.An activation record is used to store the information such as value of program counter and machine registers when a function call occurs. When control of returns from the function call, the activation of the calling procedure can be restarted after restoring the relevant registers and setting program counter to the point immediately after the call. Also, data of objects whose lifetime are contained in that of an activation can be allocated on the stack along with other information associated with activation.
+                        </p>
+                        <h6>Structure</h6>
+                        <p>
+                            So, for the implementation of the interpreter, we create a stack which is an array of memstruct. Memstruct has the following structure.
+                            NOTE : for compiler, the stack structure and functions supported functions depends and is taken care of by the target machine.
+                        </p>
+                        <script src="https://gist.github.com/vishnupriyam/29434fa8b266749088cb.js"></script>
+                        <h6>Associated methods</h6>
+                        <ul>
+                            <li>void push(struct valstruct *v) : pushes the values in valstruct to stack accordingly.</li>
+                            <li>struct valstruct* pop() : pops a value on top of the stack as a valstruct.</li>
+                            <li>void load(struct memstruct *m, struct valstruct *v) : loads the values in stack location pointed by m to the value structure v</li>
+                            <li>void store(struct memstruct *m,struct valstruct *v) : stores the values in value structure v to the stack location pointed by m.</li>
+                        </ul>
+                        <p>
+                            NOTE : valstruct and memstruct structures have been used here to keep the fine line between a value object and a object in the memory.
+                        </p>
+                    </article>
+                    <article class="grid col-full">
+                        <h2>Heap</h2>
+                        <p>
+                            A storage allocation decision can be static or dynamic. A decision is dynamic if it can be decided only while the program executes. In simple terms, consider the previous example, the size of the linkedlist marks is not known at the compile time, its size is only known at the run-time when we read in the count of subjects.
+                        </p>
+                        <p>
+                            Here, for interpreter, for heap we will be using an memstruct array of size 1024.
+                        </p>
+                        <h6>Associated methods</h6>
+                        <ul>
+                            <li>int alloc(int size) : allocates continuos locations of given size and returns the starting address of allocated block.</li>
+                            <li>int free(int addr) : frees the memory block starting with the given addr are erasing the data in that block and returns a value indicating the success and failure of free operation.</li>
+                        </ul>
+                        <h6>Allocation algorithms</h6>
+                        <p>
+                            The two types of allocation-deallocation algorithms we will discuss here for heap management are fixed memory and buddy memory management. 
+                        </p>
                     </article>
                 </div>
             </section>
