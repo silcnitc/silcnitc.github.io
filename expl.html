@@ -38,6 +38,7 @@
                 <br>
                 <a class="button" href="">Download as PDF</a>
             </header>
+
             <aside class="grid col-one-quarter mq2-col-full">
                 <menu>
                     <ul>
@@ -56,7 +57,7 @@
                     <article class="grid col-full" id="nav-intro">
                         <h2>Introduction</h2>
                         <p>
-                            Nothing
+                            ExpL (Experimental language) is the language for which we will build the compiler through this course. Following are the minimal features that the language supports.
                         </p>
                     </article>
                     <article class="grid col-full" id="nav-data-types">
@@ -114,6 +115,115 @@
                     </article>
                     <article class="grid col-full" id="nav-general-program-structure">
                         <h2>General Program Structure</h2>
+                        <p>
+                            An ExpL program consists of the following sections:
+                        </p>
+                        <ul>
+                            <li>Type Definitions (for user defined types)</li>
+                            <li>Global (global variables, arrays and functions) Declarations</li>
+                            <li> Function Definitions and the main Function Definition</li>.
+                        </ul>
+                        <p>
+                            Following subsections explain each program section.
+                        </p>
+                        <h4>Type Definitions</h4>
+                        <p>
+                            All user-defined types in the program must defined in the type definition section. Type Definition section starts with keyword <b>type</b> and ends with <b>endtype.</b>
+                        </p>
+                        <i>Example</i>
+                        <script src="https://gist.github.com/vishnupriyam/67898e19a3cb8f2dc010.js"></script>
+                        <h4>Global Declarations</h4>
+                        <p>
+                            The global declaration part of an ExpL program begins with the keyword <b>decl</b> and ends with the keyword <b>enddecl</b>. All global variables, arrays and functions in a program must be declared in this section.
+                        </p>
+                        <p>
+                            Global variables may be of type integer, string, a user defined type, an integer array or a string array. The <b>variables declared globally must be allocated statically</b> by the compiler. Global variables are visible throughout the program <b>unless suppressed</b> by a redeclaration within the scope of some function. Array type variables can be declared only globally. Only single dimensional arrays are allowed. Variables <b>cannot be assigned values during the declaration phase.</b>
+                        </p>
+                        <p>
+                            For every function except the special <b>main</b> function defined in an ExpL program, there must be a declaration. A function declaration should specify the name of the function, the name and type of each of its arguments and the return type of the function. A function can have integer/string/user defined type arguments. The return type of a function also can be integer/string/user-defined type. ExpL enforces <b>call-by-value</b> semantics for integer and string parameters and <b>call-by-reference</b> for user defined types. (A variable of a user defined type typically stores a reference to its store.) <b>Arrays cannot be passed as arguments.</b> If a global variable name appears as an argument of a function, then within the scope of the function, the new declaration will be valid and global variable declaration is suppressed. Different functions may have arguments of the same name. However, the same name cannot be given to different arguments in a function. The general form of declarations is as follows:
+                        </p>
+                        <pre>
+                            type VarName1, VarName2 ;    /* variable declarations */
+                            rettype FunctionName (ParameterList);    /*  A function declaration */
+                            type VarName[ArraySize];    /* An array declaration */
+                        </pre>
+                        <p>
+                            <i>Note</i> : Declarations for variables/functions of the same type can be combined as shown in the following example.
+                        </p>
+                        <p>
+                            <i>Example : </i>
+                        </p>
+                        <pre>
+                            decl   /* Please note the use of "," and ";" */
+                            &nbsp;&nbsp;int x,y,a[10],b[20];       /* x,y are integers, a,b are integer arrays */
+                            &nbsp;&nbsp;str t, q[10], f3(str x);   /*variable, array and a functions declared together*/
+                            &nbsp;&nbsp;mytype m, fun(mytype t);   /* myptype must be  a user defined type */
+                            &nbsp;&nbsp;/*  The argument and return value of fun are references to mytype */
+                            enddecl
+                        </pre>
+                        <p>
+                            Declaring functions at the beginning avoids the "forward reference" problem and facilitates single pass compilation. If a variable/function is declared multiple times, a compilation error should result.
+                        </p>
+                        <h4>Function Definitions and the Main Function</h4>
+                        <p>
+                            All globally declared variables are visible inside a function, unless suppressed by a re-declaration within the function. Variables declared inside a function are invisible outside. The general form of a function definition is given below:
+                        </p>
+                        <pre>
+                            < Type > FunctionName(ArgumentList)
+                            {
+                            &nbsp;&nbsp;Local Declarations
+                            &nbsp;&nbsp;Function Body
+                            }
+                        </pre>
+                        <p>
+                            The names and types of the arguments and return value of each function definition should match exactly (name equivalence) with the corresponding declaration. Every declared function must have exactly one definition. The compiler should report error otherwise.
+                        </p>
+                        <p>
+                            The syntax of local declarations and definitions are similar to those of global declarations except that arrays and functions cannot be declared inside a function. Local variables are visible only within the scope of the function where they are declared. The scope of a parameter is limited to the function. Static scope rules apply.
+                        </p>
+                        <p>
+                            The <b>main()</b> function, by specification, must be a <b>zero argument</b> function of <b>return type integer</b>. It must be defined after all other functions are defined. Program execution begins from the body of the main function. The main function must not be declared. The definition part of main should be given in the same format as any other function.
+                        </p>
+                        <p>
+                            The Body of a function is a collection of statements embedded within the keywords <b>begin and end</b>.
+                        </p>
+                        <p>
+                            Example : The definition of a swap function may look like the following:
+                        </p>
+                        <pre>
+                            int add(int a,int b)
+                            {
+                            &nbsp;&nbsp;decl
+                            &nbsp;&nbsp;&nbsp;&nbsp;int c;
+                            &nbsp;&nbsp;enddecl
+                            &nbsp;&nbsp;begin
+                            &nbsp;&nbsp;&nbsp;&nbsp;c = a + b;
+                            &nbsp;&nbsp;&nbsp;&nbsp;write(c);
+                            &nbsp;&nbsp;&nbsp;&nbsp;return c;
+                            &nbsp;&nbsp;end
+                            }
+                        </pre>
+                        <p>
+                            Local Variables and parameters should be allocated space in the run-time stack of the function. The language <b>supports recursion</b>.
+                        </p>
+                        <p>
+                            Each statement should end with a ‘;’ which is called the <b>statement terminator</b>.
+                        </p>
+                        <p>
+                            There are seven types of statements in ExpL. They are:
+                            <ol>
+                                <li>Assignment Statement</li>
+                                <li>Conditional Statement</li>
+                                <li>Iterative statement</li>
+                                <li>Return statement</li>
+                                <li>Input/Output statements</li>
+                                <li>Break statement</li>
+                                <li>Continue statement</li>
+                            </ol>
+                        </p>
+                        <p>
+                            The next section discusses statements and expressions in ExpL.
+                        </p>
                     </article>
                     <article class="grid col-full" id="nav-stmts-and-exprs">
                         <h2>Statements and Expressions</h2>
@@ -188,7 +298,7 @@
                     </article>
                     <article class="grid col-full" id="nav-sample-programs">
                         <h2>Sample Programs</h2>
-                        <h3>An Example ExpL Program without user defined types</h3>
+                        <h6>An Example ExpL Program without user defined types</h6>
                         <p>The following program calculates and prints out the factorial of the first n numbers, value of n read from standard input.</p>
                         <script src="https://gist.github.com/vishnupriyam/ac11acaaf3a82ba24efe.js"></script>
                         <h6>Sample ExpL program using User Defined types</h6>
