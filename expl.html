@@ -1,0 +1,286 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>ExpL Specification</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/style_new.css">
+        <<style media="screen">
+            pre{
+                white-space : pre-line;
+                font-size : 12px;
+                background-color: #F5F5F5;
+                padding: 1em;
+                border: 1px solid #CCC;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+        			    <li><a href="#">Help</a></li>
+        			    <li><a href="#">Code</a></li>
+        			    <li><a href="#">Roadmap</a></li>
+        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">ExpL Specification</p>
+                <br>
+                <br>
+                <a class="button" href="">Download as PDF</a>
+            </header>
+            <aside class="grid col-one-quarter mq2-col-full">
+                <menu>
+                    <ul>
+                        <li><a class="sec" href="#nav-intro">Introduction</a></li>
+                        <li><a class="sec" href="#nav-data-types">Supported data types</a></li>
+                        <li><a class="sec" href="#nav-general-program-structure">General Program Structure</a</li>
+                        <li><a class="sec" href="#nav-stmts-and-exprs">Statements and Expressions</a><li>
+                        <li><a class="sec" href="#nav-dynamic-memory-allocation">Dynamic Memory Allocation</a></li>
+                        <li><a class="sec" href="#nav-sample-programs">Sample Programs</a></li>
+                        <li><a class="sec" href="#nav-appendix">Appendix</a></li>
+                    </ul>
+                </menu>
+            </aside>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                    <article class="grid col-full" id="nav-intro">
+                        <h2>Introduction</h2>
+                        <p>
+                            Nothing
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-data-types">
+                        <h2>Supported Data Types</h2>
+                        <h4>Primitive data types</h4>
+                          <p><b>Integer</b> :  An integer type variable is declared using the keyword <b>int</b>.  <i>Example</i> : </p>
+                          <pre >
+                            int a, b, c;  /* Declares variables a, b, c of type integer */
+                          </pre>
+
+                          <p><b>String</b> :  A string is a sequence of characters.  A string type variable is declared using the keyword <b>str</b>.   <i>Example</i> : </p>
+                          <pre>
+                              str mystring;   /*  Declares a variable mystring of type string.  */
+                          </pre>
+
+                          <p><b>Boolean</b> :  ExpL does not permit boolean variables. But logical expressions like (a < b) or (a==b) and (a< 5) are supported and are considered to be of type boolean.  </p>
+
+                          <h4>Composite data types</h4>
+                            <p><b>Arrays</b></p>
+                            <p style="text-indent: 3em;">Arrays can be of <b>integer</b> or <b>string</b> type only.  Only single-dimensional arrays are allowed.   The semantics is similar to that of C programming language.  Arrays are  allocated statically.  </p>
+                            <p><i>Example</i> :</p>
+                            <pre>
+                              int a[10];            /* array a indexed a[0],a[1],..a[9], can store 10 integers*/
+                              str stringlist[10];   /* stringlist is an array of 10 strings */
+                            </pre>
+                            <p><b>User-defined types</b></p> <p style="text-indent: 3em;">ExpL allows user defined data types. The (member) <b>fields</b> of a user defined type may be of type a) integer, b) string,  c) a previously defined user defined type or d) the type that is currently being defined. Arrays of user defined types are <b>not</b> allowed.  </p>
+                            <p><i>Note</i> : ExpL specifies that the <b>store</b>  for variables of user defined types shall be <b>dynamically allocated</b>. Hence the programmer has to call the library function alloc() to allocate store for variables of user defined types before use.  <b> User defined types take default value NULL unless allocated or assigned otherwise.</b>  Store allocated for a variable of a user defined type is de-allocated using the free() library function.</p>
+                            <p><i>Example</i> : A user defined type, mytype is defined as:</p>
+                            <pre>
+                              mytype
+                              {
+                                &nbsp;int a;
+                                &nbsp;str b;
+                              }
+                            </pre>
+                            <p>a variable of type mytype is declared as:</p>
+                            <pre>
+                              mytype var;
+                            </pre>
+                            <p>Storage for the variable is allocated as:</p>
+                            <pre>
+                              var=alloc(mytype);   /* Note:  Access without allocation can lead to run time errors */
+                            </pre>
+                            <p>Its fields may be accessed as:</p>
+                            <pre>
+                              var.a=10;     /*  the “.” symbol is used to access member fields */
+                              var.b="hello";
+                            </pre>
+                            <p>The memory allocated may be freed as:</p>
+                            <pre>
+                              retval = free(var);
+                            </pre>
+                            <p><i>Note</i> :  The ExpL compiler may internally represent var like a pointer variable. The library function alloc may be designed so as to allocate memory and return pointer to allocated memory. (Library functions are explained in detail later on.) The returned pointer is stored in var.   </p>
+
+                    </article>
+                    <article class="grid col-full" id="nav-general-program-structure">
+                        <h2>General Program Structure</h2>
+                    </article>
+                    <article class="grid col-full" id="nav-stmts-and-exprs">
+                        <h2>Statements and Expressions</h2>
+
+                        <p>Before taking up statements, we should look at the different kinds of <b>constants</b> and <b>expressions</b> in the language.  ExpL has two kinds of expressions,  a) <b>Arithmetic</b> expressions and b) <b>Logical</b> expressions.    </p>
+
+                        <h3>Constants</h3>
+                          <p>Any numerical value (Example: 234) is an <i>integer constant</i>.  A quoted string (Example: “hello”) is a <i>string constant</i>. </p>
+
+                        <h3>Arithmetic Expressions</h3>
+                          <p>Any integer constant/variable is a valid arithmetic expression, provided the scope rules  are not violated.  ExpL treats a function returning integer as an expression and the value of a function is its return value.</p>
+                          <p>ExpL provides five <b>arithmetic operators</b>, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization hold. eXpL is strongly typed and <b>any type mismatch or scope violation must be reported at compile time</b>.</p>
+                          <p><i>Example</i> :  5, a[a[5+x]]+x , (f2() + b[x] + 5) etc. are arithmetic expressions, provided type and scope rules are not violated.  </p>
+
+                        <h3>Logical Expressions</h3>
+                            <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by eXpL are <, >, <=, >=, ==, and !=. Again <b>standard syntax and semantics conventions apply</b>. Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.  Note that the relational operators except == and != can compare only two arithmetic expressions and not two logical expressions.  </p>
+                            <p><i>Variables of string type or user defined types can only be checked for equality/inequality using the ==/!= operator. </i></p>
+                            <p><i>Example</i> :((x==y)==a[3]) is <b>not valid</b> eXpL expression because (x==y) is a logical expression, while a[3] must be a variable of type integer/string.   The "==" operator can be applied only between expressions of the same type.  </p>
+                            <p>(“hello”==a) is a valid logical expression provided, a is a variable of string type.  (p==q) is a valid logical expression provided p and q are variables of the same type.  </p>
+
+                        <h3>Assignment Statement</h3>
+                            <p>The general syntax of the assignment statement is :</p>
+                            <pre>
+                              Lvalue = Rvalue;
+                            </pre>
+                            <p>The possible Lvalues are variables or an indexed array variables.  If the Lvalue has type integer, the Rvalue can be any arithmetic expression.  If the Lvalue has type string, the Rvalue can be a string constant or a variable of type string.   If the Lvalue is a user defined variable, the Rvalue must be a user defined variable.</p>
+                            <p><i>Example</i> : q[3]= “hello” ; t= “world” ; are both valid assignments to string variables provided q is declared as an array of type string and t is declared as a variable of type string.   x=y; is valid if x and y are of the same type and scope rules are not violated.   </p>
+                            <p>In an assignment x=y where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>                            <h3>Conditional  Statement</h3>
+                            <p>The eXpL conditional statement has the following syntax:</p>
+                            <pre>
+                            if < Logical Expression > then
+                            &nbsp;Statements
+                            else
+                            &nbsp;Statements
+                            endif;
+                            </pre>
+                            <p>The <b>else</b> part is optional. The statements inside an <b>if</b>-block may be conditional, iterative, assignment, input/output, break or continue statements, but <b>not</b> the return statement.</p>
+
+                        <h3>Iterative Statement</h3>
+                            <p>The eXpL iterative statement has the following syntax:</p>
+                            <pre>
+                            while < Logical Expression > do
+                             &nbsp; Statements
+                            endwhile;
+                            </pre>
+                            <p>Standard conventions apply in this case too. The statements inside a <b>while</b>-block may be conditional, iterative, assignment, input/output, break or continue statements, but <b>not</b> the return statement.</p>
+
+                        <h3>Return Statement</h3>
+                          <p>The body of each function (including main) should have <b>exactly one</b> return statement and it should be the <b>last statement</b> in the body. The syntax is:</p>
+                          <pre>
+                          return < Expression > ;               /* if the return type of the function is integer*/
+                          return < string constant/variable > ; /* If the return type is string */
+                          return < variable >;                  /* If the return type of the function is a user defined type*/
+                          </pre>
+                          <p>If the return type of the function does not match the type of the expression/variable returned,  a compilation error should occur.  The <b>return type of main is integer</b> by specification</p>
+
+                        <h3>Break and Continue Statements</h3>
+                          <p>A <b>break;</b> statement inside a conditional/iterative block tranfers control to the end of the block.  A <b>continue;</b> inside a conditional/iterative block transfers control to the beginning of the block.    These statements do nothing if not inside any conditional/iterative statement.  </p>
+                          <p>The next section briefly discusses the library functions for dynamic memory allocation.</p>
+
+                    </article>
+                    <article class="grid col-full" id="nav-dynamic-memory-allocation">
+                        <h2>Dynamic memory allocation</h2>
+
+                        <p>The library functions <b>alloc()</b> and <b>free()</b> are used as follows:  </p>
+                        <pre>
+                          t = alloc(); /* Allocates HBSIZE contiguous locations in the heap –
+                          t must be a user defined variable */
+                          t = free(t);  /* Free the allocated block , t must be a user defined variable */
+                        </pre>
+                        <p>A call to alloc() allocates HBSIZE contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. In this version of ExpL, HBSIZE is set to 8 words. This address may be stored in a variable of user defined type .  A call to free() deallocates HBSIZE contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns NULL on successful deallocation.  Otherwise, the value of t is unchanged by call to free().    All unallocated user defined variables are set to predefined constant  NULL.</p>
+                    </article>
+                    <article class="grid col-full" id="nav-sample-programs">
+                        <h2>Sample Programs</h2>
+                        <h3>An Example ExpL Program without user defined types</h3>
+                        <p>The following program calculates and prints out the factorial of the first n numbers, value of n read from standard input.</p>
+                        <script src="https://gist.github.com/vishnupriyam/ac11acaaf3a82ba24efe.js"></script>
+                        <h6>Sample ExpL program using User Defined types</h6>
+                        <p>The following program reads elements into a linked list and prints them.</p>
+                        <script src="https://gist.github.com/vishnupriyam/2d790a0323028fc9c5ed.js"></script>
+                    </article>
+                    <article class="grid col-full" id="nav-appendix">
+                        <h2>Appendix</h2>
+                        <h4>Keywords</h4>
+                        <p>The following are the reserved keywords in ExpL and it cannot be used as identifiers.</p>
+                        <table style="width:80%;text-align:center;">
+                          <tbody>
+                            <tr>
+                              <td>read</td>
+                              <td>write</td>
+                              <td>if</td>
+                              <td>then</td>
+                              <td>else</td>
+                            </tr>
+                            <tr>
+                              <td>endif</td>
+                              <td>do</td>
+                              <td>endwhile</td>
+                              <td>break</td>
+                              <td>while</td>
+                            </tr>
+                            <tr>
+                              <td>int</td>
+                              <td>str</td>
+                              <td>return</td>
+                              <td>decl</td>
+                              <td>enddecl</td>
+                            </tr>
+                            <tr>
+                              <td>type</td>
+                              <td>endtype</td>
+                              <td>NULL</td>
+                              <td>continue</td>
+                              <td>main</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <br/>
+                        <h4>Operators and Delimiters</h4>
+                        <p>The following are the operators and delimiters in ExpL</p>
+                        <table style="width:80%;text-align:center;">
+                          <tbody>
+                            <tr>
+                                <td>&gt;</td>
+                                <td>&lt;</td>
+                                <td>&gt;=</td>
+                                <td>&lt;=</td>
+                                <td>!=</td>
+                                <td>==</td>
+                                <td>(</td>
+                                 <td>)</td>
+                            </tr>
+                            <tr>
+                                <td>{</td>
+                                <td>}</td>
+                                <td>[</td>
+                                <td>]</td>
+                                <td>/</td>
+                                <td>;</td>
+                                <td>*</td>
+                                 <td>=</td>
+                            </tr>
+                            <tr>
+                                <td>+</td>
+                                <td>-</td>
+                                <td>%</td>
+                                <td>AND</td>
+                                <td>NOT</td>
+                                <td>OR</td>
+                                <td>.</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <br/>
+                        <h4>Identifiers</h4>
+                        <p>Identifiers are names of variables and user-defined functions. Identifiers should start with an letter, and may contain both letters and digits. Special characters are not allowed in identifiers.</p>
+                        <p style="text-indent: 5em;">letter -&gt; [a-z]|[A-Z]</p>
+                        <p style="text-indent: 5em;">digit -&gt; [0-9]</p>
+                        <p style="text-indent: 5em;">identifier -&gt; (letter)(letter | digit)*</p>
+                        <br/>
+                        <h3>Constants</h3>
+                        <p>Interger constants are represented in the standard way. Any sequence of characters enclosed within double quotes (”) are considered as string constant.  Normally,  implementations append a  ’\0’ character which is implicitly appended at the end of a string value.  The maximum size of integers and strings are left to the implementation. ExpL uses the generic constant NULL to indicate the values of unallocated user defined variables and unassigned file descriptors.</p>
+                        <p><i>Examples</i> :  19, -35, "Hello World"</p>
+
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+</html>
