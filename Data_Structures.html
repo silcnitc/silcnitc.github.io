@@ -181,6 +181,15 @@
                             <li>struct ASTNode* TreeCreate(struct Typetable *type,int nodetype,char *name,union Constant value,struct ASTNode *ptr1, struct ASTNode *ptr2,struct ASTNode *ptr3) :  Creates a node with the appropriate fields set to the corresponding parameters after type checks(will be explained later) and returns it.</li>
                             <li>struct valstruct* interpret(struct ASTNode *t) : evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
                             <script src="https://gist.github.com/vishnupriyam/cd19e1c748662f88782f.js"></script>
+                            <p>
+                                The type field can take the following values:
+                                <ol>
+                                    <li>VALSTRUCT_EMPTY : Indicates that no value is stored in it.</li>
+                                    <li>VALSTRUCT_INT : Indicates that value stored in the union constant value is an integer.</li>
+                                    <li>VALSTRUCT_STR : Indicates the value stored in the union constant value is a string.</li>
+                                    <li>VALSTRUCT_BIND : Indicates that the valstruct points to a location in the heap. So the intval field in union constant value stores the index of the heap array location it points to.</li>
+                                </ol>
+                            </p>
                             </li>
                         </ul>
                         <h6>Illustration</h6>
@@ -213,6 +222,18 @@
                             NOTE : for compiler, the stack structure and functions supported functions depends and is taken care of by the target machine.
                         </p>
                         <script src="https://gist.github.com/vishnupriyam/29434fa8b266749088cb.js"></script>
+                        <p>
+                            The type field in memstruct can take the following values
+                        </p>
+                        <ol>
+                            <li>MEMSTRUCT_EMPTY : Indicates no value is stored in it.</li>
+                            <li>MEMSTRUCT_INT : Indicates that it stores an integer value.</li>
+                            <li>MEMSTRUCT_STR : Indicates that it stores a string value.</li>
+                            <li>MEMSTRUCT_BIND : Indicates that it points to a location in heap,i.e, the intval field in the union constant value stores the index of heap array location it points to.</li>
+                        </ol>
+                        <ol>
+
+                        </ol>
                         <h6>Associated methods</h6>
                         <ul>
                             <li>void push(struct valstruct *v) : pushes the values in valstruct to stack accordingly.</li>
@@ -234,13 +255,91 @@
                         </p>
                         <h6>Associated methods</h6>
                         <ul>
+                            <li>void intialise() : To initialise the heap with required initial values.</li>
                             <li>int alloc(int size) : allocates continuos locations of given size and returns the starting address of allocated block.</li>
                             <li>int free(int addr) : frees the memory block starting with the given addr are erasing the data in that block and returns a value indicating the success and failure of free operation.</li>
                         </ul>
                         <h6>Allocation algorithms</h6>
                         <p>
-                            The two types of allocation-deallocation algorithms we will discuss here for heap management are fixed memory and buddy memory management. 
+                            The two types of allocation-deallocation algorithms we will discuss here for heap management are fixed memory and buddy memory management.
                         </p>
+                        <h6>Fixed Memory Allocation</h6>
+                        <p>
+                            In this algorithm, the chunk size allocated is fixed. Lets call the fixed size as HB_SIZE, say 8. The heap is considered here as a list of blocks of HB_SIZE.
+                        </p>
+                        <p>
+                            The first block in the list is reserved. Initially, The first index of reserved block stores the index of first free block. The first index of every free block stores the index of next available free block. The last block stores -1 in the first index. This is how it looks initially(after the call to initialise function).
+                        </p>
+                        <img src="img/data_structure_10.png" alt="Figure : Intial Heap diagram" />
+                        <p>
+                            Following is the <b>allocation algorithm.</b>
+                        </p>
+                        <ol>
+                            <li>First index of reserved block is checked, let the value be v.</li>
+                            <li>If v is -1, return -1 indicating no free blocks are available.</li>
+                            <li>Else, allocate the free block at v, after copying the next free block index stored at v to the reserved block.Return v.</li>
+                        </ol>
+                        <p>
+                            Following is the pseudo code of the algorithm.
+                        </p>
+                        <script src="https://gist.github.com/vishnupriyam/60abadc1a9b7554fba73.js"></script>
+                        <p>
+                            NOTE : heap is an array of memstructs.
+                        </p>
+                        <p>
+                            Following is the <b>deallocation algorithm.</b>
+                        </p>
+                        <ol>
+                            <li>The arguement passed : starting address of the block(say s) to be deallocated</li>
+                            <li>The block s is cleared by setting all memstructs in the block to type MEMSTRUCT_EMPTY.</li>
+                            <li>The value in the first index of reserved block is copied to first index of block s.</li>
+                            <li>The first index of reserved block is set with starting address of block s.</li>
+                        </ol>
+                        <h6>Illustration</h6>
+                        <p>
+                            This section shows how the heap looks after each step of allocation or free. This is for the better understanding of the algorithms.
+                        </p>
+                        <ul>
+                            <li>
+                                <p>
+                                    x = alloc();
+                                </p>
+                                <img src="img/data_structure_11.png" alt="" />
+                                <p>
+                                    x is a memstruct in the run-time stack of type MEMSTRUCT_BIND with intval 8.
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    y = alloc();
+                                </p>
+                                <img src="img/data_structure_12.png" alt="" />
+                            </li>
+                            <li>
+                                <p>
+                                    z = alloc();
+                                </p>
+                                <img src="img/data_structure_13.png" alt="" />
+                            </li>
+                            <li>
+                                <p>
+                                    dealloc(x);
+                                </p>
+                                <img src="img/data_structure_14.png" alt="" />
+                            </li>
+                            <li>
+                                <p>
+                                    dealloc(z);
+                                </p>
+                                <img src="img/data_structure_15.png" alt="" />
+                            </li>
+                            <li>
+                                <p>
+                                    z = alloc();
+                                </p>
+                                <img src="img/data_structure_16.png" alt="" />
+                            </li>
+                        </ul>
                     </article>
                 </div>
             </section>
