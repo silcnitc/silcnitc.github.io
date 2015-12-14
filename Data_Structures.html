@@ -230,6 +230,7 @@
                             <li>MEMSTRUCT_INT : Indicates that it stores an integer value.</li>
                             <li>MEMSTRUCT_STR : Indicates that it stores a string value.</li>
                             <li>MEMSTRUCT_BIND : Indicates that it points to a location in heap,i.e, the intval field in the union constant value stores the index of heap array location it points to.</li>
+                            <li>MEMSTRUCT_SIZE : Indicates that this memstruct is the first index of the allocated block for a dynamically allocated variable, and it stores the size of the block allocated for the variable.</li>
                         </ol>
                         <ol>
 
@@ -340,6 +341,116 @@
                                 <img src="img/data_structure_16.png" alt="" />
                             </li>
                         </ul>
+                        <h6>Buddy Memory Allocation</h6>
+                        <p>
+                            In this technique, memory is divided into partitions to try to satisfy a memory request as suitably as possible. This technique makes use of splitting memory into halves to try to give a best-fit.
+                        </p>
+                        <p>
+                            Every memory block in this technique has an order, a number ranging from 0 to a specified upper limit. The size of block of order n is 2<sup>n</sup>. So the blocks are exacly twice the size of blocks of one order lower. Power-of-two block sizes makes address computation simple, because all buddies are aligned on memory address boundaries that are powers of two. When a larger block is split, it is divided into two smaller blocks, and each smaller block becomes a unique <b>buddy</b> to the other. A split block can only be merged with its unique buddy block, which then reforms the larger block they were split from.
+                        </p>
+                        <p>
+                            Starting off, the size of the smallest possible block is determined, i.e. the smallest memory block that can be allocated. The smallest block size is then taken as the size of an order-0 block, so that all higher orders are expressed as power-of-two multiples of this size. In our implementation, we consider the smallest memory block size to be 8. So, the memory block sizes will be 8, 16, 32, 64, and so on. In our implementation, we take the heap of size 1024 and we maintain the free-list of the heap within it. So the maximum size that can be allocated is 512.
+                        </p>
+                        <p>
+                            In our implementation, we have a heap of size 1024. The smallest block size possible in the heap is 8 (order 0). The highest block size of 2<sup>n</sup> that is free is 1024.We maintain a free list for all possible block sizes. So we have freelists for sizes 8,16,32,64,128,256,512 and 1024, i.e, we maintain eight freelists.
+                            <ul>
+                                <li>We have only one block of size 1024 and so the size of freelist for 1024 is 1(2<sup>0</sup>).</li>
+                                <li>In the 1024 sized heap, we have two blocks of size 512. Note that, both blocks cannot be free at the same time. If both blocks are free, they will be merged to a free block of size 1024(whose information will be maintained in the freelist for blocks of 1024 size). So at a time, maximum number of blocks that are free of size 512 is 1 ( 2<sup>0</sup>).</li>
+                                <li>Similarly in case of blocks of size 256, 1024 sized heap has 4 blocks of size 256 (say a,b,c and d in their respective order).a and b are buddies of each other, of which both cannot be free at a time due to merging, so only one of them can be free. Similarly in case of c and d, only one of them can be free. 1 + 1 , 2 ( 2<sup>1</sup>) is the maximum size of free list for blocks of 256.</li>
+                                <li>Similarly, there are 8 blocks of 128 in 1024 (a,b,c,d,e,f,g and h). (a,b)(c,d)(e,f)(g,h) are buddy pairs and only one of each pair can be free. So the maximum size of freelist for blocks of 128 is 4 ( 2<sup>2</sup>).</li>
+                                <li>Similarly, the maximum size of freelist for blocks of sizes 64,32,16 and 8 are 8 ( 2<sup>3</sup>),16( 2<sup>4</sup>),32( 2<sup>5</sup>) and 64( 2<sup>6</sup>) respectively.</li>
+                            </ul>
+                            So, the size of the complete freelist is 2<sup>0</sup> + 2<sup>0</sup> + 2<sup>1</sup> + 2<sup>2</sup> + 2<sup>3</sup> + 2<sup>4</sup> + 2<sup>5</sup> +2<sup>6</sup> = 128.
+                        </p>
+                        <p>
+                            We will maintain the freelist inside the heap, So initially we won't have the complete heap of 1024 free. So we need not require a freelist for size 1024. We will store the complete freelist in a 128 sized block. Therefore, initially we have the first 128 block(0-127) of the heap reserved for freelist maintainence. The we have a 128 sized free block(128-255), then a 256 block(256-511) and then a free block of 512 size(512-1023). Following is the diagrammatic representation of the heap initial status.
+                        </p>
+                        <img src="img/data_structure_17.png" alt="" />
+                        <p>
+                            The free-list in the heap has to be initialised as above. Also, the first index of each allocated block through alloc function will store the size of allocated block. This is to figure out the size that has been allocated when the dealloc function is called for a variable, which provides only the starting address of the block that has been allocated.
+                        </p>
+                        <p>
+                            Following is the <b>allocation algorithm</b> : (argument : Request for a block of size 'A')
+                        </p>
+                        <ul>
+                            <li>Look for a memory slot of suitable size(i.e, the <b>minimal 2<sup>k</sup> block</b> that is larger or equal to that of the requested memory A + 1, a plus one as first index is used to store the size of block allocated), lets call the ceiled size as 'B'.
+                                <ol style="list-style-type:upper-roman">
+                                    <li>If found, the starting index of the allocated block is returned to the program after removing it from the freelist.</li>
+                                    <li>If not, it tries to make a suitable memory slot by following the below steps
+                                        <ol style="list-style-type:lower-alpha">
+                                            <li>Split a the <b>next larger suitable free memory slot</b> into half.(Remove the next larger suitable free memory slot from it free list and add both the halves to the corresponding freelist).(Note : of there is no larger free memory slot - return -1 indicating that no free space is available).</li>
+                                            <li>If the required size 'B' is reached, one of the halves is allocated to the program.</li>
+                                            <li>Else go to the step a and repeat it until the memory slot of required size 'B' is found.</li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ul>
+                        <p>
+                            Following is the <b>deallocation algorithm</b> (arguement : the starting address of the allocated block)
+                        </p>
+                        <ol>
+                            <li>Get the size, say 's' of the block from the first index of the block. Free the complete block with the help od size obtained by setting all the memstruct type to MEMSTRUCT_EMPTY.</li>
+                            <li>Check if the buddy of the block is free by checking the whether the buddy's starting address is present in the free list for blocks of size 's' .</li>
+                            <li>If the buddy is not free, add the current freed block to its free list.</li>
+                            <li>If the buddy is free, remove the buddy from the freelist and combine the two, and go back to step 2 to check for the buddy of merged block. Repeat this process until the upper limit is reached or buddy is not free.</li>
+                        </ol>
+                        <p>
+                            The psuedo code for alloc and dealloc functions is as follows :
+                        </p>
+                        <script src="https://gist.github.com/vishnupriyam/459816dfb4d095778c37.js"></script>
+                        <h6>Illustration</h6>
+                        <p>
+                            For a better understanding purpose, we will have a simple illustration of how heap memory looks like through a set of some allocations and deallocations.
+                        </p>
+                        <p>
+                            For illustration, we will have 64-sized heap and smallest block size as 8. So we free lists for sizes 8,16 and 32 of lengths 4 ,2 and 1. So we will use a 8-size block to store the free-list.
+                        </p>
+                        <ol>
+                            <li>
+                                <p>
+                                    The heap looks initially as follows.
+                                </p>
+                                <img src="img/data_structure_18.png" alt="" />
+                            </li>
+                            <li>
+                                <p>
+                                    Request for memory of size 5. Lets call this request as A. The nearest 2^k value for 5 is 8. We search for a 8 sized free block. We have one such! Allocate it!
+
+                                </p>
+                                <img src="img/data_structure_19.png" alt="" />
+                                <br/>
+                            </li>
+                            <li>
+                                <p>
+                                    Next we will have a reuqest B of size 14.
+                                </p>
+                                <img src="img/data_structure_20.png" alt="" />
+                                <br/>
+                            </li>
+                            <li>
+                                <p>
+                                    Now we have a request C of size 7.
+                                </p>
+                                <img src="img/data_structure_21.png" alt="" />
+                                <br/>
+                                <img src="img/data_structure_22.png" alt="" />
+                                <br/>
+                                <img src="img/data_structure_23.png" alt="" />
+                                <br/>
+                            </li>
+                            <li>
+                                <p>
+                                    Now, C releases its memory.
+                                </p>
+                                <img src="img/data_structure_24.png" alt="" />
+                                <br/>
+                                <img src="img/data_structure_25.png" alt="" />
+                                <br/>
+                                <img src="img/data_structure_26.png" alt="" />
+                                <br/>
+                            </li>
+                        </ol>
                     </article>
                 </div>
             </section>
