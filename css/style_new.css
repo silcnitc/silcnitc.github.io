@@ -7,7 +7,7 @@
 
 - Resources:
 	HTML5 Boilerplate (http://html5boilerplate.com/),
-	Normalise.css (http://necolas.github.com/normalize.css/), 
+	Normalise.css (http://necolas.github.com/normalize.css/),
 	Proportional grids by Boon (http://builtbyboon.com),
 	CSS Tricks (css-tricks.com).
 ------------------------------------------------------------- */
@@ -24,7 +24,7 @@
 
 }
 
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {display: block}
 audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
 audio:not([controls]) { display: none; }
@@ -35,13 +35,13 @@ html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 10
 html, button, input, select, textarea {
 	font-family: Museo Sans;
 	font-weight: 400; /* normal */
-	color: #555; 
+	color: #555;
 	font-smooth:always;
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.004);}
 
-body { margin: 0; font-size: 13px; line-height: 1.6; }
+body { margin: 0; font-size: 15px; line-height: 1.6; }
 
 a { color: #0078CF; font-weight: normal;
 	cursor: pointer;  text-decoration: none;
@@ -51,10 +51,10 @@ a.imp{
 	cursor: pointer;  text-decoration: none;
 	transition:color 0.2s ease; -moz-transition:color 0.2s ease; -webkit-transition:color 0.2s ease; -o-transition:color 0.2s ease;
 }
-a:hover { color: #000; text-decoration: underline; background: rgba(0, 0, 0, .025);} 
+a:hover { color: #000; text-decoration: underline; background: rgba(0, 0, 0, .025);}
 
 ::-moz-selection { background: #0078CF; color: #fff; text-shadow: none; }
-::selection { background: #0078CF; color: #fff; text-shadow: none; }	
+::selection { background: #0078CF; color: #fff; text-shadow: none; }
 
 p{margin: 0 0 1em;}
 p:last-child {margin-bottom: 0;}
@@ -106,7 +106,7 @@ td{vertical-align:top}
 ======	STYLES
 ------------------------------------------------------------- */
 
-/* -- FORMS 
+/* -- FORMS
 ------------------------------------------------------------- */
 form{margin-top: 2em;}
 form li{margin-bottom: 1.5em;}
@@ -144,7 +144,7 @@ label.error { color: #0078CF; margin: 0.5em 0 0 0.5em; font-weight: normal; font
 
 
 
-/* -- BUTTONS 
+/* -- BUTTONS
 ------------------------------------------------------------- */
 .button, input[type="submit"], button, .toggle-title {
 	color: #666;
@@ -155,7 +155,7 @@ label.error { color: #0078CF; margin: 0.5em 0 0 0.5em; font-weight: normal; font
 	border: solid 1px #ddd;
 	text-decoration: none;
 	cursor: pointer;
-	
+
 	background: #efefef; /* Old browsers */
 	background: -moz-linear-gradient(top,  #f6f6f6 0%, #efefef 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f6f6), color-stop(100%,#efefef)); /* Chrome,Safari4+ */
@@ -164,14 +164,14 @@ label.error { color: #0078CF; margin: 0.5em 0 0 0.5em; font-weight: normal; font
 	background: -ms-linear-gradient(top,  #f6f6f6 0%,#efefef 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #f6f6f6 0%,#efefef 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#efefef',GradientType=0 ); /* IE6-9 */
-		
+
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	-o-border-radius: 2px;
 	-ms-border-radius: 2px;
 	-khtml-border-radius: 2px;
 	border-radius: 2px;
-	
+
 	-webkit-transition: 0.1s linear all;
 	-moz-transition: 0.1s linear all;
 	-ms-transition: 0.1s linear all;
@@ -200,12 +200,12 @@ label.error { color: #0078CF; margin: 0.5em 0 0 0.5em; font-weight: normal; font
 ------------------------------------------------------------- */
 h1,h2,h3,h4,h5,h6{margin:0 0 1em; font-weight: normal;}
 
-h1 {font-size: 4.1em; 
-	letter-spacing: -0.075em; 
-	text-transform: uppercase; 
-	line-height: 0.9; 
+h1 {font-size: 4.1em;
+	letter-spacing: -0.075em;
+	text-transform: uppercase;
+	line-height: 0.9;
 	color: #555;
-	margin: 0 0 0.5em; 
+	margin: 0 0 0.5em;
 	font-weight: normal; }
 h2 { font-size: 2.5em; margin: 0 0 20px; letter-spacing: -0.05em; color: #555; line-height: 1; }
 h3 { font-size: 1.75em; }
@@ -221,15 +221,15 @@ h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover{color:#0078CF;
 /* -- GRID  https://github.com/mattberridge/Proportional-Grids/
 ------------------------------------------------------------- */
 body{width:100%; }
-.container {width: 90%; margin: 5em auto; max-width: 1100px; min-width: 300px;}
- 
+.container {width: 95%; margin: 5em auto; max-width: 1600px; min-width: 300px;}
+
 .grid-wrap {
   margin-left: -3em; /* the same as your gutter */
   overflow: hidden;
   *zoom:1;}
   .grid-wrap:before, .grid-wrap:after{content:""; display:table}
   .grid-wrap:after{clear:both}
-  
+
 .grid {
   float: left;
   padding-left: 3em; /* this is your gutter between columns */
@@ -238,10 +238,10 @@ body{width:100%; }
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   *behavior: url(/js/boxsizing.htc); }
-  
+
 .half-gutter {margin-left: -1.5em; }
   .half-gutter .grid-col {padding-left: 1.5em; }
-  
+
 
 .col-full {width: 100%; }
 .col-one-half {width: 50%; }
@@ -287,13 +287,13 @@ a img:hover {
 	opacity: 0.7;
 	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 70);
 	filter: alpha(opacity = 70);}
-    
-    
-    
+
+
+
 /* -------------------------------------------------------------
 ======	PAGES
 ------------------------------------------------------------- */
-    
+
 /* -- HEADER
 ------------------------------------------------------------- */
 header#navtop { margin-bottom: 2em; clear: both; overflow: hidden; }
@@ -302,12 +302,12 @@ nav a, menu a { text-decoration: none; color: #555; }
 .navactive { color: #0078CF }
 .logo {margin-bottom: 3em;}
 .logo:hover {background: none;}
-		
-		
-/* -- GENERAL 
+
+
+/* -- GENERAL
 ------------------------------------------------------------- */
 .main > section { margin-bottom: 7em; }
-.main header{ color: #555; 
+.main header{ color: #555;
 padding-bottom:0;
 margin-bottom:30px;
 padding-left:50px;
@@ -322,7 +322,7 @@ color:black;
 	width: 100%;
 }
 .main header hr{border-top-color:#999;}
-.arrow:after {content:" \27F6"; /* html unicode: &#10230; */ } 
+.arrow:after {content:" \27F6"; /* html unicode: &#10230; */ }
 header .arrow {color: #999; font-style: italic;}
 .arrow:hover {color: #0078CF; }
 
@@ -377,20 +377,20 @@ footer li:last-child { margin-right: 0; padding-right: 0; border-right: none; }
 /* Slider */
 	/* Browser Resets */
 .flex-container a:active,.flexslider a:active,.flex-container a:focus,.flexslider a:focus  {outline: none;}
-.slides,.flex-control-nav,.flex-direction-nav {margin: 0; padding: 0; list-style: none;} 
-	/* FlexSlider Necessary Styles */ 
+.slides,.flex-control-nav,.flex-direction-nav {margin: 0; padding: 0; list-style: none;}
+	/* FlexSlider Necessary Styles */
 .flexslider {margin: 0; padding: 0; position: relative;}
 .flexslider .slides > .slide {display: none; -webkit-backface-visibility: hidden;}
 .flexslider .slides img {width: 100%; display: block;}
 .flex-pauseplay span {text-transform: capitalize;}
-.slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} 
-html[xmlns] .slides {display: block;} 
+.slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
+html[xmlns] .slides {display: block;}
 * html .slides {height: 1%;}
 
 .slide figcaption {
 	position: absolute;
-	background: white; 
-	height: auto; min-height: 3em; width: 60%; padding: 1em; 
+	background: white;
+	height: auto; min-height: 3em; width: 60%; padding: 1em;
 	top: 3em; right: 0; }
 .slide figcaption div { text-align: right; display: block; border-right: 1px solid #DDD; padding: 0 2em 0 0; margin: auto 5em auto 0; }
 .slide figcaption div p { margin: 0 }
@@ -402,18 +402,18 @@ html[xmlns] .slides {display: block;}
 
 /* -- WORKS / Home-page and Works-page
 ------------------------------------------------------------- */
-.works figure > a{ 
-	display: block; 
-	height: 100%; width: 100%; 
-	overflow: hidden; 
+.works figure > a{
+	display: block;
+	height: 100%; width: 100%;
+	overflow: hidden;
 	position: relative;
 	border-top: 1px solid #DDD; padding-top: 1em; }
- 	
-.works figure .zoom{ 
-	display: block; 
-	position: absolute; top: 10px; left: 0; 
-	background: url(../img/zoom.png) no-repeat center; 
-	width: 100%; height: 100%; 
+
+.works figure .zoom{
+	display: block;
+	position: absolute; top: 10px; left: 0;
+	background: url(../img/zoom.png) no-repeat center;
+	width: 100%; height: 100%;
 	*zoom: 1;
 	opacity: 0;
 	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 0);
@@ -431,7 +431,7 @@ html[xmlns] .slides {display: block;}
 .main aside menu .buttonactive {color: #0078CF }
 
 
-/* -- SUBPAGES 
+/* -- SUBPAGES
 ------------------------------------------------------------- */
 /*Separations*/
 .main:not(.home-page) > section article h2 { margin-top: 1em; padding-top: 1em; border-top: 1px solid #DDD; }
@@ -442,14 +442,14 @@ html[xmlns] .slides {display: block;}
 .work-page figcaption {text-align: center; margin-top: 1em;}
 
 /* Services-page */
-.warning { 
-	display: block; 
-	background: #F5F5F5; 
-	border: 1px solid #DDD; border-left: none; border-right: none; 
-	text-align: center; 
+.warning {
+	display: block;
+	background: #F5F5F5;
+	border: 1px solid #DDD; border-left: none; border-right: none;
+	text-align: center;
 	padding: 20px; margin: 20px 0px; }
 
-	/* - Toggles */  
+	/* - Toggles */
 .toggle-view > li {
     margin-top: 1em;
     position: relative; }
@@ -477,7 +477,7 @@ html[xmlns] .slides {display: block;}
     content: "\2714 ";
     color: #ddd;
     margin-right: 1em; }
-            
+
 	/* - Tabs */
 .tabs {
     display: block;
@@ -487,11 +487,11 @@ html[xmlns] .slides {display: block;}
 .tabs li {
     display: inline-block; margin-bottom: -1px; }
 .tabs li a {
-    display: block; 
+    display: block;
     text-decoration: none;
     line-height: 3em;
-    color: #555; 
-    padding: 0 2em; 
+    color: #555;
+    padding: 0 2em;
     margin: 0;
     background: #f5f5f5;
     font-size: 1.1em;}
@@ -536,8 +536,8 @@ html[xmlns] .slides {display: block;}
 .blog-sidebar .widget:last-child{border-bottom: none;}
 .blog-sidebar a {font-weight: normal; color:inherit;text-decoration: none; }
 .blog-sidebar a:hover{color:#333;}
-.blog-sidebar li{padding-left: 1em; margin-bottom: 0.5em;  white-space: nowrap ; text-overflow: ellipsis; width: 95%; overflow: hidden; display: block;} 
-.blog-sidebar li a:before {content: ">"; padding-right: 1em;} 
+.blog-sidebar li{padding-left: 1em; margin-bottom: 0.5em;  white-space: nowrap ; text-overflow: ellipsis; width: 95%; overflow: hidden; display: block;}
+.blog-sidebar li a:before {content: ">"; padding-right: 1em;}
 .blog-sidebar input {width: 90%; padding-right: 0;}
 
 /* Pagination */
@@ -564,13 +564,13 @@ ul.page-numbers{float: right;overflow:hidden; display:block;}
 .ir{display:block; border:0; text-indent:-999em; overflow:hidden; background-color:transparent; background-repeat:no-repeat; text-align:left; direction:ltr; *line-height: 0;}
 .ir br{display:none}
 .hidden{display:none !important; visibility:hidden}
- 
+
 
 /* -------------------------------------------------------------
  /* -- TABLE
 ------------------------------------------------------------- */
- 
- 
+
+
 table.doctable
 {
 text-align:center;
@@ -589,7 +589,7 @@ vertical-align:top;
 text-align:center;
 }
 
-table.doctable td 
+table.doctable td
 {
 border:1px solid #c3c3c3;
 padding:3px;
@@ -602,7 +602,7 @@ vertical-align:top;
 /* -------------------------------------------------------------
 ======	IE Fix
 ------------------------------------------------------------- */
-.lt-ie9 .works figure a, .lt-ie9 .works figure a img { filter:inherit} 
+.lt-ie9 .works figure a, .lt-ie9 .works figure a img { filter:inherit}
 /* jquery filter opacity issue IE8 */
 
 .lt-ie9 .container {min-width: 780px;}
@@ -637,9 +637,9 @@ vertical-align:top;
 	/**/
 	h1{font-size: 3.1em;}
 	.slide figcaption{ width: 80%;}
-	footer li { float: left; margin-right: 0.5em; padding-right: 0.5em; border-right: 1px solid #DDD;} 
+	footer li { float: left; margin-right: 0.5em; padding-right: 0.5em; border-right: 1px solid #DDD;}
 }
-    
+
 /* -- Media query 2 (mq2)
 ------------------------------------------------------------- */
 @media only screen and (max-width: 48em) { /* 13 / 624 */
@@ -655,7 +655,7 @@ vertical-align:top;
 	header nav ul li { float: left;  padding: 0 1em ; border-left:1px solid #ddd; }
 	.slider { margin-top: 3em; }
 }
-    
+
 /* -- Media query 3 (mq3)
 ------------------------------------------------------------- */
 @media only screen and (max-width: 30em) { /* 13 / 390 */
@@ -664,17 +664,17 @@ vertical-align:top;
 	.mq3-col-one-third { width: 33.333%; }
 	.mq3-col-two-thirds { width: 66.666%; }
 	.mq3-col-one-quarter { width: 25%; }
-	.mq3-col-three-quarters { width: 75%; } 
+	.mq3-col-three-quarters { width: 75%; }
 	.mq3-none {display: none;}
 	/**/
 	header nav ul li { padding: 0 0.5em ; }
 	footer li { float: none; margin-right: 0em; padding-right: 0em; border-right: none; line-height: 2em;}
-	.services article {	margin-top: 3em;} .services article:first-of-type {	margin-top: 0;}	
+	.services article {	margin-top: 3em;} .services article:first-of-type {	margin-top: 0;}
 }
 
-/* -- PRINT STYLES 
+/* -- PRINT STYLES
 ------------------------------------------------------------- */
-@media print{ 
+@media print{
 	*{background:transparent !important; color:black !important; text-shadow:none !important; filter:none !important; -ms-filter:none !important}
 	abbr[title]:after{content:"("attr(title) ")"}
 	pre, blockquote{page-break-inside:avoid}
@@ -682,14 +682,14 @@ vertical-align:top;
 	tr, img{page-break-inside:avoid}
 	img{max-width:100% !important}
 	p, h2, h3{orphans:3; widows:3}
-	h2, h3{page-break-after:avoid} 
+	h2, h3{page-break-after:avoid}
 }
- 
- 
 
- 
- 
- 
+
+
+
+
+
 /* -------------------------------------------------------------
 ======	END
 ------------------------------------------------------------- */

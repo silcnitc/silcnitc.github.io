@@ -62,7 +62,7 @@
 <h2>Declaring tokens</h2>
 The token DIGIT must be declared in the <i>declaration section</i> to be used in the <i>rules section</i>. The declaration for a token must be made by specifying it in the <a href="yacc.html#decl">YACC declarations section</a> using the <b>%token</b> feature offered by YACC. The following example shows the declaration of the token DIGIT in a YACC program. </p>
      <big>in2post.y</big>
-    <div id="navy" class="syntax">
+    <div id="navy" class>
     <pre id="navyd">
     %{
 
@@ -137,7 +137,7 @@ expr: expr '+' expr
 <h2>Defining tokens</h2>
 	<p>The next example example shows the definition of DIGIT and the literal tokens in the LEX program.</p>
 <big>in2post.l</big>
-<div id="navl" class="syntax">
+<div id="navl">
       <pre>
 	%{
 		#include <q><</q>stdio.h<q>></q> <!--Dummy tags to display '<' and '>' -->
@@ -317,7 +317,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 </p><p>  In the YACC documentation, we had seen an <a href="yacc.html#navexy1">example</a> which illustrates the passing of attributes from yylex() to yyparse(). We use the variable yylval to hold the attribute to br passed.  If the programmer were to use LEX to generate yylex(), then the attributes will have to be passed to yyparse() using the same mechanism  i.e, using yylval (see example below). </p>
 <p>In the LEX program, yylex() returns each token by its name. The attribute associated with each token is assigned to yylval and thus becomes accessible to yyparse(). Note that, all tokens except literal tokens must be declared in the declarations section of the YACC program. The following example is a LEX program which returns a token DIGIT when it finds a number.
 	</p>
-	<div id="navpairexp" class="syntax">
+	<div id="navpairexp">
       <pre>
 %{
 
@@ -346,40 +346,37 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 <p> The following code segment demonstrates how yyparse() receives the attribute value corresponding to the token DIGIT passed by yylex(). Note that YACC must be run with the <a href="ywl.html#navdflag">-d flag</a> to generate y.tab.h. The LEX program above includes the y.tab.h file in the auxiliary declarations section to <i>import</i> the declarations from y.tab.h.
 </p>
 	    <pre>
+%{
 
+#include <<e>stdio.h</e>>
 
-	%{
+%}
 
-	#include <<e>stdio.h</e>>
+%token DIGIT
 
-	%}
+%%
 
-	%token DIGIT
+start : expr '\n'		{printf("\nComplete");exit(1);}
+	;
 
-	%%
+expr:  expr '+' expr		{printf("+ ");}
+	| expr '*' expr		{printf("* ");}
+	| '(' expr ')'
+	| DIGIT			{printf("%d ",$1);}
+	;
 
-	start : expr '\n'		{printf("\nComplete");exit(1);}
-		;
+%%
 
-	expr:  expr '+' expr		{printf("+ ");}
-		| expr '*' expr		{printf("* ");}
-		| '(' expr ')'
-		| DIGIT			{printf("%d ",$1);}
-		;
+yyerror()
+{
+	printf("Error");
+}
 
-	%%
-
-	yyerror()
-	{
-		printf("Error");
-	}
-
-	main()
-	{
-		yyparse();
-		return 1;
-	}
-
+main()
+{
+	yyparse();
+	return 1;
+}
 
       </pre>
 	<p>Note the semantic action for the production <i>expr:DIGIT</i>
@@ -400,36 +397,36 @@ X: A B C
 
 <pre>
 
-	%{
+%{
 
-	#include &ltstdio.h&gt
+#include &ltstdio.h&gt
 
-	%}
+%}
 
-	%token DIGIT
+%token DIGIT
 
-	%%
+%%
 
-	start : pair '\n'		{printf("\nComplete"); }
-		;
-
-	pair: num ',' num	{ printf("pair(%d,%d),$1,$3"); }
-	;
-	num: DIGIT			{ $$=$1; }
+start : pair '\n'		{printf("\nComplete"); }
 	;
 
-	%%
+pair: num ',' num	{ printf("pair(%d,%d),$1,$3"); }
+;
+num: DIGIT			{ $$=$1; }
+;
 
-	yyerror()
-	{
-		printf("Error");
-	}
+%%
 
-	main()
-	{
-		yyparse();
-		return 1;
-	}
+yyerror()
+{
+	printf("Error");
+}
+
+main()
+{
+	yyparse();
+	return 1;
+}
 
 </pre>
 
@@ -471,37 +468,37 @@ X: A '+' B		{ $$ = $1 + $3; }
 <pre>
 %{
 
-	#include &ltstdio.h&gt
-	%}
+#include &ltstdio.h&gt
+%}
 
-	%token DIGIT
+%token DIGIT
 
-	%left '+'
-	%left '*'
+%left '+'
+%left '*'
 
-	%%
+%%
 
-	start : expr '\n'  { printf("Expression value = %d",$1);}
-		;
+start : expr '\n'  { printf("Expression value = %d",$1);}
+	;
 
-	expr:  expr '+' expr		{$$ = $1 + $3;}
-		| expr '*' expr		{$$ = $1 * $3;}
-		| '(' expr ')'	 	{$$ = $2;}
-		| DIGIT			{$$ = $1;}
-		;
+expr:  expr '+' expr		{$$ = $1 + $3;}
+	| expr '*' expr		{$$ = $1 * $3;}
+	| '(' expr ')'	 	{$$ = $2;}
+	| DIGIT			{$$ = $1;}
+	;
 
-	%%
+%%
 
-	yyerror()
-	{
-		printf("Error");
-	}
+yyerror()
+{
+	printf("Error");
+}
 
-	main()
-	{
-		yyparse();
-		return 1;
-	}
+main()
+{
+	yyparse();
+	return 1;
+}
 
 </pre>
 <p>Sample I/O:</p>
@@ -902,7 +899,7 @@ typedef struct tnode{
 int yywrap(void) {
 return 1;
 }
-<pre>
+</pre>
 <p>Notice that yylval is assigned a pointer to newly allocated (using malloc) node of type node.   This is possible because we have already set YYSTYPE to node * and hence yylval assumes this type.   Thus, for each token that is a number (DIGIT)  or operator(returned as literal tokens '+', '-' , '*', '/' ) that is recognized by the lexer, we pack the information in a node structure and a pointer to this node is passed as attribute to the parser.   During reductions, the semantic actions specified in the parser will set the left and the right pointers of these nodes appropriately to complete the creation of the expression tree. We will see how these actions are executed in detail next.</p>
 <p>exptree.y</p>
 <pre>
