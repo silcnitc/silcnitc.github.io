@@ -10,9 +10,9 @@
    <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-			<li><a href="#">Help</a></li>      
+			<li><a href="#">Help</a></li>
 			<li><a href="#">Code</a></li>
-			<li><a href="#">Roadmap</a></li>
+			<li><a href="roadmap.html">Roadmap</a></li>
 			<li><a href="documentation.html" class="navactive">Documentation</a></li>
     </ul>
   </nav>
@@ -21,76 +21,76 @@
 <div class="about center part clearfix">
 
 		<header class="title">
-			
-			<h2 class="mright">Examples</h2>			
+
+			<h2 class="mright">Examples</h2>
 					<a href="https://github.com/silcnitc/documentation/blob/master/yacc/yacc.odt?raw=true" class="button"> Download  </a>
 		</header>
- 		
-		
+
+
     <aside class="column4 mthird">
-		
+
 			<menu>
 				<ul>
 					<li><a href="#navy" class="sec">YACC program</a></li>
-					<li><a href="#navl" class="sec">LEX program</a></li		
-				
+					<li><a href="#navl" class="sec">LEX program</a></li
+
 				</ul>
 			</menu>
-		</aside>		
-		
+		</aside>
+
 	  	<section class="columnthird content">
-		
+
 			<div class="grid-wrap">
-		   
+
 		   <article id="nav1" class="detail">
-	<big>in2post.y</big>	   
+	<big>in2post.y</big>
     <div id="navy"class="syntax">
     <pre id="navyd">
-    %{ 
-    #include &ltstdio.h&gt 
-    %} 
+    %{
+    #include &ltstdio.h&gt
+    %}
     %token DIGIT PLUS STAR
-    %% 
-    start : expr '\n'           {printf("\nComplete");exit(1);} 
-	    ; 
-    expr:  expr PLUS expr        {printf("+ ");} 
-	    | expr STAR expr     {printf("* ");} 
-	    | '(' expr ')'	 
-	    | DIGIT             {printf("%d ",$1);} 
-	    ; 
-    %% 
+    %%
+    start : expr '\n'           {printf("\nComplete");exit(1);}
+	    ;
+    expr:  expr PLUS expr        {printf("+ ");}
+	    | expr STAR expr     {printf("* ");}
+	    | '(' expr ')'
+	    | DIGIT             {printf("%d ",$1);}
+	    ;
+    %%
     </pre>
     <pre id="navya">
-    yyerror() 
-    { 
-	    printf("Error"); 
-    } 
-    main() 
-    { 
-	    yyparse(); 
-	    return 1; 
-    } 
-    </pre>   
-   </div>   
+    yyerror()
+    {
+	    printf("Error");
+    }
+    main()
+    {
+	    yyparse();
+	    return 1;
+    }
+    </pre>
+   </div>
    <div class="up grid col-one-third" style="float:right">
 			<a href="#navtop" title="Go back up"> top ↑</a>
 	</div>
 	</article>
 	<article id="nav2" class="detail">
 	<big>in2post.l</big>
-     <div id="navl" class="syntax"> 
+     <div id="navl" class="syntax">
       <pre>
-	%{ 
+	%{
 		#include <q><</q>stdio.h<q>></q> <!--Dummy tags to display '<' and '>' -->
 		#include "y.tab.h"
-	%} 
-	%% 
+	%}
+	%%
 	[0-9]+	return DIGIT;
 	'+'	return PLUS;
 	'*'	return STAR;
-	'('	return *yytext;		
-	')'	return *yytext;	
-	%% 
+	'('	return *yytext;
+	')'	return *yytext;
+	%%
 	yywrap()
 	{
 		return 1;
@@ -103,7 +103,7 @@
      </article>
 	 					</div>
 		</section>
-		
+
 
 	</div>
 
@@ -111,7 +111,7 @@
 
 
 </body>
-<!-- Javascript - jQuery 
+<!-- Javascript - jQuery
 <script src="http://code.jquery.com/jquery.min.js"></script>-->
 <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
 
