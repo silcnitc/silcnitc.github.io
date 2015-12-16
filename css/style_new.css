@@ -358,6 +358,15 @@ font-family: "Courier New", "sans serif";
 text-align: left;
 }
 
+pre{
+	white-space : pre-line;
+	font-size : 12px;
+	background-color: #F5F5F5;
+	padding: 1em;
+	border: 1px solid #CCC;
+	border-radius: 4px;
+}
+
 /* -- FOOTER
 ------------------------------------------------------------- */
 footer  { color: #555; margin-bottom: 7em; }

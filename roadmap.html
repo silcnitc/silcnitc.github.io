@@ -24,11 +24,77 @@
         <div class="Services-page main grid-wrap">
             <header class="grid col-full">
                 <hr/>
-                <p class="fleft">Data Structures</p>
+                <p class="fleft">ROADMAP</p>
                 <br>
                 <br>
                 <a class="button" href="">Download as PDF</a>
             </header>
             <aside class="grid col-one-quarter mq2-col-full">
-              <menu>
-                <ul>
+                <menu>
+                    <ul>
+                        <li class="sec"><a href="#nav-stage0">0. Setup instructions.</a> </li>
+                        <li class="sec"><a href="#nav-stage1">1. Understanding lex & yacc.</a></li>
+                        <li class="sec"><a href="#nav-stage2">2. Simple Compiler.</a></li>
+                        <li class="sec"><a href="#nav-stage3">3. Code Translation.</a></li>
+                        <li class="sec"><a href="#nav-stage4">4. Using Typetable.</a></li>
+                        <li class="sec"><a href="#nav-stage5">5. Function calls.</a></li>
+                        <li class="sec"><a href="#nav-stage6">6. Code Generation for functions.</a></li>
+                        <li class="sec"><a href="#nav-stage7">7. User defined Types</a></li>
+                        <li class="sec"><a href="#nav-stage8">8. Code Generation for S7.</a></li>
+                        <li class="sec"><a href="#nav-stage9">9. Buddy System Allocator.</a></li>
+                    </ul>
+                </menu>
+            </aside>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                    <article class="grid col-full">
+                        <h2>Using roadmap</h2>
+                        <p>
+                        	This roadmap is divided into stages. Each stage is to be done in the sequential order. Incrementally you will build ExpL Compiler according to its specification. Links are provided throughout the document for further reference. There are two kinds of links, <a href="#" class="imp">important links</a> and <a href="#">informative links</a>. You must visit the <a href="#" class="imp">Important links</a>  the read the immediate section to which the link points to,  in order to proceed with the roadmap. <a href="#">Informative links</a> may be clicked if you want more information at a particular point. However this information may not be necessary at that point. You can proceed with the roadmap without visiting these links also.
+                        </p>
+                    </article>
+                    <article class="grid col-full">
+                        <h2>Stage 0 : Setup instructions</h2>
+                        <p>
+                            Through this course we will build a compiler for <a href="expl.html">Experimental Language</a>. Lex and Yacc are lexical and parser tools that make the job of building the compiler easy. Follow the instrcutions to install Lex and Yacc.
+                        </p>
+                        <h6>Install LEX</h6>
+                        <p>
+                            Flex is fast lexical analyser. It is used to generate programs which recognize lexical patterns in text. Flex reads the input file for descriptions of these patterns. Pairs of regular expression and C code(rules) forms the description.
+                        </p>
+                        <p>
+                            For Ubuntu Users :
+                        </p>
+                        <pre>
+                            sudo apt-get update
+                            sudo apt-get flex
+                        </pre>
+                        <p>
+                            For Fedora Users :
+                        </p>
+                        <pre>
+                            yum install flex
+                        </pre>
+                        <h6>Install Yacc</h6>
+                        <p>
+                            Bison is a general-purpose parser generator that converts a grammar description for an LALR(1) context-free grammar into a C program to parse that grammar. Bison is upward compatible with Yacc: all properly-written Yacc grammars ought to work with Bison with no change.
+                        </p>
+                        <p>
+                            For Ubuntu Users:
+                        </p>
+                        <pre>
+                            sudo apt-get update
+                            sudo apt-get insall bison
+                        </pre>
+                        <p>
+                            For Fedora Users
+                        </p>
+                        <pre>
+                            yum install bison
+                        </pre>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+</html>

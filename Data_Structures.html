@@ -16,7 +16,7 @@
                     <li><a href="about.html">About</a></li>
         			    <li><a href="#">Help</a></li>
         			    <li><a href="#">Code</a></li>
-        			    <li><a href="#">Roadmap</a></li>
+        			    <li><a href="roadmap.html">Roadmap</a></li>
         			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
                 </ul>
             </nav>
@@ -211,7 +211,7 @@
                             Stack and heap are dynamic, their size changes as the program executes. We will discuss these structures in detail.
                         </p>
                     </article>
-                    <article class="grid col-full">
+                    <article class="grid col-full" id="nav-stack">
                         <h2>Stack</h2>
                         <p>
                             The stack is used to store data structures called activation records that are generated during procedure calls.An activation record is used to store the information such as value of program counter and machine registers when a function call occurs. When control of returns from the function call, the activation of the calling procedure can be restarted after restoring the relevant registers and setting program counter to the point immediately after the call. Also, data of objects whose lifetime are contained in that of an activation can be allocated on the stack along with other information associated with activation.
@@ -246,7 +246,7 @@
                             NOTE : valstruct and memstruct structures have been used here to keep the fine line between a value object and a object in the memory.
                         </p>
                     </article>
-                    <article class="grid col-full">
+                    <article class="grid col-full" id="nav-heap">
                         <h2>Heap</h2>
                         <p>
                             A storage allocation decision can be static or dynamic. A decision is dynamic if it can be decided only while the program executes. In simple terms, consider the previous example, the size of the linkedlist marks is not known at the compile time, its size is only known at the run-time when we read in the count of subjects.
@@ -398,15 +398,7 @@
                         <p>
                             The psuedo code for alloc and dealloc functions is as follows :
                         </p>
-                        <p>
-                            Changes to be made in the script :
-                            <ul>
-                                <li>1. In last line of spli_rec - we should return success , ie return 1.</li>
-                                <li>2. In Merge buddies - Code for 3rd point not required.</li>
-                                <li>3. Code for 4.3 and 4.4 can also be removed</li>
-                                <li>4. Split rec - point 2 code can also be removed.</li>
-                            </ul>
-                        </p>
+
                         <script src="https://gist.github.com/vishnupriyam/459816dfb4d095778c37.js"></script>
                         <h6>Illustration</h6>
                         <p>
