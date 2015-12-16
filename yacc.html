@@ -180,7 +180,7 @@ AUXILIARY FUNCTIONS
                 The following example shows an abstract outline of the structure of the declarations part of a YACC program:
 </p>
                <p><b>Example : </b></p>
-               						<div id="decl" class="syntax">
+               <div id="decl">
 <pre>/* Beginning of Declarations part */
 %{      /* Beginning of C declarations */
 
@@ -272,7 +272,7 @@ Every non-terminal in the grammar must appear in the head part of at least one p
 
      <b>Example: intopost.y</b>
 
-<div id = "navexy0" class="syntax">
+<div id = "navexy0">
 <pre id = "navexy0d">
 
 %{
@@ -699,7 +699,7 @@ The following table summarizes the step-by-step change in the parser's configura
 
 <p>Recall our <a href="#navexy0">infix to postfix program</a>.</p>
 <p>Here is a Sample Input and Output:</p>
-<div class="syntax" id="navsam1">
+<div id="navsam1">
 <pre>
 I: 2+3*(4+5)
 O: NUM1 NUM2 NUM3 NUM4 + * +
@@ -1046,7 +1046,7 @@ i.e., there are more than one possible reductions. The parser faces a conflict o
     to return an attribute along with the token from yylex() to yyparse().
     This can be achieved using a variable called yylval.  The following program demonstrates the use of yylval:
 </p>
-   <div id="navexy1"class="syntax">
+   <div id="navexy1">
 <pre id="navexy1d">
 %{
 
