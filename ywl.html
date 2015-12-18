@@ -147,10 +147,10 @@ expr: expr '+' expr
 	%%
 
 	[0-9]+	return DIGIT;
-	'+'	return *yytext;
-	'*'	return *yytext;
-	'('	return *yytext;
-	')'	return *yytext;
+	"+"	return *yytext;
+	"*"	return *yytext;
+	"("	return *yytext;
+	")"	return *yytext;
 
 	%%
 
