@@ -44,7 +44,7 @@
 				<h2>Introduction to YACC</h2>
 				<p>
 				YACC (Yet Another Compiler Compiler) is a tool used to generate a parser.
-				This document is a tutorial for the use of YACC to generate a parser for SIL.
+				This document is a tutorial for the use of YACC to generate a parser for ExpL.
 				 YACC translates a given <a href="#navcfg"> Context Free Grammar (CFG)</a>
 				 specifications (input in input_file.y) into a C implementation (y.tab.c) of
 				 a corresponding <a href="http://en.wikipedia.org/wiki/Pushdown_automaton"> push down automaton </a> (i.e., a finite state machine with a stack).
@@ -104,10 +104,7 @@ I:	5$<br>
 O:	NUM1 error <br>
 		</div>
 						<p>
-						The <a href="#navgramex1">example</a> above demonstrates the specification of rules in YACC.
-						 In this example there are five rules. Each rule has a <i>production part</i> and an <i>action part </i> .
-						   The action part consists of C statements enclosed within a { and }.
-						    Each production part has a <i>head</i> and a <i>body</i> separated by a '<b>:</b>'. For example, the first rule
+						The <a href="#navgramex1">example</a> above demonstrates the specification of rules in YACC. In this example there are five rules. Each rule has a <i>production part</i> and an <i>action part </i> .The action part consists of C statements enclosed within a { and }.    Each production part has a <i>head</i> and a <i>body</i> separated by a '<b>:</b>'. For example, the first rule
 						 above has production part with start as the head and expr '\n' as the body.
 						   The action part for the rule is {exit(1);}.
 						   The parser reads the input sequentially
@@ -181,18 +178,24 @@ AUXILIARY FUNCTIONS
 </p>
                <p><b>Example : </b></p>
                <div id="decl">
-<pre>/* Beginning of Declarations part */
-%{      /* Beginning of C declarations */
+<pre>
 
-%}      /* End of C declarations */
+/* Beginning of Declarations part */
 
-	/* Beginning of YACC declarations  */
+%{
+    /*Beginning of C declarations*/
 
+    /*End of C declarations*/
+%}
 
-	/* End of YACC declarations */
+    /*Beginning of YACC declarations  */
+
+    /*End of YACC declarations */
 
 /* End of Declarations Part */
+
 %%
+
 </pre>
 </div>
 
@@ -282,7 +285,7 @@ Every non-terminal in the grammar must appear in the head part of at least one p
 #include<e><</e>stdlib.h<e>></e>
 
 /* Custom function to print an operator*/
-void op_print(char op);
+void print_operator(char op);
 
 /* Variable to keep track of the position of the number in the input */
 int pos=0;
@@ -297,43 +300,47 @@ int pos=0;
 <c id="navexy0r"></c>
 <b>/*** Rules Section ***/</b>
 start : expr '\n'		{exit(1);}
-	;
+      ;
 
-expr:  expr '+' expr	{op_print('+');}
-	| expr '*' expr	{op_print('*');}
-	| '(' expr ')'
-	| DIGIT		{printf("NUM%d ",pos);}
-	;
+expr: expr '+' expr     {print_operator('+');}
+    | expr '*' expr     {print_operator('*');}
+    | '(' expr ')'
+    | DIGIT             {printf("NUM%d ",pos);}
+    ;
 
 %%
+
 <c id="navexy0al"></c>
 <b>/*** Auxiliary functions section ***/</b>
 
-void op_print(char op)
-{
-	if(op == '+')
-		printf("PLUS");
-	else if(op == '*')
-		printf("MUL");
+void print_operator(char c){
+    switch(c){
+        case '+'  : printf("PLUS ");
+                    break;
+        case '*'  : printf("MUL ");
+                    break;
+    }
+    return;
 }
 
-yyerror()
+yyerror(char const *s)
 {
-	printf("error");
-	return;
+    printf("yyerror %s",s);
 }
 
-yylex()
-{
-	int c;
-	c = getchar();
-	if(isdigit(c))
-	{
-		pos++;
-		return DIGIT;
-	}
-	else
-		return c;
+yylex(){
+    char c;
+    c = getchar();
+    if(isdigit(c)){
+        pos++;
+        return DIGIT;
+    }
+    else if(c == ' '){
+        yylex();         /*This is to ignore whitespaces in the input*/
+    }
+    else {
+        return c;
+    }
 }
 
 main()
@@ -344,13 +351,13 @@ main()
 </div>
 
 <p><i>y.tab.c</i> file can be generated using the command
-	<pre>
-    	yacc intopost.y
-	</pre>
+<pre>
+  yacc intopost.y
+</pre>
 	<i>y.tab.c</i> is compiled using C compiler
-	<pre>
-		gcc y.tab.c
-	</pre>
+<pre>
+  gcc y.tab.c
+</pre>
 </p>
 <p>NOTE: <i>%left </i> option is used to resolve shift/reduce conflicts. It is explained in detail later. </p>
 
@@ -410,10 +417,11 @@ STACK:	$				I/P BUFFER:	 &ltInput to be parsed&gt $
       <p>
       Consider the following context free grammar.  This will be used as a running example for this section. </p>
       <pre>
-(Production 1)	expr :    expr '+' expr
-(Production 2)  | expr '*' expr
-(Production 3)	| '(' expr ')'
-(Production 4)	|	'0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+expr : expr '+' expr                                             (Production 1)
+     | expr '*' expr                                             (Production 2)
+     | '(' expr ')'                                              (Production 3)
+     | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' (Production 4)
+     ;
 </pre>
 
       <p>
@@ -428,8 +436,8 @@ STACK:		$				I/P BUFFER:	&nbsp &nbsp	2 + 2 $
 </pre>
 
 <p>
- The contents of the stack and the contents of the input buffer together define the <i>configuration</i> of the parser. On successful completion of parsing, the configuration would be:/p>
-<br>
+ The contents of the stack and the contents of the input buffer together define the <i>configuration</i> of the parser. On successful completion of parsing, the configuration would be:</p>
+
 <pre>
 STACK: &nbsp &nbsp 	$ expr &nbsp &nbsp &nbsp			I/P BUFFER:	&nbsp &nbsp	$
 </pre>
@@ -1149,7 +1157,12 @@ expr: DIGIT   {printf(“%d”,$1);}
 	</div>
 	<article id="navusingthelexicalanalyzer" class="detail">
         <h2>EXERCISES</h2>
-<p> <!--ADD CONTENT HERE--></p>
+<p>
+    <ol>
+        <li>1. Program to recognize nested IF control statements and display the levels of nesting.</li>
+        <li>2. Program to recognize a valid variable, which starts with a letter,followed by any number of letters or digits.</li>
+    </ol>
+</p>
 </article>
 <div class="up grid col-one-third" style="float:right">
 <a href="#navtop" title="Go back up"> top ↑</a>

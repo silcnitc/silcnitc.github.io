@@ -161,7 +161,7 @@
                                 <pre>
                                     yyerror(char const *s)
                                     {
-                                        &nbsp;&nbsp;printf("yyerror - line %d : character %s",yylineno,s);
+                                        &nbsp;&nbsp;printf("yyerror %s",s);
                                     }
                                 </pre>
                                 <p>
@@ -181,13 +181,48 @@
                                     yyerror : Invalid charater &
                                 </pre>
                             </li>
-                            <li>Complete the remaining sections and understand the working of <a href="lex.html##navfunctions">lex</a> tool properly. Do the <a href="lex.html#navexercise">exercises</a> at the end of the lex document.</li>
+                            <li>Complete the remaining sections and understand the working of <a href="lex.html#navfunctions">lex</a> tool properly. Do the <a href="lex.html#navexercise">exercises</a> at the end of the lex document.</li>
                         </ol>
                         <h6>Assignment</h6>
                         <p>
                             Find the regular expressions for strings. Write a lex program to read strings and print them.
                         </p>
                         <h6>Understanding Yacc</h6>
+                        <p>
+                            Through this section, we will write an infix to postfix yacc program by understanding the basics while building it.
+                        </p>
+                        <ol>
+                            <li>Go through the sections <a href="yacc.html#navintro">Introduction</a> and <a href="yacc.html#navstructure">Structure of Yacc Programs</a> in the yacc <a href="yacc.html">document.</a></li>
+                            <li>Create a infix_to_postfix.y file with content as in <a href="yacc.html#navexy0d">intopost.y</a></li>
+                            <li>Add necessary statements in the program to support operations '/' and '-' .</li>
+                            <li>Run the commands below the program to check the correctness of the program.</li>
+                            <li>Understand the shift reduce parsing <a href="yacc.html#navshiftreduce">here</a>.</li>
+                            <li>Understand the working of the infix_to_postfix program from the section <a href="yacc.html#navinfixtopostfix">here.</a> The use of %left %right can be understood by reading <a href="yacc.html#navconflict">this.</a></li>
+                            <li>
+                                <p>
+                                    When there are lots of grammar rules written in the program, it becomes difficult to figure out the rules which cause the conflict.
+                                </p>
+                                <p>
+                                    To solve such issues, compile your yacc program with the following command
+                                </p>
+                                <pre>
+                                    yacc -v infix_to_postfix.y
+                                </pre>
+                                <p>
+                                    A y.output file will be obtained. Examine the starting lines of lines which gives the state that causes the conflict. Go the state that causes the conflicts and identify the grmmmar rules that lead to these conflicts.
+                                </p>
+                                <p>
+                                    To understand how to work with conflicts, in your program remove the %left and other associativity lines and compile it using the above command and examine your y.output file.
+                                </p>
+                            </li>
+                            <li>Go through the section <a href="yacc.html#navpassingvalues">here.</a> Make necessary changes in your program also to print the values.</li>
+                            <li>Complete the <a href="yacc.html#navusingthelexicalanalyzer">exercises</a>.</li>
+                        </ol>
+                        <h6>Assignment</h6>
+                        <ol>
+                            <li>Modify the infix_to_postfix.y such that it gives the value of the complete expression as output. (Hint : use $$ to assign value to head of a rule).</li>
+                            <li>Now write a program to concatenate two strings using the operator '+'.</li>
+                        </ol>
                     </article>
                 </div>
             </section>
