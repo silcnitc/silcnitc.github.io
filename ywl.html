@@ -1062,6 +1062,7 @@ int main(void) {
 /* YACC Auxiliary declarations*/
 
 /* YACC Declarations*/
+
 %union
 {
 	char character;
@@ -1069,13 +1070,17 @@ int main(void) {
 
 };
 
-%token <character> OP
-%token <integer> NUMBER
+%token &lt;character&gt; OP
+%token &lt;integer&gt; NUMBER
+
 %%
-expr: expr OP expr { printf("%c %d %d",$2,$1,$3);}
-		| DIGIT {$$=$1;}
-		;
+
+expr: expr OP expr { printf("%c %d %d",$2,$1,$3); }
+    | DIGIT        { $$=$1; }
+    ;
+
 %%
+
 /* Auxiliary functions */
 
 
