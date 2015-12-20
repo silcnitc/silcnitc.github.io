@@ -38,15 +38,18 @@
      <p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c. We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream. Till now, for simplicity, we had written a <a href="yacc.html#navexy0al">user-defined yylex()</a> in the YACC program. In this section of the document we will use LEX to generate the definition of yylex() and make YACC use this definition for retrieving tokens. </p>
 
       <pre>
-		/* Declarations section */
-		int yylex();
-	%%
-		/* Rules */
-	%%
+    /* Declarations section */
 
+    int yylex();
 
-		/* Auxiliary Functions */
-         </pre>
+    %%
+
+    /* Rules */
+
+    %%
+
+    /* Auxiliary Functions */
+     </pre>
 	<p id="compile"> We should now compile it as <i> gcc y.tab.c lex.yy.c -o &lt;objectfilename&rt;</i></p>
      <p> NOTE: We <b>must not</b> provide a <a href="lex.html#navexl0">main() definition in the LEX program</a> calling yylex(), as there already exists a <a href="yacc.html#navexy0al">main() function in the YACC program</a> which calls yyparse() which in turn calls yylex().</p>
     <!--<h3>YACC to LEX Communication</h3>-->
