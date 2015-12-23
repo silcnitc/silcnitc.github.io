@@ -69,7 +69,7 @@
                         <h4>Associated Methods</h4>
                         <ul>
                             <li>void TypeTableCreate() : Function to initialise the type table entries with primitive types(int,str) and internal data types(boolean,null,void)</li>
-                            <li>struct Typetable* TLookup(char *name) : Returns pointer to type table entry of type <i>name</i> </li>
+                            <li>struct Typetable* TLookup(char *name) : Search through the typetable and  return pointer to type table entry of type <i>name</i> </li>
                             <li>struct Typetable* TInstall(char *name,struct Fieldlist *fields) : Creates a type table entry for the type of <i>name</i> with given <i>fields</i> and returns the pointer to the type table entry.</li>
                             <li>void FInstall(char *name,struct Typetable *type) : Creates a fieldlist entry with given <i>name</i> and <i>type</i>.</li>
                             <li>struct Fieldlist* FLookup(char *name, struct Fieldlist *list) : Searches for a field of given <i>name</i> in the given <i>list</i> and returns a pointer to the matching entry.</li>

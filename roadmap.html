@@ -298,9 +298,12 @@
                                                     if( var[$1 - 'a'] == NULL)
                                                         printf("unassinged varaiable");
                                                     else
-                                                        return var[$1 - 'a'];
+                                                        $$ = *var[$1 - 'a'];
                                                   }
                                     </pre>
+                                    <p>
+                                        Don't forget to add type integer for the non-terminal expr.
+                                    </p>
                                 </li>
                                 <li>
                                     <p>
@@ -308,8 +311,8 @@
                                     </p>
                                     <pre>
                                         stmt : ID ASGN expr ';'
-                                             | READ '(' ID ')'
-                                             | WRITE '(' ID ')'
+                                             | READ '(' ID ')' ';'
+                                             | WRITE '(' ID ')' ';'
                                              ;
                                     </pre>
                                 </li>
@@ -365,15 +368,21 @@
                             <ul>
                                 <li>Allow variables of the form given <a href="expl.html#expl-identifiers" class="imp">here.</a></li>
                                 <li>Add data types : int and str.</li>
-                                <li>Add conditional and iterative statements, logical expressions, break and continue statements as given   <a href="expl.html#nav-stmts-and-exprs" class="imp">here.</a></li>
+                                <li>Add conditional and iterative statements, logical expressions, break and continue statements as given <a href="expl.html#nav-stmts-and-exprs" class="imp">here.</a></li>
                             </ul>
+                            This stage requires the understanding of <a href="Data_Structures.html">data structures</a> : <a href="Data_Structures.html#nav-typetable" class="imp">type table</a>, <a href="Data_Structures.html#nav-global-symbol-table" class="imp">symbol table</a> and <a href="Data_Structures.html#nav-abstract-syntax-tree" class="imp">abstract syntax tree</a>.
                         </p>
                         <p>
                             Follow the below steps to make changes for variables to be user-defined.
                             <ol>
                                 <li>Modify the regular expression for ID in your lex file to satify the form given in the <a href="expl.html#expl-identifiers">expl documentation.</a>, i.e, they can be user-defined variables.</li>
-                                <li>Create a new file symboltable.c, add the structure of <a href="Data_Structures.html#gist28650622" class="imp">Symbol Table.</a></li>
-                                <li>We will use this symbol table to store the information regarding the variable. As of now we don't require the arglist, fbinding fields of the Symbol Table.</li>
+                                <li>
+                                    <p>
+                                        Create a new file symboltable.h, add the structure of <a href="Data_Structures.html#gist28650622" class="imp">Symbol Table.</a>We will use this symbol table to store the information regarding the variable. As of now we don't require the arglist, fbinding fields of the Symbol Table.
+                                    <br>
+                                        <b>Note</b> : Whenever we add data structures to our program, we add its structures, global declarations and associated function declarations in the .h file and we implement the associated functions in the .c file. This will help you keep the code neat and easy to understand.
+                                    </p>
+                                </li>
                                 <li>In compiler, we store the memory address allocated to the variable, while in the interpreter, we will store the value of variable in the binding field. Therefore, change the type of binding field to union Constant which has the following structure
                                     <pre>
                                         union Constant{
@@ -381,11 +390,14 @@
                                             &nbsp;&nbsp;str strval;
                                         };
                                     </pre>
-                                We use a union here because <a href="expl.html#nav-data-types">expl</a> supports two primitive types int and str.
+                                We use a union here because <a href="expl.html#nav-data-types">expl</a> supports two primitive types int and str. Declare a global variable GSymbolHead which will act as head pointer to the global symbol table.
+                                <p>
+                                    You may go through the illustration under the <a href="Data_Strcutures.html#nav-global-symbol-table">symbol table section</a> for better understanding.
+                                </p>
                                 </li>
-                                <li>Implement the <a href="Data_Structures.html#nav-global-symbol-table" class="imp">methods</a> associated with the symbol table.</li>
-                                <li>To support different data types, we use <a href="Data_Structures.html#nav-typetable" class="imp">Type Table.</a> Take down the structure and implement the associated methods.</li>
-                                <li></li>
+                                <li>Go though the section <a href="Data_Structures.html#nav-typetable"> Type Table</a>. Take down the structure to symboltable.h file. Go through the illustrations also. Declare a global variable TypeTableHead which will act as head pointer of type table.</li>
+                                <li>Now implement the functions TTableCreate(), TLookup(), TInstall() under the associated methods for typetable.</li>
+                                <li>Implement functions GInstall(), Glookup(), AddGtype() and GAppend() associated with symbol table.</li>
                             </ol>
 
                         </p>
