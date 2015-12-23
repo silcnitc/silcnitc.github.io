@@ -1,0 +1,187 @@
+
+
+	html, body
+	{
+		margin:0;
+		padding:0;
+
+		background:#f5f5f5;
+		color:#444;
+
+		font:normal normal normal 100%/1.4 georgia, serif;
+	}
+	main
+	{
+		display:block;
+
+		width:55%;
+		min-width:18em;
+		margin:2em auto;
+	}
+
+
+
+	figure
+	{
+		display:block;
+
+		margin:1em 0;
+
+		border:1px solid #ccc;
+		border-radius:3px;
+
+		background:#eee;
+	}
+
+	figure figcaption
+	{
+		display:block;
+
+		padding:5px 10px 4px 10px;
+
+		border-bottom:1px solid #ccc;
+		border-radius:3px 3px 0 0;
+
+		font-weight:bold;
+
+		background:#ddd;
+		color:#777;
+	}
+
+
+
+	/* re-factor the existing styles so that the layout
+	   is on the inner code element rather than the outer pre,
+	   and extend the font reset to all descendents */
+	pre, pre *
+	{
+		font:normal normal normal 1em/1.4 monaco, courier, monospace;
+	}
+	pre
+	{
+		font-size:0.8em;
+	}
+	pre, pre code, pre samp
+	{
+		display:block;
+		margin:0;
+
+		cursor:text;
+	}
+	pre code, pre samp
+	{
+		/* explicit white-space is needed for IE7 */
+		white-space:pre;
+
+		padding:10px;
+
+		-moz-tab-size:4;
+		-o-tab-size:4;
+		tab-size:4;
+
+		overflow-x:auto;
+	}
+
+	/* extra layout rules for the pre when the numbers column is present */
+	pre.line-numbers
+	{
+		position:relative;
+	}
+	pre.line-numbers code,
+	pre.line-numbers samp
+	{
+		margin-left:3em;
+
+		border-left:1px solid #ccc;
+	}
+
+	/* layout and counter rules for the numbers column */
+	pre.line-numbers > div
+	{
+		display:block;
+
+		position:absolute;
+		top:0;
+		left:0;
+
+		height:100%;
+
+		border-radius:0 0 0 3px;
+
+		background:#e5e5e5;
+
+		overflow:hidden;
+
+		counter-reset:line;
+	}
+
+	/* layout and counter rules for each individual number */
+	pre.line-numbers > div > span
+	{
+		display:block;
+		width:2.5em;
+		padding:0 0.5em 0 0;
+
+		text-align:right;
+
+		color:#777;
+
+		overflow:hidden;
+
+		counter-increment:line;
+	}
+	pre.line-numbers > div > span::before
+	{
+		content:counter(line);
+	}
+	pre.line-numbers > div > span:first-child
+	{
+		/* adjust the first number's position
+		   to allow for the code element's padding-top */
+		margin-top:10px;
+	}
+	pre.line-numbers > div > span:nth-child(odd)
+	{
+		background:#dfdfdf;
+	}
+
+	/* negate the numbers column for print since it uses pre-wrap */
+	@media print
+	{
+		pre code
+		{
+			overflow-x:visible;
+			white-space:pre-wrap;
+		}
+		pre.line-numbers div
+		{
+			display:none;
+		}
+		pre.line-numbers > code,
+		pre.line-numbers > samp
+		{
+			margin-left:0;
+		}
+	}
+
+
+
+	pre b
+	{
+		font-weight:normal;
+		color:#039;
+	}
+	pre u, pre u b
+	{
+		text-decoration:none;
+		color:#083;
+	}
+	pre i, pre i *, pre i * *
+	{
+		letter-spacing:-0.1em;
+		text-decoration:none;
+		font-style:normal;
+		color:#c55;
+	}
+
+	

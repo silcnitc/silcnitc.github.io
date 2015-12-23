@@ -6,6 +6,7 @@
         <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
         <link rel="stylesheet" href="css/style_new.css">
 
+
     </head>
     <div class="container">
         <header id="navtop">
@@ -223,6 +224,171 @@
                             <li>Modify the infix_to_postfix.y such that it gives the value of the complete expression as output. (Hint : use $$ to assign value to head of a rule).</li>
                             <li>Now write a program to concatenate two strings using the operator '+'.</li>
                         </ol>
+                        <h6>Understanding lex with yacc.</h6>
+                        <p>
+                            Go through the complete documentation <a href="ywl.html">here.</a> Make sure you practice the following programs given in the documentation while going through the tutorial.
+                            <li>Infix to postfix conversion.</li>
+                            <li>Read and write pairs.</li>
+                            <li><b>Simple Calculator.</b></li>
+                        </p>
+                        <p>
+                            You will also see how to build an expression tree and evaluate an expression. It is very necessary to understand these basic concepts of expression tree before going further. Build a calculator using expression trees yourself after going through the tutorial.
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-stage2">
+                        <h2>Stage 2 : Simple Compiler</h2>
+                        <p>
+                            From here on, we will build the compiler in stages. In this stage, we will build a simple single line interpreter. We will all single letter varaiables a | b | .... | z of integer type. We will have read and write functions, assignment operator, addition and multiplication operations, allowing paranthesis in the expression.
+                        </p>
+                        <p>
+                            Follow the steps below.
+                            <ol>
+                                <li> Create an expl.l file for lexical analysis and expl.y for parsing.</li>
+                                <li>
+                                    <p>
+                                        In expl.y, set the stack type with a union of character and integer.
+                                    </p>
+                                    <pre>
+                                        %union{
+                                            &nbsp;&nbsp;int integer;
+                                            &nbsp;&nbsp;char character;
+                                        };
+                                    </pre>
+
+                                </li>
+                                <li>
+                                    <p>
+                                        We have numbers, single letter variable, + , * , = , read , write for which we will have tokens NUM, ID , PLUS , MUL , ASGN , READ , WRITE repectively . For '(' , ')' , ';' we will pass them as yytext itself.
+                                    </p>
+                                    <p>
+                                        So we have the following rules in expl.l (Note : Add the necessary declarations in the declarations section, and yywrap() in auxiliary functions section).
+                                        <pre>
+                                            [a-z] &nbsp;&nbsp;&nbsp;{ yylval.character = yytext[0]; return ID;}
+                                            [0-9]+ &nbsp;&nbsp;{ yylvavl.integer = atoi(yytext); return NUM;}
+                                            "read"  &nbsp;&nbsp;{ return READ;}
+                                            [=]    &nbsp;&nbsp;&nbsp;&nbsp; { return ASGN;}
+                                        </pre>
+                                    </p>
+                                    <p>
+                                        Add the rules for write, plus, minus , parathensis and semicolon. Make sure you write rules to ignore the whitespaces.
+                                    </p>
+                                </li>
+                                <li>
+                                    Next step is to add the grammar rules in yacc. Whenever a grammar rule is added, make sure you add the tokens and type of non-terminals in the rule in auxiliary declaration section.
+                                </li>
+                                <li>Add the rule for expr as in the expression program in previous stage.</li>
+                                <li>
+                                    Every ID has a value an therefore it is an expression.Add the following grammar rule also :
+                                    <pre>
+                                        expr : ID
+                                    </pre>
+                                </li>
+                                <li>
+                                    <p>
+                                        As we have only singled letter variables of integer type, we will have only 26 variables.So to store the values of the variables that we obtain at the run time of the program, we will use
+                                    </p>
+                                    <pre>
+                                        int *var[26];
+                                    </pre>
+                                    <p>
+                                        if variable is unassigned, print an error, else assign the value of the variable ID $1 to the head of rule expr $$. So you will have the actions as follows:
+                                    </p>
+                                    <pre>
+                                        expr : ID {
+                                                    if( var[$1 - 'a'] == NULL)
+                                                        printf("unassinged varaiable");
+                                                    else
+                                                        return var[$1 - 'a'];
+                                                  }
+                                    </pre>
+                                </li>
+                                <li>
+                                    <p>
+                                        Assignment, read and write are statements of the program.
+                                    </p>
+                                    <pre>
+                                        stmt : ID ASGN expr ';'
+                                             | READ '(' ID ')'
+                                             | WRITE '(' ID ')'
+                                             ;
+                                    </pre>
+                                </li>
+                                <li>Now we will add actions for read statement.
+                                    <ul>
+                                        <li>If the varaiable was unallocated before, do malloc.</li>
+                                        <li>Read value for the variable from standard input</li>
+                                    </ul>
+                                    <pre>
+                                        if(var[$3-'a'] == NULL){
+					                    &nbsp;&nbsp; var[$3 - 'a'] = malloc(sizeof(int));
+                                        }
+                                        scanf("%d",var[$3-'a']);
+                                    </pre>
+                                    <p>
+                                        Add actions for assignment and write statements similarly.
+                                    </p>
+                                </li>
+                                <li>A program has one or more than one statements. Single line program consists of statement block and ends with a new line.So we will have the following rules.
+                                    <pre>
+                                        Program : slist NEWLINE
+                                                ;
+                                        slist   : slist stmt
+                                                | stmt
+                                                ;
+                                    </pre>
+                                </li>
+                                <li>Add the necessary main function in yacc file.</li>
+                                <li>Run the commands
+                                    <pre>
+                                        yacc -y -d expl.y
+                                        lex expl.l
+                                        gcc y.tab.c lex.yy.c
+                                        ./a.out
+                                    </pre>
+                                </li>
+                                <li>Give the following input:
+                                    <pre>
+                                        read(a); read(h); c=10; write(a); a = a+h*c; write(a);
+                                    </pre>
+                                </li>
+                                <li>Check if your program runs properly.</li>
+                            </ol>
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-stage3">
+                        <h2>Stage 3 : Code Translation</h2>
+                    </article>
+                    <article class="grid col-full" id="nav-stage4">
+                        <h2>Stage 4 : Using Typetable</h2>
+                        <p>
+                            In this stage, we will modify the stage 2 interpreter.
+                            <ul>
+                                <li>Allow variables of the form given <a href="expl.html#expl-identifiers" class="imp">here.</a></li>
+                                <li>Add data types : int and str.</li>
+                                <li>Add conditional and iterative statements, logical expressions, break and continue statements as given   <a href="expl.html#nav-stmts-and-exprs" class="imp">here.</a></li>
+                            </ul>
+                        </p>
+                        <p>
+                            Follow the below steps to make changes for variables to be user-defined.
+                            <ol>
+                                <li>Modify the regular expression for ID in your lex file to satify the form given in the <a href="expl.html#expl-identifiers">expl documentation.</a>, i.e, they can be user-defined variables.</li>
+                                <li>Create a new file symboltable.c, add the structure of <a href="Data_Structures.html#gist28650622" class="imp">Symbol Table.</a></li>
+                                <li>We will use this symbol table to store the information regarding the variable. As of now we don't require the arglist, fbinding fields of the Symbol Table.</li>
+                                <li>In compiler, we store the memory address allocated to the variable, while in the interpreter, we will store the value of variable in the binding field. Therefore, change the type of binding field to union Constant which has the following structure
+                                    <pre>
+                                        union Constant{
+                                            &nbsp;&nbsp;int intval;
+                                            &nbsp;&nbsp;str strval;
+                                        };
+                                    </pre>
+                                We use a union here because <a href="expl.html#nav-data-types">expl</a> supports two primitive types int and str.
+                                </li>
+                                <li>Implement the <a href="Data_Structures.html#nav-global-symbol-table" class="imp">methods</a> associated with the symbol table.</li>
+                                <li>To support different data types, we use <a href="Data_Structures.html#nav-typetable" class="imp">Type Table.</a> Take down the structure and implement the associated methods.</li>
+                                <li></li>
+                            </ol>
+
+                        </p>
                     </article>
                 </div>
             </section>
