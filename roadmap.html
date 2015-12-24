@@ -312,7 +312,7 @@
                                     <pre>
                                         stmt : ID ASGN expr ';'
                                              | READ '(' ID ')' ';'
-                                             | WRITE '(' ID ')' ';'
+                                             | WRITE '(' expr ')' ';'
                                              ;
                                     </pre>
                                 </li>
@@ -363,6 +363,7 @@
                     </article>
                     <article class="grid col-full" id="nav-stage4">
                         <h2>Stage 4 : Using Typetable</h2>
+                        <h6>Using Type Table and Symbol Table</h6>
                         <p>
                             In this stage, we will modify the stage 2 interpreter.
                             <ul>
@@ -387,7 +388,7 @@
                                     <pre>
                                         union Constant{
                                             &nbsp;&nbsp;int intval;
-                                            &nbsp;&nbsp;str strval;
+                                            &nbsp;&nbsp;char* strval;
                                         };
                                     </pre>
                                 We use a union here because <a href="expl.html#nav-data-types">expl</a> supports two primitive types int and str. Declare a global variable GSymbolHead which will act as head pointer to the global symbol table.
@@ -396,11 +397,152 @@
                                 </p>
                                 </li>
                                 <li>Go though the section <a href="Data_Structures.html#nav-typetable"> Type Table</a>. Take down the structure to symboltable.h file. Go through the illustrations also. Declare a global variable TypeTableHead which will act as head pointer of type table.</li>
-                                <li>Now implement the functions TTableCreate(), TLookup(), TInstall() under the associated methods for typetable.</li>
-                                <li>Implement functions GInstall(), Glookup(), AddGtype() and GAppend() associated with symbol table.</li>
+                                <li>Now implement the functions TTableCreate(), TLookup(), TInstall() under the associated methods for typetable in symboltable.c file.</li>
+                                <li>Implement functions GInstall(), Glookup(), AddGtype() and GAppend() associated with symbol table in symboltable.c file</li>
+                                <li>Include the symboltable.h and symboltable.c file in your expl.y file.</li>
                             </ol>
-
                         </p>
+                        <p>
+                            Follow the steps below to add grammar rules to support conditional and iterative statements, logical expressions, break and continue statements and declarations as allowed by <a href="expl.html#nav-stmts-and-exprs">expl.</a>
+                        </p>
+                        <ol>
+                            <li>
+                                To support logical expressions add the following grammar:
+                                <pre>
+                                    expr : expr GT expr
+                                         ;
+                                </pre>
+                                GT is the token representing > .
+                                Similarly add rules for operators <,>=,<=,== and !=.
+                            </li>
+                            <li>
+                                To support conditional statement if, following rule is to be added.
+                                <pre>
+                                    stmt : IF '(' expr ')' THEN slist ELSE slist endif ';'
+                                         | IF '(' expr ')' THEN slist endif ';'
+                                </pre>
+                                IF, ELSE, THEN are tokens. Add the necessary rules in lex to support these tokens.
+                            </li>
+                            <li>
+                                Similarly, rule for while is :
+                                <pre>
+                                    stmt : WHILE '(' expr ')' DO slist ENDWHILE ';'
+                                         ;
+                                </pre>
+                            </li>
+                            <li>
+                                Similarly add necessary rules and declarations for break and continue.
+                            </li>
+                            <li>
+                                To support declarations in the program, add the rules
+                                <pre>
+                                    Program : GdeclBlock slist END
+                                            ;
+
+                                    GdeclBlock : DECL GDecList ENDDECL
+                                    		;
+
+                                    GDecList : GDecList GDecL
+                                     		|
+                                    		;
+
+                                    GDecL : INT idlist ';'
+                                    		| STR idlist ';'
+                                    		;
+
+
+                                    idlist : idlist ',' ID
+                                    		| ID
+                                    		;
+                                </pre>
+                            </li>
+                        </ol>
+                        <h6>Using Abstract Syntax Tree</h6>
+                        <p>
+                            In this stage you will use the synatax directed tranlation scheme to translate the source program to an intermediete form called the  abstract syntax tree. The abstract syntax tree structure is available <a href="Data_Structures.html#nav-abstract-syntax-tree" class="imp">here.</a> Take down the structure and declare the two associated functions in a new file abstracttree.h . We will implement them later. (Take down the structure of valstruct also and define its possible types).
+                        </p>
+                        <p>
+                            Now we will add actions to the yacc rules. You may remove all the actions that we used in stage 2 as in this stage the actions will be in accordance with the abstact syntax tree structure. As the parsing is done, we will build a abstract syntax tree in accordance. This abstract syntax tree is evaluated later on to interpret the program.
+                        </p>
+                        <p>
+                            Follow the below steps :
+                        </p>
+                        <ol>
+                            <li>
+                                Whenever we pass an ID from the lexical analyser as an abstract syntax tree node, that means the stack type can be a ASTNode also. So we will modify the stack type by adding a new field <i>struct ASTNode *nptr</i> in %union{}; in yacc declarations section. Now add the statement
+                                <pre>
+                                    yylval.nptr = TreeCreate(TLookup("void"),NODETYPE_ID,yytext,(Constant){},NULL,NULL,NULL,NULL);
+                                </pre>
+                                in the actions for lex rule that recognises an ID. Change the type of ID in yacc declarations section and define NODETYPE_ID in abstracttree.h file.
+                                <pre>
+                                    #define NODETYPE_ID 1
+                                </pre>
+                            </li>
+                            <li>Firstly, we will add actions such that the symbol table is created properly.
+                                <ul>
+                                    <li>
+                                        For rules, idlist : idlist ',' ID | ID , create a gsymbol table object for ID. ie,
+                                        <pre>
+                                            idlist : ID { $$ = GInstall($1->name,NULL,1,NULL); }
+                                        </pre>
+                                        Here we don't have the type of the variable ,so pass it as NULL. We will set this at a later time. The size is 1 for all primitive types. The size is greater than 1 for array variables only.
+                                        For the rule, <i>idlist : idlist ',' ID</i> the next field is $1. We have to create a list of IDs so that the IDs are carried up till the rule like <i>decl : INT idlist ';'</i> where you can set the type of the variables.
+                                    </li>
+                                    <li>
+                                        Next, at the rule GDecL : INT idlist ';' add the type for all variables in the idlist as 'int' using the function AddGType() and then append the entries to the Symbol table using the function GAppend(). Add actions for string declarations also.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <p>
+                                    Before going further, look at your grammar, and list down the nodetypes that we would be using in our compiler.
+                                </p>
+                                <p>
+                                    For example, consider the grammar
+                                    <pre>
+                                        expr : expr PLUS expr
+                                    </pre>
+                                    Here we require NODETYPE_PLUS.
+                                    <pre>
+                                        stmt : IF '(' expr ')' THEN slist ELSE slist ENDIF ';'
+                                    </pre>
+                                    Here as you see we will require NODETYPE_IF with left branch as tree for expr, middle branch as NODETYPE_SLIST (whose code is executed if code for left branch returns a true value at run time) and right branch is of NODETYPE_SLIST again(whose code is exeucted if the code for left branch returns false at run time).
+                                </p>
+                            </li>
+                            <li>For numbers that are passed from lex, send them as a NODETYPE_LEAF as follows:
+                                <pre>
+                                    yylval.nptr = TreeCreate(TLookUp("int"),NODETYPE_LEAF,NULL,(Constant){number},NULL,NULL,NULL,NULL);
+                                </pre>
+                                and for strings, add the rule and pass them as
+                                <pre>
+                                    \"(\\.|[^\\"])*\"
+                                        {
+                							Constant val;
+                							val.strval = (char *)malloc(sizeof(yytext) - 2);
+                							strncpy(val.strval, yytext + 1, strlen(yytext) - 2);
+                							(val.strval)[strlen(yytext)-2] = '\0';
+                							yylval.nptr = TreeCreate(TLookUp("str"),NODETYPE_LEAF,NULL, val,NULL,NULL,NULL,NULL);
+                							return STRCONST;
+                						}
+                                </pre>
+                            </li>
+                            <li>
+                                Next we will add rules in our yacc file. Lets consider the rule <i>expr : ID</i>, here we already have ID as a node. So add the rule
+                                <pre>
+                                    $$ = $1.
+                                </pre>
+                                The case of expr : NUM | STRCONST is similar.
+                            </li>
+                            <li>
+                                Consider the rule <i>expr : expr PLUS expr</i>, we already have $1 and $2 as two ASTNodes.So all you require to do is to create a tree node with NODETYPE_PLUS with type 'int' with branches as $1 and $3.
+                                <pre>
+                                    $$ = TreeCreate(TLookUp("int"), NODETYPE_PLUS , NULL, (Constant){}, NULL, $1, $3, NULL);
+                                </pre>
+                                Complete the actions for -,*,/ rules. Similar is the case of logical operators >,<,>=,<=,==,!= but the type of tree node would be different. Add the actions for grammar rules with these operations also.
+                            </li>
+                            <li>Add action for the rule expr : '(' expr ')' .</li>
+                            <li>Similarly create a tree node for assignment statement.</li>
+                        </ol>
                     </article>
                 </div>
             </section>

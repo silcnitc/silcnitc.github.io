@@ -70,7 +70,7 @@
                         <ul>
                             <li>void TypeTableCreate() : Function to initialise the type table entries with primitive types(int,str) and internal data types(boolean,null,void)</li>
                             <li>struct Typetable* TLookup(char *name) : Search through the typetable and  return pointer to type table entry of type <i>name</i> </li>
-                            <li>struct Typetable* TInstall(char *name,struct Fieldlist *fields) : Creates a type table entry for the type of <i>name</i> with given <i>fields</i> and returns the pointer to the type table entry.</li>
+                            <li>struct Typetable* TInstall(char *name,struct Fieldlist *fields) : Creates a type table entry for the type of <i>name</i> with given <i>fields</i> and appends it to Typetable and returns the pointer to the type table entry only if a type with same name doesn't exist already.</li>
                             <li>void FInstall(char *name,struct Typetable *type) : Creates a fieldlist entry with given <i>name</i> and <i>type</i>.</li>
                             <li>struct Fieldlist* FLookup(char *name, struct Fieldlist *list) : Searches for a field of given <i>name</i> in the given <i>list</i> and returns a pointer to the matching entry.</li>
                         </ul>
@@ -181,7 +181,7 @@
                         </p>
                         <h6>Associated methods</h6>
                         <ul>
-                            <li>struct ASTNode* TreeCreate(struct Typetable *type,int nodetype,char *name,union Constant value,struct ASTNode *ptr1, struct ASTNode *ptr2,struct ASTNode *ptr3) :  Creates a node with the appropriate fields set to the corresponding parameters after type checks(will be explained later) and returns it.</li>
+                            <li>struct ASTNode* TreeCreate(struct Typetable *type,int nodetype,char *name,union Constant value,struct ASTNode *ptr1, struct ASTNode *ptr2,struct ASTNode *ptr3) :  Creates a node with the appropriate fields set to the corresponding parameters after type checks(will be explained later) and returns it after doing the necessary type checks.</li>
                             <li>struct valstruct* interpret(struct ASTNode *t) : evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
                             <script src="js/cd19e1c748662f88782f.js"></script>
                             <p>
@@ -196,6 +196,34 @@
                             </li>
                         </ul>
                         <h6>Illustration</h6>
+                        <p>
+                            Consider the following program
+                        </p>
+<pre>
+    int main(){
+        decl
+            int a,b,c;
+        enddecl
+        begin
+            read(a);
+            read(b);
+            if( a > b) then
+                c = a-b;
+                while (c >= 0) do
+                    write(a);
+                    c = c -1;
+                endwhile;
+            else
+                write(b);
+            endif;
+            return 1;
+        end
+    }
+</pre>
+                        <p>
+                            The abstract syntax tree for the above program will look as follows precisely.
+                        </p>
+                        <img src="img/data_structure_27.png" alt="" />
                         <!--
                         <p>
                             Continuing with the previous example,
