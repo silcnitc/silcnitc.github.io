@@ -27,7 +27,7 @@
                 <p class="fleft">ExpL Specification</p>
                 <br>
                 <br>
-                <a class="button" href="">Download as PDF</a>
+                <!--<a class="button" href="">Download as PDF</a>-->
             </header>
 
             <aside class="grid col-one-quarter mq2-col-full">
@@ -110,7 +110,7 @@
                             An ExpL program consists of the following sections:
                         </p>
                         <ul>
-                            <li>Type Definitions (for user defined types)</li>
+                            <li>Type Definitions - Optional (for user defined types)</li>
                             <li>Global (global variables, arrays and functions) Declarations</li>
                             <li> Function Definitions and the main Function Definition</li>.
                         </ul>
@@ -167,7 +167,7 @@
                             }
                         </pre>
                         <p>
-                            The names and types of the arguments and return value of each function definition should match exactly (name equivalence) with the corresponding declaration. Every declared function must have exactly one definition. The compiler should report error otherwise.
+                            The names and types of the arguments and return value of each function definition should match exactly (<i>name equivalence</i>) with the corresponding declaration. Every declared function must have exactly one definition. The compiler should report error otherwise.
                         </p>
                         <p>
                             The syntax of local declarations and definitions are similar to those of global declarations except that arrays and functions cannot be declared inside a function. Local variables are visible only within the scope of the function where they are declared. The scope of a parameter is limited to the function. Static scope rules apply.
@@ -281,11 +281,11 @@
 
                         <p>The library functions <b>alloc()</b> and <b>free()</b> are used as follows:  </p>
                         <pre>
-                          t = alloc(); /* Allocates HBSIZE contiguous locations in the heap –
+                          t = alloc(mytype); /* Allocates contiguous locations in the heap –
                           t must be a user defined variable */
                           t = free(t);  /* Free the allocated block , t must be a user defined variable */
                         </pre>
-                        <p>A call to alloc() allocates HBSIZE contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. In this version of ExpL, HBSIZE is set to 8 words. This address may be stored in a variable of user defined type .  A call to free() deallocates HBSIZE contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns NULL on successful deallocation.  Otherwise, the value of t is unchanged by call to free().    All unallocated user defined variables are set to predefined constant  NULL.</p>
+                        <p>A call to alloc() allocates contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. This address may be stored in a variable of user defined type .  A call to free() deallocates contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns NULL on successful deallocation.  Otherwise, the value of t is unchanged by call to free().    All unallocated user defined variables are set to predefined constant  NULL.</p>
                     </article>
                     <article class="grid col-full" id="nav-sample-programs">
                         <h2>Sample Programs</h2>

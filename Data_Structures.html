@@ -55,7 +55,7 @@
                     <article class="grid col-full" id="nav-typetable">
                         <h2>Type Table</h2>
                         <p>
-                            The Type Table stores all necessary information regarding the various user defined types in the source program. The compiler creates an entry in the Type Table for each user defined type. In addition to this, there are default entries created for primitive types (int, str) and special entries null, boolean and void for the internal purposes of the interpreter. The default and special entries are made beforehand whereas entries for user defined types are made as the Type Declaration Section of the source code is parsed.
+                            The Type Table stores all the necessary information regarding the various user defined types in the source program. The compiler creates an entry in the Type Table for each user defined type. In addition to this, there are default entries created for primitive types (<i>int</i>, <i>str</i>) and special entries <i>null</i>, <i>boolean</i> and <i>void</i> for the internal purposes of the interpreter. The default and special entries are made beforehand whereas entries for user defined types are made as the Type Declaration Section of the source code is parsed.
                         </p>
                         <h4>Structure</h4>
                         <p>
@@ -63,7 +63,7 @@
                         </p>
                         <script src="js/9d481cdd2e29c3eadc3d.js"></script>
                         <p>
-                            The <i>fields</i> is the pointer to the head of Fieldlist. Fieldlist stores the information regarding the different fields in case case of the user-defined type.
+                            The variable 'fields' is a pointer to the head of 'fieldlist'. Here 'fieldlist' stores the information regarding the different fields in the case of a user-defined type.
                         </p>
                         <script src="js/79a0b8b91299662b744d.js"></script>
                         <h4>Associated Methods</h4>
@@ -71,8 +71,8 @@
                             <li>void TypeTableCreate() : Function to initialise the type table entries with primitive types(int,str) and internal data types(boolean,null,void)</li>
                             <li>struct Typetable* TLookup(char *name) : Search through the typetable and  return pointer to type table entry of type <i>name</i> </li>
                             <li>struct Typetable* TInstall(char *name,struct Fieldlist *fields) : Creates a type table entry for the type of <i>name</i> with given <i>fields</i> and returns the pointer to the type table entry.</li>
-                            <li>void FInstall(char *name,struct Typetable *type) : Creates a fieldlist entry with given <i>name</i> and <i>type</i>.</li>
-                            <li>struct Fieldlist* FLookup(char *name, struct Fieldlist *list) : Searches for a field of given <i>name</i> in the given <i>list</i> and returns a pointer to the matching entry.</li>
+                            <li>void FInstall(char *name,struct Typetable *type) : Adds a fieldlist entry with given <i>name</i> and <i>type</i>.</li>
+                            <li>struct Fieldlist* FLookup(char *name, struct Fieldlist *list) : Searches for a field of given <i>name</i> in the given <i>fieldlist</i> (typically of some user-defined type) and returns a pointer to the matching entry.</li>
                         </ul>
                         <h4>Illustration</h4>
                         <p>
@@ -83,7 +83,7 @@
                             <li>The type table is first created and initialised to contain the default entries for eachof the primitive and internal datatypes. This is done through a call to the function TypeTableCreate() from main function before yyparse() is called to start parsing the code. After the execution of TypeTableCreate() , the type table will be as follows:
                                 <br/><img src="img/data_structure_1.png" style="width:40%;margin-top:1em;margin-bottom:1em"></img><br>
                             </li>
-                            <li>Now yyparse() is invoked. As soon as a new type name is seen, it is installed into the table and the fields are later on attached to the type table entry after the complete parsing of type's fields, i.e, in case of the user-defined type <i>linkedlist</i>, as soon as name <i>linkedlist</i> is encountered, a type table entry with name <i>linkedlist</i> and fields <i>NULL</i> is created. Later on after finishing the complete parse of the type definition ( on completing the parse till line number 5 in the example typetable_illustaration), the pointer to head of fieldlist is formed and it is attached to type table entry. NOTE : A type table entry is created just as the type name is seen, because a field of the type may be of same type, just like <i>next</i> is of type <i>linkedlist</i> in the type definition of <i>linkedlist</i>. When the fieldlist is created the type of the field is looked up and pointed to type table entry.
+                            <li>As soon as the compiler encounters the declaration of a user defined type, it is installed into the type table. Subsequently, the fields are attached to this type table entry. For instance, in the case of the user-defined type <i>linkedlist</i>, as soon as  the name <i>linkedlist</i> is encountered, a type table entry with 'name' set to <i>linkedlist</i> and 'fields' set to <i>NULL</i> is created. Later on after finishing the complete parse of the type definition, the fieldlist is created and it is attached to type table entry. <br><b>NOTE</b> : A type table entry is created as soon as the type name is seen. This is because a field of the type may be of same type (For example, just like <i>next</i> is of type <i>linkedlist</i> in the type definition of <i>linkedlist</i>). When the 'fieldlist' is created, the type of the field is set by looking up the type table.
                                 <br/><img src="img/data_structure_2.png" style="width:70%;margin-top:1em;margin-bottom:1em"></img><br>
                             </li>
                             <li>Similar actions are carried out for user-defined type <i>marklist</i> also.
@@ -95,11 +95,11 @@
                     <article class="grid col-full" id="nav-symbol-table">
                         <h2>Symbol Tables</h2>
                         <p>
-                            Symbol Tables are maintained by the compiler to store all necessary information regarding the variables used in the source program. Global Symbol Table and Local Symbol Table are the two symbol tables.
+                            Symbol tables are used to store information pertaining to the variables and functions in a program.
                         </p>
                         <h4 id="nav-global-symbol-table">Global Symbol Table</h4>
                         <p>
-                            The information regarding the global variables is stored in the Global Symbol table.
+                          The global symbol table stores information pertaining to all the global variables and functions in an ExpL program.
                         </p>
                         <h6>Structure</h6>
                         <p>
@@ -107,19 +107,18 @@
                         </p>
                         <script src="js/4f483469c1dccd2e9a64.js"></script>
                         <p>
-                            Argstruct is used to store all the necessary information regarding the arguments. The ArgStruct has the following structure. More about ASTNode <a href="#nav-abstract-syntax-tree">here</a>.
+                            Arglist is used to store information regarding the types and names of the arguements. ArgStruct has the following structure.
                         </p>
                         <script src="js/f583d3a3ee857a50d496.js"></script>
+                        <p>Read about ASTNode <a href="#nav-abstract-syntax-tree">here</a>.</p>
                         <h6>Associated Methods</h6>
                         <ul>
                             <li>struct Gsymbol* GInstall(char *name,struct Typetable *type, int size, struct ArgStruct *arglist) : Creates a  Global Symbol object of given name,type,size and argument list and assigns a binding to the variable.</li>
                             <li>struct Gsymbol* GLookup(char *name) : Searches for a GST entry with the given name, if exists, returns pointer to GST entry else return NULL.</li>
-                            <li>void AddGType(struct Typetable *type,struct Gsymbol *g) : Sets the type of GST entry g with given <i>type</i>.</li>
-                            <li>void GAppend(struct Gsymbol *g) : appends the global symbol entry to the GST only if there doesn't exists a variable in GST with the same name of global symbol <i>g</i>. </li>
                         </ul>
                         <h6>Illustration</h6>
                         <p>
-                            Continuing with earlier example, let's add Global declaration section to it.
+                            Continuing with earlier example, let us add Global declaration section to it.
                         </p>
                         <script src="js/f1d20b44ca4389ed1be6.js"></script>
                         <p>
@@ -152,7 +151,7 @@
                         </ol>
                         <h4 id="nav-local-symbol-table">Local Symbol Table</h4>
                         <p>
-                            The information regarding the local variables is stored in the Local Symbol table(LST). Each function has its own list of local variables. So each function has its own LST.
+                          In addition to the global symbol table, the ExpL compiler maintains a separate local symbol table for each function for storing information regarding the functions arguments and local variables. Each function has its own list of local variables. So each function has its own LST.
                         </p>
                         <h6>Structure</h6>
                         <script src="js/b2f1dd17ecc21780f898.js"></script>
