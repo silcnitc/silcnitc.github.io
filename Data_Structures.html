@@ -182,8 +182,8 @@
                         <h6>Associated methods</h6>
                         <ul>
                             <li>struct ASTNode* TreeCreate (</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>Creates a node with the fields set accroding to the arguements passed.</li>
-                            <li>int interpret(struct ASTNode *t) : Evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
-                            <script src="js/cd19e1c748662f88782f.js"></script>
+                            <li>regindex evaluate(struct ASTNode *t) : Evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
+                            <script src="https://gist.github.com/vishnupriyam/14917a901e497a38abf7.js"></script>
                             <p>
                                 'Type' can take the following values:
                                 <ol>
@@ -194,7 +194,7 @@
                                 </ol>
                             </p>
                             <p>
-                                In our compiler we will maintain an array of valstructs of size 14 to interpret the program. The interger returned by the 'interpret' function is the index of a valstruct object in this array.
+                                In our compiler we will maintain an array of valstructs of size 16 to interpret the program. The interger returned by the 'evaluate' function is the index of a valstruct object in this array.
                             </p>
                             </li>
                         </ul>
