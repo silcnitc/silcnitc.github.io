@@ -173,15 +173,15 @@
                     <article class="grid col-full" id="nav-abstract-syntax-tree">
                         <h2>Abstract Syntax Tree</h2>
                         <p>
-                            The machine independent <b>front-end</b> phase of a compiler constructs an intermediate representation of the source program called the <b>Abstract Syntax Tree (AST)</b>.  An interpretter will evaluate the AST whereas a compiler will run a machine dependent <b>back-end</b> to generate a target assembly language program.  The following structure may be used to represent a node of the AST.  
+                            The machine independent <b>front-end</b> phase of a compiler constructs an intermediate representation of the source program called the <b>Abstract Syntax Tree (AST)</b>.  An interpretter will evaluate the AST whereas a compiler will run a machine dependent <b>back-end</b> to generate a target assembly language program.  The following structure may be used to represent a node of the AST.
                         </p>
                         <script src="js/ecec5cc25b3834dd40a8.js"></script>
                         <p>
-                            The union <i>Constant</i> we use here has fields of two fields <i>intval</i> and <i>strval</i> for interger and string constants respectively as the language supports only the primitive types int and str.
+                            The union <i>Constant</i> we use here has fields of two fields <i>intval</i> and <i>strval</i> for interger and string constants respectively as the language supports only the primitive types <i>int</i> and <i>str</i>.
                         </p>
                         <h6>Associated methods</h6>
                         <ul>
-                            <li>struct ASTNode* TreeCreate(struct Typetable *type,int nodetype,char *name,union Constant value,struct ASTNode *arglist,struct ASTNode *ptr1, struct ASTNode *ptr2,struct ASTNode *ptr3) :  Creates a node with the fields set appropriately after type checks(will be explained later) and returns it.</li>
+                            <li>struct ASTNode* TreeCreate (</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>Creates a node with the fields set accroding to the arguements passed.</li>
                             <li>int interpret(struct ASTNode *t) : Evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
                             <script src="js/cd19e1c748662f88782f.js"></script>
                             <p>
