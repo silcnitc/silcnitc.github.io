@@ -173,7 +173,7 @@
                     <article class="grid col-full" id="nav-abstract-syntax-tree">
                         <h2>Abstract Syntax Tree</h2>
                         <p>
-                            The front-end of a compiler constructs an intermediate representation of the source program from which the back-end of generates the target program. The intermediate representation we will use here is the Abstract Syntax Tree(AST). During parsing, the AST nodes are created to represent significant programming constructs. An analysis proceeds and information is added to nodes in the form of attributes associated with the node. Once the AST is constructed, the execution phase reduces to evaluating the AST. Following is the node structure we use.
+                            The machine independent <b>front-end</b> phase of a compiler constructs an intermediate representation of the source program called the <b>Abstract Syntax Tree (AST)</b>.  An interpretter will evaluate the AST whereas a compiler will run a machine dependent <b>back-end</b> to generate a target assembly language program.  The following structure may be used to represent a node of the AST.  
                         </p>
                         <script src="js/ecec5cc25b3834dd40a8.js"></script>
                         <p>
