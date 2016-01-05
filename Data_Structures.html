@@ -167,7 +167,7 @@
                             Arrays cannot be local variables, so we don't need to store the size of a variables. Also nested functions are not allowed in ExpL, so we don't require fbinding and arglist as in Gsymbol. The LST is formed for the Local Declaration Section in the same way GST was created for the Global declaration section.
                         </p>
                         <p>
-                            Memory is allocated for local variables from a seperate area called <a href="#nav-stack">stack</a>. Hence, the binding for a local variable is the relative address of the variable with respect to the function <a href="#">Base Pointer</a>. The binding is always added to the Base Pointer to obtain the absolute address of variable in stack. Hence the binding value starts from 1.This will be explained in detail later.
+                            Memory is allocated for local variables of a function from a seperate memory area called the <a href="#nav-stack">stack</a>. Hence, the binding for a local variable is the relative address of the variable with respect to the base of the <a href="#"><b>Activation Record</b></a>. The <a href="#"><b>Base Pointer</b></a> points to the base of an activation record of a function. The binding is added to the Base Pointer to obtain the address of variable in stack. This will be explained in detail later.
                         </p>
                     </article>
                     <article class="grid col-full" id="nav-abstract-syntax-tree">
