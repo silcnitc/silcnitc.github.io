@@ -6,6 +6,11 @@
         <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
         <link rel="stylesheet" href="css/style_new.css">
 
+        <style media="screen">
+            table.highlight{
+                background-color: #F5F5F5 !important;
+            }
+        </style>
 
     </head>
     <div class="container">
@@ -293,14 +298,9 @@
                                     <p>
                                         if variable is unassigned, print an error, else assign the value of the variable ID $1 to the head of rule expr $$. So you will have the actions as follows:
                                     </p>
-                                    <pre>
-                                        expr : ID {
-                                                    if( var[$1 - 'a'] == NULL)
-                                                        printf("unassinged varaiable");
-                                                    else
-                                                        $$ = *var[$1 - 'a'];
-                                                  }
-                                    </pre>
+                                    <br>
+                                    <script src="js/3347c65a583af61f95e7.js"></script>
+                                    <br>
                                     <p>
                                         Don't forget to add type integer for the non-terminal expr.
                                     </p>
@@ -311,9 +311,9 @@
                                     </p>
                                     <pre>
                                         stmt : ID ASGN expr ';'
-                                             | READ '(' ID ')' ';'
-                                             | WRITE '(' expr ')' ';'
-                                             ;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| READ '(' ID ')' ';'
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| WRITE '(' expr ')' ';'
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
                                     </pre>
                                 </li>
                                 <li>Now we will add actions for read statement.
@@ -321,12 +321,9 @@
                                         <li>If the varaiable was unallocated before, do malloc.</li>
                                         <li>Read value for the variable from standard input</li>
                                     </ul>
-                                    <pre>
-                                        if(var[$3-'a'] == NULL){
-					                    &nbsp;&nbsp; var[$3 - 'a'] = malloc(sizeof(int));
-                                        }
-                                        scanf("%d",var[$3-'a']);
-                                    </pre>
+                                    <br>
+                                    <script src="js/905e77cff04f9bf4f5cd.js"></script>
+                                    <br>
                                     <p>
                                         Add actions for assignment and write statements similarly.
                                     </p>
@@ -334,10 +331,10 @@
                                 <li>A program has one or more than one statements. Single line program consists of statement block and ends with a new line.So we will have the following rules.
                                     <pre>
                                         Program : slist NEWLINE
-                                                ;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
                                         slist   : slist stmt
-                                                | stmt
-                                                ;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| stmt
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
                                     </pre>
                                 </li>
                                 <li>Add the necessary main function in yacc file.</li>
@@ -391,12 +388,15 @@
                                             &nbsp;&nbsp;char* strval;
                                         };
                                     </pre>
-                                We use a union here because <a href="expl.html#nav-data-types">expl</a> supports two primitive types int and str. Declare a global variable GSymbolHead which will act as head pointer to the global symbol table.
+                                We use a union here because <a href="expl.html#nav-data-types">expl</a> supports two primitive types int and str.
+                                <p>
+                                    Declare a global variable GSymbolHead which will act as head pointer to the global symbol table.
+                                </p>
                                 <p>
                                     You may go through the illustration under the <a href="Data_Strcutures.html#nav-global-symbol-table">symbol table section</a> for better understanding.
                                 </p>
                                 </li>
-                                <li>Go though the section <a href="Data_Structures.html#nav-typetable"> Type Table</a>. Take down the structure to symboltable.h file. Go through the illustrations also. Declare a global variable TypeTableHead which will act as head pointer of type table.</li>
+                                <li>Go though the section <a href="Data_Structures.html#nav-typetable" class="imp"> Type Table</a>. Take down the structure to symboltable.h file. Go through the illustrations also. Declare a global variable TypeTableHead which will act as head pointer of type table.</li>
                                 <li>Now implement the functions TTableCreate(), TLookup(), TInstall() under the associated methods for typetable in symboltable.c file.</li>
                                 <li>Implement functions GInstall(), Glookup(), AddGtype() and GAppend() associated with symbol table in symboltable.c file</li>
                                 <li>Include the symboltable.h and symboltable.c file in your expl.y file.</li>
@@ -419,7 +419,7 @@
                                 To support conditional statement if, following rule is to be added.
                                 <pre>
                                     stmt : IF '(' expr ')' THEN slist ELSE slist endif ';'
-                                         | IF '(' expr ')' THEN slist endif ';'
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| IF '(' expr ')' THEN slist endif ';'
                                 </pre>
                                 IF, ELSE, THEN are tokens. Add the necessary rules in lex to support these tokens.
                             </li>
@@ -431,29 +431,29 @@
                                 </pre>
                             </li>
                             <li>
-                                Similarly add necessary rules and declarations for break and continue.
+                                Now add necessary rules and declarations for break and continue.
                             </li>
                             <li>
-                                To support declarations in the program, add the rules
+                                To support declarations in the program, add
                                 <pre>
                                     Program : GdeclBlock slist END
-                                            ;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 
                                     GdeclBlock : DECL GDecList ENDDECL
-                                    		;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 
                                     GDecList : GDecList GDecL
-                                     		|
-                                    		;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 
                                     GDecL : INT idlist ';'
-                                    		| STR idlist ';'
-                                    		;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| STR idlist ';'
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
 
 
                                     idlist : idlist ',' ID
-                                    		| ID
-                                    		;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ID
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;
                                 </pre>
                             </li>
                         </ol>
@@ -473,7 +473,7 @@
                                 <pre>
                                     yylval.nptr = TreeCreate(TLookup("void"),NODETYPE_ID,yytext,(Constant){},NULL,NULL,NULL,NULL);
                                 </pre>
-                                in the actions for lex rule that recognises an ID. Change the type of ID in yacc declarations section and define NODETYPE_ID in abstracttree.h file.
+                                in the actions for lex rule that recognises an ID. Change the type of ID in yacc declarations section to type nptr and define NODETYPE_ID in abstracttree.h file.
                                 <pre>
                                     #define NODETYPE_ID 1
                                 </pre>
@@ -514,6 +514,8 @@
                                     yylval.nptr = TreeCreate(TLookUp("int"),NODETYPE_LEAF,NULL,(Constant){number},NULL,NULL,NULL,NULL);
                                 </pre>
                                 and for strings, add the rule and pass them as
+                                <script src="js/abf6aa595c1800b9510c.js"></script>
+                                <!--
                                 <pre>
                                     \"(\\.|[^\\"])*\"
                                         {
@@ -525,6 +527,7 @@
                 							return STRCONST;
                 						}
                                 </pre>
+                                -->
                             </li>
                             <li>
                                 Next we will add rules in our yacc file. Lets consider the rule <i>expr : ID</i>, here we already have ID as a node. So add the rule
@@ -534,15 +537,103 @@
                                 The case of expr : NUM | STRCONST is similar.
                             </li>
                             <li>
-                                Consider the rule <i>expr : expr PLUS expr</i>, we already have $1 and $2 as two ASTNodes.So all you require to do is to create a tree node with NODETYPE_PLUS with type 'int' with branches as $1 and $3.
+                                Consider the rule <i>expr : expr PLUS expr</i>, we already have $1 and $3 as two ASTNodes.So all you require to do is to create a tree node with NODETYPE_PLUS with type 'int' with branches as $1 and $3.
                                 <pre>
                                     $$ = TreeCreate(TLookUp("int"), NODETYPE_PLUS , NULL, (Constant){}, NULL, $1, $3, NULL);
                                 </pre>
                                 Complete the actions for -,*,/ rules. Similar is the case of logical operators >,<,>=,<=,==,!= but the type of tree node would be different. Add the actions for grammar rules with these operations also.
                             </li>
-                            <li>Add action for the rule expr : '(' expr ')' .</li>
-                            <li>Similarly create a tree node for assignment statement.</li>
+                            <li>Add action for the rule expr : '(' expr ')' which is pretty simple.</li><a href="t"></a>
+                            <li>
+                                Consider the rule for conditional statement , if
+                                <pre>
+                                    stmt : IF '(' expr ')' THEN slist ELSE slist endif ';' { $$ = TreeCreate(TLookup("void"), NOETYPE_IF,NULL,(Constant){},$3,$6,$8); }
+                                </pre>
+                             </li>
+                            <li>Similarly create a tree node for assignment statement, iterative statements, read and write with nodetypes NODETYPE_ASGN, NODETYPE_WHILE, NODETYPE_READ AND NODETYPE_WRITE respectively.</li>
+                            <li>
+                                Now we have a statments in our program of which each is a tree node. Connect the statements as follows:
+                                <pre>
+                                    slist : slist stmt {$$ = TreeCreate(TLookUp("void"), NODETYPE_SLIST , NULL, (Constant){}, NULL, $1, $2, NULL);}
+                                </pre>
+                            </li>
+                            <li>Finally, we will obtain a tree at the topmost rule <i>Program : GdeclBlock slist END</i> of which we will evaluate the tree at $2 with the help of Symbol Table formed by GdeclBlock section. So,
+                            <pre>
+                                Program : GdeclBlock slist EOF { evaluate($2); }
+                            </pre>
+                                Note : EOF is the End Of the File token (lex recognises end of file with the regular expression <<EOF>> .)
+                            </li>
                         </ol>
+                        <p>
+                            Following is the list of nodetypes that are used in this stage:
+                            <ul>
+                                <li>NODETYPE_LEAF</li>
+                                <li>NODETYPE_ID</li>
+                                <li>NODETYPE_PLUS</li>
+                                <li>NODETYPE_MINUS</li>
+                                <li>NODETYPE_MUL</li>
+                                <li>NODETYPE_DIV</li>
+                                <li>NODETYPE_GT</li>
+                                <li>NODETYPE_LT</li>
+                                <li>NODETYPE_GE</li>
+                                <li>NODETYPE_LE</li>
+                                <li>NODETYPE_EQ</li>
+                                <li>NODETYPE_NE</li>
+                                <li>NODETYPE_IF</li>
+                                <li>NODETYPE_WHILE</li>
+                                <li>NODETYPE_READ</li>
+                                <li>NODETYPE_WRITE</li>
+                                <li>NODETYPE_SLIST</li>
+                                <li>NODETYPE_ASGN</li>
+                            </ul>
+                        </p>
+                        <p>
+                            The next step is to implement TreeCreate() function.
+                        </p>
+                        <ol>
+                            <li>
+                                The first step is to do type checking for each nodetype. For example, consider the NODETYPE_PLUS. We can perform the addition operation only on two integers. So, both the subtrees of the nodetype_plus must be of type int. So the type check is : (in switch case for nodetype)
+                                <pre>
+                                    case NODETYPE_PLUS : if(strcmp(ptr1->type->name,"int") != 0 || strcmp(ptr2->type->name,"int") != 0 ){
+                                                            yyerror("TreeCreate : Operands for plus are not of integer type");
+                                                            exit(1);
+                                                         }
+                                </pre>
+                                Do type checks for NODETYPE_MINUS, NODETYPE_DIV, NODETYPE_MUL, NODETYPE_GT, NODETYPE_LT, NODETYPE_GE, and NODETYPE_LE.
+                            </li>
+                            <li> For NODETYPE_EQ and NODETYPE_NE both branches must be of type "int" or both must be of type "boolean".</li>
+                            <li> For NODETYPE_READ the Id must be of type "int" or "str" . You will understand the significance of this type check when we introduce user defined variables. Similar is the case of NODETYPE_WRITE</li>
+                            <li> For NODETYPE_IF, the first conditional branch must be of type boolean. NODETYPE_WHILE also has the same type check.</li>
+                            <li>For NODETYPE_ASGN, the types of both the branches must be same.</li>
+                            <li>Set the Gentry of the ASTNode of NODETYPE_ID. Gentry points to the Symbol Table entry for variables. If a Symbol Table entry for the variable does not exist, an appropriate error should be reported. Set the type of ASTNode of a NODETYPE_ID with the type of the variable as in its symbol table entry.</li>
+                            <li>After the type checks,set the fields of the newly created ASTNode according to the arguements passed to the function and above steps and return it. </li>
+                        </ol>
+                        <p>
+                            Follow the steps below and implement the function interpret().
+                        </p>
+                        <ol>
+                            <li>
+                                Firstly, declare an array of valstructs of size 14
+                                <pre>
+                                    struct valstruct values[14];
+                                </pre>
+                            </li>
+                            <li>
+                                Declare a variable value_count. You will use the array as a stack here. Implement two functions get_valstruct() and free_valstruct().
+                                <ul>
+                                    <li>int get_valstruct() : Returns the topmost valstruct that is free and increments the value_count.</li>
+                                    <li>void free_valstruct() : Frees the topmost valstruct object and decrements the value_count.</li>
+                                    <li>value_count is intially set to -1.</li>
+                                </ul>
+                            </li>
+                            <li>Following is the basic structure of the evaluate function.
+
+
+                            </li>
+                        </ol>
+                        <p>
+                            Call TTableCreate() function from the main function in yacc to initialise the typetable.
+                        </p>
                     </article>
                 </div>
             </section>

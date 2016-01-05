@@ -270,6 +270,19 @@
                           return < variable >;                  /* If the return type of the function is a user defined type*/
                           </pre>
                           <p>If the return type of the function does not match the type of the expression/variable returned,  a compilation error should occur.  The <b>return type of main is integer</b> by specification</p>
+                        <h3>Input/Output statements</h3>
+                          <p>
+                              Using read statement, we can read a string or integer to a variable of type string or integer respectively from the standard input.The syntax of the input statement read is as follows :
+                              <pre>
+                                  read( &lt; variable &gt; );
+                              </pre>
+                          </p>
+                          <p>
+                              Using write statement, we can write the value of an integer or string type variable and value of arithmetic expression to the standard output.The output statement write is as follows :
+                              <pre>
+                                  write( &lt; expr &gt; );
+                              </pre>
+                          </p>
 
                         <h3>Break and Continue Statements</h3>
                           <p>A <b>break;</b> statement inside a conditional/iterative block tranfers control to the end of the block.  A <b>continue;</b> inside a conditional/iterative block transfers control to the beginning of the block.    These statements do nothing if not inside any conditional/iterative statement.  </p>

@@ -181,8 +181,8 @@
                         </p>
                         <h6>Associated methods</h6>
                         <ul>
-                            <li>struct ASTNode* TreeCreate(struct Typetable *type,int nodetype,char *name,union Constant value,struct ASTNode *ptr1, struct ASTNode *ptr2,struct ASTNode *ptr3) :  Creates a node with the appropriate fields set to the corresponding parameters after type checks(will be explained later) and returns it after doing the necessary type checks.</li>
-                            <li>struct valstruct* interpret(struct ASTNode *t) : evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
+                            <li>struct ASTNode* TreeCreate(struct Typetable *type,int nodetype,char *name,union Constant value,struct ASTNode *arglist,struct ASTNode *ptr1, struct ASTNode *ptr2,struct ASTNode *ptr3) :  Creates a node with the appropriate fields set to the corresponding parameters after type checks(will be explained later) and returns it after doing the necessary type checks.</li>
+                            <li>int interpret(struct ASTNode *t) : evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
                             <script src="js/cd19e1c748662f88782f.js"></script>
                             <p>
                                 The type field can take the following values:
@@ -192,6 +192,9 @@
                                     <li>VALSTRUCT_STR : Indicates the value stored in the union constant value is a string.</li>
                                     <li>VALSTRUCT_BIND : Indicates that the valstruct points to a location in the heap. So the intval field in union constant value stores the index of the heap array location it points to.</li>
                                 </ol>
+                            </p>
+                            <p>
+                                In our compiler we will maintain an array of valstruct of size 14, and we will use these our interpret program. The interger returned by the interpret is the index of a valstruct object in this array.
                             </p>
                             </li>
                         </ul>
