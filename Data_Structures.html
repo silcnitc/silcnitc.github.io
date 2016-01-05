@@ -107,6 +107,9 @@
                         </p>
                         <script src="js/4f483469c1dccd2e9a64.js"></script>
                         <p>
+                            <b>NOTE</b>: In the case of a compiler, fbinding must store the starting address of the function's code in memory. A call to the function must translate into an assembly level call to the function's code in memory.  Hence, in this case fbining has to be an integer storing a memory address.
+                        </p>
+                        <p>
                             Arglist is used to store information regarding the types and names of the arguements. ArgStruct has the following structure.
                         </p>
                         <script src="js/f583d3a3ee857a50d496.js"></script>
@@ -126,15 +129,15 @@
                             <pre>
                                 type id1,id2,...idn;
                             </pre>
-                            The context free grammar of this can be written as
+                            The context free grammar for this may be written as :
                             <pre style="padding-left:4em;white-space:pre-line;">
-                                1. Declaration &larr; type id_list ;
-                                2. type &larr; int | str | id          //id here is for user-defined types
-                                3. id_list &larr; id | id_list , id
+                                1. Declaration &rarr; type id_list ;
+                                2. type &rarr; int | str | id                //id here is for user-defined types
+                                3. id_list &rarr; id | id_list , id
                             </pre>
                         </p>
                         <ol>
-                            <li>When a declaration is parsed, firstly, the ids are reduced to a list,here non-terminal id_list by rule 3 and different types are reduced to the non-terminal <i>type</i> by rule 2. The type of each variable is obtained only by rule 1 which happens after the reductions by rules 2 and 3. So as soon as a variable is encountered, it is reduced to id_list and a Global Symbol object is created for the variable with type as NULL as shown below.<br>
+                            <li>When a declaration is parsed first, the <i>id</i>s are reduced to a list (the non-terminal <i>id_list</i>) by rule 3. Various types are reduced to the non-terminal <i>type</i> by rule 2. The type of each variable is obtained only by rule 1 which happens after the reductions by rules 2 and 3. So as soon as a variable is encountered, it is reduced to id_list and a Global Symbol object is created for the variable with type as NULL as shown below.<br>
                                 <img src="img/data_structure_4.png" style="width:80%"></img>
                             </li>
                             <li>
@@ -159,11 +162,9 @@
                         <ul>
                             <li>struct Lsymbol* LInstall(char *name,struct Typetable *type) : Creates a local symbol object with given name and type and also sets its binding.</li>
                             <li>struct Lsymbol* LLookup(char *name) : searched the LST and if an entry with given name is found ,return the entry,else returns NULL. </li>
-                            <li>struct Lsymbol* AddLType(struct Typetable *type, struct Lsymbol *l) : Sets the type of l with given <i>type</i>.</li>
-                            <li>void LAppend(struct Lsymbol *l) : Appends the list l to the LST.</li>
                         </ul>
                         <p>
-                            Arrays cannot be local variables, so we don't need to store the size of a variables. Also nested functions are not allowed in ExpL, so we don't require fbinding and arglist as in Gsymbol. The LST is formed for the Local Declaration Section in the same way GST was created for the Global declaration section. Every function has its own LST. Every function has a global symbol table entry, which has an fbinding ASTNode and ASTNode has the field Lentry. This Lentry is the pointer to the Local Symbol Table of the function. Read more about ASTNode <a href="#nav-abstract-syntax-tree">here</a>
+                            Arrays cannot be local variables, so we don't need to store the size of a variables. Also nested functions are not allowed in ExpL, so we don't require fbinding and arglist as in Gsymbol. The LST is formed for the Local Declaration Section in the same way GST was created for the Global declaration section.
                         </p>
                         <p>
                             Memory is allocated for local variables from a seperate area called <a href="#nav-stack">stack</a>. Hence, the binding for a local variable is the relative address of the variable with respect to the function <a href="#">Base Pointer</a>. The binding is always added to the Base Pointer to obtain the absolute address of variable in stack. Hence the binding value starts from 1.This will be explained in detail later.
