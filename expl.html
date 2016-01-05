@@ -90,7 +90,7 @@
                             </pre>
                             <p>Storage for the variable is allocated as:</p>
                             <pre>
-                              var=alloc(mytype);   /* Note:  Access without allocation can lead to run time errors */
+                              var=alloc();   /* Note:  Access without allocation can lead to run time errors */
                             </pre>
                             <p>Its fields may be accessed as:</p>
                             <pre>
@@ -227,13 +227,14 @@
                         <h3>Arithmetic Expressions</h3>
                           <p>Any integer constant/variable is a valid arithmetic expression, provided the scope rules  are not violated.  ExpL treats a function returning integer as an expression and the value of a function is its return value.</p>
                           <p>ExpL provides five <b>arithmetic operators</b>, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization hold. eXpL is strongly typed and <b>any type mismatch or scope violation must be reported at compile time</b>.</p>
-                          <p><i>Example</i> :  5, a[a[5+x]]+x , (f2() + b[x] + 5) etc. are arithmetic expressions, provided type and scope rules are not violated.  </p>
+                          <p><i>Examples</i> :  5, a[a[5+x]]+x , (f2() + b[x] + 5), sum + barOne.length , a[barOne.id] + f2(barOne) * 8etc. are arithmetic expressions, provided type and scope rules are not violated.  </p>
 
                         <h3>Logical Expressions</h3>
                             <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by eXpL are <, >, <=, >=, ==, and !=. Again <b>standard syntax and semantics conventions apply</b>. Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.  Note that the relational operators except == and != can compare only two arithmetic expressions and not two logical expressions.  </p>
                             <p><i>Variables of string type or user defined types can only be checked for equality/inequality using the ==/!= operator. </i></p>
                             <p><i>Example</i> :((x==y)==a[3]) is <b>not valid</b> eXpL expression because (x==y) is a logical expression, while a[3] must be a variable of type integer/string.   The "==" operator can be applied only between expressions of the same type.  </p>
                             <p>(“hello”==a) is a valid logical expression provided, a is a variable of string type.  (p==q) is a valid logical expression provided p and q are variables of the same type.  </p>
+                            <p>SetOne.name == "a" , SetOne.total >= SetTwo.total are valid only if SetOne is of type string and field 'total' is of type integer.</p>
 
                         <h3>Assignment Statement</h3>
                             <p>The general syntax of the assignment statement is :</p>
@@ -294,11 +295,10 @@
 
                         <p>The library functions <b>alloc()</b> and <b>free()</b> are used as follows:  </p>
                         <pre>
-                          t = alloc(mytype); /* Allocates contiguous locations in the heap –
-                          t must be a user defined variable */
-                          t = free(t);  /* Free the allocated block , t must be a user defined variable */
+                          t = alloc(); /* Allocates contiguous locations in the heap, t must be a user defined variable */
+                          retval = free(t);  /* Free the allocated block , t must be a user defined variable */
                         </pre>
-                        <p>A call to alloc() allocates contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. This address may be stored in a variable of user defined type .  A call to free() deallocates contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns NULL on successful deallocation.  Otherwise, the value of t is unchanged by call to free().    All unallocated user defined variables are set to predefined constant  NULL.</p>
+                        <p>A call to alloc() allocates contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. This address may be stored in a variable of user defined type .  A call to free() deallocates contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns 'null' on successful deallocation.  Otherwise, the value of t is unchanged by call to free(). All unallocated user defined variables are set to predefined constant 'null'.</p>
                     </article>
                     <article class="grid col-full" id="nav-sample-programs">
                         <h2>Sample Programs</h2>
