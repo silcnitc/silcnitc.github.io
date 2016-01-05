@@ -181,11 +181,11 @@
                         </p>
                         <h6>Associated methods</h6>
                         <ul>
-                            <li>struct ASTNode* TreeCreate (</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>Creates a node with the fields set accroding to the arguements passed.</li>
-                            <li>regindex evaluate(struct ASTNode *t) : Evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
+                            <li>struct ASTNode* TreeCreate (</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>/*Creates a node with the fields set accroding to the arguements passed.*/</li>
+                            <li>regindex evaluate(struct ASTNode *t)</br> Evaluation of an AST node results in a value.  A compiler generates code for evaluating an AST node and assigns the result of evaluation to a register.  An interpreter directly evaluates the AST node and simulates the compiler by storing the result in an array (called reg) and returning the index. So we make use of the following structure valstruct:
                             <script src="https://gist.github.com/vishnupriyam/14917a901e497a38abf7.js"></script>
                             <p>
-                                'Type' can take the following values:
+                                In <i>valstruct</i> the field <i>valtype</i> can take one of the following values:
                                 <ol>
                                     <li>VALSTRUCT_EMPTY : Indicates that no value is stored in it.</li>
                                     <li>VALSTRUCT_INT : Indicates that value stored in the union constant 'value' is an integer.</li>
