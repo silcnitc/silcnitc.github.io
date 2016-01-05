@@ -181,8 +181,8 @@
                         </p>
                         <h6>Associated methods</h6>
                         <ul>
-                            <li>struct ASTNode* TreeCreate(struct Typetable *type,int nodetype,char *name,union Constant value,struct ASTNode *arglist,struct ASTNode *ptr1, struct ASTNode *ptr2,struct ASTNode *ptr3) :  Creates a node with the appropriate fields set to the corresponding parameters after type checks(will be explained later) and returns it after doing the necessary type checks.</li>
-                            <li>int interpret(struct ASTNode *t) : evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
+                            <li>struct ASTNode* TreeCreate(struct Typetable *type,int nodetype,char *name,union Constant value,struct ASTNode *arglist,struct ASTNode *ptr1, struct ASTNode *ptr2,struct ASTNode *ptr3) :  Creates a node with the fields set appropriately after type checks(will be explained later) and returns it.</li>
+                            <li>int interpret(struct ASTNode *t) : Evaluates (interprets) the AST with root t and returns the evaluated result. Since the result may be an integer, string or a the pointer to a memory location (indicated here as the index in the array that simulates memory) So we make use of the following structure valstruct:
                             <script src="js/cd19e1c748662f88782f.js"></script>
                             <p>
                                 The type field can take the following values:
