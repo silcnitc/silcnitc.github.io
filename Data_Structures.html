@@ -80,16 +80,16 @@
                         </p>
                         <script src="js/67898e19a3cb8f2dc010.js"></script>
                         <ol>
-                            <li>The type table is first created and initialised to contain the default entries for eachof the primitive and internal datatypes. This is done through a call to the function TypeTableCreate() from main function before yyparse() is called to start parsing the code. After the execution of TypeTableCreate() , the type table will be as follows:
+                            <li>The type table is first created and initialised to contain the default entries for each of the primitive and internal datatypes. This is done through a call to the function TypeTableCreate() from main function before yyparse() is called to start parsing the code. After the execution of TypeTableCreate() , the type table will be as follows:
                                 <br/><img src="img/data_structure_1.png" style="width:40%;margin-top:1em;margin-bottom:1em"></img><br>
                             </li>
-                            <li>As soon as the compiler encounters the declaration of a user defined type, it is installed into the type table. Subsequently, the fields are attached to this type table entry. For instance, in the case of the user-defined type <i>linkedlist</i>, as soon as  the name <i>linkedlist</i> is encountered, a type table entry with 'name' set to <i>linkedlist</i> and 'fields' set to <i>NULL</i> is created. Later on after finishing the complete parse of the type definition, the fieldlist is created and it is attached to type table entry. <br><b>NOTE</b> : A type table entry is created as soon as the type name is seen. This is because a field of the type may be of same type (For example, just like <i>next</i> is of type <i>linkedlist</i> in the type definition of <i>linkedlist</i>). When the 'fieldlist' is created, the type of the field is set by looking up the type table.
+                            <li>As soon as the compiler encounters the declaration of a user defined type, it is installed into the type table. Subsequently the fields are attached to this type table entry. For instance, in the case of the user-defined type <i>linkedlist</i>, as soon as  the name <i>linkedlist</i> is encountered, a type table entry with 'name' set to <i>linkedlist</i> and 'fields' set to <i>NULL</i> is created. Later, on finishing the complete parse of the type definition, the fieldlist is created and it is attached to the type table entry. <br><b>NOTE</b> : A type table entry is created as soon as the type name is seen. This is because a field of the type may be of same type (For example, just like <i>next</i> is of type <i>linkedlist</i> in the type definition of <i>linkedlist</i>). When the 'fieldlist' is created, the type of the field is set by looking up the type table.
                                 <br/><img src="img/data_structure_2.png" style="width:70%;margin-top:1em;margin-bottom:1em"></img><br>
                             </li>
                             <li>Similar actions are carried out for user-defined type <i>marklist</i> also.
                                     <br/><img src="img/data_structure_3.png" style="width:90%;margin-top:1em;margin-bottom:1em"></img><br>
                             </li>
-                            <li>Once the type declaration section is completely parsed, the Type Table is fully created and will not be further modified or updated.</li>
+                            <li>Once the type declaration section is completely parsed, the type table is fully created and will not be further modified or updated.</li>
                         </ol>
                     </article>
                     <article class="grid col-full" id="nav-symbol-table">
