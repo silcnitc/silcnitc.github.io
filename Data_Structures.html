@@ -200,7 +200,7 @@
                     <article class="grid col-full" id="nav-run-structures">
                         <h2>RUN TIME DATA STRUCTURES</h2>
                         <p>
-                            A compiler must accurately implement the abstractions embodied in the source language definition. Names,scope, bindings, data types, operators, flow-control constructs are some of the abstractions. Compiler creates and manages a run-time environment in which a variety of issues such as allocation of storage locations for the objects named in the source program, the linkages between procedures, the mechanisms for passing parameters.From the perspective of compiler writer, the executing target program has its own logical address space in which each program value has its location. Following is the representation of run-time memory.
+                             Compiler creates and manages a run-time environment in which a variety of issues such as allocation of storage locations for the objects named in the source program, the linkages between procedures, the mechanisms for passing parameters are taken care of. From the perspective of compiler writer, the executing target program has its own logical address space in which each program value has its location. Following is the representation of run-time memory.
                         </p>
                         <img src="img/data_structure_9.png" style="margin-left:40%"></img>
                         <p>
@@ -210,7 +210,7 @@
                     <article class="grid col-full" id="nav-stack">
                         <h2>Stack</h2>
                         <p>
-                            The stack is used to store data structures called activation records that are generated during procedure calls.An activation record is used to store the information such as value of program counter and machine registers when a function call occurs. When control of returns from the function call, the activation of the calling procedure can be restarted after restoring the relevant registers and setting program counter to the point immediately after the call. Also, data of objects whose lifetime are contained in that of an activation can be allocated on the stack along with other information associated with activation.
+                            The stack is used to store data structures called activation records that are generated during procedure calls. An <a href="#" class="imp">activation record</a> is used to store the information such as value of program counter and machine registers when a function call occurs. When control returns from the function call, the activation of the calling procedure can be restarted after restoring the relevant registers and setting program counter to the point immediately after the call. Also, data of objects whose lifetime are contained in that of an activation can be allocated on the stack along with other information associated with activation.
                         </p>
                         <h6>Structure</h6>
                         <p>
@@ -222,11 +222,11 @@
                             The type field in memstruct can take the following values
                         </p>
                         <ol>
-                            <li>MEMSTRUCT_EMPTY : Indicates no value is stored in it.</li>
-                            <li>MEMSTRUCT_INT : Indicates that it stores an integer value.</li>
-                            <li>MEMSTRUCT_STR : Indicates that it stores a string value.</li>
-                            <li>MEMSTRUCT_BIND : Indicates that it points to a location in heap,i.e, the intval field in the union constant value stores the index of heap array location it points to.</li>
-                            <li>MEMSTRUCT_SIZE : Indicates that this memstruct is the first index of the allocated block for a dynamically allocated variable, and it stores the size of the block allocated for the variable.</li>
+                            <li>EMPTY : Indicates no value is stored in it.</li>
+                            <li>INT : Indicates that it stores an integer value.</li>
+                            <li>STR : Indicates that it stores a string value.</li>
+                            <li>H_INDEX : Indicates that valstruct stores the (integer) index of a location in the heap.</li>
+                            <li>SIZE : Indicates that this memstruct is the first index of the allocated block for a dynamically allocated variable, and it stores the size of the block allocated for the variable.</li>
                         </ol>
                         <ol>
 
@@ -265,7 +265,7 @@
                             In this algorithm, the chunk size allocated is fixed. Lets call the fixed size as HB_SIZE, say 8. The heap is considered here as a list of blocks of HB_SIZE.
                         </p>
                         <p>
-                            The first block in the list is reserved. Initially, The first index of reserved block stores the index of first free block. The first index of every free block stores the index of next available free block. The last block stores -1 in the first index. This is how it looks initially(after the call to initialise function).
+                            The first block in the list is reserved. Initially, the first index of reserved block stores the index of first free block. The first index of every free block stores the index of next available free block. The last block stores -1 in the first index. This is how it looks initially(after the call to initialise function).
                         </p>
                         <img src="img/data_structure_10.png" alt="Figure : Intial Heap diagram" />
                         <p>
@@ -281,14 +281,11 @@
                         </p>
                         <script src="js/60abadc1a9b7554fba73.js"></script>
                         <p>
-                            NOTE : heap is an array of memstructs.
-                        </p>
-                        <p>
                             Following is the <b>deallocation algorithm.</b>
                         </p>
                         <ol>
                             <li>The arguement passed : starting address of the block(say s) to be deallocated</li>
-                            <li>The block s is cleared by setting all memstructs in the block to type MEMSTRUCT_EMPTY.</li>
+                            <li>The block s is cleared by setting all memstructs in the block to type EMPTY.</li>
                             <li>The value in the first index of reserved block is copied to first index of block s.</li>
                             <li>The first index of reserved block is set with starting address of block s.</li>
                         </ol>
