@@ -157,19 +157,20 @@
                     <article class="grid col-full" id="nav-abstract-syntax-tree">
                         <h2>Abstract Syntax Tree</h2>
                         <p>
-                            The machine independent <b>front-end</b> phase of a compiler constructs an intermediate representation of the source program called the <b>Abstract Syntax Tree (AST)</b>.  An interpretter will evaluate the AST whereas a compiler will run a machine dependent <b>back-end</b> to generate a target assembly language program.  The following structure may be used to represent a node of the AST.
+                            The machine independent <b>front-end</b> phase of a compiler constructs an intermediate representation of the source program called the <b>Abstract Syntax Tree (AST)</b>. An interpretter will evaluate the AST whereas a compiler will run a machine dependent <b>back-end</b> to generate a target assembly language program. The following structure may be used to represent a node of the AST.
                         </p>
                         <script src="js/ecec5cc25b3834dd40a8.js"></script>
                         <p>
-                            The union <i>Constant</i> we use here has fields of two fields <i>intval</i> and <i>strval</i> for interger and string constants respectively as the language supports only the primitive types <i>int</i> and <i>str</i>.
+                            The union Constant is used to store the value of an integer or sting constant.
                         </p>
+                        <script src="js/8cb0db40153ff46dabfa.js" charset="utf-8"></script>
                         <h6>Associated methods</h6>
                         <ul>
-                            <li>struct ASTNode* TreeCreate (</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>/*Creates a node with the fields set accroding to the arguements passed.*/</li>
+                            <li>struct ASTNode* TreeCreate (</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>Creates a node with the fields set according to the arguements passed.</li>
                             <li>regindex evaluate(struct ASTNode *t)</br> Evaluation of an AST node results in a value.  A compiler generates code for evaluating an AST node and assigns the result of evaluation to a register.  An interpreter directly evaluates the AST node and simulates the compiler by storing the result in an array (called reg) and returning the index. We make use of the following structure to store the results of evaluation by an interpreter:
                             <script src="https://gist.github.com/vishnupriyam/14917a901e497a38abf7.js"></script>
                             <p>
-                                In <i>valstruct</i> the field <i>valtype</i> can take one of the following values:
+                                In 'valstruct' the field 'valtype' can take one of the following values:
                                 <ol>
                                     <li>EMPTY : Indicates that no value is stored in it.</li>
                                     <li>INT : Indicates that value stored in the union constant 'value' is an integer.</li>
@@ -183,27 +184,7 @@
                         <p>
                             Consider the following program
                         </p>
-<pre>
-    int main(){
-        decl
-            int a,b,c;
-        enddecl
-        begin
-            read(a);
-            read(b);
-            if( a > b) then
-                c = a-b;
-                while (c >= 0) do
-                    write(a);
-                    c = c -1;
-                endwhile;
-            else
-                write(b);
-            endif;
-            return 1;
-        end
-    }
-</pre>
+                        <script src="https://gist.github.com/vishnupriyam/da8d8ee3b8fe00c48e8b.js"></script>
                         <p>
                             The abstract syntax tree for the above program will look as follows precisely.
                         </p>
