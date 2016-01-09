@@ -116,8 +116,8 @@
                         <p>Read about ASTNode <a href="#nav-abstract-syntax-tree">here</a>.</p>
                         <h6>Associated Methods</h6>
                         <ul>
-                            <li>struct Gsymbol* GInstall(char *name,struct Typetable *type, int size, struct ArgStruct *arglist) : Creates a  Global Symbol object of given name,type,size and argument list and assigns a binding to the variable.</li>
-                            <li>struct Gsymbol* GLookup(char *name) : Searches for a GST entry with the given name, if exists, returns pointer to GST entry else return NULL.</li>
+                            <li>struct Gsymbol* GInstall(char *name,struct Typetable *type, int size, struct ArgStruct *arglist) : Creates a  Global Symbol object of given 'name', 'type', 'size' and 'argument list' and assigns a 'binding' to the variable.</li>
+                            <li>struct Gsymbol* GLookup(char *name) : Search for a GST entry with the given 'name', if exists, return pointer to GST entry else return NULL.</li>
                         </ul>
                         <h6>Illustration</h6>
                         <p>
@@ -144,14 +144,14 @@
                         <script src="js/b2f1dd17ecc21780f898.js"></script>
                         <h6>Associated methods</h6>
                         <ul>
-                            <li>struct Lsymbol* LInstall(char *name,struct Typetable *type) : Creates a local symbol object with given name and type and also sets its binding.</li>
-                            <li>struct Lsymbol* LLookup(char *name) : searched the LST and if an entry with given name is found ,return the entry,else returns NULL. </li>
+                            <li>struct Lsymbol* LInstall(char *name,struct Typetable *type) : Creates a local symbol tbale with given 'name' and 'type' and also sets its 'binding'.</li>
+                            <li>struct Lsymbol* LLookup(char *name) : search the LST and if any entry with given 'name' is found ,return the entry,else returns NULL. </li>
                         </ul>
                         <p>
                             Arrays cannot be local variables, so we don't need to store the size of a variables. Also nested functions are not allowed in ExpL, so we don't require fbinding and arglist as in Gsymbol. The LST is formed for the Local Declaration Section in the same way GST was created for the Global declaration section.
                         </p>
                         <p>
-                            Memory is allocated for local variables of a function from a seperate memory area called the <a href="#nav-stack">stack</a>. Hence, the binding for a local variable is the relative address of the variable with respect to the base of the <a href="#"><b>Activation Record</b></a>. The <a href="#"><b>Base Pointer</b></a> points to the base of an activation record of a function. The binding is added to the Base Pointer to obtain the address of variable in stack. This will be explained in detail later.
+                            Memory is allocated for local variables of a function from a seperate memory area called the <a href="#nav-stack" class="imp">stack</a>. Hence, the binding for a local variable is the relative address of the variable with respect to the base of the <a href="#"><b>Activation Record</b></a>. The <a href="#"><b>Base Pointer</b></a> points to the base of an activation record of a function. The binding is added to the Base Pointer to obtain the address of variable in stack. This will be explained in detail later.
                         </p>
                     </article>
                     <article class="grid col-full" id="nav-abstract-syntax-tree">
