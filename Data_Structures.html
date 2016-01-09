@@ -107,7 +107,7 @@
                         </p>
                         <script src="js/4f483469c1dccd2e9a64.js"></script>
                         <p>
-                            <b>NOTE</b>: In the case of a compiler, fbinding must store the starting address of the function's code in memory. A call to the function must translate into an assembly level call to the function's code in memory.  Hence, in this case fbining has to be an integer storing a memory address.
+                            <span style="color:red;font-size:12px;">&#10011;</span><b>NOTE</b>: In the case of a compiler, fbinding must store the starting address of the function's code in memory. A call to the function must translate into an assembly level call to the function's code in memory.  Hence, in this case fbining has to be an integer storing a memory address.
                         </p>
                         <p>
                             Arglist is used to store information regarding the types and names of the arguements. ArgStruct has the following structure.
@@ -124,31 +124,15 @@
                             Continuing with earlier example, let us add Global declaration section to it.
                         </p>
                         <script src="js/f1d20b44ca4389ed1be6.js"></script>
-                        <p>
-                            Each declaration in ExpL is of the form
-                            <pre>
-                                type id1,id2,...idn;
-                            </pre>
-                            The context free grammar for this may be written as :
-                            <pre style="padding-left:4em;white-space:pre-line;">
-                                1. Declaration &rarr; type id_list ;
-                                2. type &rarr; int | str | id                //id here is for user-defined types
-                                3. id_list &rarr; id | id_list , id
-                            </pre>
-                        </p>
                         <ol>
-                            <li>When a declaration is parsed first, the <i>id</i>s are reduced to a list (the non-terminal <i>id_list</i>) by rule 3. Various types are reduced to the non-terminal <i>type</i> by rule 2. The type of each variable is obtained only by rule 1 which happens after the reductions by rules 2 and 3. So as soon as a variable is encountered, it is reduced to id_list and a Global Symbol object is created for the variable with type as NULL as shown below.<br>
-                                <img src="img/data_structure_4.png" style="width:80%"></img>
-                            </li>
-                            <li>
-                                Once the type reduction at rule 1 happens, the type of Gsymbol table objects in id_list are set with type as obtained from the rule 1 RHS and the global symbol objects are attached to the Global Symbol Table.<br>
+                            <li>As soon as the compiler encounters the global declaration of a variable or funtion, it is installed into Global Symbol Table. Subsequently, the arguments are attached to the entry in case of functions. Following is how GST looks when <i>studentname</i> is installed.
                                 <a href="img/data_structure_5.png">  <img src="img/data_structure_5.png" style="height:90%"></img></a>
                             </li>
                             <li>
-                                Similarly for <i>int rollno,average,findaverage(linkedlist marks)</i>, the id_list with type NULL is formed first. NOTE : Before the Global Symbol object is created according to a function declaration, the argument list is already formed with the names and types set. Check the grammar for function definitions <a href="#">here.</a>The fbinding for a function is the abstract syntax tree of the function definition and is set only after complete parsing of the function definition.
+                                Similarly for <i>rollno,average,findaverage(linkedlist marks)</i>, symbol table entries are formed and installed. The fbinding for a function is the abstract syntax tree of the function definition and is set only after complete parsing of the function definition.
                                 <br><a href="img/data_structure_6.png">  <img src="img/data_structure_6.png"></img></a>
                             </li>
-                            <li>After this, the types for rollno,average and findaverage will be set and these objects are appended to the global symbol table. The steps for <i>linkedlist studentmarks</i> are also the same and the final Global Symbol table looks as follows.
+                            <li>After this, the types for rollno,average and findaverage will be set and these objects are appended to the global symbol table. The final Global Symbol table looks as follows:
                                 <br><a href="img/data_structure_7.png">  <img src="img/data_structure_7.png"></img></a>
                             </li>
                         </ol>
