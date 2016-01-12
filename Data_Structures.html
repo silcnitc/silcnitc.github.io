@@ -27,7 +27,7 @@
         <div class="Services-page main grid-wrap">
             <header class="grid col-full">
                 <hr/>
-                <p class="fleft">Data Structures</p>
+                <p class="fleft">Data Structures for ExpL Compilation/Interpretation</p>
                 <br>
                 <br>
                 <a class="button" href="">Download as PDF</a>
@@ -35,7 +35,8 @@
             <aside class="grid col-one-quarter mq2-col-full">
               <menu>
                 <ul>
-                  <li><a class="sec" href="#nav-compile-structures">Compile Time Data Structures</a></li>
+                  <li><a class="sec" href="#nav-introduction">Introduction</a></li>
+                  <li><a class="sec" href="#nav-analysis-structures">Data Structures for Analysis Phase</a></li>
                   <li><a class="subsec" href="#nav-typetable">Type Table</a></li>
                   <li><a class="subsec" href="#nav-symbol-table">Symbol Table</a></li>
                   <li><a class="subsubsec" href="#nav-global-symbol-table">Global Symbol Table</a></li>
@@ -50,7 +51,48 @@
             <section class="grid col-three-quarters mq2-col-full">
                 <div class="grid-wrap">
                     <article class="grid col-full">
-                        <h2>COMPILE TIME DATA  STRUCTURES</h2>
+                        <h2>INTRODUCTION</h2>
+                        <p>
+                            The compilation/interpretation of an ExpL program involves two phases. In the first phase (called the <b>analysis phase</b>), the source ExpL program is analyzed (lexical, syntax and semantic analysis are completed in this phase) and if the program is free of syntax and semantic errors, an intermediate representation of the source program called the <b>abstract syntax tree</b> is generated. 
+                        </p>
+                        <p>
+                            This is followed by a second phase, whose functionality is different for a compiler and an interpreter.
+                        </p>
+                        <p>
+                            In the case of a compiler, the second phase (called the <b>synthesis phase</b>) recursively traverses the abstract syntax tree and generates target code. 
+                        </p>
+                        <p>
+                            [<b>Note</b>: the abstract syntax tree representation is only one among several intermediete representations used in practical compilers. “Lower level” intermediete representations like three address code are often more useful for applying code optimization algorithms. In our present experiment, we do not perform any code optimizations and hence the code generation phase will directly work with the abstract syntax tree.]
+                        </p>
+                        <p>
+                            In the case of interpretation, the second phase (called the execution phase) involves direct execution of the program by recursive evaluation of the abstract syntax tree. 
+                        </p>
+                        <p>
+                            <i>The description of data structures below assumes an interpreter is being designed</i>. This choice has been made to avoid target machine dependency in the documentation.  Notes/comments  are added wherever appropriate explaining the modifications to be made to the data structures to implement a compiler.
+                        </p>
+                        <p>
+                            There are three basic data structures that are maintained during the analysis phase. These are the following:
+                            <ol>
+                                <li> The <b>global symbol table</b> is used to store information about the global variables and functions in the program.</li>
+                                <li>For each function, a separate <b>local symbol table</b> is maintained to store the information about local variables and  arguements of the function. </li>
+                                <li>Finally, the <b>abstract syntax tree</b> that is constructed as the outcome of the analysis phase is the third data structure.</li>
+                            </ol>
+                        </p>
+                        <p>
+                            An abstract syntax tree is a tree representation of a program.  It is a generalization of the tree representation for expressions (called the expression tree).  For example, the arithmetic expression (3+5)*(5+9) is typically represented as an expression tree as below:
+                        </p>
+                        <p>
+                                <img src="img/data_structure_28.png" alt="" />
+                        </p>
+                        <p>
+                            We can generalize this representation to come up with a tree representation for the whole sequence of statements of a ExpL function in a program.  Each funcion in an ExpL program will be represented by an abstract syntax tree.  Thus, the whole program will be a collection of abstract syntax trees, one for each function.
+                        </p>
+                        <p>
+                            In the following, the definitions node structures for each of the above data structures is discussed.  The organization of data in these data structures is also discussed with illustrative examples.
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-analysis-structures">
+                        <h2>DATA STRUCTURES FOR ANALYSIS PHASE</h2>
                     </article>
                     <article class="grid col-full" id="nav-typetable">
                         <h2>Type Table</h2>
@@ -336,7 +378,7 @@
                         </ul>
                         <h6>Buddy Memory Allocation</h6>
                         <p>
-                            In this technique, memory is divided into partitions to try to satisfy a memory request as suitably as possible. This technique makes use of splitting memory into halves to try to give a best-fit.
+                            In this technique, memory is divided into partitions to try to satisfy a memory request as suitably as possible. This technique makes use of splitting memory into halves to give a best-fit.
                         </p>
                         <p>
                             Every memory block in this technique has an order, a number ranging from 0 to a specified upper limit. The size of block of order n is 2<sup>n</sup>. So the blocks are exacly twice the size of blocks of one order lower. Power-of-two block sizes makes address computation simple, because all buddies are aligned on memory address boundaries that are powers of two. When a larger block is split, it is divided into two smaller blocks, and each smaller block becomes a unique <b>buddy</b> to the other. A split block can only be merged with its unique buddy block, which then reforms the larger block they were split from.
