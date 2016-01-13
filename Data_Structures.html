@@ -268,7 +268,7 @@
                         <p>
                             To understand this, consider the factorial program below.
                         </p>
-                        <h4>ADD PROGRAM HERE</h4>
+                        <script src="https://gist.github.com/vishnupriyam/f0127bf97757874e7cc2.js"></script>
                         <p>
                             The function factorial contains an argument n. Suppose the initial value of n input by the user at run time was 5, then factorial(n) with n=5 is invoked from the main. This function invokes factorial(n) with n=4. However, we need to retain the old value of n since the orginal factorial function must resume execution after the completion of factorial(4). Thus, we cannot statically assign a fixed memory address to the variable n. Instead, for each invocation of the function, we need to create a different memory space for storing the value of n. Moreover, the initial value of n given by the user is not known at compile time. Hence cannot determine at compile time the exact storage requirement. We will have to design the compiler/interpreter to allocate memory space as is necessary during run time.
                         </p>
@@ -312,14 +312,20 @@
                         <p>
                             The basic unit of memory (called a <b>memory word</b>) is assumed to be able to store an integer or a string.  This model is assumed because the primitive data types of ExpL are integer and string.  The interpreter therefore defines the following memory structure:
                         </p>
-                        <h6>Add definition of memstruct here</h6>
+                        <script src="https://gist.github.com/vishnupriyam/2e982915b856ce98791b.js"></script>
                         <p>
                             The interpreter works with three arrays of memory words, to implement temporary storage (registers), the run time stack and the heap. There will be no sperarate memory array for static data. Instead,  the intial part of the stack will be used for storing static data.
                         </p>
-                        <h6>Add - definitions of registers, heap, stack as arrays of appropriate sizes  (16, 1024 and 1024). </h6>
+                        <script src="https://gist.github.com/vishnupriyam/7ba4d3b4da44863b028d.js"></script>
                     </article>
                     <article class="grid col-full" id="nav-register-allocation">
                         <h2>Register Allocation</h2>
+                        <p>
+                            Following are the two methods for register allocation and deallocation:
+                        </p>
+                        <ol>
+                            <li>int get_register() : Returns </li>
+                        </ol>
                         <h6>Decribe here - describe functions getreg, freereg etc. </h6>
                     </article>
                     <article class="grid col-full" id="nav-run-time-stack-allocation">
