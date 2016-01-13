@@ -263,7 +263,7 @@
                             [In the case of a compiler, the the analysis phase will decide on the addresses in the <b>code area</b> of memory where the function's code is loaded.  The address to which a call to the function must be directed to is stored in the binding field of the symbol table.]
                         </p>
                         <p>
-                            Variables which are local to functions demands more complicated allocation. This is because a function may be invoked several times and <i>for each invocation, separate storage needs to be allocated for variables defined within the scope of the function</i> (i.e., local variables and arguments).  [Why?] Moreover, we do not know during the analysis phase hwo many times a function will be invoked during the execution phase.  [Why?]
+                            Variables which are local to functions demands more complicated allocation. This is because a function may be invoked several times and <i>for each invocation, separate storage needs to be allocated for variables defined within the scope of the function</i> (i.e., local variables and arguments).  [Why?] Moreover, we do not know during the analysis phase how many times a function will be invoked during the execution phase.  [Why?]
                         </p>
                         <p>
                             To understand this, consider the factorial program below.
