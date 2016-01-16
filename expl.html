@@ -293,12 +293,13 @@
                     <article class="grid col-full" id="nav-dynamic-memory-allocation">
                         <h2>Dynamic memory allocation</h2>
 
-                        <p>The library functions <b>alloc()</b> and <b>free()</b> are used as follows:  </p>
+                        <p>The library functions <b>initialise()</b>, <b>alloc()</b> and <b>free()</b> are used as follows:  </p>
                         <pre>
+                          intialise(); /* To Intialise the heap. */
                           t = alloc(); /* Allocates contiguous locations in the heap, t must be a user defined variable */
                           retval = free(t);  /* Free the allocated block , t must be a user defined variable */
                         </pre>
-                        <p>A call to alloc() allocates contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. This address may be stored in a variable of user defined type .  A call to free() deallocates contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns 'null' on successful deallocation.  Otherwise, the value of t is unchanged by call to free(). All unallocated user defined variables are set to predefined constant 'null'.</p>
+                        <p>Intialise() must be invoked before any allocation is made and it resets the heap to default values. A call to alloc() allocates contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. This address may be stored in a variable of user defined type .  A call to free() deallocates contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns 'null' on successful deallocation.  Otherwise, the value of t is unchanged by call to free(). All unallocated user defined variables are set to predefined constant 'null'.</p>
                     </article>
                     <article class="grid col-full" id="nav-sample-programs">
                         <h2>Sample Programs</h2>
