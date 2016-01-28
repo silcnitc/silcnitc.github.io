@@ -486,7 +486,7 @@
                           <li>A pushes one empty space in the stack for B to place its return value.</li>
                           <li>A invokes B.  (In the case of a compiler, this results in generation of a CALL instruction which results in pushing the instruction pointer into the stack and transfer of control to B).</li>
                         </ol>
-                        <img src="img/data_structure_35.png" alt="" style="padding-left:20%"/>
+                        <img src="img/data_structure_35.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>
                           Inside B, the following space allocations take place:
                         </p>
@@ -494,7 +494,7 @@
                           <li>B saves the BP value of A to the stack and sets its own BP to the location where the BP of A is stored.</li>
                           <li>B allocates space for local variables (in the order in which they appear in the delcaration.</li>
                         </ol>
-                        <img src="img/data_structure_36.png" alt="" style="padding-left:20%"/>
+                        <img src="img/data_structure_36.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>This completes the activation record for B.  If B later calls another function C, then it starts saving its registers, pushes arguments to C and so on.</p>
                         <p>When B completes execution the following sequence of actions take place:</p>
                         <ol>
@@ -502,14 +502,14 @@
                           <li>The old BP value is popped off and saved into BP.</li>
                           <li>B returns (in the case of a compiler, this results in generation of a RET instruction which results in setting the instruction pointer to the value saved in the stack).</li>
                         </ol>
-                        <img src="img/data_structure_37.png" alt="" style="padding-left:20%"/>
+                        <img src="img/data_structure_37.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>On re-entry, A does the following:</p>
                         <ol start="4">
                           <li>Retrieve the return value from stack and save it to a new register.  This is the result of the function call.</li>
                           <li>Pop off the arguments.</li>
                           <li>Restore the saved register context.</li>
                         </ol>
-                        <img src="img/data_structure_38.png" alt="" style="padding-left:20%"/>
+                        <img src="img/data_structure_38.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>Consider the following example:</p>
                         <script src="https://gist.github.com/vishnupriyam/f0127bf97757874e7cc2.js"></script>
                     </article>
