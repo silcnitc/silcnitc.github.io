@@ -44,6 +44,7 @@
                   <li><a class="sec" href="#nav-execution-structures">Data Structures for execution phase</a></li>
                   <li><a class="subsec" href="#nav-memory-model">The memory model</a></li>
                   <li><a class="subsec" href="#nav-register-allocation">Register Allocation</a></li>
+                  <li><a class="subsec" href="#nav-static-allocation">Static Allocation</a></li>
                   <li><a class="subsec" href="#nav-run-time-stack">Run Time Stack Allocation</a></li>
                   <li><a class="subsec" href="#nav-heap">Heap Allocation</a></li>
               </ul>
@@ -437,16 +438,45 @@
                     <article class="grid col-full" id="nav-register-allocation">
                         <h2>Register Allocation</h2>
                         <p>
-                            Following are the two methods for register allocation and deallocation:
+                            Register allocation is performed through two simple functions.
                         </p>
-                        <ol>
-                            <li>int get_register() : Returns index of the free register, else returns -1.</li>
-                            <li>int free_register() : Frees the most recently allocated register.</li>
-                        </ol>
+                        <p>
+                            <ul>
+                                <li>int get_register(): Allocates a free register from the register pool reg[16] and returns the index of the register, returns -1 if no free register is available.</li>
+                                <li>int free_register(): Frees the last register that was allocated,returns 0 if success, returns -1 if the function is called with none of the registers being allocated.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            The interpreter invokes these functions in the course of evalaution of expressions to create temporary store.
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-static-allocation">
+                        <h2>Static Allocation</h2>
+                        <p>
+                            As noted previously, global variables are allocated statically. In our interpreter, the initial portion of the stack will be used for static allocation. The rest of the stack memory region will be used for run time allocation. The amount of static storage required is known from the variable declarations.
+                        </p>
                     </article>
                     <article class="grid col-full" id="nav-run-time-stack">
                         <h2>Run Time Stack Allocation</h2>
-                        The following figure describes a possible activation record format for an ExpL function.
+                        <p>
+                            During run-time, when an ExpL function is invoked, space has to be allocated for storing
+                            <ul>
+                                <li>the  arguments to the function,</li>
+                                <li>return value of the function,</li>
+                                <li>local variables declared in the function.</li>
+                            </ul>
+                            For this, <b>an activation record</b> is created in the stack for each function call (and the stack grows).   The activation record is also used to save the state (registers in use) of the invoking function and some control information (like the return address of the calling program in the case of a compiler).
+                        </p>
+                        <p>
+                            Each activation record has a base, and the <b>ase pointer (BP)</b> is a variable (or a machine register in the case of a compiler) that points to the base of the current functions activation record. When one function invokes another, the base pointer value of the caller is pushed on to the stack and BP is set to point to the new activation record base. Upon return, the activation record is popped off the stack and old value of base pointer is restored. The <b>stack pointer (SP)</b> points to the top of the stack.
+                        </p>
+                        <p>
+                            The calling convension fixes in what order arguments to a function must be pushed by the caller to the called function, the place in the activation record where the return value is expected to be written by the callee etc.  The structure of the activation record explained below will clarify the calling convension.
+                        </p>
+                        <img src="img/data_structure_34.png" alt="" style="padding-left:30%"/>
+                        <p>
+                            The following figure describes a possible activation record format for an ExpL function.
+                        </p>
                         <br>
                         <br>
                         <img src="img/data_structure_31.png" alt="" style="margin-bottom:4em;"/>
