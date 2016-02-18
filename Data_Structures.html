@@ -212,7 +212,7 @@
                         <ul>
                             <li>struct ASTNode* TreeCreate (</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>Creates a node with the fields set according to the arguements passed.</li>
                             <li>regindex evaluate(struct ASTNode *t)</br> Evaluation of an AST node results in a value.  A compiler generates code for evaluating an AST node and assigns the result of evaluation to a register.  An interpreter directly evaluates the AST node and simulates the compiler by storing the result in an array (called reg) and returning the index. We make use of the following structure to store the results of evaluation by an interpreter:
-                            <script src="https://gist.github.com/vishnupriyam/14917a901e497a38abf7.js"></script>
+                            <script src="js/14917a901e497a38abf7.js"></script>
                             <p>
                                 In 'valstruct' the field 'valtype' can take one of the following values:
                                 <ol>
@@ -335,7 +335,7 @@
                         <p>
                             Consider the following program
                         </p>
-                        <script src="https://gist.github.com/vishnupriyam/f0127bf97757874e7cc2.js"></script>
+                        <script src="js/f0127bf97757874e7cc2.js"></script>
                         <p>
                             1. Lets construct the abstract syntax tree step by step. The AST for conditional expression <code>n==1</code> (in line 9) will be as follows:
                         </p>
@@ -443,7 +443,7 @@
                         <p>
                             To understand this, consider the factorial program below.
                         </p>
-                        <script src="https://gist.github.com/vishnupriyam/f0127bf97757874e7cc2.js"></script>
+                        <script src="js/f0127bf97757874e7cc2.js"></script>
                         <p>
                             The function factorial contains an argument n. Suppose the initial value of n input by the user at run time was 5, then factorial(n) with n=5 is invoked from the main. This function invokes factorial(n) with n=4. However, we need to retain the old value of n since the orginal factorial function must resume execution after the completion of factorial(4). Thus, we cannot statically assign a fixed memory address to the variable n. Instead, for each invocation of the function, we need to create a different memory space for storing the value of n. Moreover, the initial value of n given by the user is not known at compile time. Hence cannot determine at compile time the exact storage requirement. We will have to design the compiler/interpreter to allocate memory space as is necessary during run time.
                         </p>
@@ -491,11 +491,11 @@
                         <p>
                             The basic unit of memory (called a <b>memory word</b>) is assumed to be able to store an integer or a string.  This model is assumed because the primitive data types of ExpL are integer and string.  The interpreter therefore defines the following memory structure:
                         </p>
-                        <script src="https://gist.github.com/vishnupriyam/2e982915b856ce98791b.js"></script>
+                        <script src="js/2e982915b856ce98791b.js"></script>
                         <p>
                             The interpreter works with three arrays of memory words, to implement temporary storage (registers), the run time stack and the heap. There will be no sperarate memory array for static data. Instead,  the intial part of the stack will be used for storing static data.
                         </p>
-                        <script src="https://gist.github.com/vishnupriyam/7ba4d3b4da44863b028d.js"></script>
+                        <script src="js/7ba4d3b4da44863b028d.js"></script>
                     </article>
                     <article class="grid col-full" id="nav-register-allocation">
                         <h2>Register Allocation</h2>
@@ -573,7 +573,7 @@
                         </ol>
                         <img src="img/data_structure_38.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>Consider the following example:</p>
-                        <script src="https://gist.github.com/vishnupriyam/f0127bf97757874e7cc2.js"></script>
+                        <script src="js/f0127bf97757874e7cc2.js"></script>
                     </article>
                     <article class="grid col-full" id="nav-stack">
                         <h2>Stack</h2>
