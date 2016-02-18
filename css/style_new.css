@@ -617,7 +617,7 @@ vertical-align:top;
 .lt-ie9 .container {min-width: 780px;}
 .lt-ie8 .container {width: 960px;}
 .lt-ie8 .grid-wrap {margin-left: 0; }
-.lt-ie8 .grid {padding: 0;margin-left: 5%; }
+.lt-ie8 .grid {padding: 0;margin-left: 2%; }
   .lt-ie8 .grid:first-child {margin-left: 0; }
 
 .lt-ie8 .col-full {width: 99.95%; }

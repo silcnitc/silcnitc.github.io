@@ -337,12 +337,74 @@
                         </p>
                         <script src="https://gist.github.com/vishnupriyam/f0127bf97757874e7cc2.js"></script>
                         <p>
+                            1. Lets construct the abstract syntax tree step by step. The AST for conditional expression <code>n==1</code> (in line 9) will be as follows:
+                        </p>
+                        <br>
+                        <img src="img/data_structure_50.png" alt="" />
+                        <br>
+                        <p>
+                            2. Similarly we have AST fot <code>n==0</code> (in line 9) as follows.
+                        </p>
+                        <br>
+                        <img src="img/data_structure_51.png" alt="" />
+                        <br>
+                        <p>
+                            3. Next consider the complete conditional expression <code>n==1 || n==0</code>.
+                        </p>
+                        <br>
+                        <img src="img/data_structure_52.png" alt="" />
+                        <br>
+                        <p>
+                            4.Next we will form the AST for assignment statement <code>f = 1</code> (in line 10).
+                        </p>
+                        <br>
+                        <img src="img/data_structure_53.png" alt="" />
+                        <br>
+                        <p>
+                            5. Next, lets consider the statement <code> f = n * factorial(n-1)</code> which consists of arthimetic expressions with operands '-','*' and an assignment statement.
+                        </p>
+                        <p>
+                            AST for <code>n-1</code> is as follows.
+                        </p>
+                        <br>
+                        <img src="img/data_structure_54.png" alt="" />
+                        <br>
+                        <p>
+                            AST for <code>n * factorial(n-1)</code> is as follows.
+                        </p>
+                        <br>
+                        <img src="img/data_structure_55.png" alt="" />
+                        <br>
+                        <p>
+                            AST for <code> f = n * factorial(n-1)</code> is as below.
+                        </p>
+                        <br>
+                        <img src="img/data_structure_56.png" alt="" />
+                        <br>
+                        <p>
+                            6. Following is the AST for the if condition.
+                        </p>
+                        <br>
+                        <img src="img/data_structure_57.png" alt="" />
+                        <br>
+                        <p>
+                            7. The AST for return statement is as folows
+                        </p>
+                        <br>
+                        <img src="img/data_structure_58.png" alt="" />
+                        <br>
+                        <p>
+                            8. Finally the AST for the factorial function will be as follows.
+                        </p>
+                        <br>
+                        <img src="img/data_structure_59.png" alt="" />
+                        <!--<p>
                             The abstract syntax tree for the factorial function looks as follows:
                         </p>
                         <a href="img/data_structure_29.png"><img src="img/data_structure_29.png" alt="" /></a>
                         <p>
                             Try to contruct the abstract syntax tree for main function.
-                        </p>
+                        </p>-->
                         <!--
                         <p>
                             Continuing with the previous example,
@@ -512,54 +574,6 @@
                         <img src="img/data_structure_38.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>Consider the following example:</p>
                         <script src="https://gist.github.com/vishnupriyam/f0127bf97757874e7cc2.js"></script>
-                        <p>
-                          The illustration of the stack at various stages in the execution of the above program is given below.
-                        </p>
-                        <ol>
-                          <li>
-                            After global variable declaration <br>
-                            <img src="img/data_structure_39.png" alt="" style="margin: 2em;"/>
-                          </li>
-                          <li>
-                            After local variable declaration in main function.<br>
-                            <img src="img/data_structure_48.png" alt="" style="margin: 2em;"/>
-                          </li>
-                          <li>
-                            When main function calls factorial function with argument n=3.<br>
-                            <img src="img/data_structure_40.png" alt="" style="margin: 2em;"/>
-                          </li>
-                          <li>
-                            Factorial function pushes the old base pointer and sets the new base pointer and the local variable 'f'.
-                            <br>
-                            <img src="img/data_structure_41.png" alt="" style="margin: 2em;"/>
-                          </li>
-                          <li>
-                            When factorial recursively calls itself with new argument value n=2, the caller saves the register context and the callee sets up a new activation record as similar to the previous call.
-                            <br>
-                            <img src="img/data_structure_42.png" alt="" style="margin: 2em;"/>
-                          </li>
-                          <li>
-                            Similarly the stack after the last factorial call with argument value n=1.
-                            <br>
-                            <img src="img/data_structure_43.png" alt="" style="margin: 2em;"/>
-                          </li>
-                          <li>
-                            Factorial function sets the return value and pops off its activation record and sets the base pointer to the old BP.
-                            <br>
-                            <img src="img/data_structure_44.png" alt="" style="margin: 2em;"/>
-                          </li>
-                          <li>
-                            The caller gets the return value of the callee from the top of the stack. Restores the register context after popping out the arguments and similarly sets the return value and pops off the activation record.<br>
-                            <img src="img/data_structure_45.png" alt="" style="margin: 2em;"/>
-                          </li>
-                          <li>
-                            The execution for factorial n=3 also follows as similar to the above.<br>
-                            <img src="img/data_structure_46.png" alt="" style="margin: 2em;"/>
-                          </li>
-                          <li>Finally, the main function obtains the return value and sets the global variable <i>result</i> accordingly.<br>
-                            <img src="img/data_structure_47.png" alt="" style="margin: 2em;"/>
-                          </li>
-                        </ol>
                     </article>
                     <article class="grid col-full" id="nav-stack">
                         <h2>Stack</h2>
