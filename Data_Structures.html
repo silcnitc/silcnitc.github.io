@@ -543,12 +543,11 @@
                           The following sequence of actions occur when a function A calls another function B.
                         </p>
                         <ol>
-                          <li>A pushes its machne state (registers in use) into the stack so that the registers are free for use in B.</li>
+                          <li>A pushes its machine state (registers in use) into the stack so that the registers are free for use in B.</li>
                           <li>A pushes to arguments to B in the order they appear in the declaration.</li>
                           <li>A pushes one empty space in the stack for B to place its return value.</li>
                           <li>A invokes B.  (In the case of a compiler, this results in generation of a CALL instruction which results in pushing the instruction pointer into the stack and transfer of control to B).</li>
                         </ol>
-                        <img src="img/data_structure_35.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>
                           Inside B, the following space allocations take place:
                         </p>
@@ -556,7 +555,6 @@
                           <li>B saves the BP value of A to the stack and sets its own BP to the location where the BP of A is stored.</li>
                           <li>B allocates space for local variables (in the order in which they appear in the delcaration.</li>
                         </ol>
-                        <img src="img/data_structure_36.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>This completes the activation record for B.  If B later calls another function C, then it starts saving its registers, pushes arguments to C and so on.</p>
                         <p>When B completes execution the following sequence of actions take place:</p>
                         <ol>
@@ -564,16 +562,78 @@
                           <li>The old BP value is popped off and saved into BP.</li>
                           <li>B returns (in the case of a compiler, this results in generation of a RET instruction which results in setting the instruction pointer to the value saved in the stack).</li>
                         </ol>
-                        <img src="img/data_structure_37.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>On re-entry, A does the following:</p>
                         <ol start="4">
                           <li>Retrieve the return value from stack and save it to a new register.  This is the result of the function call.</li>
                           <li>Pop off the arguments.</li>
                           <li>Restore the saved register context.</li>
                         </ol>
-                        <img src="img/data_structure_38.png" alt="" style="padding-left:20%;margin-bottom:2em"/>
                         <p>Consider the following example:</p>
                         <script src="js/f0127bf97757874e7cc2.js"></script>
+                        <ol>
+                            <li>
+                                <p>
+                                    The global variables are allocated statically in the initial portion of the stack.
+                                </p>
+                                <br>
+                                <img src="img/data_structure_39.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    The main functions sets up stack locations for its local variables and calls the function factorial(3) after setting up a part of the callee's activation record.
+                                </p>
+                                <br>
+                                <img src="img/data_structure_40.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Factorial(3) saves the old Base pointer and sets up locations for its local variables.
+                                </p>
+                                <br>
+                                <img src="img/data_structure_41.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Factorial(3) calls factorial(2) and the activation record of factorial(2) is setup similar to the above steps.
+                                </p>
+                                <br>
+                                <img src="img/data_structure_42.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Activation record for factorial(1) (called by factorial(2)) is seup similarly.
+                                </p>
+                                <br>
+                                <img src="img/data_structure_43.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    factorial(1) calculates the result and returns it by setting the value at return value location and pops off it local variables and sets back the base pointer.
+                                </p>
+                                <br>
+                                <img src="img/data_structure_44.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Similarly, factorial(2) calculates the steps and pops off its activation record till the result value after setting back the old base pointer.
+                                </p>
+                                <br>
+                                <img src="img/data_structure_45.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Similarly, factorial(3) also calculates the result and returns it to the main function.
+                                </p>
+                                <br>
+                                <img src="img/data_structure_46.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Main function calculates and sets the 'result' variable.
+                                </p>
+                                <img src="img/data_structure_47.png" alt="" /><br>
+                            </li>
+                        </ol>
                     </article>
                     <article class="grid col-full" id="nav-stack">
                         <h2>Stack</h2>
