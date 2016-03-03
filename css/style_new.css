@@ -702,3 +702,14 @@ vertical-align:top;
 /* -------------------------------------------------------------
 ======	END
 ------------------------------------------------------------- */
+
+
+.sepmini {
+	display: block;
+	height: 1px;
+	width: 10px;
+	background: #DDD;
+	margin: 10px 0;
+	overflow: hidden;
+	border: 0;
+}
