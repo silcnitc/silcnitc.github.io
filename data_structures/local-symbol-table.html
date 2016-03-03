@@ -1,0 +1,71 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>Local Symbol Table</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="../css/style_new.css">
+        <link rel="stylesheet" href="../js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="../js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="../img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+        			    <li><a href="#">Help</a></li>
+        			    <li><a href="#">Code</a></li>
+        			    <li><a href="../roadmap.html">Roadmap</a></li>
+        			    <li><a href="../documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">Local Symbol Table</p>
+                <br>
+                <br>
+                <a class="button" href="">Download as PDF</a>
+            </header>
+            <aside class="grid col-one-quarter mq2-col-full">
+              <menu>
+                <ul>
+                  <li><a class="sec" href="#nav-introduction">Introduction</a></li>
+                   <li><a class="sec" href="#nav-structure">Structure</a></li>
+                  <li><a class="sec" href="#nav-associated-methods">Associated methods</a></li>
+              </ul>
+              </menu>
+            </aside>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                    <article class="grid col-full" id="nav-introduction">
+                        <h2>Introduction</h2>
+                        <p>
+                             In addition to the global symbol table, the ExpL compiler maintains a separate local symbol table for each function for storing information regarding the functions arguments and local variables. Each function has its own list of local variables. So each function has its own LST.
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-structure">
+                        <h2>Structure</h2>
+                        <script src="../js/b2f1dd17ecc21780f898.js"></script>
+                    </article>
+                    <article class="grid col-full" id="nav-associated-methods">
+                        <h2>Associated Methods</h2>
+                        <ul>
+                            <li>struct Lsymbol* LInstall(char *name,struct Typetable *type) : Creates a local symbol tbale with given 'name' and 'type' and also sets its 'binding'.</li>
+                            <li>struct Lsymbol* LLookup(char *name) : search the LST and if any entry with given 'name' is found ,return the entry,else returns NULL. </li>
+                        </ul>
+                        <p>
+                            Arrays cannot be local variables, so we don't need to store the size of a variables. Also nested functions are not allowed in ExpL, so we don't require fbinding and arglist as in Gsymbol. The LST is formed for the Local Declaration Section in the same way GST was created for the Global declaration section.
+                        </p>
+                        <p>
+                            Memory is allocated for local variables of a function from a seperate memory area called the <a href="#nav-stack" class="imp">stack</a>. Hence, the binding for a local variable is the relative address of the variable with respect to the base of the <a href="#"><b>Activation Record</b></a>. The <a href="#"><b>Base Pointer</b></a> points to the base of an activation record of a function. The binding is added to the Base Pointer to obtain the address of variable in stack. This will be explained in detail later.
+                        </p>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+</html>
