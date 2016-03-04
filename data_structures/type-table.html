@@ -43,7 +43,7 @@
             <section class="grid col-three-quarters mq2-col-full">
                 <div class="grid-wrap">
                     <article class="grid col-full" id="nav-introduction">
-                        <h2>Introduction</h2>
+                        <h2>Type Table</h2>
                         <p>
                             The Type Table stores all the necessary information regarding the various user defined types in the source program. The compiler creates an entry in the Type Table for each user defined type. In addition to this, there are default entries created for primitive types (<i>int</i>, <i>str</i>) and special entries <i>null</i>, <i>boolean</i> and <i>void</i> for the internal purposes of the interpreter. The default and special entries are made beforehand whereas entries for user defined types are made as the Type Declaration Section of the source code is parsed.
                         </p>
@@ -64,9 +64,8 @@
                         <ul>
                             <li>void TypeTableCreate() : Function to initialise the type table entries with primitive types <i>(int,str)</i> and internal data types <i>(boolean,null,void)</i>.</li>
                             <li>struct Typetable* TLookup(char *name) : Search through the type table and  return pointer to type table entry of type 'name'. </li>
-                            <li>struct Typetable* TInstall(char *name, struct Fieldlist *fields) : Creates a type table entry for the type of 'name' with given 'fields' and returns the pointer to the type table entry.</li>
-                            <li>void FInstall(char *name, struct Typetable *type) : Adds a fieldlist entry with given 'name' and 'type'.</li>
-                            <li>struct Fieldlist* FLookup(char *name, struct Fieldlist *list) : Searches for a field of given 'name' in the given 'fieldlist' (of some user-defined type) and returns a pointer to the matching entry.</li>
+                            <li>struct Typetable* TInstall(char *name, struct Fieldlist *fields) : Creates a type table entry for the type of 'name' with given 'fields' and returns the pointer to the type table entry.  The field list must specify the types and names of each field. Returns NULL upon failure. This routine is invoked when the compiler encounters a type declaration[LINK] in the source program.</li>
+                            <li>struct Fieldlist* FLookup(Typetable *type, char *name) : Searches for a field of given 'name' in the 'fieldlist' of the given user-defined type and returns a pointer to the field entry.  Returns NULL if the type does not have a field of the name.  </li>
                         </ul>
                     </article>
                     <article class="grid col-full" id="nav-illustration">
