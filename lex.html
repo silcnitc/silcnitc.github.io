@@ -55,8 +55,7 @@ Technically, LEX translates a set of regular expression specifications (given as
 <center><img src="img/lex_1.png" style="max-width:70%"></center>
 <p>The source SIL program is fed as the input to the the lexical analyzer which produces a sequence of tokens as output.
 (Tokens are explained below). Conceptually, a lexical analyzer scans a given source SIL program and produces an output of tokens.</p>
-<p>A <b>token</b> is a single element of the SIL programming language that is recognized by the compiler.
-For instance integer, boolean, begin, end, if, while etc. are tokens in SIL.
+<p>A <b>token</b> is a pair consisting of a token name and an optional attribute value. The token name is an abstract symbol representing the kind of lexical unit, e.g., a particular keyword, or a sequence of input characters denoting an identifier. The token names are the input symbols that the parser processes. For instance integer, boolean, begin, end, if, while etc. are tokens in SIL.
 
 <pre>
 “integer” &nbsp;	{return ID_TYPE_INTEGER;}
@@ -76,7 +75,7 @@ In the above example,  “integer” is the pattern and {return ID_TYPE_INTEGER;
 <article id="navstructure" class="detail">
 <h2>The structure of LEX programs</h2>
 <p>
-A LEX program consists of three sections : <i>Declarations</i>, <i>Rules</i> and <i>Auxiliary functions</i>
+A LEX program consists of three sections : <b>Declarations, Rules and Auxiliary functions</b>
 </p>
 
 <pre>
@@ -91,9 +90,17 @@ RULES
 AUXILIARY FUNCTIONS
 </pre>
 <h3>2.1 Declarations</h3><a id="regdef"></a>
-<p>              The declarations section consists of two parts, <i>regular definitions</i> and <i>auxiliary declarations</i>.
+<p>              The declarations section consists of two parts, <b>auxiliary declarations</b> and <b>regular definitions</b>.
+
+            <p>
+               The auxiliary declarations are copied as such by LEX to the output lex.yy.c file. This C code consists of instructions to the C compiler and are not processed by the LEX tool.The auxiliary declarations (which are optional) are written in C language and are enclosed within ' %{ ' and ' %} ' .
+               It is generally used to declare functions, include header files, or define global variables and constants.
+           </p>
+           <p>
                LEX allows the use of short-hands and extensions to regular expressions for the regular definitions.
-               The auxiliary declarations are copied as such by LEX to the output lex.yy.c file. The C code consists of instructions to the C compiler and are not processed by the LEX tool.
+               A regular definition in LEX is of the form :
+               <b>D &nbsp;	R</b> &nbsp;&nbsp; where D is the symbol representing the regular expression R.
+           </p>
                </p>
                <p><b>Example:</b></p>
 
@@ -118,12 +125,6 @@ AUXILIARY FUNCTIONS
 </pre>
 
 <p>
-A regular definition in LEX is of the form :
-D &nbsp;	R
-<br>
-where D is the symbol representing the regular expression R.
-The auxiliary declarations (which are optional) are written in C language and are enclosed within ' %{ ' and ' %} ' .
-It is generally used to declare functions, include header files, or define global variables and constants.
 </p>
          <h3>2.2 Rules</h3>
          <p>
@@ -161,8 +162,8 @@ O: number operator number
 </pre>
 
 
-          <p> LEX obtains the regular expressions of the symbols number and op from
-the declarations section and generates code into a function yylex() in the lex.yy.c file.
+          <p> LEX obtains the regular expressions of the symbols 'number' and 'op' from
+the declarations section and generates code into a function <i>yylex()</i> in the <i>lex.yy.c</i> file.
             This function checks the input stream for the first match to one of the patterns
              specified and executes code in the action part corresponding to the pattern. </p>
 
@@ -212,21 +213,21 @@ int main()
 <script src="https://gist.github.com/nachivpn/904ca0eb320f1c06d143.js"></script>
 
 <p><b>Excercise:</b></p>
-<p> In the generated lex.yy.c, the following code segment can be found under the definition of yylex().</p>
+<p> In the generated <i>lex.yy.c</i> file, the following code segment can be found under the definition of <i>yylex()</i>.</p>
 
 <pre>if( ! yyin )
 yyin = stdin;
 </pre>
 
 
-<p> Try to locate this code segment in the lex.yy.c.
-What could be the consequences of removing this code segment from lex.yy.c before compiling it for generating the
+<p> Try to locate this code segment in the file <i>lex.yy.c</i>.
+What could be the consequences of removing this code segment from <i>lex.yy.c</i> before compiling it for generating the
 lexical analyzer?
-   The above statement indicates that if the programmer does not define yyin, then yylex() by default sets yyin to the console input.
- Hence, any re-definition for yyin must be made before invoking yylex(). (This will be explained in detail later). </p>
+   The above statement indicates that if the programmer does not define yyin, then yylex() by default sets <i>yyin</i> to the console input.
+ Hence, any re-definition for <i>yyin</i> must be made before invoking <i>yylex()</i>. (This will be explained in detail later). </p>
 
  <h3 id="navyytext">3.2 yytext </h3>
- <p> yytext is of the type char* and it contains the <i>lexeme</i> currently found.
+ <p> yytext is of type char* and it contains the <i>lexeme</i> currently found.
    A <b>lexeme</b> is a sequence of characters in the input stream that matches some pattern in the Rules Section.
    (In fact, it is the first matching sequence in the input from the position pointed to by yyin.)
 
@@ -296,7 +297,7 @@ O: Number of digits = 4
 <p> yylex() is a function of return type int. LEX automatically defines yylex() in lex.yy.c but does not call it.
      The programmer must call yylex() in the Auxiliary functions section of the LEX program.
     LEX generates code for the definition of yylex() according to the rules specified in the Rules section. </p>
-	<p>NOTE: That yylex() need not necessarily be invoked in the Auxilar</p>
+	<p>NOTE: That yylex() need not necessarily be invoked in the Auxilary Declaration Section of LEX program when used with yacc.</p>
      <p><b>Example:</b></p>
 <!-- Gist hosted at -https://gist.github.com/nachivpn/e8177641f819e6b1eee9 -->
 <script src="https://gist.github.com/nachivpn/e8177641f819e6b1eee9.js"></script>
@@ -443,7 +444,7 @@ in the LEX program file. The code written by the programmer in the action part i
 The lex.yy.c program stores information about the finite state machine in the form of a decision table (transition table).
   A transition(current_state,input_char) function is used to access the decision table.
   LEX makes it's decision table visible if we compile the program with the -T flag.
-  The finite state machine used by LEX is deterministic finite state automation. The lex.yy.c simulates the DFA. </p>
+  The finite state machine used by LEX is deterministic finite state automaton. The lex.yy.c simulates the DFA. </p>
 </article>
 <div class="up grid col-one-third" style="float:right">
 <a href="#navtop" title="Go back up"> top ↑</a>
@@ -461,9 +462,9 @@ The lex.yy.c program stores information about the finite state machine in the fo
 <pre>I: Var9
 O: Acceptable
 </pre>
-<p> When Var9 is provided as the input, the DFA constructed by LEX accepts the string,
-and the corresponding action return ID executed.
-As a result yylex() returns the token ID, and the main() function prints Acceptable on the screen. </p>
+<p> When 'Var9' is provided as the input, the DFA constructed by LEX accepts the string,
+and the corresponding action 'return ID' executed.
+As a result <i>yylex()</i> returns the token ID, and the <i>main()</i>  function prints 'Acceptable' on the screen. </p>
 
 
 

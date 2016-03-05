@@ -108,7 +108,9 @@ img
 	border: 0;
 	-ms-interpolation-mode: bicubic;
 	vertical-align: middle;
+    margin-bottom: 2em;
 }
+
 svg:not(:root) { overflow: hidden; }
 figure { margin: 0; }
 
