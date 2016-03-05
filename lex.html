@@ -104,26 +104,7 @@ AUXILIARY FUNCTIONS
                </p>
                <p><b>Example:</b></p>
 
-<pre>
-/*Declarations section start here*/
-
-/* Auxiliary declarations start here*/
-%{
-	#include &lt;stdio.h&gt;
-	int global_variable;
-%}
-/*Auxiliary declarations end & Regular definitions start here*/
-
-	number [0-9]+ 		//Regular definition
-	op [-|+|*|/|^|=]	//Regular definition
-
-/*Declarations section ends here*/
-%%
-/* Rules */
-%%
-/* Auxiliary functions */
-</pre>
-
+               <script src="https://gist.github.com/vishnupriyam/f32f9ed1666ae8dfb251.js"></script>
 <p>
 </p>
          <h3>2.2 Rules</h3>
@@ -136,17 +117,7 @@ AUXILIARY FUNCTIONS
 
 <p><b> Example:</b></p>
 
-<pre>
-/* Declarations*/
-%%
-
-	{number} {printf(“ number”);}
-	{op} {printf(“ operator”);}
-
-%%
-/* Auxiliary functions */
-
-</pre>
+<script src="https://gist.github.com/vishnupriyam/8f0a09e9a8b9b1fec6fa.js"></script>
 
 
       <p> The pattern to be matched is specified as a regular expression.</p><p>Sample Input/Output for the above example: </p>
@@ -176,16 +147,7 @@ the declarations section and generates code into a function <i>yylex()</i> in th
 
          <p><b> Example:</b></p>
 <div id = "navexl0">
-<pre>/* Declarations */
-%%
-	/* Rules */
-%%
-int main()
-{
-	yylex();
-	return 1;
-}
-</pre>
+<script src="https://gist.github.com/vishnupriyam/8b20b6a5f8983990d406.js"></script>
 </div>
 <p>The C code in the auxiliary section and the declarations in the declaration section are copied as such to the lex.yy.c file
  </p>
@@ -409,7 +371,7 @@ As a result, the scanner continues scanning in input_file_2.l .
 <pre>/* Declarations section */
 %%
 
-“-” {return MINUS;}
+“-”  {return MINUS;}
 “--” {return DECREMENT;}
 
 %%
