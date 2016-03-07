@@ -112,8 +112,8 @@ AUXILIARY FUNCTIONS
          Rules in a LEX program consists of two parts :
          </p>
          <ol style="list-style:value;list-style-image:;margin:auto;">
-            <li>The pattern to be matched</li>
-            <li>The corresponding action to be executed</li>
+            <li>1. The pattern to be matched</li>
+            <li>2. The corresponding action to be executed</li>
          </ol>
 
 <p><b> Example:</b></p>
@@ -141,9 +141,9 @@ the declarations section and generates code into a function <i>yylex()</i> in th
 
 
       <h3>2.3 Auxiliary functions</h3>
-      <p> LEX generates C code for the rules specified in the Rules section and places this code into a single function called yylex().
+      <p> LEX generates C code for the rules specified in the Rules section and places this code into a single function called <i>yylex()</i>.
        (To be discussed in detail later).
-        In addition to this LEX generated code, the programmer may wish to add his own code to the lex.yy.c file.
+        In addition to this LEX generated code, the programmer may wish to add his own code to the <i>lex.yy.c</i> file.
          The auxiliary functions section allows the programmer to achieve this.</p>
 
          <p><b> Example:</b></p>
@@ -152,7 +152,7 @@ the declarations section and generates code into a function <i>yylex()</i> in th
 </div>
 <p>The C code in the auxiliary section and the declarations in the declaration section are copied as such to the lex.yy.c file
  </p>
-<p> Once the code is written, lex.yy.c maybe generated using the command <i>lex "filename.l"</i> and compiled as <i> gcc lex.yy.c </i></p>
+<p> Once the code is written, <i>lex.yy.c</i> maybe generated using the command <i>lex "filename.l"</i> and compiled as <i> gcc lex.yy.c </i></p>
   </article>
 <div class="up grid col-one-third" style="float:right">
 <a href="#navtop" title="Go back up"> top ↑</a>
@@ -160,17 +160,17 @@ the declarations section and generates code into a function <i>yylex()</i> in th
 <article id="navvariables" class="detail">
         <h2>The yyvariables</h2>
         <p> The following variables are offered by LEX to aid the programmer in designing sophisticated lexical analyzers.
-         These variables are accessible in the LEX program and are automatically declared by LEX in lex.yy.c.</p>
+         These variables are accessible in the LEX program and are automatically declared by LEX in <i>lex.yy.c</i>.</p>
          <ul>
         <li> <a href="#navyyin">yyin</a></li>
         <li> <a href="#navyytext">yytext</a></li>
         <li> <a href="#navyyleng">yyleng</a></li>
           </ul>
           <h3 id="navyyin">3.1 yyin </h3>
-          <p>yyin is a variable of the type FILE* and points to the input file.
-            yyin is defined by LEX automatically.
-            If the programmer assigns an input file to yyin in the auxiliary functions section, then yyin is set to point to that file.
-            Otherwise LEX assigns yyin to stdin(console input). </p>
+          <p><i>yyin</i> is a variable of the type FILE* and points to the input file.
+            <i>yyin</i> is defined by LEX automatically.
+            If the programmer assigns an input file to <i>yyin</i> in the auxiliary functions section, then <i>yyin</i> is set to point to that file.
+            Otherwise LEX assigns <i>yyin</i> to stdin(console input). </p>
           <p><b>Example:</b></p>
 <!--Gist hosted at https://gist.github.com/nachivpn/904ca0eb320f1c06d143 -->
 <script src="https://gist.github.com/nachivpn/904ca0eb320f1c06d143.js"></script>
@@ -190,13 +190,13 @@ lexical analyzer?
  Hence, any re-definition for <i>yyin</i> must be made before invoking <i>yylex()</i>. (This will be explained in detail later). </p>
 
  <h3 id="navyytext">3.2 yytext </h3>
- <p> yytext is of type char* and it contains the <i>lexeme</i> currently found.
+ <p> <i>yytext</i> is of type <i>char*</i> and it contains the <i>lexeme</i> currently found.
    A <b>lexeme</b> is a sequence of characters in the input stream that matches some pattern in the Rules Section.
-   (In fact, it is the first matching sequence in the input from the position pointed to by yyin.)
+   (In fact, it is the first matching sequence in the input from the position pointed to by <i>yyin</i>.)
 
- Each invocation of the function yylex() results in yytext carrying a pointer to the lexeme found in
-  the input stream by yylex().
- The value of yytext will be overwritten after the next yylex() invocation.</p>
+ Each invocation of the function <i>yylex()</i> results in <i>yytext</i> carrying a pointer to the lexeme found in
+  the input stream by <i>yylex()</i>.
+ The value of yytext will be overwritten after the next <i>yylex()</i> invocation.</p>
    <p><b>Example:</p></b>
 <!--Gist hosted at "https://gist.github.com/AshwathyTR/72d3534b5e682d92dc2b.js"-->
 <script src="https://gist.github.com/vishnupriyam/efcdca7df8cf18e9d7cf.js"></script>
@@ -210,24 +210,24 @@ Consider the following sample i/o,</p>
 O: Found : 25
 </pre>
 
-<p> In this case when yylex() is called, the input is read from the location given by yyin and a string “25” is found as a match to
-number.
-This location of this string in the memory is pointed to by yytext.
-The corresponding action in the above rule uses a built-in function atoi() to convert the string “25” (of type char*) to the integer 25 (of the type int) and then prints the result on the screen.
-Note that the header file “stdlib.h” is called in the auxiliary declarations section in order to invoke atoi() in
+<p> In this case when <i>yylex()</i> is called, the input is read from the location given by <i>yyin</i> and a string “25” is found as a match to
+'number'.
+This location of this string in the memory is pointed to by <i>yytext</i>.
+The corresponding action in the above rule uses a built-in function <i>atoi()</i> to convert the string “25” (of type char*) to the integer 25 (of the type int) and then prints the result on the screen.
+Note that the header file “stdlib.h” is called in the auxiliary declarations section in order to invoke <i>atoi()</i> in
 the actions part of the rule.</p>
 <p>
 NOTE: The lexeme found by LEX is stored in some memory allocated by LEX which can be accessed through the character pointer yytext.
 </p>
 <p>
-NOTE: The <i>%option noyywrap</i> is used to inform the compiler that the function yywrap() has not been defined. We will see what this function does later on.
+NOTE: The <i>%option noyywrap</i> is used to inform the compiler that the function <i>yywrap()</i> has not been defined. We will see what this function does later on.
 </p>
 <p><b>Exercise:</b></p>
 
 <p>Suggest a modification in the above example to check whether a number found is even or odd.</p>
 
 <h3 id="navyyleng">3.3 yyleng </h3>
-<p> yyleng is a variable of the type int and it stores the length of the lexeme pointed to by yytext.</p>
+<p> <i>yyleng</i> is a variable of the type int and it stores the length of the lexeme pointed to by <i>yytext</i>.</p>
 
 <p><b>Example:</b></p>
 
@@ -257,7 +257,7 @@ O: Number of digits = 4
      <li> yywrap()</li>
          </ul>
 <h3>4.1 &nbsp;yylex()</h3>
-<p> yylex() is a function of return type int. LEX automatically defines yylex() in lex.yy.c but does not call it.
+<p> <i>yylex()</i> is a function of return type int. LEX automatically defines <i>yylex()</i> in <i>lex.yy.c</i> but does not call it.
      The programmer must call yylex() in the Auxiliary functions section of the LEX program.
     LEX generates code for the definition of yylex() according to the rules specified in the Rules section. </p>
 	<p>NOTE: That yylex() need not necessarily be invoked in the Auxilary Declaration Section of LEX program when used with yacc.</p>
@@ -439,6 +439,9 @@ As a result <i>yylex()</i> returns the token ID, and the <i>main()</i>  function
 
 <article id="navdfaconstruction" class="detail">
         <h2>Construction of a DFA from a regular expression</h2>
+        <p>
+            (This section explains how LEX converts a reqular expression to a finite automaton. An understanding of the contents of this section is not necessary to proceed to the next section.)
+        </p>
 <p> The construction of a DFA from a regular expression takes place in two steps.</p>
 <ul>
           <li>Constructing a syntax tree from the regular expression
