@@ -48,8 +48,8 @@
 <article id="navintro" class="detail">
 <h2>Introduction</h2>
 <p>
-LEX is a tool used to generate a lexical analyzer.
-This document is a tutorial for the use of LEX for SIL Compiler development.
+<b>LEX</b> is a tool used to generate a lexical analyzer.
+This document is a tutorial for the use of LEX for <b>SIL Compiler</b> development.
 Technically, LEX translates a set of regular expression specifications (given as input in input_file.l) into a C implementation of a corresponding finite state machine (lex.yy.c). This C program, when compiled, yields an executable lexical analyzer.
 </p>
 <center><img src="img/lex_1.png" style="max-width:70%"></center>
@@ -61,9 +61,9 @@ Technically, LEX translates a set of regular expression specifications (given as
 “integer” &nbsp;	{return ID_TYPE_INTEGER;}
 </pre>
 
-This example demonstrates the specification of a <i>rule</i> in LEX.
+This example demonstrates the specification of a <b>rule</b> in LEX.
 The rule in this example specifies that the lexical analyzer must return the token named  ID_TYPE_INTEGER when the pattern “integer” is found in the input file.
-A <i>rule</i> in a LEX program comprises of a pattern part (specified by a regular expression) and a corresponding (semantic) action part (a sequence of C statements).
+A rule in a LEX program comprises of a 'pattern' part (specified by a regular expression) and a corresponding (semantic) 'action' part (a sequence of C statements).
 In the above example,  “integer” is the pattern and {return ID_TYPE_INTEGER;} is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.
 </p>
 </article>
@@ -93,7 +93,7 @@ AUXILIARY FUNCTIONS
 <p>              The declarations section consists of two parts, <b>auxiliary declarations</b> and <b>regular definitions</b>.
 
             <p>
-               The auxiliary declarations are copied as such by LEX to the output lex.yy.c file. This C code consists of instructions to the C compiler and are not processed by the LEX tool.The auxiliary declarations (which are optional) are written in C language and are enclosed within ' %{ ' and ' %} ' .
+               The auxiliary declarations are copied as such by LEX to the output <i>lex.yy.c</i> file. This C code consists of instructions to the C compiler and are not processed by the LEX tool.The auxiliary declarations (which are optional) are written in C language and are enclosed within ' %{ ' and ' %} ' .
                It is generally used to declare functions, include header files, or define global variables and constants.
            </p>
            <p>
@@ -111,9 +111,10 @@ AUXILIARY FUNCTIONS
          <p>
          Rules in a LEX program consists of two parts :
          </p>
-
-          <p>1. The pattern to be matched</p>
-          <p>2. The corresponding action to be executed</p>
+         <ol style="list-style:value;list-style-image:;margin:auto;">
+            <li>The pattern to be matched</li>
+            <li>The corresponding action to be executed</li>
+         </ol>
 
 <p><b> Example:</b></p>
 
