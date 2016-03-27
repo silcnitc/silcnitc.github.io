@@ -148,9 +148,9 @@ label.error { color: #0078CF; margin: 0.5em 0 0 0.5em; font-weight: normal; font
 ------------------------------------------------------------- */
 .button, input[type="submit"], button, .toggle-title {
 	color: #666;
-	font-size: 1.1em;
+	font-size: 1em;
 	font-weight: normal;
-	padding: 0.6em 1.2em;
+	padding: 0.6em 0.6em;
 	text-shadow: 0 1px 0 #fff;
 	border: solid 1px #ddd;
 	text-decoration: none;
@@ -232,7 +232,7 @@ body{width:100%; }
 
 .grid {
   float: left;
-  padding-left: 3em; /* this is your gutter between columns */
+  padding-left: 2em; /* this is your gutter between columns */
   width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -247,8 +247,8 @@ body{width:100%; }
 .col-one-half {width: 50%; }
 .col-one-third {width: 33.333%; }
 .col-two-thirds {width: 66.666%; }
-.col-one-quarter {width: 25%; }
-.col-three-quarters {width: 75%; }
+.col-one-quarter {width: 20%; }
+.col-three-quarters {width: 80%; }
 
 .divide-top{border-top: 1px solid #ccc;padding-top: 2em;margin-top: 1.5em; }
 
@@ -296,17 +296,17 @@ a img:hover {
 
 /* -- HEADER
 ------------------------------------------------------------- */
-header#navtop { margin-bottom: 2em; clear: both; overflow: hidden; }
+header#navtop { clear: both; overflow: hidden; }
     header nav ul { float: left; overflow: hidden; padding: 0 3em 0 2em; border-left: 1px solid #ddd; line-height: 2em; }
 nav a, menu a { text-decoration: none; color: #555; }
 .navactive { color: #0078CF }
-.logo {margin-bottom: 3em;}
+.logo {margin-bottom: 1em;}
 .logo:hover {background: none;}
 
 
 /* -- GENERAL
 ------------------------------------------------------------- */
-.main > section { margin-bottom: 7em; }
+.main > section { margin-bottom: 7em;}
 .main header{ color: #555;
 padding-bottom:0;
 margin-bottom:30px;
@@ -435,8 +435,8 @@ html[xmlns] .slides {display: block;}
 .works-page .works figure { margin-bottom: 3em;}
 
 .main aside{margin-bottom: 3em ;  }
-.main aside menu{padding: 0 0 0 1em; line-height: 2em;}
-.main aside menu a{color: #999;}
+.main aside menu{padding: 0 0 0 1em; line-height: 2em;font-size:14px;}
+.main aside menu a{color: #6B6969;}
 .main aside menu .buttonactive {color: #0078CF }
 
 
@@ -712,4 +712,11 @@ vertical-align:top;
 	margin: 10px 0;
 	overflow: hidden;
 	border: 0;
+}
+
+/*sidebar affix*/
+
+header > nav > ul > li{
+	display:inline;
+	padding-left: 20px;
 }
