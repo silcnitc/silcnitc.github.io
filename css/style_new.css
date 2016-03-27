@@ -720,3 +720,18 @@ header > nav > ul > li{
 	display:inline;
 	padding-left: 20px;
 }
+
+@media (max-width:500px){
+	aside{
+		display : none;
+	}
+	.stick_right{
+		margin-left: 0em;
+	}
+}
+
+@media (min-width:600px){
+	.stick_right{
+		margin-left: 15em !important;
+	}
+}

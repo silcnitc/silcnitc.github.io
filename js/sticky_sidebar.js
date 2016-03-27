@@ -8,11 +8,12 @@ $(function(){ // document ready
 
     if (stickyTop < windowTop) {
       $('.sticky_sidebar').css({ position: 'fixed', top:'3em' });
-      $('.main > section').css('margin-left','15em');
+      $('.main > section').addClass('stick_right');
     }
     else {
       $('.sticky_sidebar').css('position','static');
       $('.main > section').css('margin-left','0');
+       $('.main > section').removeClass('stick_right');
     }
 
   });
