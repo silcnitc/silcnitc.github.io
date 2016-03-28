@@ -1,14 +1,15 @@
 <!Doctype html>
 <html lang="en">
     <head>
-        <title>Data Structures</title>
+        <title>Compile Time Data Structures</title>
         <meta charset="UTF-8">
         <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
         <link rel="stylesheet" href="css/style_new.css">
         <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
         <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+        <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
         <script src="js/bootstrap.min.js" charset="utf-8"></script>
-        <script src="js/scrollspy.js" charset="utf-8"></script>
+        <script src="js/sticky_sidebar.js" charset="utf-8"></script>
 
     </head>
     <div class="container">
@@ -28,12 +29,11 @@
         <div class="Services-page main grid-wrap">
             <header class="grid col-full">
                 <hr/>
-                <p class="fleft">Data Structures for ExpL Compilation/Interpretation</p>
+                <p class="fleft">Compile Time Data Structures</p>
                 <br>
                 <br>
-                <a class="button" href="">Download as PDF</a>
             </header>
-            <aside class="grid col-one-quarter mq2-col-full">
+            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
               <menu>
                 <ul>
                   <li><a class="sec" href="#nav-introduction">Introduction</a></li>
@@ -41,6 +41,7 @@
                   <li><a class="sec" href="#nav-execution-structures">Data Structures for Execution Phase</a></li>
               </ul>
               </menu>
+              <a class="button" href="">Download as PDF</a>
             </aside>
             <section class="grid col-three-quarters mq2-col-full">
                 <div class="grid-wrap">
@@ -93,28 +94,28 @@
                       <h4>TYPETABLE</h4>
                       <div class="sepmini"></div>
                       <p>The Type Table stores all the necessary information regarding the various user defined types in the source program. The compiler creates .....</p>
-                	<a href="" class="arrow fright">Read more</a>
+                	<a href="data_structures/type-table.html" class="arrow fright">Read more</a>
                     </article>
                     <article class="grid col-one-half mq3-col-full">
                       <div class="sepmini"></div>
                       <h4>GLOBAL SYMBOL TABLE</h4>
                       <div class="sepmini"></div>
                       <p>Symbol tables are used to store information pertaining to the variables and functions in a program. The global symbol table stores information pertaining to....</p>
-                	<a href="" class="arrow fright">Read more</a>
+                	<a href="data_structures/global-symbol-table.html" class="arrow fright">Read more</a>
                     </article>
                     <article class="grid col-one-half mq3-col-full">
                       <div class="sepmini"></div>
                       <h4>LOCAL SYMBOL TABLE</h4>
                       <div class="sepmini"></div>
                       <p>In addition to the global symbol table, the ExpL compiler maintains a separate local symbol table for each function for storing information regarding ....</p>
-                	<a href="" class="arrow fright">Read more</a>
+                	<a href="data_structures/local-symbol-table.html" class="arrow fright">Read more</a>
                     </article>
                     <article class="grid col-one-half mq3-col-full">
                       <div class="sepmini"></div>
                       <h4>ABSTRACT SYNTAX TREE</h4>
                       <div class="sepmini"></div>
                       <p>The machine independent front-end phase of a compiler constructs an intermediate representation of the source program called the Abstract Syntax Tree (AST). An interpretter will evaluate ....</p>
-                	<a href="" class="arrow fright">Read more</a>
+                	<a href="data_structures/abstract-syntax-tree.html" class="arrow fright">Read more</a>
                     </article>
                     <article class="grid col-full" id="nav-execution-structures">
                         <h2>DATA STRUCTURES FOR EXECUTION PHASE</h2>

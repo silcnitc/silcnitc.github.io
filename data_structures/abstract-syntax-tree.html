@@ -1,0 +1,265 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>Abstract Syntax Tree</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <script src="../js/jquery-1.12.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="../css/style_new.css">
+        <link rel="stylesheet" href="../js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="../js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+        <script src="../js/bootstrap.min.js" charset="utf-8"></script>
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="../img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+        			    <li><a href="#">Help</a></li>
+        			    <li><a href="#">Code</a></li>
+        			    <li><a href="../roadmap.html">Roadmap</a></li>
+        			    <li><a href="../documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">Abstract Syntax Tree</p>
+                <br>
+                <br>
+            </header>
+            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
+              <menu>
+                <ul>
+                  <li><a class="sec" href="#nav-introduction">Introduction</a></li>
+                   <li><a class="sec" href="#nav-structure">Structure</a></li>
+                  <li><a class="sec" href="#nav-associated-methods">Associated methods</a></li>
+                  <li><a class="sec" href="#nav-illustration">Illustration</a></li>
+              </ul>
+              </menu>
+              <span class="pdf_button"><a class="button" href="">Download as PDF</a></span>
+            </aside>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                    <article class="grid col-full" id="nav-introduction">
+                        <h2>Introduction</h2>
+                        <p>
+                            <p>
+                                The machine independent <b>front-end</b> phase of a compiler constructs an intermediate representation of the source program called the <b>Abstract Syntax Tree (AST)</b>. An interpretter will evaluate the AST whereas a compiler will run a machine dependent <b>back-end</b> to generate a target assembly language program.
+                            </p>
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-structure">
+                        <h2>Structure</h2>
+                        <p>
+                            The structure of Abstract Syntax Tree is as follows:
+                        </p>
+                        <script src="../js/ecec5cc25b3834dd40a8.js"></script>
+                        <p>
+                            The union Constant is used to store the value of an integer or sting constant.
+                        </p>
+                        <script src="../js/8cb0db40153ff46dabfa.js" charset="utf-8"></script>
+                    </article>
+                    <article class="grid col-full" id="nav-associated-methods">
+                        <h2>Associated Methods</h2>
+                        <ul>
+                            <li>struct ASTNode* TreeCreate (</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>Creates a node with the fields set according to the arguements passed.</li>
+                            <li>regindex evaluate(struct ASTNode *t)</br> Evaluation of an AST node results in a value.  A compiler generates code for evaluating an AST node and assigns the result of evaluation to a register.  An interpreter directly evaluates the AST node and simulates the compiler by storing the result in an array (called reg) and returning the index. We make use of the following structure to store the results of evaluation by an interpreter:
+                            <script src="js/14917a901e497a38abf7.js"></script>
+                            <p>
+                                In 'valstruct' the field 'valtype' can take one of the following values:
+                                <ol>
+                                    <li>EMPTY : Indicates that no value is stored in it.</li>
+                                    <li>INT : Indicates that value stored in the union constant 'value' is an integer.</li>
+                                    <li>STR : Indicates the value stored in the union constant 'value' is a string.</li>
+                                    <li>H_INDEX : Indicates that valstruct stores the (integer) index of a location in the heap.</li>
+                                </ol>
+                            </p>
+                            </li>
+                        </ul>
+                        <p>
+                            Follwing are the nodetypes that may appear while contructing the abstract syntax free for ExpL program:
+                        </p>
+                        <table class="doctable" style="text-align:left;">
+                            <tr>
+                                <th>Nodetype</th>
+                                <th>Description</th>
+                            </tr>
+                            <tr>
+                                <td>LEAF</td>
+                                <td>For interger and string constants.</td>
+                            </tr>
+                            <tr>
+                                <td>ID</td>
+                                <td>For all variable literals.</td>
+                            </tr>
+                            <tr>
+                                <td>PLUS</td>
+                                <td>For arithmetic operator '+'. <br> Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'. <br>'ptr3' is set to NULL.</td>
+                            </tr>
+                            <tr>
+                                <td>MINUS</td>
+                                <td>For arithmetic operator '-'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.<br> 'ptr3' is set to NULL.</td>
+                            </tr>
+                            <tr>
+                                <td>MUL</td>
+                                <td>For arithmetic operator '*'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                            </tr>
+                            <tr>
+                                <td>DIV</td>
+                                <td>For arithmetic operator '/'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                            </tr>
+                            <tr>
+                                <td>GT</td>
+                                <td>For relational operator '>'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                            </tr>
+                            <tr>
+                                <td>LT</td>
+                                <td>For relational operator '<'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                            </tr>
+                            <tr>
+                                <td>GE</td>
+                                <td>For relational operatot '>='. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                            </tr>
+                            <tr>
+                                <td>LE</td>
+                                <td>For relational operatot '<='. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                            </tr>
+                            <tr>
+                                <td>EQ</td>
+                                <td>For relational operator '=='. <br>Attricutes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and both must be of same type.</td>
+                            </tr>
+                            <tr>
+                                <td>NE</td>
+                                <td>For relational operator '!='. <br>Attricutes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and both must be of same type.</td>
+                            </tr>
+                            <tr>
+                                <td>IF</td>
+                                <td>For the conditional contruct 'if'. <br>Attribute 'ptr1' of the 'ASTNode' is set to AST of the conditional logical expression, 'ptr2' is set to AST of list of statements that are executed when conditional expression evaluates to true and 'ptr3' is set to AST of list of statements that are to be executed when conditional expression is evalusted false.</td>
+                            </tr>
+                            <tr>
+                                <td>WHILE</td>
+                                <td>For conditional construct 'while'. <br>Attribute 'ptr1' os 'ASTNode' is set to the conditional logical expression and 'ptr2' is set to AST of list of statements under the while construct.</td>
+                            </tr>
+                            <tr>
+                                <td>READ</td>
+                                <td>For input statement 'read'. Attribute 'ptr1' is set to AST of nodetype ID, which carries the information of the variable for which we are taking the input.</td>
+                            </tr>
+                            <tr>
+                                <td>WRITE</td>
+                                <td>For output statement 'write'. Attibute 'ptr1' is set to AST of the expression, whose value is to be written to the standard output.</td>
+                            </tr>
+                            <tr>
+                                <td>ASGN</td>
+                                <td>For assignment statement (&lt;var&gt; = &lt;expr&gt;). <br>Attribute 'ptr1' is set to AST of nodetype ID or FIELD and 'ptr2' is set to AST of expression whose value will be assigned to lvalue given by 'ptr1'. </td>
+                            </tr>
+                            <tr>
+                                <td>SLIST</td>
+                                <td>To connect statements.</td>
+                            </tr>
+                            <tr>
+                                <td>BODY</td>
+                                <td>For body of a function.</td>
+                            </tr>
+                            <tr>
+                                <td>RET</td>
+                                <td>For return statement of a function.</td>
+                            </tr>
+                            <tr>
+                                <td>FUNCTION</td>
+                                <td>For function calls.</td>
+                            </tr>
+                            <tr>
+                                <td>PARAM</td>
+                                <td>For passing actual parameters during function calls.</td>
+                            </tr>
+                            <tr>
+                                <td>MAIN</td>
+                                <td>For main function.</td>
+                            </tr>
+                            <tr>
+                                <td>FIELD</td>
+                                <td>For user-defined types.</td>
+                            </tr>
+
+
+                        </table>
+                    </article>
+                    <article class="grid col-full" id="nav-illustration">
+                        <h2>Illustration</h2>
+                        <p>
+                            Consider the following program
+                        </p>
+                        <script src="../js/f0127bf97757874e7cc2.js"></script>
+                        <p>
+                            1. Lets construct the abstract syntax tree step by step. The AST for conditional expression <code>n==1</code> (in line 9) will be as follows:
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_50.png" alt="" />
+                        <br>
+                        <p>
+                            2. Similarly we have AST fot <code>n==0</code> (in line 9) as follows.
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_51.png" alt="" />
+                        <br>
+                        <p>
+                            3. Next consider the complete conditional expression <code>n==1 || n==0</code>.
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_52.png" alt="" />
+                        <br>
+                        <p>
+                            4.Next we will form the AST for assignment statement <code>f = 1</code> (in line 10).
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_53.png" alt="" />
+                        <br>
+                        <p>
+                            5. Next, lets consider the statement <code> f = n * factorial(n-1)</code> which consists of arthimetic expressions with operands '-','*' and an assignment statement.
+                        </p>
+                        <p>
+                            AST for <code>n-1</code> is as follows.
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_54.png" alt="" />
+                        <br>
+                        <p>
+                            AST for <code>n * factorial(n-1)</code> is as follows.
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_55.png" alt="" />
+                        <br>
+                        <p>
+                            AST for <code> f = n * factorial(n-1)</code> is as below.
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_56.png" alt="" />
+                        <br>
+                        <p>
+                            6. Following is the AST for the if condition.
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_57.png" alt="" />
+                        <br>
+                        <p>
+                            7. The AST for return statement is as folows
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_58.png" alt="" />
+                        <br>
+                        <p>
+                            8. Finally the AST for the factorial function will be as follows.
+                        </p>
+                        <br>
+                        <img src="../img/data_structure_59.png" alt="" />
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="../js/sticky_sidebar.js" charset="utf-8"></script>
+</html>
