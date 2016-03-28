@@ -1,0 +1,205 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>Run Time Stack Allocation</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <script src="../js/jquery-1.12.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="../css/style_new.css">
+        <link rel="stylesheet" href="../js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="../js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+        <script src="../js/bootstrap.min.js" charset="utf-8"></script>
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="../img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+        			    <li><a href="#">Help</a></li>
+        			    <li><a href="#">Code</a></li>
+        			    <li><a href="../roadmap.html">Roadmap</a></li>
+        			    <li><a href="../documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">Run Time Stack Allocation</p>
+                <br>
+                <br>
+            </header>
+            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
+              <menu>
+                <ul>
+                  <li><a class="sec" href="#nav-introduction">Introduction</a></li>
+                  <li><a class="sec" href="#nav-illustration">Illustration</a></li>
+              </ul>
+              </menu>
+              <span class="pdf_button"><a class="button" href="">Download as PDF</a></span>
+            </aside>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                    <article class="grid col-full" id="nav-introduction">
+                        <h2>Introduction</h2>
+                        <p>
+                            During run-time, when an ExpL function is invoked, space has to be allocated for storing
+                            <ul>
+                                <li>the  arguments to the function,</li>
+                                <li>return value of the function,</li>
+                                <li>local variables declared in the function.</li>
+                            </ul>
+                            For this, an <b>activation record</b> is created in the stack for each function call (and the stack grows).   The activation record is also used to save the state (registers in use) of the invoking function and some control information (like the return address of the calling program in the case of a compiler).
+                        </p>
+                        <p>
+                            Each activation record has a base, and the <b>base pointer (BP)</b> is a variable (or a machine register in the case of a compiler) that points to the base of the current functions activation record. When one function invokes another, the base pointer value of the caller is pushed on to the stack and BP is set to point to the new activation record base. Upon return, the activation record is popped off the stack and old value of base pointer is restored. The <b>stack pointer (SP)</b> points to the top of the stack.
+                        </p>
+                        <p>
+                            The <b>calling convension</b> fixes in what order arguments to a function must be pushed by the caller to the called function, the place in the activation record where the return value is expected to be written by the callee etc.  The structure of the activation record explained below will clarify the calling convension.
+                        </p>
+                        <img src="../img/data_structure_34.png" alt="" style="padding-left:30%; margin-bottom:2em"/>
+                        <p>
+                            When a function is invoked, a part of the activation record is set up by the caller and the rest is set up after invocation of the function.  Similarly, when a function returns, the callee and the caller are responsible for removing the parts they have set up.
+                        </p>
+                        <p>
+                          The following sequence of actions occur when a function A calls another function B.
+                        </p>
+                        <ol>
+                          <li>A pushes its machine state (registers in use) into the stack so that the registers are free for use in B.</li>
+                          <li>A pushes to arguments to B in the order they appear in the declaration.</li>
+                          <li>A pushes one empty space in the stack for B to place its return value.</li>
+                          <li>A invokes B.  (In the case of a compiler, this results in generation of a CALL instruction which results in pushing the instruction pointer into the stack and transfer of control to B).</li>
+                        </ol>
+                        <p>
+                          Inside B, the following space allocations take place:
+                        </p>
+                        <ol start="5">
+                          <li>B saves the BP value of A to the stack and sets its own BP to the location where the BP of A is stored.</li>
+                          <li>B allocates space for local variables (in the order in which they appear in the delcaration.</li>
+                        </ol>
+                        <p>This completes the activation record for B.  If B later calls another function C, then it starts saving its registers, pushes arguments to C and so on.</p>
+                        <p>When B completes execution the following sequence of actions take place:</p>
+                        <ol>
+                          <li>B pops out the local variables.</li>
+                          <li>The old BP value is popped off and saved into BP.</li>
+                          <li>B returns (in the case of a compiler, this results in generation of a RET instruction which results in setting the instruction pointer to the value saved in the stack).</li>
+                        </ol>
+                        <p>On re-entry, A does the following:</p>
+                        <ol start="4">
+                          <li>Retrieve the return value from stack and save it to a new register.  This is the result of the function call.</li>
+                          <li>Pop off the arguments.</li>
+                          <li>Restore the saved register context.</li>
+                        </ol>
+                    </article>
+                    <article class="grid col-full" id="nav-illustration">
+                        <h2>Illustration</h2>
+                        <p>Consider the following example:</p>
+                        <script src="../js/f0127bf97757874e7cc2.js"></script>
+                        <ol>
+                            <li>
+                                <p>
+                                    The global variables are allocated statically in the initial portion of the stack.
+                                </p>
+                                <br>
+                                <img src="../img/data_structure_39.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    The main functions sets up stack locations for its local variables and calls the function factorial(3) after setting up a part of the callee's activation record.
+                                </p>
+                                <br>
+                                <img src="../img/data_structure_40.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Factorial(3) saves the old Base pointer and sets up locations for its local variables.
+                                </p>
+                                <br>
+                                <img src="../img/data_structure_41.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Factorial(3) calls factorial(2) and the activation record of factorial(2) is setup similar to the above steps.
+                                </p>
+                                <br>
+                                <img src="../img/data_structure_42.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Activation record for factorial(1) (called by factorial(2)) is seup similarly.
+                                </p>
+                                <br>
+                                <img src="../img/data_structure_43.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    factorial(1) calculates the result and returns it by setting the value at return value location and pops off it local variables and sets back the base pointer.
+                                </p>
+                                <br>
+                                <img src="../img/data_structure_44.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Similarly, factorial(2) calculates the steps and pops off its activation record till the result value after setting back the old base pointer.
+                                </p>
+                                <br>
+                                <img src="../img/data_structure_45.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Similarly, factorial(3) also calculates the result and returns it to the main function.
+                                </p>
+                                <br>
+                                <img src="../img/data_structure_46.png" alt="" /><br>
+                            </li>
+                            <li>
+                                <p>
+                                    Main function calculates and sets the 'result' variable.
+                                </p>
+                                <br>
+                                <img src="../img/data_structure_47.png" alt="" /><br>
+                            </li>
+                        </ol>
+                    </article>
+                    <article class="grid col-full" id="nav-stack">
+                        <h2>Stack</h2>
+                        <p>
+                            The stack is used to store data structures called activation records that are generated during procedure calls. An <a href="#" class="imp">activation record</a> is used to store the information such as value of program counter and machine registers when a function call occurs. When control returns from the function call, the activation of the calling procedure can be restarted after restoring the relevant registers and setting program counter to the point immediately after the call. Also, data of objects whose lifetime are contained in that of an activation can be allocated on the stack along with other information associated with activation.
+                        </p>
+                        <h6>Structure</h6>
+                        <p>
+                            So, for the implementation of the interpreter, we create a stack which is an array of memstruct. Memstruct has the following structure.<br>
+                            <b>NOTE</b> : for compiler, the stack structure and functions supported functions depends and is taken care of by the target machine.
+                        </p>
+                        <script src="js/29434fa8b266749088cb.js"></script>
+                        <p>
+                            The type field in memstruct can take the following values
+                        </p>
+                        <ol>
+                            <li>EMPTY : Indicates no value is stored in it.</li>
+                            <li>INT : Indicates that it stores an integer value.</li>
+                            <li>STR : Indicates that it stores a string value.</li>
+                            <li>H_INDEX : Indicates that valstruct stores the (integer) index of a location in the heap.</li>
+                            <li>SIZE : Indicates that this memstruct is the first index of the allocated block for a dynamically allocated variable, and it stores the size of the block allocated for the variable.</li>
+                        </ol>
+                        <ol>
+
+                        </ol>
+                        <h6>Associated methods</h6>
+                        <ul>
+                            <li>void push(struct valstruct *v) : pushes the values in valstruct to stack accordingly.</li>
+                            <li>struct valstruct* pop() : pops a value on top of the stack as a valstruct.</li>
+                            <li>void load(struct memstruct *m, struct valstruct *v) : loads the values in stack location pointed by m to the value structure v</li>
+                            <li>void store(struct memstruct *m,struct valstruct *v) : stores the values in value structure v to the stack location pointed by m.</li>
+                        </ul>
+                        <p>
+                            NOTE : valstruct and memstruct structures have been used here to keep the fine line between a value object and a object in the memory.
+                        </p>
+                    </article>
+                </div>
+        </section>
+    </div>
+    <script src="../js/sticky_sidebar.js" charset="utf-8"></script>
+</html>
