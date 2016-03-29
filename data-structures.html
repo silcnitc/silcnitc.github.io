@@ -47,26 +47,21 @@
                     <article class="grid col-full" id="nav-introduction">
                         <h2>Introduction</h2>
                         <p>
-                            The compilation/interpretation of an ExpL program involves two phases. In the first phase (called the <b>analysis phase</b>), the source ExpL program is analyzed (lexical, syntax and semantic analysis are completed in this phase) and if the program is free of syntax and semantic errors, an intermediate representation of the source program called the <b>abstract syntax tree</b> is generated. 
+                            The compilation of an ExpL program involves two phases. In the first phase (called the <b>analysis phase</b>), the source ExpL program is analyzed (<i>lexical, syntax and semantic</i> analysis are completed in this phase) and if the program is free of syntax and semantic errors, an <i>ntermediate representation</i> of the source program called the <b>abstract syntax tree</b> is generated. 
                         </p>
                         <p>
-                            This is followed by a second phase, whose functionality is different for a compiler and an interpreter.
+                            This is followed by a second phase, the second phase (called the <b>synthesis phase</b>) that recursively traverses the abstract syntax tree and generates target code.
                         </p>
                         <p>
-                            In the case of a compiler, the second phase (called the <b>synthesis phase</b>) recursively traverses the abstract syntax tree and generates target code. 
+                            [<b>Note</b> : In the case of an<i> interpreter</i>, the second phase (called the execution phase) involves direct execution of the program by recursive evaluation of the abstract syntax tree.]
                         </p>
                         <p>
-                            [<b>Note</b>: the abstract syntax tree representation is only one among several intermediete representations used in practical compilers. “Lower level” intermediete representations like three address code are often more useful for applying code optimization algorithms. In our present experiment, we do not perform any code optimizations and hence the code generation phase will directly work with the abstract syntax tree.]
+                            [<b>Note</b>: the abstract syntax tree representation is only one among several intermediate representations used in practical compilers. “Lower level” intermediete representations like <i>three address code</i> are often more useful for applying code optimization algorithms. In our present experiment, we do not perform any code optimizations and hence the code generation phase will directly work with the abstract syntax tree.]
                         </p>
                         <p>
-                            In the case of interpretation, the second phase (called the execution phase) involves direct execution of the program by recursive evaluation of the abstract syntax tree. 
-                        </p>
-                        <p>
-                            <i>The description of data structures below assumes an interpreter is being designed</i>. This choice has been made to avoid target machine dependency in the documentation.  Notes/comments  are added wherever appropriate explaining the modifications to be made to the data structures to implement a compiler.
-                        </p>
-                        <p>
-                            There are three basic data structures that are maintained during the analysis phase. These are the following:
+                            There are four basic data structures that are maintained during the analysis phase. These are the following:
                             <ol>
+                                <li>The <b>Type table</b> is used to store information regarding the primitive and user-defined types in the program.</li>
                                 <li> The <b>global symbol table</b> is used to store information about the global variables and functions in the program.</li>
                                 <li>For each function, a separate <b>local symbol table</b> is maintained to store the information about local variables and  arguements of the function. </li>
                                 <li>Finally, the <b>abstract syntax tree</b> that is constructed as the outcome of the analysis phase is the third data structure.</li>
