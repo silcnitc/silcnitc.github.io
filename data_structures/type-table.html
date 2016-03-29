@@ -64,10 +64,10 @@
                     <article class="grid col-full" id="nav-associated-methods">
                         <h2>Associated Methods</h2>
                         <ul>
-                            <li>void TypeTableCreate() : Function to initialise the type table entries with primitive types <i>(int,str)</i> and internal data types <i>(boolean,null,void)</i>.</li>
-                            <li>struct Typetable* TLookup(char *name) : Search through the type table and  return pointer to type table entry of type 'name'. Returns NULL if entry is not found. </li>
-                            <li>struct Typetable* TInstall(char *name, struct Fieldlist *fields) : Creates a type table entry for the type of 'name' with given 'fields' and returns the pointer to the type table entry.  The field list must specify the types and names of each field. Returns NULL upon failure. This routine is invoked when the compiler encounters a <a href="#">type declaration</a> in the source program.</li>
-                            <li>struct Fieldlist* FLookup(Typetable *type, char *name) : Searches for a field of given 'name' in the 'fieldlist' of the given user-defined type and returns a pointer to the field entry.  Returns NULL if the type does not have a field of the name.  </li>
+                            <li>void <b>TypeTableCreate()</b> : Function to initialise the type table entries with primitive types <i>(int,str)</i> and internal data types <i>(boolean,null,void)</i>.</li>
+                            <li>struct Typetable* <b>TLookup(char *name)</b> : Search through the type table and  return pointer to type table entry of type 'name'. Returns NULL if entry is not found. </li>
+                            <li>struct Typetable* <b>TInstall</b>(char *name, struct Fieldlist *fields) : Creates a type table entry for the type of 'name' with given 'fields' and returns the pointer to the type table entry.  The field list must specify the types and names of each field. Returns NULL upon failure. This routine is invoked when the compiler encounters a <a href="#">type declaration</a> in the source program.</li>
+                            <li>struct Fieldlist* <b>FLookup</b>(Typetable *type, char *name) : Searches for a field of given 'name' in the 'fieldlist' of the given user-defined type and returns a pointer to the field entry.  Returns NULL if the type does not have a field of the name.  </li>
                         </ul>
                     </article>
                     <article class="grid col-full" id="nav-illustration">
