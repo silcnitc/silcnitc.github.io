@@ -46,7 +46,7 @@
                     <article class="grid col-full" id="nav-introduction">
                         <h2>Introduction</h2>
                         <p>
-                             In addition to the global symbol table, the ExpL compiler maintains a separate local symbol table for each function for storing information regarding the functions arguments and local variables. Each function has its own list of local variables. So each function has its own LST.
+                             In addition to the global symbol table, the ExpL compiler maintains a separate local symbol table for each function for storing information regarding the functions <b>arguments</b> and <b>local variables</b>. Each function has its own list of local variables. So each function has its own Local Symbol Table.
                         </p>
                     </article>
                     <article class="grid col-full" id="nav-structure">
@@ -56,14 +56,11 @@
                     <article class="grid col-full" id="nav-associated-methods">
                         <h2>Associated Methods</h2>
                         <ul>
-                            <li>struct Lsymbol* LInstall(char *name,struct Typetable *type) : Creates a local symbol tbale with given 'name' and 'type' and also sets its 'binding'.</li>
-                            <li>struct Lsymbol* LLookup(char *name) : search the LST and if any entry with given 'name' is found ,return the entry,else returns NULL. </li>
+                            <li>struct Lsymbol* <b>LInstall</b>(char *name,struct Typetable *type) : Creates a local symbol tbale with given 'name' and 'type' and also sets its 'binding'.</li>
+                            <li>struct Lsymbol* <b>LLookup</b>(char *name) : search the LST and if any entry with given 'name' is found ,return the entry,else returns NULL. </li>
                         </ul>
                         <p>
-                            Arrays cannot be local variables, so we don't need to store the size of a variables. Also nested functions are not allowed in ExpL, so we don't require fbinding and arglist as in Gsymbol. The LST is formed for the Local Declaration Section in the same way GST was created for the Global declaration section.
-                        </p>
-                        <p>
-                            Memory is allocated for local variables of a function from a seperate memory area called the <a href="#nav-stack" class="imp">stack</a>. Hence, the binding for a local variable is the relative address of the variable with respect to the base of the <a href="#"><b>Activation Record</b></a>. The <a href="#"><b>Base Pointer</b></a> points to the base of an activation record of a function. The binding is added to the Base Pointer to obtain the address of variable in stack. This will be explained in detail later.
+                            Memory is allocated for local variables of a function from a seperate memory area called the <a href="#nav-stack" class="imp">stack</a>. Hence, the binding for a local variable is the relative address of the variable with respect to the base of the <a href="#"><b>Activation Record</b> for the function</a>. The <a href="#"><b>Base Pointer</b></a> points to the base of an activation record of a function. The binding is added to the Base Pointer to obtain the address of variable in stack. This will be explained <a href="#">here</a>(UNFILLED).
                         </p>
                     </article>
                 </div>
