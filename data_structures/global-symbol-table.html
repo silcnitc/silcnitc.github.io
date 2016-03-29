@@ -61,7 +61,7 @@
                         </p>
                         <script src="../js/4f483469c1dccd2e9a64.js"></script>
                         <p>
-                            <span style="color:red;font-size:12px;">&#10011;</span><b>NOTE</b>: In the case of a compiler, fbinding must store the starting address of the function's code in memory. A call to the function must translate into an assembly level call to the function's code in memory.  Hence, in this case fbining has to be an integer storing a memory address.
+                            <span style="color:red;font-size:12px;">&#10011;</span><b>NOTE</b>: FLabel is a placeholder for the starting address of the function's code in memory. Any call to the function must translate into an assembly level call to this address. When the compiler makes the symbol table entry for a function during <a href="../grammar-outline.html#TypeDefBlock">function declaration</a>, the actual starting address is not determined, and instead a <i>pseudo address</i> is assigned to Flabel. Call to the function will be initially translated by the compiler to a call to this pseudo address. The actual memory address will be determined later (often in a separate pass) and the compiler will replace all pseudo labels with the correct addresses.
                         </p>
                         <p>
                             Arglist is used to store information regarding the types and names of the arguements. ArgStruct has the following structure.
@@ -73,7 +73,6 @@
                         <ul>
                             <li>struct Gsymbol* <b>GInstall</b>(char *name,struct Typetable *type, int size, struct ArgStruct *arglist) : Creates a  Global Symbol entry of given 'name', 'type', 'size' and 'argument list' and assigns a static address('binding') to the variable (or label for the function).</li>
                             <li>struct Gsymbol* <b>GLookup</b>(char *name) : Search for a GST entry with the given 'name', if exists, return pointer to GST entry else return NULL.</li>
-                            <li>void <b>GUpdate</b>(char *name,struct Typetable *type, struct Argstruct *arg, struct Lsymbol *l, struct ASTNode* t) : Verify whether the 'type' and return type of ASTNode 't' matches the type of GST entry 'name', verify the order and sequence of arguments as in GST entry. Set the LST pointer and fbinding for the GST entry 'name'.</li>
                         </ul>
                     </article>
                     <article class="grid col-full" id="nav-illustration">
