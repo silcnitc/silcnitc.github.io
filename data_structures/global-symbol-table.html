@@ -67,14 +67,13 @@
                             Arglist is used to store information regarding the types and names of the arguements. ArgStruct has the following structure.
                         </p>
                         <script src="../js/f583d3a3ee857a50d496.js"></script>
-                        <p>Read about ASTNode <a href="#nav-abstract-syntax-tree">here</a>.</p>
                     </article>
                     <article class="grid col-full" id="nav-associated-methods">
                         <h2>Associated Methods</h2>
                         <ul>
-                            <li>struct Gsymbol* GInstall(char *name,struct Typetable *type, int size, struct ArgStruct *arglist) : Creates a  Global Symbol object of given 'name', 'type', 'size' and 'argument list' and assigns a 'binding' to the variable.</li>
-                            <li>struct Gsymbol* GLookup(char *name) : Search for a GST entry with the given 'name', if exists, return pointer to GST entry else return NULL.</li>
-                            <li>void GUpdate(char *name,struct Typetable *type, struct Argstruct *arg, struct Lsymbol *l, struct ASTNode* t) : Verify whether the 'type' and return type of ASTNode 't' matches the type of GST entry 'name', verify the order and sequence of arguments as in GST entry. Set the LST pointer and fbinding for the GST entry 'name'.</li>
+                            <li>struct Gsymbol* <b>GInstall</b>(char *name,struct Typetable *type, int size, struct ArgStruct *arglist) : Creates a  Global Symbol object of given 'name', 'type', 'size' and 'argument list' and assigns a 'binding' to the variable.</li>
+                            <li>struct Gsymbol* <b>GLookup</b>(char *name) : Search for a GST entry with the given 'name', if exists, return pointer to GST entry else return NULL.</li>
+                            <li>void <b>GUpdate</b>(char *name,struct Typetable *type, struct Argstruct *arg, struct Lsymbol *l, struct ASTNode* t) : Verify whether the 'type' and return type of ASTNode 't' matches the type of GST entry 'name', verify the order and sequence of arguments as in GST entry. Set the LST pointer and fbinding for the GST entry 'name'.</li>
                         </ul>
                     </article>
                     <article class="grid col-full" id="nav-illustration">
