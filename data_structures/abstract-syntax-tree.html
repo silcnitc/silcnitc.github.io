@@ -140,7 +140,7 @@
                             <tr>
                                 <td>BODY</td>
                                 <td>int/str/<br>user-defined type</td>
-                                <td>For body of a function. The type indicates the type of value returned by the function.</td>
+                                <td>For body of a function. The type indicates the type of value returned by the function. This is created when the definition of a function is processed.</td>
                             </tr>
                             <tr>
                                 <td>RET</td>
@@ -150,12 +150,7 @@
                             <tr>
                                 <td>FUNCTION</td>
                                 <td>int/str/<br>user-defined type</td>
-                                <td>For function calls. The type must be same as the return type of the function.</td>
-                            </tr>
-                            <tr>
-                                <td>PARAM</td>
-                                <td>int/str</td>
-                                <td>For passing actual parameters during function calls.</td>
+                                <td>For function calls. The type must be same as the return type of the function. The field 'arglist' must be set to list of arguments for the function.</td>
                             </tr>
                             <tr>
                                 <td>MAIN</td>
