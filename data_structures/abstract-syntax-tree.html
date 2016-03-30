@@ -115,7 +115,7 @@
                             <tr>
                                 <td>WHILE</td>
                                 <td>void</td>
-                                <td>For conditional construct 'while'. <br>'ptr1' is set to the conditional logical expression and 'ptr2' is set to AST of list of statements under the while construct.</td>
+                                <td>For conditional construct 'while'. <br>'ptr1' is set to the conditional logical expression and 'ptr2' is set to AST of list of statements under the body of while construct.</td>
                             </tr>
                             <tr>
                                 <td>READ</td>
@@ -135,7 +135,7 @@
                             <tr>
                                 <td>SLIST</td>
                                 <td>void</td>
-                                <td>To connect statements.</td>
+                                <td>To form a tree with multiple statements. The execution sematics is that sequence of statements representing the left subtree 'ptr1' must be evaluated before evaluating 'ptr2'.</td>
                             </tr>
                             <tr>
                                 <td>BODY</td>
