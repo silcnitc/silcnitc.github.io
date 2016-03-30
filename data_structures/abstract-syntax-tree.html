@@ -73,6 +73,10 @@
                         </ul>
 
                         <p>
+                            The <i>type</i> field of an AST node contains a pointer to the type
+                            table entry corresponding to the type of the expression
+                            represented by the AST node.  (The type is set to void for 
+                            statements)
                             The <i>nodetype</i> field of an AST node is assigned values according to the following convension.
                         </p>
                         <table class="doctable" style="text-align:left;">
@@ -81,7 +85,7 @@
                                 <th>Description</th>
                             </tr>
                             <tr>
-                                <td>LEAF</td>
+                                <td>CONST</td>
                                 <td>For interger and string constants.</td>
                             </tr>
                             <tr>
@@ -90,11 +94,11 @@
                             </tr>
                             <tr>
                                 <td>PLUS</td>
-                                <td>For arithmetic operator '+'. <br> Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                                <td>For arithmetic operator '+'. <br> 'ptr1' and 'ptr2' are set to AST of left and right operands respectively and must be of type 'int'.</td>
                             </tr>
                             <tr>
                                 <td>MINUS</td>
-                                <td>For arithmetic operator '-'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                                <td>For arithmetic operator '-'. <br> 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
                             </tr>
                             <tr>
                                 <td>MUL</td>
