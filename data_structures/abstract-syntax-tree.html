@@ -69,15 +69,12 @@
                             <li>struct ASTNode* <b>TreeCreate</b>(</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>Creates a node with the fields set according to the arguments passed. The function is responsible for doing type checking, and will be successful only if the expression tree corresponds to an ExpL statement (or ExpL expression) with no syntax or semantic errors.  The function returns a pointer to the root node of the AST upon success, NULL is returned otherwise. The arguments to the function includes pointers to the subtrees of the AST node (which must have been created earlier).  Other arguments include the type of the ExpL expression represented by the AST node, a node type (described below) etc.
 
                             </li><br>
-                            <li>regindex <b>codegen</b>(struct ASTNode *t)</br> The codegen() function takes as input a pointer to the root of an abstract syntax tree and generates assembly code corresponding to the program represented by the AST. The codegen() function essentially invokes itself recursively to generate assembly code for the subtrees. The result of evaluation is a value which is stored in a register. The codegen() function returns the register number that would contain the evaluated value when the assembly code is executed. (when no value results in evaluating a tree node, there is no register allocated to store the value and -1 is returned by codegen() indicating this fact).</li>
+                            <!--<li>regindex <b>codegen</b>(struct ASTNode *t)</br> The codegen() function takes as input a pointer to the root of an abstract syntax tree and generates assembly code corresponding to the program represented by the AST. The codegen() function essentially invokes itself recursively to generate assembly code for the subtrees. The result of evaluation is a value which is stored in a register. The codegen() function returns the register number that would contain the evaluated value when the assembly code is executed. (when no value results in evaluating a tree node, there is no register allocated to store the value and -1 is returned by codegen() indicating this fact).</li>-->
                         </ul>
 
                         <p>
-                            The <i>type</i> field of an AST node contains a pointer to the type
-                            table entry corresponding to the type of the expression
-                            represented by the AST node.  (The type is set to void for
-                            statements)
-                            The <i>nodetype</i> field of an AST node is assigned values according to the following convension.
+                            The <i>type</i> field of an AST node is designed to contain a pointer to the typetable entry corresponding to the type of the expression represented by the AST node (The type is set to void for
+                            statements). The <i>nodetype</i> field of an AST node may be assigned values according to the following convension.
                         </p>
                         <table class="doctable" style="text-align:left;">
                             <tr>
@@ -98,7 +95,7 @@
                             </tr>
                             <tr>
                                 <td>MINUS</td>
-                                <td>For arithmetic operator '-'. <br> 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                                <td>For arithmetic operator '-'. <br> 'ptr1' and 'ptr2' are set to AST of left and right operands respectively and must be of type 'int'.</td>
                             </tr>
                             <tr>
                                 <td>MUL</td>
@@ -134,7 +131,7 @@
                             </tr>
                             <tr>
                                 <td>IF</td>
-                                <td>For the conditional contruct 'if'. <br>'ptr1' is set to AST of the conditional logical expression, 'ptr2' is set to AST of list of statements that are executed when conditional expression evaluates to true and 'ptr3' is set to AST of list of statements that are to be executed when conditional expression is evalusted false.</td>
+                                <td>For the conditional contruct 'if'. <br>'ptr1' is set to AST of the conditional logical expression and must be of type 'boolean', 'ptr2' is set to AST of list of statements that are executed when conditional expression evaluates to true and 'ptr3' is set to AST of list of statements that are to be executed when conditional expression is evalusted false.</td>
                             </tr>
                             <tr>
                                 <td>WHILE</td>
