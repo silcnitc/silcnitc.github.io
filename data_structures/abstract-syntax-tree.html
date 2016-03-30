@@ -75,7 +75,7 @@
                         <p>
                             The <i>type</i> field of an AST node contains a pointer to the type
                             table entry corresponding to the type of the expression
-                            represented by the AST node.  (The type is set to void for 
+                            represented by the AST node.  (The type is set to void for
                             statements)
                             The <i>nodetype</i> field of an AST node is assigned values according to the following convension.
                         </p>
@@ -102,55 +102,55 @@
                             </tr>
                             <tr>
                                 <td>MUL</td>
-                                <td>For arithmetic operator '*'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                                <td>For arithmetic operator '*'. <br>'ptr1' and 'ptr2' are set to AST of left and right operands respectively and must be of type 'int'.</td>
                             </tr>
                             <tr>
                                 <td>DIV</td>
-                                <td>For arithmetic operator '/'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                                <td>For arithmetic operator '/'. <br>'ptr1' and 'ptr2' are set to AST of left and right operands respectively and must be of type 'int'.</td>
                             </tr>
                             <tr>
                                 <td>GT</td>
-                                <td>For relational operator '>'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                                <td>For relational operator '>'. <br>'ptr1' and 'ptr2' are set to AST of left and right operands respectively and must be of type 'int'.</td>
                             </tr>
                             <tr>
                                 <td>LT</td>
-                                <td>For relational operator '<'. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                                <td>For relational operator '<'. <br>'ptr1' and 'ptr2' are set to AST of left and right operands respectively and must be of type 'int'.</td>
                             </tr>
                             <tr>
                                 <td>GE</td>
-                                <td>For relational operatot '>='. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                                <td>For relational operatot '>='. <br>'ptr1' and 'ptr2' are set to AST of left and right operands respectively and must be of type 'int'.</td>
                             </tr>
                             <tr>
                                 <td>LE</td>
-                                <td>For relational operatot '<='. <br>Attributes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and must be of type 'int'.</td>
+                                <td>For relational operatot '<='. <br>'ptr1' and 'ptr2' are set to AST of left and right operands respectively and must be of type 'int'.</td>
                             </tr>
                             <tr>
                                 <td>EQ</td>
-                                <td>For relational operator '=='. <br>Attricutes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and both must be of same type.</td>
+                                <td>For relational operator '=='. <br>'ptr1' and 'ptr2' are set to AST of left and right operands respectively and both must be of same type.</td>
                             </tr>
                             <tr>
                                 <td>NE</td>
-                                <td>For relational operator '!='. <br>Attricutes 'ptr1' and 'ptr2' of the 'ASTNode' are set to AST of left and right operands respectively and both must be of same type.</td>
+                                <td>For relational operator '!='. <br>'ptr1' and 'ptr2' are set to AST of left and right operands respectively and both must be of same type.</td>
                             </tr>
                             <tr>
                                 <td>IF</td>
-                                <td>For the conditional contruct 'if'. <br>Attribute 'ptr1' of the 'ASTNode' is set to AST of the conditional logical expression, 'ptr2' is set to AST of list of statements that are executed when conditional expression evaluates to true and 'ptr3' is set to AST of list of statements that are to be executed when conditional expression is evalusted false.</td>
+                                <td>For the conditional contruct 'if'. <br>'ptr1' is set to AST of the conditional logical expression, 'ptr2' is set to AST of list of statements that are executed when conditional expression evaluates to true and 'ptr3' is set to AST of list of statements that are to be executed when conditional expression is evalusted false.</td>
                             </tr>
                             <tr>
                                 <td>WHILE</td>
-                                <td>For conditional construct 'while'. <br>Attribute 'ptr1' os 'ASTNode' is set to the conditional logical expression and 'ptr2' is set to AST of list of statements under the while construct.</td>
+                                <td>For conditional construct 'while'. <br>'ptr1' is set to the conditional logical expression and 'ptr2' is set to AST of list of statements under the while construct.</td>
                             </tr>
                             <tr>
                                 <td>READ</td>
-                                <td>For input statement 'read'. Attribute 'ptr1' is set to AST of nodetype ID or FIELD and type of 'ptr1' must be either 'int' or 'str', which carries the information of the variable for which we are taking the input.</td>
+                                <td>For input statement 'read'. 'ptr1' is set to AST of nodetype ID or FIELD and type of 'ptr1' must be either 'int' or 'str', which carries the information of the variable for which we are taking the input.</td>
                             </tr>
                             <tr>
                                 <td>WRITE</td>
-                                <td>For output statement 'write'. Attibute 'ptr1' must be of type 'int' and 'str' and must be set to AST of the expression whose value is to be written to the standard output.</td>
+                                <td>For output statement 'write'. 'ptr1' must be of type 'int' and 'str' and must be set to AST of the expression whose value is to be written to the standard output.</td>
                             </tr>
                             <tr>
                                 <td>ASGN</td>
-                                <td>For assignment statement (&lt;var&gt; = &lt;expr&gt;). <br>Attribute 'ptr1' is set to AST of nodetype ID or FIELD and 'ptr2' is set to AST of expression whose value will be assigned to lvalue given by 'ptr1'. The type of the variable and expression must match.</td>
+                                <td>For assignment statement (&lt;var&gt; = &lt;expr&gt;). <br> 'ptr1' is set to AST of nodetype ID or FIELD and 'ptr2' is set to AST of expression whose value will be assigned to lvalue given by 'ptr1'. The type of the variable and expression must match.</td>
                             </tr>
                             <tr>
                                 <td>SLIST</td>
