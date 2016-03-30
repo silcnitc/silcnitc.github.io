@@ -66,20 +66,10 @@
                     <article class="grid col-full" id="nav-associated-methods">
                         <h2>Associated Methods</h2>
                         <ul>
-                            <li>struct ASTNode* <b>TreeCreate</b>(</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>Creates a node with the fields set according to the arguements passed.</li>
-                            <li>regindex <b>codegen</b>(struct ASTNode *t)</br> Evaluation of an AST node results in a value.  A compiler generates code for evaluating an AST node and assigns the result of evaluation to a register.  An interpreter directly evaluates the AST node and simulates the compiler by storing the result in an array (called reg) and returning the index. We make use of the following structure to store the results of evaluation by an interpreter:
-                            <script src="js/14917a901e497a38abf7.js"></script>
-                            <p>
-                                In 'valstruct' the field 'valtype' can take one of the following values:
-                                <ol>
-                                    <li>EMPTY : Indicates that no value is stored in it.</li>
-                                    <li>INT : Indicates that value stored in the union constant 'value' is an integer.</li>
-                                    <li>STR : Indicates the value stored in the union constant 'value' is a string.</li>
-                                    <li>H_INDEX : Indicates that valstruct stores the (integer) index of a location in the heap.</li>
-                                </ol>
-                            </p>
-                            </li>
+                            <li>struct ASTNode* <b>TreeCreate</b>(</br><span style="padding-left:5em;">struct Typetable *type,</span></br><span style="padding-left:5em;">int nodetype,</span></br><span style="padding-left:5em;">char *name,</span></br><span style="padding-left:5em;">union Constant value,</span></br><span style="padding-left:5em;">struct ASTNode *arglist,</span></br><span style="padding-left:5em;">struct ASTNode *ptr1,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr2,</span></br><span style="padding-left:5em;"> struct ASTNode *ptr3</span></br><span style="padding-left:5em;">) </span></br>Creates a node with the fields set according to the arguements passed. The function is responsible for doing type checking, and will be successful only if the expression tree corresponds to an ExpL statement (or ExpL expression) with no syntax or semantic errors.  The function returns a pointer to the root node of the AST upon success, NULL is returned otherwise.</li>
+                            <li>regindex <b>codegen</b>(struct ASTNode *t)</br> The codegen() function takes as input a pointer to the root of an abstract syntax tree and generates assembly code corresponding to the program represented by the AST. The codegen() function essentially invokes itself recursively to generate assembly code for the subtrees. The result of evaluation is a value which is stored in a register. The codegen() function returns the register number that would contain the evaluated value when the assembly code is executed. (when no value results in evaluating a tree node, there is no register allocated to store the value and -1 is returned by codegen() indicating this fact).</li>
                         </ul>
+
                         <p>
                             Follwing are the nodetypes that may appear while contructing the abstract syntax free for ExpL program:
                         </p>
