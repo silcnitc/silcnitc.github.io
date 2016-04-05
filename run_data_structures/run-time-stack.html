@@ -51,10 +51,10 @@
                                 <li>return value of the function,</li>
                                 <li>local variables declared in the function.</li>
                             </ul>
-                            For this, an <b>activation record</b> is created in the stack for each function call (and the stack grows).   The activation record is also used to save the state (registers in use) of the invoking function and some control information (like the return address of the calling program in the case of a compiler).
+                            For this, an <b>activation record</b> is created in the stack for each function call (and the stack grows). The activation record is also used to save the state (registers in use) of the invoking function and some control information (like the return address of the calling program).
                         </p>
                         <p>
-                            Each activation record has a base, and the <b>base pointer (BP)</b> is a variable (or a machine register in the case of a compiler) that points to the base of the current functions activation record. When one function invokes another, the base pointer value of the caller is pushed on to the stack and BP is set to point to the new activation record base. Upon return, the activation record is popped off the stack and old value of base pointer is restored. The <b>stack pointer (SP)</b> points to the top of the stack.
+                            Each activation record has a base, and the <b>base pointer (BP)</b> is a machine register that points to the base of the current functions activation record. When one function invokes another, the base pointer value of the caller is pushed on to the stack and BP is set to point to the new activation record base. Upon return, the activation record is popped off the stack and old value of base pointer is restored. The <b>stack pointer (SP)</b> must always point to the top of the stack.
                         </p>
                         <p>
                             The <b>calling convension</b> fixes in what order arguments to a function must be pushed by the caller to the called function, the place in the activation record where the return value is expected to be written by the callee etc.  The structure of the activation record explained below will clarify the calling convension.
@@ -70,21 +70,22 @@
                           <li>A pushes its machine state (registers in use) into the stack so that the registers are free for use in B.</li>
                           <li>A pushes to arguments to B in the order they appear in the declaration.</li>
                           <li>A pushes one empty space in the stack for B to place its return value.</li>
-                          <li>A invokes B.  (In the case of a compiler, this results in generation of a CALL instruction which results in pushing the instruction pointer into the stack and transfer of control to B).</li>
+                          <li>A invokes B. (This results in generation of a CALL instruction which results in pushing the instruction pointer into the stack and transfer of control to B).</li>
                         </ol>
                         <p>
                           Inside B, the following space allocations take place:
                         </p>
                         <ol start="5">
-                          <li>B saves the BP value of A to the stack and sets its own BP to the location where the BP of A is stored.</li>
-                          <li>B allocates space for local variables (in the order in which they appear in the delcaration.</li>
+                          <li>B saves the BP value of A to the stack and sets BP to the top of the stack.</li>
+                          <li>B allocates space for local variables (in the order in which they appear in the delcaration).</li>
                         </ol>
                         <p>This completes the activation record for B.  If B later calls another function C, then it starts saving its registers, pushes arguments to C and so on.</p>
                         <p>When B completes execution the following sequence of actions take place:</p>
                         <ol>
+                          <li>B computes the return value and stores it in the space allocated for it in the stack.</li>
                           <li>B pops out the local variables.</li>
                           <li>The old BP value is popped off and saved into BP.</li>
-                          <li>B returns (in the case of a compiler, this results in generation of a RET instruction which results in setting the instruction pointer to the value saved in the stack).</li>
+                          <li>B returns (this results in generation of a RET instruction which results in setting the instruction pointer to the value saved in the stack).</li>
                         </ol>
                         <p>On re-entry, A does the following:</p>
                         <ol start="4">
