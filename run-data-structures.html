@@ -120,14 +120,15 @@
                             Since eXpOS ABI does not provide separate memory areas for static and run time data, the compiler must allocate both static variables and run time stack between memory addresses 4096 and 5119. The recommended convention is to allocate global variables in the initial portion of this memory and then the run time stack may be initialized to the top of this data so that it can grow upward during run time.  Note that the target program must contain instructions to initialize the run time stack.
                         </p>
                         <p>
-                            Calls to the dynamic memory management routines are routed through a library interface.  The ABI stipulates that the library must be loaded into address 0-1023 of memory.   The compiler must translate calls to the functions Inialise(),  Alloc() and Free() to corresponding library calls (calls to address 0) with parameters specified by the library interface.  The library code starting at location 0 must redirect the call to appropriate functions for Initialise(), alloc() and free() within the library.
+                            Calls to the dynamic memory management routines are routed through a <a href="http://exposnitc.github.io/abi.html#collapse5">library interface</a>.  The ABI stipulates that the library must be loaded into address 0-1023 of memory.   The compiler must translate calls to the functions Initialise(),  Alloc() and Free() to corresponding library calls (calls to address 0) with parameters specified by the library interface.  The library code starting at location 0 must redirect the call to appropriate functions for Initialise(), alloc() and free() within the library.
                         </p>
                         <p>
-                            Finally, the XSM machine provides 16 registers R0=R15 for storing temporary values.  The machine requires operands to be loaded to registers before doing arithmetic/logical operations.
+                            Finally, the XSM machine provides 16 registers R0-R15 for storing temporary values.  The machine requires operands to be loaded to registers before doing arithmetic/logical operations.
                         </p>
                         <p>
                             In the following, we describe how activation records are allocated in the stack, how the library routines for Alloc() and Free() must manage heap memory and how  the compiler may allocate registers for temporary storage.
                         </p>
+                        <br>
                     </article>
                     <article class="grid col-one-half mq3-col-full">
                       <div class="sepmini"></div>
