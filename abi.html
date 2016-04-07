@@ -248,34 +248,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <br/>
-                    <h4>Debug Instructions</h4>
-                    <table class="doctable" style="text-align:left">
-                        <tbody>
-                            <tr>
-                                <th>Syntax</th>
-                                <th>Semantics</th>
-                            </tr>
-                            <tr>
-                                <td>BRKP</td>
-                                <td>The machine when run in debug mode invokes the debugger when this intruction is executed. This instruction can be used for debugging system code.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br/>
-                    <h4>Software Interrupts</h4>
-                    <table class="doctable" style="text-align:left">
-                        <tbody>
-                            <tr>
-                                <th>Syntax</th>
-                                <th>Semantics</th>
-                            </tr>
-                            <tr>
-                                <td>INT n</td>
-                                <td>Semantics : Generates an interrupt to the kernel with n (4 to 18) as a parameter. This involves a change of mode from user to kernel mode. It also disables the interrupts. The (virtual) address of the next instruction after the current value of IP is pushed to the Stack, the Stack Pointer is incremented and then, execution mode is switched to Kernel Mode. When INT is invoked from the User Mode, the IP value must contain a virtual address and hence, the value pushed into stack is a virtual address and not a physical address.</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </article>
                 <article class="grid col-full" id="nav-virtual-address-space-model">
                     <h2>The virtual address space model</h2>
