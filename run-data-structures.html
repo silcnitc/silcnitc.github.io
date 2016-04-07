@@ -85,7 +85,7 @@
                             The classical solution to this problem is to maintain a contiguous area of memory called the <b>heap memory</b> from which memory is allocated by alloc() on demand. Heap management algorithms like the <b>fixed size allocator algorithm</b> and the <b>buddy system algorithm</b> are explained in detail later in this documentation.
                         </p>
                         <p>
-                            Finally, intermediate values generated during program execution needs <b>temporary storage</b>. For example, while evaluating an expression (a+b)*(c+d), the values of the sub-expressions (a+b) and (c+d) might need temporary storage. In a compiler, the <b>machine registers</b> are used for temporary storage.  When a function invokes another function, the registers in current use will be pushed to the stack (activation record of the caller) so that the called function (callee) has the full set of registers free for its use. Upon return from the callee, the values pushed into the stack are restored to the registers before the caller resumes its execution.
+                            Finally, intermediate values generated during program execution needs <b>temporary storage</b>. For example, while evaluating an expression (a+b)*(c+d), the values of the sub-expressions (a+b) and (c+d) might need temporary storage. The <b>machine registers</b> are used for temporary storage.  When a function invokes another function, the registers in current use will be pushed to the stack (activation record of the caller) so that the called function (callee) has the full set of registers free for its use. Upon return from the callee, the values pushed into the stack are restored to the registers before the caller resumes its execution.
                         </p>
                         <p>
                             To summarize, we have four kinds of memory allocation – static, stack, heap and register (temporary). The implemention of each of these are discussed below.
@@ -94,7 +94,7 @@
                     <article class="grid col-full" id="nav-memory-model">
                         <h2>The memory model</h2>
                         <p>
-                            The compiler generates code for a target machine architecture. The compiler assumes an address space model model is defined by the target machine as well as the target operating system, and is sometimes called the virtual address space.
+                            The compiler assumes an address space model model for the target program, determined by the target machine architecture as well as the target operating system.
                         </p>
                         <p>
                              The <a href="http://exposnitc.github.io/abi.html">application binary interface (ABI)</a> defines the
