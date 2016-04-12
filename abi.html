@@ -6,6 +6,8 @@
         <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
         <link rel="stylesheet" href="css/style_new.css">
         <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
     </head>
     <div class="container">
         <header id="navtop">
@@ -341,26 +343,42 @@
                 </article>
                 <article class="grid col-full" id="nav-eXpOS-system-library-interface">
                     <h2>The library interface</h2>
+
                     <p>
-                        ExpL file operations and Input/Ouput operations must be mapped to the corresponding system calls of the underlying operating system. The eXpOS library comes with a set of built-in functions that provide a generic interface for invoking the OS sytem calls. The library also provides a set of functions for  heap management (dynamic memory allocation and de-allocation). Thus the ExpL compiler can simply generate code to invoke these library routines to translate the corresponding high level operations.
+                        The eXpOS library consists of a collection of user level routines provided as part of the operating system. These routines are loaded to the memory during OS start up and can be linked to the address space of any user process by the OS loader (exec system call). The OS loader will link these routines to the shared library region of the address space <a href="" target="_blank">(see address space)</a> if the library flag in the header of the executable file being loaded is set to 1 <a href="" target="_blank">(see xexe)</a>.
                     </p>
                     <p>
-                        A specification of the eXpOS library interface is given below:
+                        The library provides a <b>uniform  interface</b> through which an application program can invoke system calls and dynamic memory allocation / deallocation routines by providing the function code and the arguments. The interface hides the details of the interrupt service routines corresponding to the <b>system calls</b> from the application, thereby making them architecture independent. The library also provides user level routines for <b>dynamic memory management (allocation and de-allocation)</b> from the <i>heap region</i> of the application.
+                    </p>
+
+
+                    <p>
+                        <img src="./img/memory_management.png" style="float:right;margin-left:5px" height="300px" width="350px">
+                        <br>
                     </p>
                     <p>
-                        The eXpOS library consists of a collection of user level routines provided as part of the operating system. These routines are loaded to the memory during OS start up and can be linked to the address space of any user process by the OS loader (exec system call). The OS loader will link these routines to the shared library region of the address space if the library flag in the header of the executable file being loaded is set to 1. The library provides a <b>uniform system call interface</b> through which application program can invoke system calls by providing the system call number and the arguments. The interface hides the details of the interrupt service routine corresponding to the system call from the application program, thereby making it architecture independent. The library also provides user level routines for <b>dynamic memory management (allocation and de-allocation)</b> from the <i>heap region</i> of the application.
+                        The library routine is linked to <b>virtual address 0</b> of the address space of a process by the OS loader and requires four arguments (function code and three arguments to the system call / memory management routine) to be passed through the stack. The routine invokes the corresponding low level system call / memory management routine and returns to the user program the return value of the system call / memory management routine through the stack. The figure to the side shows the contents of the stack immediately before a call to this library routine.
                     </p>
-                    <h4>Unified System Call Interface</h4>
                     <p>
-                        This library routine is linked to virtual address 0 of the address space of a process by the OS loader and requires four arguments (system call number and three arguments to the system call) to be passed through the stack. The routine invokes the corresponding low level system call and returns to the user program the return value of the system call through the stack. The following figure shows the contents of the stack immediately after a call to this library routine.
+                        The invocation details for the system calls and the dynamic memory management routines using the library interface can be seen <a href="../os_spec-files/dynamicmemoryroutines.html" target="_blank"><b>here</b></a>.
                     </p>
-                    <img src="img/system_call_interface_stack.png" alt="" />
-                    <h4>Dynamic Memory Management Module Interface</h4>
+
+                    <h3 style="clear:right">Invoking a library module</h3>
+
+                    <script src="https://gist.github.com/vishnupriyam/f20916a0b864642f1cb04ff2ceebe46c.js"></script>
                     <p>
-                        The dynamic memory management module interface takes two inputs - a function code (0 for alloc and 1 for free - see high level library interface -- Put Link for specification) and one argument passed through the stack. The retrun value is passed back to the application through the stack. The OS loader of the present version of eXpOS for XSM architecture links this routine to virtual address 512 of the application process. The following figure shows the contents of the stack just before a call to this library routine.
+                        A library module invocation using the high level application programmer's interface of a programming language like ExpL compiles to a set of machine instructions (see the instructions to the left). They are the stack operations that must be performed by the user program before the CALL instruction is executed.
                     </p>
-                    <img src="img/memory_management.png" alt="" />
-                </article>
+
+                    <h3 style="clear:left">After return from the library module </h3>
+                    <p>
+                        The following machine instructions are present after the CALL instruction in the ExpL compiled machine code given in the previous step.
+                    </p>
+                    <script src="https://gist.github.com/vishnupriyam/7cab9602bc70ca74fefbc7956a53fe93.js"></script>
+                    <p>
+                        The machine code to the left pops the values from the stack. The function code and arguments were inputs to the library module and hence they may be discarded now. The return value which is stored in the stack by the system call is fetched and used by the user program by popping out to some register.
+                    </p>
+                 </article>
 
                 </div>
             </section>
