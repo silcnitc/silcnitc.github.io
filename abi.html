@@ -351,9 +351,8 @@
                         The library provides a <b>uniform  interface</b> through which an application program can invoke system calls and dynamic memory allocation / deallocation routines by providing the function code and the arguments. The interface hides the details of the interrupt service routines corresponding to the <b>system calls</b> from the application, thereby making them architecture independent. The library also provides user level routines for <b>dynamic memory management (allocation and de-allocation)</b> from the <i>heap region</i> of the application.
                     </p>
 
-
                     <p>
-                        <img src="./img/memory_management.png" style="float:right;margin-left:5px" height="300px" width="350px">
+                        <center> <img src="./img/memory_management.png" style="width:350px !important"></center>
                         <br>
                     </p>
                     <p>
@@ -368,6 +367,55 @@
                     <script src="https://gist.github.com/vishnupriyam/f20916a0b864642f1cb04ff2ceebe46c.js"></script>
                     <p>
                         A library module invocation using the high level application programmer's interface of a programming language like ExpL compiles to a set of machine instructions (see the instructions to the left). They are the stack operations that must be performed by the user program before the CALL instruction is executed.
+                    </p>
+                    <p>
+                        Following are the library functions and details relevant to ExpL Compiler:
+                    </p>
+                    <p>
+                        <table class="doctable">
+                            <tr>
+                                <th>Library Function / System Call</th>
+                                <th>Function Code</th>
+                                <th>Argument 1</th>
+                                <th>Argument 2</th>
+                                <th>Argument 3</th>
+                            </tr>
+                            <tr>
+                                <td>Read</td>
+                                <td>7</td>
+                                <td>File Descriptor</td>
+                                <td>Buffer</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Write</td>
+                                <td>5</td>
+                                <td>File Descriptor</td>
+                                <td>Buffer</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Initialize</td>
+                                <td>-1</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Alloc</td>
+                                <td>-2</td>
+                                <td>Size</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Free</td>
+                                <td>-3</td>
+                                <td>Pointer</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </table>
                     </p>
 
                     <h3 style="clear:left">After return from the library module </h3>
