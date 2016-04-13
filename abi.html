@@ -60,7 +60,7 @@
                         These specifications depend not only on the target machine architecture, but also on the operating system upon which the target machine code must execute. Typically these specifications are collected together in the OS specification into a document called the Application Binary Interface (ABI).
                     </p>
                     <p>
-                        The following sections specify the ABI for the <a href="http://exposnitc.github.io/">eXpOS operating system</a> run on the <a href="http://exposnitc.github.io/support_tools-files/xsm-simulator.html">XSM virtual machine model</a>. The executable format is called the XEXE executable format.
+                        The following sections specify the ABI for the <a href="http://exposnitc.github.io/">eXpOS operating system</a> run on the <a href="http://exposnitc.github.io/virtual_machine_spec.html">XSM virtual machine model</a>. The executable format is called the XEXE executable format.
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-XSM-instruction-set">
@@ -345,7 +345,7 @@
                     <h2>The library interface</h2>
 
                     <p>
-                        The eXpOS library consists of a collection of user level routines provided as part of the operating system. These routines are loaded to the memory during OS start up and can be linked to the address space of any user process by the OS loader (exec system call). The OS loader will link these routines to the shared library region of the address space <a href="" target="_blank">(see address space)</a> if the library flag in the header of the executable file being loaded is set to 1 <a href="" target="_blank">(see xexe)</a>.
+                        The eXpOS library consists of a collection of user level routines provided as part of the operating system. These routines are loaded to the memory during OS start up and can be linked to the address space of any user process by the OS loader (exec system call). The OS loader will link these routines to the library region of the address space <a href="nav-virtual-address-space-model" target="_blank">(see address space)</a> if the library flag in the header of the executable file being loaded is set to 1 <a href="#nav-XEXE-executable-file-format" target="_blank">(see xexe)</a>.
                     </p>
                     <p>
                         The library provides a <b>uniform  interface</b> through which an application program can invoke system calls and dynamic memory allocation / deallocation routines by providing the function code and the arguments. The interface hides the details of the interrupt service routines corresponding to the <b>system calls</b> from the application, thereby making them architecture independent. The library also provides user level routines for <b>dynamic memory management (allocation and de-allocation)</b> from the <i>heap region</i> of the application.
@@ -359,14 +359,14 @@
                         The library routine is linked to <b>virtual address 0</b> of the address space of a process by the OS loader and requires four arguments (function code and three arguments to the system call / memory management routine) to be passed through the stack. The routine invokes the corresponding low level system call / memory management routine and returns to the user program the return value of the system call / memory management routine through the stack. The figure to the side shows the contents of the stack immediately before a call to this library routine.
                     </p>
                     <p>
-                        The invocation details for the system calls and the dynamic memory management routines using the library interface can be seen <a href="../os_spec-files/dynamicmemoryroutines.html" target="_blank"><b>here</b></a>.
+                        The invocation details for the system calls and the dynamic memory management routines using the library interface can be seen <a href="http://exposnitc.github.io/os_spec-files/dynamicmemoryroutines.html" target="_blank"><b>here</b></a>.
                     </p>
 
                     <h3 style="clear:right">Invoking a library module</h3>
 
                     <script src="https://gist.github.com/vishnupriyam/f20916a0b864642f1cb04ff2ceebe46c.js"></script>
                     <p>
-                        A library module invocation using the high level application programmer's interface of a programming language like ExpL compiles to a set of machine instructions (see the instructions to the left). They are the stack operations that must be performed by the user program before the CALL instruction is executed.
+                        A library module invocation using the high level application programmer's interface of a programming language like ExpL compiles to a set of machine instructions (given above). They are the stack operations that must be performed by the user program before the CALL instruction is executed.
                     </p>
                     <p>
                         Following are the library functions and details relevant to ExpL Compiler:
