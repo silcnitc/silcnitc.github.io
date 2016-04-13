@@ -268,16 +268,16 @@
                         <b>Code</b> contains the header and code part of the <a href="#nav-XEXE-executable-file-format">XEXE executable file</a>, which is loaded by the eXpOS loader from the file system when the Exec system call is executed. The first eight words of the executable file contains the header. The rest of the code region contains the XSM instructions. The total size of code section cannot exceed 2048 words. Hence, the code region will be between memory addressess 2048 and 4095 in the address space of the process.
                     </p>
                     <p>
-                        <b>Stack</b> is the space reserved for the runtime stack of the process. Parameters and local variables associated with functions in a program are allocated in the stack. In the XSM architecture, the stack grows upwards and the maximum stack size is 1024 words. Global variables must be allocated in the stack as the executable file format does not support a separate <a href="https://en.wikipedia.org/wiki/Data_segment">Data region</a>. The stack will occupy the region betweem memory address 4095 and 5119 in the address space of the process.
+                        <b>Stack</b> is the space reserved for the runtime stack of the process. Parameters and local variables associated with functions in a program are allocated in the stack. In the XSM architecture, the stack grows upwards and the maximum stack size is 1024 words. Global variables must be allocated in the stack as the executable file format does not support a separate <a href="https://en.wikipedia.org/wiki/Data_segment">Data region</a>. The stack occupies the region between memory address 4095 and 5119 in the address space of the process.
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-XEXE-executable-file-format">
                     <h2>XEXE executable file format</h2>
                     <p>
-                        The compiler must generate target code into a file in the format specified below so that the eXpOS loader recognizes the format and load the program into memory for execution correctly.   Each executable file contains a header in which the compiler adds information like the initial value to be given to the stack pointer in the virtual addres space, initial value of the instruction pointer etc, the starting (virtual) addresses and sizes of various memory regions like text, stack, heap etc.
+                        The compiler must generate target code into a file in the format specified below so that the eXpOS loader recognizes the format and load the program into memory for execution correctly.   Each executable file contains a header in which the compiler adds information like the initial value to be given to the stack pointer in the virtual address space, initial value of the instruction pointer etc, the starting (virtual) addresses and sizes of various memory regions like text, stack, heap etc.
                     </p>
                     <p>
-                        Executable files in eXpOS must be in the XEXE format as eXpOS executes only files of such format.An XEXE executable file in eXpOS consists of two parts:
+                        Executable files in eXpOS must be in the XEXE format as eXpOS executes only files of such format. An XEXE executable file in eXpOS consists of two parts:
                     </p>
                     <ul>
                         <li>Header</li>
@@ -285,14 +285,14 @@
                     </ul>
                     <img src="img/exe_file.jpeg" alt="" />
                     <p>
-                        The maximum size of the file (including the header) is limited by the constant EXE_SIZE. The eXpOS implementation for the XSM architecture discussed here sets EXE_SIZE to 1024 words.
+                        The maximum size of the file (including the header) is limited by 2048 words.
                     </p>
                     <p>
                         The first eight words of an executable file are reserved for the header which describes the features of file. The structure of the header is :
                     </p>
                     <img src="img/header.png" alt="" />
                     <p>
-                        <b>XMAGIC</b> is a number indicating the type of executable file. All XEXE files will have magic number 0. For more on Magic Number, click here.
+                        <b>XMAGIC</b> is a number indicating the type of executable file. All XEXE files will have magic number 0. For more on Magic Number, click <a href="https://en.wikipedia.org/wiki/File_format#Magic_number"> here</a>.
                     </p>
                     <p>
                         <b>Entry point</b> contains the virtual address in memory of the first instruction to be executed (entry point) of the program after the OS loader has loaded it. During loading, the program counter must be initialized to this address.
@@ -301,7 +301,7 @@
                         <b>Text Size, Data Size, Heap Size</b> and <b>Stack size</b> indicates the sizes of Text, Data, Heap and Stack regions to be allocated by the OS loader when the file is loaded for execution.
                     </p>
                     <p>
-                        Note : The present eXpOS virtual address space model requires that the data and stack must be in the same memory area and must be managed by the compiler / application program. The value of Data Size field is ignored. Moreover, the size allocated for text and stack regions in memory are set to 1024 irrespective of the values present in the header.
+                        Note : The present eXpOS virtual address space model requires that the data and stack must be in the same memory area and must be managed by the compiler / application program (this means that the program must contain the code to initialize the value of the stack pointer). The value of Data Size field is ignored. Moreover, the eXpOS loader (exec system call) sets the size of text region to 2048 words and stack region to 1024 words in memory irrespective of the values present in the header.
                     </p>
                     <p>
                         If the <b>Runtime Library</b> must be included when the file is loaded, the Library Flag is set to 1 in the executable file. If this flag is not set then neither memory is allocated for the heap nor the library linked to the address space of the process at execution time.
