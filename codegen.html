@@ -47,7 +47,7 @@
                         ExpL compiler converts the intermediate representation(the abstract syntax tree) of the ExpL program to a machine code that can be readily executed by the XSM machine. This is called Code Generation.
                     </p>
                     <pre>
-                        regindex <b>codegen</b>(struct ASTNode *t)</br>
+                        regindex <b>codegen</b>(struct ASTNode *t)
                     </pre>
                     <p>
                         The codegen() function takes as input a pointer to the root of an abstract syntax tree and generates assembly code corresponding to the program represented by the AST. The codegen() function essentially invokes itself recursively to generate assembly code for the subtrees. The result of evaluation is a value which is stored in a register. The codegen() function returns the register number that would contain the evaluated value when the assembly code is executed. (when no value results in evaluating a tree node, there is no register allocated to store the value and -1 is returned by codegen() indicating this fact).
