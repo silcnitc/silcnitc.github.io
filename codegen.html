@@ -1,0 +1,59 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>Code Generation</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/style_new.css">
+        <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+        			    <li><a href="#">Help</a></li>
+        			    <li><a href="#">Code</a></li>
+        			    <li><a href="roadmap.html">Roadmap</a></li>
+        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">Code Generation</p>
+                <br>
+                <br>
+                <a class="button" href="">Download as PDF</a>
+            </header>
+            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar" style="position: static;">
+              <menu>
+                <ul>
+                  <li><a class="sec" href="#nav-introduction">Introduction</a></li>
+                  <li><a class="sec" href="#nav-illustration">Illustration</a></li>
+              </ul>
+              </menu>
+            </aside>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                <article class="grid col-full" id="nav-introduction">
+                    <h2>Introduction</h2>
+                    <p>
+                        ExpL compiler converts the intermediate representation(the abstract syntax tree) of the ExpL program to a machine code that can be readily executed by the XSM machine. This is called Code Generation.
+                    </p>
+                    <pre>
+                        regindex <b>codegen</b>(struct ASTNode *t)</br>
+                    </pre>
+                    <p>
+                        The codegen() function takes as input a pointer to the root of an abstract syntax tree and generates assembly code corresponding to the program represented by the AST. The codegen() function essentially invokes itself recursively to generate assembly code for the subtrees. The result of evaluation is a value which is stored in a register. The codegen() function returns the register number that would contain the evaluated value when the assembly code is executed. (when no value results in evaluating a tree node, there is no register allocated to store the value and -1 is returned by codegen() indicating this fact).
+                    </p>
+                </aricle>
+            </section>
+        </div>
+    </div>
+</html>
