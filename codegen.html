@@ -86,6 +86,7 @@
                             <li>Next, we would check the value in R<sub>i</sub>, if its zero, i.e, conditional expression has evaluated to false, we would jump to the end of the while code. So, the next instruction is to check if R<sub>i</sub> is zero and jump on to second label, say LL2 where the code to the body of while statement ends.</li>
                             <li>If the value in register R<sub>i</sub> is not zero, i.e, the conditional expression evaluted to true, the we would execute the body of while. Therefore, after the above steps code for 'ptr2' is generated and at the end of it, the jump statement to the first label, LL1 is given, so that, the conditional expression can be evalauted again and the decision whether to execute the body of while is made.</li>
                             <li>Finally the second label is given,so that we can mark the end of while statement.</li>
+                        </ol>
                     </p>
                     <p>
                         For the code generation for functions, the activities are given <a href="run_data_structures/run-time-stack.html">here.</a>
