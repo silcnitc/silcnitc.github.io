@@ -88,7 +88,7 @@
                     <article class="grid col-full" id="nav-associated-methods">
                         <h2>Associated Methods</h2>
                         <ul>
-                            <li>void <b>intialise()</b> : To initialise the heap with required initial values.</li>
+                            <li>void <b>initialise()</b> : To initialise the heap with required initial values.</li>
                             <li>int <b>alloc(int size)</b> : allocates continuos locations of given size and returns the starting address of allocated block.</li>
                             <li>int <b>free(int addr)</b> : frees the memory block starting with the given addr are erasing the data in that block and returns a value indicating the success and failure of free operation.</li>
                         </ul>
@@ -117,10 +117,6 @@
                             <li>If v is -1, return -1 indicating no free blocks are available.</li>
                             <li>Else, allocate the free block at v, after copying the next free block index stored at v to the reserved block.Return v.</li>
                         </ol>
-                        <p>
-                            Following is the pseudo code of the algorithm.
-                        </p>
-                        <script src="../js/60abadc1a9b7554fba73.js"></script>
                         <p>
                             Following is the <b>deallocation algorithm.</b>
                         </p>
@@ -191,7 +187,7 @@
                             In our implementation, we have a heap of size 1024. The smallest block size possible in the heap is 8 (order 0). The highest block size of 2<sup>n</sup> that is free is 1024.We maintain a free list for all possible block sizes. So we have freelists for sizes 8,16,32,64,128,256,512 and 1024, i.e, we maintain eight freelists.
                             <ul>
                                 <li>We have only one block of size 1024 and so the size of freelist for 1024 is 1(2<sup>0</sup>).</li>
-                                <li>In the 1024 sized heap, we have two blocks of size 512. Note that, both blocks cannot be free at the same time. If both blocks are free, they will be merged to a free block of size 1024(whose information will be maintained in the freelist for blocks of 1024 size). So at a time, maximum number of blocks that are free of size 512 is 1 ( 2<sup>0</sup>).</li>
+                                <li>In the 1024 sized heap, we have two blocks of size 512, starting at 1024 and 1536 respectively (heap starts at 1024). Note that, both blocks cannot be free at the same time. If both blocks are free, they will be merged to a free block of size 1024(whose information will be maintained in the freelist for blocks of 1024 size). So at a time, maximum number of blocks that are free of size 512 is 1 ( 2<sup>0</sup>).</li>
                                 <li>Similarly in case of blocks of size 256, 1024 sized heap has 4 blocks of size 256 (say a,b,c and d in their respective order).a and b are buddies of each other, of which both cannot be free at a time due to merging, so only one of them can be free. Similarly in case of c and d, only one of them can be free. 1 + 1 , 2 ( 2<sup>1</sup>) is the maximum size of free list for blocks of 256.</li>
                                 <li>Similarly, there are 8 blocks of 128 in 1024 (a,b,c,d,e,f,g and h). (a,b)(c,d)(e,f)(g,h) are buddy pairs and only one of each pair can be free. So the maximum size of freelist for blocks of 128 is 4 ( 2<sup>2</sup>).</li>
                                 <li>Similarly, the maximum size of freelist for blocks of sizes 64,32,16 and 8 are 8 ( 2<sup>3</sup>),16( 2<sup>4</sup>),32( 2<sup>5</sup>) and 64( 2<sup>6</sup>) respectively.</li>
@@ -199,7 +195,7 @@
                             So, the size of the complete freelist is 2<sup>0</sup> + 2<sup>0</sup> + 2<sup>1</sup> + 2<sup>2</sup> + 2<sup>3</sup> + 2<sup>4</sup> + 2<sup>5</sup> +2<sup>6</sup> = 128.
                         </p>
                         <p>
-                            We will maintain the freelist inside the heap, So initially we won't have the complete heap of 1024 free. So we need not require a freelist for size 1024. We will store the complete freelist in a 128 sized block. Therefore, initially we have the first 128 block(0-127) of the heap reserved for freelist maintainence. Then we have a 128 sized free block(128-255), then a 256 block(256-511) and then a free block of 512 size(512-1023). Following is the diagrammatic representation of the heap initial status.
+                            We will maintain the freelist inside the heap, So initially we won't have the complete heap of 1024 free. We need not require a freelist for size 1024. We will store the complete freelist in a 128 sized block. Therefore, initially we have the first 128 block(0-127) of the heap reserved for freelist maintainence. Then we have a 128 sized free block(128-255), then a 256 block(256-511) and then a free block of 512 size(512-1023). Following is the diagrammatic representation of the heap initial status.
                         </p>
                         <img src="img/data_structure_17.png" alt="" />
                         <p>
