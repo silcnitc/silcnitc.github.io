@@ -110,8 +110,8 @@
                         </p>
                         <ol>
                             <li>First index of reserved block is checked, let the value be v.</li>
-                            <li>If v is -1, return -1 indicating no free blocks are available.</li>
-                            <li>Else, allocate the free block at v, after copying the next free block index stored at v to the reserved block.Return v.</li>
+                            <li>If v is -1,  <br> &nbsp;&nbsp;&nbsp;return -1 indicating no free blocks are available.</li>
+                            <li>Else, <br> &nbsp;&nbsp;&nbsp;allocate the free block at v, <br> &nbsp;&nbsp;&nbsp; copy the next free block index stored at v to the reserved block. Return v.</li>
                         </ol>
                         <p>
                             Following is the <b>deallocation algorithm.</b>
