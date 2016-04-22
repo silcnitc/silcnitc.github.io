@@ -191,7 +191,7 @@
                             So, the size of the complete freelist is 2<sup>0</sup> + 2<sup>0</sup> + 2<sup>1</sup> + 2<sup>2</sup> + 2<sup>3</sup> + 2<sup>4</sup> + 2<sup>5</sup> +2<sup>6</sup> = 128.
                         </p>
                         <p>
-                            We will maintain the freelist inside the heap, So initially we won't have the complete heap of 1024 free. We need not require a freelist for size 1024. We will store the complete freelist in a 128 sized block. Therefore, initially we have the first 128 block(0-127) of the heap reserved for freelist maintainence. Then we have a 128 sized free block(128-255), then a 256 block(256-511) and then a free block of 512 size(512-1023). Following is the diagrammatic representation of the heap initial status.
+                            We will maintain the <b>freelist</b> inside the heap, So initially we won't have the complete heap of 1024 free. We need not require a freelist for size 1024. We will store the complete freelist in a 128 sized block. Therefore, initially we have the first 128 block(0-127) of the heap reserved for freelist maintainence. Then we have a 128 sized free block(128-255), then a 256 block(256-511) and then a free block of 512 size(512-1023). Following is the diagrammatic representation of the heap initial status.
                         </p>
                         <img src="../img/data_structure_17.png" alt="" />
                         <p>
