@@ -77,7 +77,7 @@
                               int a[10];            /* array a indexed a[0],a[1],..a[9], can store 10 integers*/
                               str stringlist[10];   /* stringlist is an array of 10 strings */
                             </pre>
-                            <p><b>User-defined types</b></p> <p style="text-indent: 3em;">ExpL allows user defined data types. The (member) <b>fields</b> of a user defined type may be of type a) integer, b) string,  c) a previously defined user defined type or d) the type that is currently being defined. Arrays of user defined types are <b>not</b> allowed.  </p>
+                            <p id="nav-user-defined-types"><b>User-defined types</b></p> <p style="text-indent: 3em;">ExpL allows user defined data types. The (member) <b>fields</b> of a user defined type may be of type a) integer, b) string,  c) a previously defined user defined type or d) the type that is currently being defined. Arrays of user defined types are <b>not</b> allowed.  </p>
                             <p><i>Note</i> : ExpL specifies that the <b>store</b>  for variables of user defined types shall be <b>dynamically allocated</b>. Hence the programmer has to call the library function alloc() to allocate store for variables of user defined types before use.  <b> User defined types take default value NULL unless allocated or assigned otherwise.</b>  Store allocated for a variable of a user defined type is de-allocated using the free() library function.</p>
                             <p><i>Example</i> : A user defined type, mytype is defined as:</p>
                             <pre>
