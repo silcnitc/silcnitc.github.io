@@ -117,7 +117,7 @@
                             Following is the <b>deallocation algorithm.</b>
                         </p>
                         <ol>
-                            <li>The arguement passed : starting address of the block(say s) to be deallocated</li>
+                            <li>The argument passed : starting address of the block(say s) to be deallocated</li>
                             <li>The block s is cleared by setting all memstructs in the block to type EMPTY.</li>
                             <li>The value in the first index of reserved block is copied to first index of block s.</li>
                             <li>The first index of reserved block is set with starting address of block s.</li>
@@ -215,7 +215,7 @@
                             </li>
                         </ul>
                         <p>
-                            Following is the <b>deallocation algorithm</b> (arguement : the starting address of the allocated block)
+                            Following is the <b>deallocation algorithm</b> (argument : the starting address of the allocated block)
                         </p>
                         <ol>
                             <li>Get the size, say 's' of the block from the first index of the block. Free the complete block with the help of size obtained by setting all the memstruct type to MEMSTRUCT_EMPTY.</li>
