@@ -16,10 +16,10 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
-        			    <li><a href="#">Help</a></li>
-        			    <li><a href="#">Code</a></li>
-        			    <li><a href="roadmap.html">Roadmap</a></li>
-        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Code</a></li>
+                        <li><a href="roadmap.html">Roadmap</a></li>
+                        <li><a href="documentation.html" class="navactive">Documentation</a></li>
                 </ul>
             </nav>
         </header>
@@ -381,41 +381,44 @@
                                 <th>Argument 3</th>
                             </tr>
                             <tr>
-                                <td>Read</td>
-                                <td>7</td>
-                                <td>File Descriptor</td>
-                                <td>Buffer</td>
-                                <td>-</td>
-                            </tr>
+                                  <td>Read</td>
+                                  <td>"Read"</td>
+                                  <td>File Descriptor (int)</td>
+                                  <td>Buffer<font color="red">*</font> (int/str)</td>
+                                  <td>-</td>
+                              </tr>
                             <tr>
-                                <td>Write</td>
-                                <td>5</td>
-                                <td>File Descriptor</td>
-                                <td>Buffer</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>Initialize</td>
-                                <td>-1</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>Alloc</td>
-                                <td>-2</td>
-                                <td>Size</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>Free</td>
-                                <td>-3</td>
-                                <td>Pointer</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
+                                  <td>Write</td>
+                                  <td>"Write"</td>
+                                  <td>File Descriptor (int)</td>
+                                  <td>Buffer<font color="red">*</font> (int/str)</td>
+                                  <td>-</td>
+                              </tr>
+                            <tr >
+                                  <td>Initialize</td>
+                                  <td>"Initialize"</td>
+                                  <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                              </tr>
+                              <tr>
+                                  <td>Alloc</td>
+                                  <td>"Alloc"</td>
+                                  <td>Size (int)</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                              </tr>
+                              <tr>
+                                  <td>Free</td>
+                                  <td>"Free"</td>
+                                  <td>Pointer (int)</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                              </tr>
                         </table>
+                        <sup>
+                            * foot note regarding buffer
+                        </sup>
                     </p>
 
                     <h3 style="clear:left">After return from the library module </h3>
