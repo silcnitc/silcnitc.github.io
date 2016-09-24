@@ -39,16 +39,155 @@
                 <div class="grid-wrap">
                     <article class="grid col-full" id="nav-intro">
                         <!-- <h2>Expl Usage specification for Compiler Lab</h2> -->
+                        <p>
+                            The <b>XSM (eXperimental String Machine)</b> Simulator is used to simulate the XSM hardware.<br>
+                            <br>
+                            Within your XSM directory, use the following command to run the simulator
+                        </p>
                         <pre>
-                            xsm filename.xsm
+                            <b><i>./xsm [--timer=#1] [--disk=#2] [--console=#3] [--debug]</i></b>
                         </pre>
                         <br>
                         <p>
-                            About the usage of above command
+                            (i) <b><i>Syntax</i></b> : --timer=value <br>
+                            <b><i>Semantics</i></b> : This flag sets the number of user mode instructions after which timer interrupt is triggered to the value specified. --timer=0 disables the timer. The range of value is from 0 to 1024.<br><br>
+
+                            (ii) <b><i>Syntax</i></b> : --disk=value <br>
+                            <b><i>Semantics</i></b> : This flag sets the number of user mode instructions after which the disk interrupt is triggered to the value specified. The range of value is from 0 to 1024. Note that count begins only after a LOAD or STORE machine instruction gets executed.<br><br>
+
+                            (iii) <b><i>Syntax</i></b> : --console=value <br>
+                            <b><i>Semantics</i></b> : This flag sets the number of user mode instructions after which console interrupt is triggered to the value specified. The range of value is from 0 to 1024. Note that count begins only after a IN machine instruction gets executed.<br><br>
+
+                            (iv) <b><i>Syntax</i></b> : --debug <br>
+                            <b><i>Semantics</i></b> : This flag sets the machine into DEBUG mode when it encounters a BRKP machine instruction. Any BRKP instruction in the program will be ignored by the machine if this flag is not set. Further details are given in the section below. The machine instruction INI gets enabled only in DEBUG mode.<br><br>
                         </p>
                         <br>
+                    </article>
+                    <article class="grid col-full" id="nav-intro">
+                        <h2>Debugging</h2>
+                        <p>
+                            The --debug flag is used to debug the running machine. When this flag is set and the machine encounters a breakpoint instruction, the machine enters the DEBUG mode. In this mode a prompt is displayed which allows the user to enter commands to inspect the state of the machine.
+
+                            The commands in DEBUG mode are :
+
+                        </p>
+
+                        <p>
+                            (1) <b><i>Syntax</i></b> : step / s <br>
+                            <b><i>Semantics</i></b> : The execution proceeds by a single step.
+                        </p>
+
+                        <p>
+                            (2) <b><i>Syntax</i></b> : continue / c <br>
+                            <b><i>Semantics</i></b> : The execution proceeds till the next breakpoint (BRKP) instruction.
+                        </p>
+
+                         <p>
+                            (3) <b><i>Syntax</i></b> : reg / r <br>
+                            <b><i>Semantics</i></b> : Displays the contents of all the machine registers namely IP, SP, BP, PTBR, PTLR, EIP, EC, EPN, EMA, R0-R19 in that order.
+                        </p>
+
+                        <p>
+                            (4) <b><i>Syntax</i></b> : reg / r <register_name> <br>
+                            <b><i>Semantics</i></b> : Displays the contents of the specified register. <br>
+                            Sample usage: r R5, reg PTLR
+                        </p>
+
+                         <p>
+                            (5) <b><i>Syntax</i></b> : reg / r <register_name_1> <register_name_2> <br>
+                            <b><i>Semantics</i></b> : Displays the contents of the registers from <register_name_1> to <register_name_2> in the order specified in (3).
+                        </p>
+
+                         <p>
+                            (6) <b><i>Syntax</i></b> : mem / m <page_num>  <br>
+                            <b><i>Semantics</i></b> : Displays the contents of the memory page <page_num>. <br>
+                            Sample usage: mem 5, m 20
+                        </p>
+
+                         <p>
+                            (7) <b><i>Syntax</i></b> : mem / m <page_num_1> <page_num_2> :<br>
+                            <b><i>Semantics</i></b> : Displays the contents of the memory from pages <page_num_1> to <page_num_2>. 
+                            <br>Sample usage: mem 5 8, m 0 10
+                        </p>
+
+                         <p>
+                            (8) <b><i>Syntax</i></b> : pcb / p<br>
+                            <b><i>Semantics</i></b> : Displays the Process Control Block of the process with the state as RUNNING.
+
+                        </p>
+
+                         <p>
+                            (9) <b><i>Syntax</i></b> : pcb / p <pid><br>
+                            <b><i>Semantics</i></b> : Displays the Process Control Block of the process with the given <pid>.
+                        </p>
+
+                         <p>
+                            (10) <b><i>Syntax</i></b> : pagetable / pt<br>
+                            <b><i>Semantics</i></b> : Displays the Page Table at the location pointed by PTBR (Page Table Base Register).
+                        </p>
+
+                        <p>
+                            (11) <b><i>Syntax</i></b> : pagetable / pt <pid> :<br>
+                            <b><i>Semantics</i></b> : Displays the <pid>th Page Table.
+                        </p>
+
+                        <p>
+                            (12) <b><i>Syntax</i></b> : filetable / ft<br>
+                            <b><i>Semantics</i></b> : Displays the System Wide Open File Table.
+                        </p>
+
+                        <p>
+                            (13) <b><i>Syntax</i></b> : memfreelist / mf <br>
+                            <b><i>Semantics</i></b> : Displays the Memory Free List.
+                        </p>
+
+                        <p>
+                            (14) <b><i>Syntax</i></b> : diskfreelist / df <br>
+                            <b><i>Semantics</i></b> : Displays the memory copy of the Disk Free List.
+                        </p>
+
+                        <p>
+                            (15) <b><i>Syntax</i></b> : inodetable / it<br>
+                            <b><i>Semantics</i></b> : Displays the memory copy of the Inode Table.
+                        </p>
+
+                        <p>
+                            (16) <b><i>Syntax</i></b> : usertable / ut<br>
+                            <b><i>Semantics</i></b> : Displays the memory copy of the User Table.
+                        </p>
+
+                        <p>
+                            (17) <b><i>Syntax</i></b> : location / l &ltaddress><br>
+                            <b><i>Semantics</i></b> : Displays the content at memory address (Address Translation takes place if used in USER mode)
+                        </p>
+
+                        <p>
+                            (18) <b><i>Syntax</i></b> : watch / w <physical_address> <br>
+                            <b><i>Semantics</i></b> : Sets a watch point to this address. Watch point is used to track changes of a particular memory location. Whenever a word which is watched is altered, program execution is stopped and the debug interface is invoked. Atmost 16 watch points can be set.
+                        </p>
+
+                        <p>
+                            (19) <b><i>Syntax</i></b> : watchclear / wc  <br>
+                            <b><i>Semantics</i></b> : Clears all the watch points.
+                        </p>
+
+                        <p>
+                            (20) <b><i>Syntax</i></b> : exit / e <br>
+                            <b><i>Semantics</i></b> : Exits the debug prompt and halts the machine.
+                        </p>
+
+                        <p>
+                            (21) <b><i>Syntax</i></b> : help / h  <br>
+                            <b><i>Semantics</i></b> : Displays commands.
+                        </p>
+
+                        <br>
+                    </article>
+
+                    <article class="grid col-full" id="nav-intro">
+
                         <pre >
-                            xsm -l filename.xsm
+                            ./xsm -l filename.xsm
                         </pre>
                         <br>
                         <p>
