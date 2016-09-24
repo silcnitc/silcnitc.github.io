@@ -1,0 +1,176 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>High Level Library Interface For expl</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/style_new.css">
+        <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
+        <script src="js/bootstrap.min.js" charset="utf-8"></script>
+        <script src="js/sticky_sidebar.js" charset="utf-8"></script>
+
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+        			    <li><a href="#">Help</a></li>
+        			    <li><a href="#">Code</a></li>
+        			    <li><a href="roadmap.html">Roadmap</a></li>
+        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <!-- <p class="fleft">High Level Library Interface For eXpOS</p> -->
+                <!-- <br> -->
+                <br>
+                <a class="button" href="#">Download as PDF</a>
+            </header>
+
+            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
+           </aside>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                    <article class="grid col-full" id="nav-intro">
+                        <h2>High Level Library Interface For expl</h2>
+                        <p>
+                            The High Level Library Interface is a unified interface to access system call routines and dynamic memory management functions from application programs.
+                        </p>
+                        <p>
+                        <table class="doctable">
+                            <tr>
+                                <th>Library Function / System Call</th>
+                                <th>Function Code</th>
+                                <th>Argument 1</th>
+                                <th>Argument 2</th>
+                                <th>Argument 3</th>
+                                <th>Return Values</th>
+                            </tr>
+                            <tr>
+                                  <td rowspan="3">Read</td>
+                                  <td rowspan="3">"Read"</td>
+                                  <td rowspan="3">File Descriptor (int)</td>
+                                  <td rowspan="3">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="3">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - File Descriptor given is invalid</tr>
+                                  <td>-2 - File pointer has reached the end of file</tr>
+                              </tr>
+                            <tr>
+                                  <td rowspan="4">Write</td>
+                                  <td rowspan="4"> "Write"</td>
+                                  <td rowspan="4">File Descriptor (int)</td>
+                                  <td rowspan="4">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="4">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - File Descriptor given is invalid</tr>
+                                  <td>-2 - No disk space</tr>
+                                  <td>-3 - Permission denied</tr>
+                              </tr>
+                            <tr class = "active">
+                                  <td rowspan="2">Initialize</td>
+                                  <td rowspan="2">"Initialize"</td>
+                                  <td rowspan="2">-</td>
+                                  <td rowspan="2">-</td>
+                                  <td rowspan="2">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - Failure</tr>
+                              </tr>
+                              <tr class = "active">
+                                  <td rowspan="2">Alloc</td>
+                                  <td rowspan="2">"Alloc"</td>
+                                  <td rowspan="2">Size (int)</td>
+                                  <td rowspan="2">-</td>
+                                  <td rowspan="2">-</td>
+                                  <td>Address in the heap allocated (int) </tr>
+                                  <td>-1 - No allocation</tr>
+                              </tr>
+                              <tr class = "active">
+                                  <td rowspan="2">Free</td>
+                                  <td rowspan="2">"Free"</td>
+                                  <td rowspan="2">Pointer (int)</td>
+                                  <td rowspan="2">-</td>
+                                  <td rowspan="2">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - Failure</tr>
+                              </tr>
+                        </table>
+                        <sup>
+                            * foot note regarding buffer
+                        </sup>
+                    </p>
+                    <p>
+                        The description of the system calls can be seen here. The dynamic memory management routines are described below.
+                    </p>
+                    </article>
+                    <article class="grid col-full" id="nav-data-types">
+                        <h2>Dynamic Memory Routines</h2>
+                        <h4>Initialize</h4>
+                        <p>
+                            <p>Arguments: None </p>
+                            <p>Return Value:</p>
+                            <table class="doctable">
+                                <tr>
+                                    <td>0</td>
+                                    <td>Success</td>
+                                </tr> 
+                                <tr>
+                                    <td>-1</td>
+                                    <td>Failure</td>
+                                </tr> 
+                            </table>
+                            <br>
+                            <p>
+                                Description: Intitalizes the heap data structures and sets up the heap area of the process.It is the applications responsibility to invoke Initialize() before the first use of Alloc(). The behaviour of Alloc() and Free() when invoked without an Intialize() operation is undefined. Any memory allocated before an Intialize() operation will be reclaimed for future allocation. 
+                            </p>
+                        </p>
+                        <h4>Alloc</h4>
+                        <p>
+                            <p>Arguments: Size (int) </p>
+                            <p>Return Value:</p>
+                            <table class="doctable">
+                                <tr>
+                                    <td>integer</td>
+                                    <td>Address in the heap allocated</td>
+                                </tr> 
+                                <tr>
+                                    <td>-1</td>
+                                    <td>No allocation</td>
+                                </tr>  
+                            </table>
+                            <br>
+                            <p>
+                                Description: The Alloc operation takes as input an integer, allocates contiguous words equal to the input specified and returns a pointer (i.e., an integer memory address) to the beginning of the allocated memory in the heap. 
+                            </p>
+                        </p>
+                        <h4>Free</h4>
+                        <p>
+                            <p>Arguments: Pointer (int)</p>
+                            <p>Return Value:</p>
+                            <table class="doctable">
+                                <tr>
+                                    <td>0</td>
+                                    <td>Success</td>
+                                </tr> 
+                                <tr>
+                                    <td>-1</td>
+                                    <td>Failure</td>
+                                </tr>  
+                            </table>
+                            <br>
+                            <p>
+                                Description: The Free operation takes a pointer (i.e., an integer memory address) of a previously allocated memory block and returns it to the heap memory pool.  If the pointer does not correspond to a valid reference to the beginning of a previously allocated memory block, the behaviour of Free is not defined.  
+                            </p>
+                        </p>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+</html>
