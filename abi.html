@@ -379,25 +379,34 @@
                                 <th>Argument 1</th>
                                 <th>Argument 2</th>
                                 <th>Argument 3</th>
+                                <th>Return Values</th>
                             </tr>
                             <tr>
-                                  <td>Read</td>
-                                  <td>"Read"</td>
-                                  <td>File Descriptor (int)</td>
-                                  <td>Buffer<font color="red">*</font> (int/str)</td>
-                                  <td>-</td>
+                                  <td rowspan="3">Read</td>
+                                  <td rowspan="3">"Read"</td>
+                                  <td rowspan="3">File Descriptor (int)</td>
+                                  <td rowspan="3">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="3">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - File Descriptor given is invalid</tr>
+                                  <td>-2 - File pointer has reached the end of file</tr>
                               </tr>
                             <tr>
-                                  <td>Write</td>
-                                  <td>"Write"</td>
-                                  <td>File Descriptor (int)</td>
-                                  <td>Buffer<font color="red">*</font> (int/str)</td>
-                                  <td>-</td>
+                                  <td rowspan="4">Write</td>
+                                  <td rowspan="4"> "Write"</td>
+                                  <td rowspan="4">File Descriptor (int)</td>
+                                  <td rowspan="4">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="4">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - File Descriptor given is invalid</tr>
+                                  <td>-2 - No disk space</tr>
+                                  <td>-3 - Permission denied</tr>
                               </tr>
                             <tr >
                                   <td>Initialize</td>
                                   <td>"Initialize"</td>
                                   <td>-</td>
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                               </tr>
@@ -407,11 +416,13 @@
                                   <td>Size (int)</td>
                                     <td>-</td>
                                     <td>-</td>
+                                    <td>-</td>
                               </tr>
                               <tr>
                                   <td>Free</td>
                                   <td>"Free"</td>
                                   <td>Pointer (int)</td>
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                               </tr>
