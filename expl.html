@@ -51,7 +51,7 @@
                     <article class="grid col-full" id="nav-intro">
                         <h2>Introduction</h2>
                         <p>
-                            ExpL (Experimental language) is the language for which we will build the compiler through this course. Following are the minimal features that the language supports.
+                            ExpL (Experimental language) is the language for which we will build a compiler in this course. This document provides an informal specification for the language. 
                         </p>
                     </article>
                     <article class="grid col-full" id="nav-data-types">
@@ -71,14 +71,14 @@
 
                           <h4>Composite data types</h4>
                             <p><b>Arrays</b></p>
-                            <p style="text-indent: 3em;">Arrays can be of <b>integer</b> or <b>string</b> or <b>user-defined</b> type only.  Only single-dimensional arrays are allowed.   The semantics is similar to that of C programming language.  Arrays are  allocated statically.  </p>
+                            <p style="text-indent: 3em;">Arrays can be of <b>integer</b>, <b>string</b> or <b>user-defined</b> types only.  Only single-dimensional arrays are allowed. Arrays are <a href="new page">statically allocated</a>.  </p>
                             <p><i>Example</i> :</p>
                             <pre>
                               int a[10];            /* array a indexed a[0],a[1],..a[9], can store 10 integers*/
                               str stringlist[10];   /* stringlist is an array of 10 strings */
                             </pre>
-                            <p id="nav-user-defined-types"><b>User-defined types</b></p> <p style="text-indent: 3em;">ExpL allows user defined data types. The (member) <b>fields</b> of a user defined type may be of type a) integer, b) string,  c) a previously defined user defined type or d) the type that is currently being defined. Arrays of user defined types are <b>not</b> allowed.  </p>
-                            <p><i>Note</i> : ExpL specifies that the <b>store</b>  for variables of user defined types shall be <b>dynamically allocated</b>. Hence the programmer has to call the library function alloc() to allocate store for variables of user defined types before use.  <b> User defined types take default value NULL unless allocated or assigned otherwise.</b>  Store allocated for a variable of a user defined type is de-allocated using the free() library function.</p>
+                            <p id="nav-user-defined-types"><b>User-defined types</b></p> <p style="text-indent: 3em;">ExpL allows user defined data types. The (member) <b>fields</b> of a user defined type may be of type a) integer, b) string,  c) a previously defined user defined type or d) the type that is currently being defined.</p>
+                            <p><i>Note</i> : ExpL specifies that the <b>store</b>  for variables of user defined types shall be <b>dynamically allocated</b>. Hence the programmer has to call the library function <i>alloc()</i> to allocate memory for variables of user defined types.  <b> User defined types take default value NULL unless allocated or assigned otherwise.</b>  Store allocated for a variable of a user defined type is de-allocated using the <i>free()</i> library function.</p>
                             <p><i>Example</i> : A user defined type, mytype is defined as:</p>
                             <pre>
                               mytype
@@ -89,22 +89,23 @@
                             </pre>
                             <p>a variable of type mytype is declared as:</p>
                             <pre>
-                              mytype var;
+                              mytype var, vararray[10];
                             </pre>
                             <p>Storage for the variable is allocated as:</p>
                             <pre>
-                              var=alloc();   /* Note:  Access without allocation can lead to run time errors */
+                              var = alloc();   /* Note:  Access without allocation can lead to run time errors */
+                              vararray[0] = alloc();
                             </pre>
                             <p>Its fields may be accessed as:</p>
                             <pre>
-                              var.a=10;     /*  the “.” symbol is used to access member fields */
-                              var.b="hello";
+                              var.a = 10;     /*  the “.” symbol is used to access member fields */
+                              vararray[0].b = "hello";
                             </pre>
                             <p>The memory allocated may be freed as:</p>
                             <pre>
                               retval = free(var);
                             </pre>
-                            <p><i>Note</i> :  The ExpL compiler may internally represent var like a pointer variable. The library function alloc may be designed so as to allocate memory and return pointer to allocated memory. (Library functions are explained in detail later on.) The returned pointer is stored in var.   </p>
+                            <p><i>Note</i> :  The ExpL compiler may internally represent var like a pointer variable. The library function alloc may be designed so as to allocate memory and return a pointer to the allocated memory. The returned pointer is stored in var. (Library functions are explained in detail later on.)   </p>
 
                     </article>
                     <article class="grid col-full" id="nav-general-program-structure">
@@ -114,15 +115,15 @@
                         </p>
                         <ul>
                             <li>Type Definitions - Optional (for user defined types)</li>
-                            <li>Global (global variables, arrays and functions) Declarations</li>
+                            <li>Global Declarations - for global variables, arrays and functions </li>
                             <li> Function Definitions and the main Function Definition</li>.
                         </ul>
                         <p>
-                            Following subsections explain each program section.
+                            The following subsections explain each program section.
                         </p>
                         <h4>Type Definitions</h4>
                         <p>
-                            All user-defined types in the program must defined in the type definition section. Type Definition section starts with keyword <b>type</b> and ends with <b>endtype.</b>
+                            All user-defined types in a program must be defined in the type definition section. The Type Definition section starts with the keyword <b>type</b> and ends with the keyword <b>endtype.</b>
                         </p>
                         <i>Example</i>
                         <script src="https://gist.github.com/vishnupriyam/67898e19a3cb8f2dc010.js"></script>
@@ -131,10 +132,10 @@
                             The global declaration part of an ExpL program begins with the keyword <b>decl</b> and ends with the keyword <b>enddecl</b>. All global variables, arrays and functions in a program must be declared in this section.
                         </p>
                         <p>
-                            Global variables may be of type integer, string, a user defined type, an integer array or a string array. The <b>variables declared globally must be allocated statically</b> by the compiler. Global variables are visible throughout the program <b>unless suppressed</b> by a redeclaration within the scope of some function. Array type variables can be declared only globally. Only single dimensional arrays are allowed. Variables <b>cannot be assigned values during the declaration phase.</b>
+                            Global variables may be of type integer, string, a user defined type, an integer array, a string array or an array of a user-defined type. The <b>variables declared globally must be allocated statically</b> by the compiler. Global variables are visible throughout the program <b>unless suppressed</b> by a redeclaration within the scope of some function. Array type variables can be declared only globally. Only single dimensional arrays are allowed. Variables <b>cannot be assigned values during the declaration phase.</b>
                         </p>
                         <p>
-                            For every function except the special <b>main</b> function defined in an ExpL program, there must be a declaration. A function declaration should specify the name of the function, the name and type of each of its arguments and the return type of the function. A function can have integer/string/user defined type arguments. The return type of a function also can be integer/string/user-defined type. ExpL enforces <b>call-by-value</b> semantics for integer and string parameters and <b>call-by-reference</b> for user defined types. (A variable of a user defined type typically stores a reference to its store.) <b>Arrays cannot be passed as arguments.</b> If a global variable name appears as an argument of a function, then within the scope of the function, the new declaration will be valid and global variable declaration is suppressed. Different functions may have arguments of the same name. However, the same name cannot be given to different arguments in a function. The general form of declarations is as follows:
+                            For every function except the special <b>main</b> function defined in an ExpL program, there must be a declaration. A function declaration should specify the name of the function, the name and type of each of its arguments and the return type of the function. A function can have integer/string/user defined type arguments. The return type of a function also can be integer/string/user-defined type. ExpL enforces <b>call-by-value</b> semantics for integer and string parameters and <b>call-by-reference</b> for user-defined types. (A variable of a user defined type typically stores a reference to its store.) <b>Arrays cannot be passed as arguments.</b> If a global variable name appears as an argument of a function, then within the scope of the function, the new declaration will be valid and the global declaration is suppressed. Different functions may have arguments of the same name. However, the same name cannot be given to two or more arguments in a function. The general form of declarations is as follows:
                         </p>
                         <pre>
                             type VarName1, VarName2 ;    /* variable declarations */
@@ -152,11 +153,11 @@
                             &nbsp;&nbsp;int x,y,a[10],b[20];       /* x,y are integers, a,b are integer arrays */
                             &nbsp;&nbsp;str t, q[10], f3(str x);   /*variable, array and a functions declared together*/
                             &nbsp;&nbsp;mytype m, fun(mytype t);   /* myptype must be  a user defined type */
-                            &nbsp;&nbsp;/*  The argument and return value of fun are references to mytype */
+                            &nbsp;&nbsp;/*  The argument and the return value of fun are references to mytype */
                             enddecl
                         </pre>
                         <p>
-                            Declaring functions at the beginning avoids the "forward reference" problem and facilitates single pass compilation. If a variable/function is declared multiple times, a compilation error should result.
+                            Declaring functions at the beginning avoids the <a href = "wiki page forward_declaration">forward reference</a> problem and facilitates single pass compilation. If a variable/function is declared multiple times, a compilation error should result.
                         </p>
                         <h4>Function Definitions and the Main Function</h4>
                         <p>
@@ -176,16 +177,16 @@
                             The syntax of local declarations and definitions are similar to those of global declarations except that arrays and functions cannot be declared inside a function. Local variables are visible only within the scope of the function where they are declared. The scope of a parameter is limited to the function. Static scope rules apply.
                         </p>
                         <p>
-                            The <b>main()</b> function, by specification, must be a <b>zero argument</b> function of <b>return type integer</b>. It must be defined after all other functions are defined. Program execution begins from the body of the main function. The main function must not be declared. The definition part of main should be given in the same format as any other function.
+                            The <b>main()</b> function, by specification, must be a <b>zero argument</b> function of <b>return type integer</b>. It must be defined immediately after declaration section, before all other functions are defined. Program execution begins from the body of the main function. The main function must not be declared. The definition part of main should be given in the same format as any other function. 
                         </p>
                         <p>
                             The Body of a function is a collection of statements embedded within the keywords <b>begin and end</b>.
                         </p>
                         <p>
-                            Example : The definition of a swap function may look like the following:
+                            Example : The following is an example for a simple function definition.
                         </p>
                         <pre>
-                            int add(int a,int b)
+                            int fun(int a,int b)
                             {
                             &nbsp;&nbsp;decl
                             &nbsp;&nbsp;&nbsp;&nbsp;int c,d;
@@ -200,7 +201,7 @@
                             }
                         </pre>
                         <p>
-                            Local Variables and parameters should be allocated space in the run-time stack of the function. The language <b>supports recursion</b>.
+                            Local Variables and parameters should be allocated space in the <a href="call_stack wiki"> run-time stack </a> of the function. The language <b>supports recursion</b>.
                         </p>
                         <p>
                             Each statement should end with a ‘;’ which is called the <b>statement terminator</b>.
@@ -224,31 +225,33 @@
                     <article class="grid col-full" id="nav-stmts-and-exprs">
                         <h2>Statements and Expressions</h2>
 
-                        <p>Before taking up statements, we should look at the different kinds of <b>constants</b> and <b>expressions</b> in the language.  ExpL has two kinds of expressions,  a) <b>Arithmetic</b> expressions and b) <b>Logical</b> expressions.    </p>
+                        <p>Before taking up statements, we should look at the different kinds of <b>constants</b> and <b>expressions</b> in the language.  ExpL has three kinds of expressions,  a) <b>Arithmetic</b> expressions, b) <b>String </b> expressions and c) <b>Logical</b> expressions.    </p>
 
                         <h3>Constants</h3>
                           <p>Any numerical value (Example: 234) is an <i>integer constant</i>.  A quoted string (Example: “hello”) is a <i>string constant</i>. </p>
 
-                        <h3>Arithmetic Expressions</h3>
-                          <p>Any integer constant/variable is a valid arithmetic expression, provided the scope rules  are not violated.  ExpL treats a function returning integer as an expression and the value of a function is its return value.</p>
-                          <p>ExpL provides five <b>arithmetic operators</b>, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization hold. eXpL is strongly typed and <b>any type mismatch or scope violation must be reported at compile time</b>.</p>
+                        <h3>Arithmetic and String Expressions</h3>
+                          <p>Any integer(or string) constant/variable is a valid arithmetic (or string) expression, provided the scope rules  are not violated.  ExpL treats a function returning integer (or string) as an integer expression (or string expression) and the value of a function is its return value. </p>
+                          <p>ExpL provides five <b>arithmetic operators</b>, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization apply. ExpL is strongly typed and <b>any type mismatch or scope violation must be reported at compile time</b>.</p>
                           <p><i>Examples</i> :  5, a[a[5+x]]+x , (f2() + b[x] + 5), sum + listObject.data , a[listObject.data] + f2(listObject) * 8 etc. are arithmetic expressions, provided type and scope rules are not violated.  </p>
 
                         <h3>Logical Expressions</h3>
-                            <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by eXpL are <, >, <=, >=, ==, and !=. Again <b>standard syntax and semantics conventions apply</b>. Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.  Note that the relational operators except == and != can compare only two arithmetic expressions and not two logical expressions.  </p>
+                            <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by ExpL are <, >, <=, >=, ==, and !=.  Again <b>standard syntax and semantics conventions apply</b>. Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.  Note that the relational operators except == and != can compare only two arithmetic expressions and not two logical or string expressions.  </p>
                             <p><i>Variables of string type or user defined types can only be checked for equality/inequality using the ==/!= operator. </i></p>
-                            <p><i>Example</i> :((x==y)==a[3]) is <b>not valid</b> eXpL expression because (x==y) is a logical expression, while a[3] must be a variable of type integer/string.   The "==" operator can be applied only between expressions of the same type.  </p>
+                            <p><i>Example</i> :((x==y)==a[3]) is <b>not valid</b> ExpL expression because (x==y) is a logical expression, while a[3] must be a variable of type integer/string.   The "==" operator can be applied only between expressions of the same type.  </p>
                             <p>(“hello”==a) is a valid logical expression provided, a is a variable of string type.  (p==q) is a valid logical expression provided p and q are variables of the same type.  </p>
-                            <p>SetOne.name == "a" , SetOne.total >= SetTwo.total are valid only if SetOne is of type string and field 'total' is of type integer.</p>
+                            <p>SetOne.name == "a", SetOne.total >= SetTwo.total are valid only if SetOne is a user defined type with a field 'name' of type string and another field 'total' of type integer.</p>
 
                         <h3>Assignment Statement</h3>
                             <p>The general syntax of the assignment statement is :</p>
                             <pre>
                               Lvalue = Rvalue;
                             </pre>
-                            <p>The possible Lvalues are variables or an indexed array variables.  If the Lvalue has type integer, the Rvalue can be any arithmetic expression.  If the Lvalue has type string, the Rvalue can be a string constant or a variable of type string.   If the Lvalue is a user defined variable, the Rvalue must be a user defined variable.</p>
+                            <p>The possible Lvalues are variables or indexed array variables.  If the Lvalue has type integer (or string) , the Rvalue must be an arithmetic (or string) expression. If the Lvalue is a user defined variable, the Rvalue must be a user defined variable of the same type, or the special constant NULL, or an invocation of the function <i>alloc()</i> (to be explained later).</p>
                             <p><i>Example</i> : q[3]= “hello” ; t= “world” ; are both valid assignments to string variables provided q is declared as an array of type string and t is declared as a variable of type string.   x=y; is valid if x and y are of the same type and scope rules are not violated.   </p>
-                            <p>In an assignment x=y where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>                            <h3>Conditional  Statement</h3>
+                            <p>In an assignment x=y where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are variables of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>                            
+
+                            <h3>Conditional  Statement</h3>
                             <p>The eXpL conditional statement has the following syntax:</p>
                             <pre>
                             if < Logical Expression > then
