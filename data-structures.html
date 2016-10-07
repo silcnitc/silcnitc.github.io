@@ -75,6 +75,16 @@
                         </p>
                         <p>
                             We can generalize this representation to come up with a tree representation for the whole sequence of statements of a ExpL function in a program.  Each funcion in an ExpL program will be represented by an abstract syntax tree.  Thus, the whole program will be a collection of abstract syntax trees, one for each function.
+
+                            As a very simple example, consider the three program statements:
+                                    a = b+c;
+                                    d = a-b;
+                                    c = a+d;
+
+                            A syntax tree representation for the three statements above would look as below:
+
+
+                            Whenever a variable occurs in the syntax tree representation, it is convenient to maintain a pointer to the symbol table entry of the variable as shown in the figure.  Note that since there are multiple symbol tables (global and local), the reference maintained for each variable must be to the right symbol table containing the variable entry.     
                         </p>
                         <p>
                             In the following, the definitions node structures for each of the above data structures is discussed.  The organization of data in these data structures is also discussed with illustrative examples.
