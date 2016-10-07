@@ -71,13 +71,13 @@
                                 struct Typetable* <b>TLookup(char *name)</b> : Search through the type table and  return pointer to type table entry of type 'name'. Returns NULL if entry is not found. 
                             </li>
                             <li>
-                                struct Typetable* <b>TInstall</b>(char *name, struct Fieldlist *fields,int size) : Creates a type table entry for the (user defined) type of 'name' with given 'fields' and returns the pointer to the type table entry.  The field list must specify the field index, type and name of each field. TInstall returns NULL upon failure. This routine is invoked when the compiler encounters a <a href="../grammar-outline.html#TypeDefBlock">type definition</a> in the source program.
+                                struct Typetable* <b>TInstall(char *name, struct Fieldlist *fields,int size)</b> : Creates a type table entry for the (user defined) type of 'name' with given 'fields' and returns the pointer to the type table entry.  The field list must specify the field index, type and name of each field. TInstall returns NULL upon failure. This routine is invoked when the compiler encounters a <a href="../grammar-outline.html#TypeDefBlock">type definition</a> in the source program.
                             </li>
                             <li>
-                                struct Fieldlist* <b>FLookup</b>(Typetable *type, char *name) : Searches for a field of given 'name' in the 'fieldlist' of the given user-defined type and returns a pointer to the field entry.  Returns NULL if the type does not have a field of the name. 
+                                struct Fieldlist* <b>FLookup(Typetable *type, char *name)</b> : Searches for a field of given 'name' in the 'fieldlist' of the given user-defined type and returns a pointer to the field entry.  Returns NULL if the type does not have a field of the name. 
                             </li>
                             <li>
-                                int <b>GetSize</b> (Typetable * type) : Returns the amount of memory words required to store a variable of the given type.
+                                int <b>GetSize (Typetable * type)</b> : Returns the amount of memory words required to store a variable of the given type.
                             </li>
                         </ul>
                     </article>
@@ -90,7 +90,7 @@
                         <ol>
                             <li>The type table is first created and initialised to contain the default entries for each of the primitive and internal datatypes. This is done through a call to the function TypeTableCreate() from main function before yyparse() is called to start parsing the code. After the execution of TypeTableCreate() , the type table will be as follows:
                             <br>
-                            Note : The size field has been left out in the figure below.
+                            <b> Note : </b> The size field has been left out in the figure below.
 
                                 <br/><img src="../img/data_structure_1.png" style="width:40%;margin-top:1em;margin-bottom:1em"></img><br>
                             </li>
