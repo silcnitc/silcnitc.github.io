@@ -56,8 +56,12 @@
                     <article class="grid col-full" id="nav-associated-methods">
                         <h2>Associated Methods</h2>
                         <ul>
-                            <li>struct Lsymbol* <b>LInstall</b>(char *name,struct Typetable *type) : Creates a local symbol tbale with given 'name' and 'type' and also sets its 'binding'.</li>
-                            <li>struct Lsymbol* <b>LLookup</b>(char *name) : search the LST and if any entry with given 'name' is found ,return the entry,else returns NULL. </li>
+                            <li>
+                                struct Lsymbol* <b>LInstall</b>(char *name,struct Typetable *type) : Creates a local symbol tbale with given 'name' and 'type' and also sets its 'binding'.
+                            </li>
+                            <li>
+                                struct Lsymbol* <b>LLookup</b>(char *name) : search the LST and if any entry with given 'name' is found ,return the entry,else returns NULL. 
+                            </li>
                         </ul>
                         <p>
                             Memory is allocated for local variables of a function from a seperate memory area called the <a href="#nav-stack" class="imp">stack</a>. Hence, the binding for a local variable is the relative address of the variable with respect to the base of the <a href="#"><b>activation record</b> </a>for the function. The <a href="#"><b>base pointer</b></a> points to the base of an activation record of a function. The binding is added to the base pointer to obtain the address of variable in stack. This will be explained <a href="#">here</a>(UNFILLED).

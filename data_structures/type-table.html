@@ -76,6 +76,9 @@
                             <li>
                                 struct Fieldlist* <b>FLookup</b>(Typetable *type, char *name) : Searches for a field of given 'name' in the 'fieldlist' of the given user-defined type and returns a pointer to the field entry.  Returns NULL if the type does not have a field of the name. 
                             </li>
+                            <li>
+                                int GetSize(Typetable * type) : Returns the amount of memory words required to store a variable of the given type.
+                            </li>
                         </ul>
                     </article>
                     <article class="grid col-full" id="nav-illustration">
