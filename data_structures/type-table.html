@@ -71,7 +71,7 @@
                                 struct Typetable* <b>TLookup(char *name)</b> : Search through the type table and  return pointer to type table entry of type 'name'. Returns NULL if entry is not found. 
                             </li>
                             <li>
-                                struct Typetable* <b>TInstall(char *name, struct Fieldlist *fields,int size)</b> : Creates a type table entry for the (user defined) type of 'name' with given 'fields' and returns the pointer to the type table entry.  The field list must specify the field index, type and name of each field. TInstall returns NULL upon failure. This routine is invoked when the compiler encounters a <a href="../grammar-outline.html#TypeDefBlock">type definition</a> in the source program.
+                                struct Typetable* <b>TInstall(char *name,int size, struct Fieldlist *fields)</b> : Creates a type table entry for the (user defined) type of 'name' with given 'fields' and returns the pointer to the type table entry.  The field list must specify the field index, type and name of each field. TInstall returns NULL upon failure. This routine is invoked when the compiler encounters a <a href="../grammar-outline.html#TypeDefBlock">type definition</a> in the source program.
                             </li>
                             <li>
                                 struct Fieldlist* <b>FLookup(Typetable *type, char *name)</b> : Searches for a field of given 'name' in the 'fieldlist' of the given user-defined type and returns a pointer to the field entry.  Returns NULL if the type does not have a field of the name. 
