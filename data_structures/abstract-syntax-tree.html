@@ -105,12 +105,12 @@
                             <tr>
                                 <td>EQ/NE</td>
                                 <td>boolean</td>
-                                <td>For relational operator '==' or '!='. <br>'ptr1' and 'ptr2' must be set to AST of left and right operands respectively and both must be of the same type.</td>
+                                <td>For relational operator '==' or '!='. <br>'ptr1' and 'ptr2' must be set to AST of the left and the right operands respectively and both must be of the same type.</td>
                             </tr>
                             <tr>
                                 <td>IF</td>
                                 <td>void</td>
-                                <td>For the conditional contruct 'if'. <br>'ptr1' is set to AST of the conditional logical expression and must be of type 'boolean', 'ptr2' is set to AST of list of statements that are executed when conditional expression evaluates to true and 'ptr3' is set to AST of list of statements that are to be executed when conditional expression is evalusted false.</td>
+                                <td>For the conditional construct 'if'. <br>'ptr1' must be set to the AST of the logical expression and must be of type 'boolean', 'ptr2' must be set to the AST of list of statements corresponding to the 'then part' and 'ptr3' must be  set to the AST of list of statements corresponding to the 'else part'.</td>
                             </tr>
                             <tr>
                                 <td>WHILE</td>
@@ -120,7 +120,7 @@
                             <tr>
                                 <td>READ</td>
                                 <td>void</td>
-                                <td>For input statement 'read', 'ptr1' is set to AST of nodetype ID or FIELD and type of 'ptr1' must be either 'int' or 'str', which carries the information of the variable for which we are taking the input.</td>
+                                <td>For input statement 'read', 'ptr1' must have nodetype ID or FIELD and type of 'ptr1' must be either 'int' or 'str'.</td>
                             </tr>
                             <tr>
                                 <td>WRITE</td>
@@ -130,7 +130,7 @@
                             <tr>
                                 <td>ASGN</td>
                                 <td>void</td>
-                                <td>For assignment statement (&lt;var&gt; = &lt;expr&gt;). <br> 'ptr1' is set to AST of nodetype ID or FIELD and 'ptr2' is set to AST of expression whose value will be assigned to lvalue given by 'ptr1'. The type of the variable and expression must match.</td>
+                                <td>For assignment statement (&lt;var&gt; = &lt;expr&gt;). <br> 'ptr1' must be set to an AST of nodetype ID or FIELD and 'ptr2' must be set to an AST of expression whose value will be assigned to lvalue given by 'ptr1'. The types of the variable and the expression must match.</td>
                             </tr>
                             <tr>
                                 <td>SLIST</td>
@@ -140,7 +140,7 @@
                             <tr>
                                 <td>BODY</td>
                                 <td>int/str/<br>user-defined type</td>
-                                <td>For body of a function. The type indicates the type of value returned by the function. This is created when the definition of a function is processed.</td>
+                                <td>For body of a function, type indicates the return type of the function. This is created when the definition of a function is processed.</td>
                             </tr>
                             <tr>
                                 <td>RET</td>
