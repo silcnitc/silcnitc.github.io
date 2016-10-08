@@ -228,7 +228,8 @@
                         <p>Before taking up statements, we should look at the different kinds of <b>constants</b> and <b>expressions</b> in the language.  ExpL has three kinds of expressions,  a) <b>Arithmetic</b> expressions, b) <b>String </b> expressions and c) <b>Logical</b> expressions.    </p>
 
                         <h3>Constants</h3>
-                          <p>Any numerical value (Example: 234) is an <i>integer constant</i>.  A quoted string (Example: “hello”) is a <i>string constant</i>. </p>
+                          <p>Any numerical value (Example: 234) is an <i>integer constant</i>.  A quoted string (Example: “hello”) is a <i>string constant</i>. ExpL allows a special constant NULL whose type is void.
+                          </p>
 
                         <h3>Arithmetic and String Expressions</h3>
                           <p>Any integer(or string) constant/variable is a valid arithmetic (or string) expression, provided the scope rules  are not violated.  ExpL treats a function returning integer (or string) as an integer expression (or string expression) and the value of a function is its return value. </p>
@@ -254,7 +255,7 @@
                             <p><i>Example</i> : <i>q[3]= “hello” ; t= “world” ;</i> are both valid assignments to string variables provided q is declared as an array of type string and t is declared as a variable of type string.   <i>x=y</i>; is valid if x and y are of the same type and scope rules are not violated.   </p>
                             <p>In an assignment <i>x=y</i> where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are variables of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>                            
 
-                            <h3>Conditional  Statement</h3>
+                        <h3>Conditional  Statement</h3>
                             <p>The ExpL conditional statement has the following syntax:</p>
                             <pre>
                             if < Logical Expression > then
@@ -277,9 +278,8 @@
                         <h3>Return Statement</h3>
                           <p>The body of each function (including main) should have <b>exactly one</b> return statement and it should be the <b>last statement</b> in the body. The syntax is:</p>
                           <pre>
-                          return < Expression > ;               /* if the return type of the function is integer*/
-                          return < string constant/variable > ; /* If the return type is string */
-                          return < variable >;                  /* If the return type of the function is a user defined type*/
+                          return < Expression* > ; /* The type of the expression should match with the return type of the function*/
+                          Note* : As an exception to the rule above, the expression returned by a function whose return type is a user defined type can be the constant NULL.  
                           </pre>
                           <p>If the return type of the function does not match the type of the expression/variable returned,  a compilation error should occur.  The <b>return type of main is integer</b> by specification</p>
                         <h3>Input/Output statements</h3>
