@@ -244,19 +244,18 @@
 
                         <h3>Expressions of user defined types</h3>
                             <p> Any variable of a user defined type or invocation of a function whose return type is a user defined type is considered as an expression of the corresponding user defined type.  
-                             
                             </p>
                         <h3>Assignment Statement</h3>
                             <p>The general syntax of the assignment statement is :</p>
                             <pre>
                               Lvalue = Rvalue;
                             </pre>
-                            <p>The possible Lvalues are variables or indexed array variables.  If the Lvalue has type integer (or string) , the Rvalue must be an arithmetic (or string) expression. If the Lvalue is a user defined variable, the Rvalue must either be an expression of the same type, or the special constant NULL, or an invocation of the function <i>alloc()</i> (to be explained later).</p>
-                            <p><i>Example</i> : <i>q[3]= “hello” ; t= “world” ;</i> are both valid assignments to string variables provided q is declared as an array of type string and t is declared as a variable of type string.   x=y; is valid if x and y are of the same type and scope rules are not violated.   </p>
-                            <p>In an assignment x=y where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are variables of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>                            
+                            <p>The possible Lvalues are variables or indexed array variables.  If the Lvalue has type integer (or string) , the Rvalue must be an arithmetic (or string) expression. If the Lvalue is a user defined variable, then the Rvalue must either be an expression of the same type, or the special constant NULL, or an invocation of the function <i>alloc()</i> (to be explained later).</p>
+                            <p><i>Example</i> : <i>q[3]= “hello” ; t= “world” ;</i> are both valid assignments to string variables provided q is declared as an array of type string and t is declared as a variable of type string.   <i>x=y</i>; is valid if x and y are of the same type and scope rules are not violated.   </p>
+                            <p>In an assignment <i>x=y</i> where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are variables of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>                            
 
                             <h3>Conditional  Statement</h3>
-                            <p>The eXpL conditional statement has the following syntax:</p>
+                            <p>The ExpL conditional statement has the following syntax:</p>
                             <pre>
                             if < Logical Expression > then
                             &nbsp;Statements
