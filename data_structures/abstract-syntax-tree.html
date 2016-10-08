@@ -74,7 +74,7 @@
 
                         <p>
                             The <i>type</i> field of an AST node is designed to contain a pointer to the typetable entry corresponding to the type of the expression represented by the AST node (The type is set to void for
-                            statements). The <i>type</i> and <i>nodetype</i> fields of an AST node may be assigned values according to the following convension.If an expression evaluates to NULL, its type must be set to void.
+                            statements). The <i>type</i> and <i>nodetype</i> fields of an AST node may be assigned values according to the following convension. If an expression evaluates to NULL, its type must be set to void.
                         </p>
                         <table class="doctable" style="text-align:left;">
                             <tr>
@@ -85,7 +85,7 @@
                             <tr>
                                 <td>CONST</td>
                                 <td>int/str</td>
-                                <td>For interger and string constants.</td>
+                                <td>For interger and string constants. As a special case, if the constant is NULL, the type is set to <b>void</b>.</td>
                             </tr>
                             <tr>
                                 <td>ID</td>
