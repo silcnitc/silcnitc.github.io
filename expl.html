@@ -284,13 +284,13 @@
                           <p>If the return type of the function does not match the type of the expression/variable returned,  a compilation error should occur.  The <b>return type of main is integer</b> by specification</p>
                         <h3>Input/Output statements</h3>
                           <p>
-                              Using read statement, we can <b>read a string or integer to a variable</b> of type string or integer respectively from the standard input. The syntax of the input statement is as follows :
+                              Using read statement, we can <b>read a string or an integer into a variable</b> of type string or integer respectively from the standard input. The syntax of the input statement is as follows :
                               <pre>
                                   read( &lt; variable &gt; );
                               </pre>
                           </p>
                           <p>
-                              Using write statement, we can <b>write</b> the value of an <b>integer or string type variable</b> and <b>value of an arithmetic expression</b> to the standard output. The output statement is as follows :
+                              Using the write statement, we can <b>write</b> the value of an <b>integer or string type variable</b> or <b>the value of an arithmetic expression</b> to the standard output. The output statement is as follows :
                               <pre>
                                   write( &lt; expr &gt; );
                               </pre>
@@ -304,13 +304,13 @@
                     <article class="grid col-full" id="nav-dynamic-memory-allocation">
                         <h2>Dynamic memory allocation</h2>
 
-                        <p>The library functions <b>initialise()</b>, <b>alloc()</b> and <b>free()</b> are used as follows:  </p>
+                        <p>The library functions <b>initialize()</b>, <b>alloc()</b> and <b>free()</b> are used as follows:  </p>
                         <pre>
-                          intialise(); /* To Intialise the heap. */
+                          intialize(); /* To Intialise the heap. */
                           t = alloc(); /* Allocates contiguous locations in the heap, t must be a user defined variable */
                           retval = free(t);  /* Free the allocated block , t must be a user defined variable */
                         </pre>
-                        <p>Intialise() must be invoked before any allocation is made and it resets the heap to default values. A call to alloc() allocates contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. The Expl compiler sets the variable (of a user defined type) on the left of the assignment to store this memory address.  A call to free() deallocates contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns 'null' on successful deallocation.  Otherwise, the value of t is unchanged by call to free(). All unallocated user defined variables are set to predefined constant 'null'.</p>
+                        <p>Intialize() must be invoked before any allocation is made and it resets the heap to default values. A call to alloc() allocates contiguous memory locations in the heap memory (memory reserved for dynamic memory allocation) and returns the address of the starting location. The Expl compiler sets the variable (of a user defined type) on the left of the assignment to store this memory address.  A call to free() deallocates contiguous memory locations in the heap memory that is referenced by user defined type variable t. The function free()  returns 'null' on successful deallocation.  Otherwise, the value of t is unchanged by call to free(). All unallocated user defined variables are set to predefined constant 'null'.</p>
                     </article>
                     <article class="grid col-full" id="nav-sample-programs">
                         <h2>Sample Programs</h2>
