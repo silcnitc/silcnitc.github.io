@@ -320,7 +320,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 	<p>In the <a href="yacc.html#navpassingvalues">last section</a> of the YACC documentation we have noted that it is possible to pass values associated with tokens from yylex() to yyparse(). We had described the term 'attribute' as a value associated with a token. YACC uses yylval to facilitate passing values from the lexical analyzer to the parser. We will now explore how YACC associates attribute values to terminals and  non-terminals in a production. We will also explore the usage of YYSTYPE to define custom (user defined )attribute types.
 </p>
 <p><a href="yacc.html#navyylval">Recall</a> that yylval is a global variable declared in y.tab.c of type YYSTYPE (YYSTYPE is integer unless defined otherwise. We will let YYSTYPE take its default type of integer since it is simpler to understand how attributes are processed in this case. Later we will see how more complex attribute types can be defined and handled).
-</p><p>  In the YACC documentation, we had seen an <a href="yacc.html#navexy1">example</a> which illustrates the passing of attributes from yylex() to yyparse(). We use the variable yylval to hold the attribute to br passed.  If the programmer were to use LEX to generate yylex(), then the attributes will have to be passed to yyparse() using the same mechanism  i.e, using yylval (see example below). </p>
+</p><p>  In the YACC documentation, we had seen an <a href="yacc.html#navexy1">example</a> which illustrates the passing of attributes from yylex() to yyparse(). We use the variable yylval to hold the attribute to be passed.  If the programmer were to use LEX to generate yylex(), then the attributes will have to be passed to yyparse() using the same mechanism  i.e, using yylval (see example below). </p>
 <p>In the LEX program, yylex() returns each token by its name. The attribute associated with each token is assigned to yylval and thus becomes accessible to yyparse(). Note that, all tokens except literal tokens must be declared in the declarations section of the YACC program. The following example is a LEX program which returns a token DIGIT when it finds a number.
 	</p>
 	<div id="navpairexp">
@@ -436,7 +436,7 @@ main()
 
 </pre>
 
-<p>We will use the same <a href="navpairexp">lex program </a>  to receive tokens and token values (attributes).</p>
+<p>We will use the same <a href="#navpairexp">lex program </a>  to receive tokens and token values (attributes).</p>
 <p>Note: We have assumed that the attribute values of each symbol is an integer.  Later we will see how to allow more complex attributes.</p>
 <p>In the above program segment, the first rule displays the value of the numbers for each pair in the input stream.  In the action part of the rule, $1 refers to the attribute value of the first num and  $3 refers to the attribute value of the and the second num. (Note that $2 refers to the attribute value of the literal token ',' which is the token itself). Since num is a non-terminal, its attribute cannot be set by yylex(). Recall that every non-terminal symbol in the CFG must have at least one production with the non-terminal as the head. The attribute value of a non-terminal must be set by writing semantic rules to set the value of $$ in such productions.  Such an attribute value which is “synthesized” by the semantics actions in a production is called a synthesized attribute.  In the example, the attribute value of the non-terminal num is synthesized by the following rule:</p>
 
@@ -459,7 +459,7 @@ O: syntax error
 
 <article id="navattrsyn" class="detail">
 <h3>Attribute Synthesis</h3>
-<p>We have seen that attributes of terminals can be passed from yylex() to yyparse(), whereas attributes of a non-terminal can be synthesized. An attribute of a non-terminal grammar symbol is said to synthesized if it has been calculated from the attribute values of it's children in the parse tree. Thus the (synthesized) attribute associated with a non-terminal is calculated using the attribute values of the symbols in the handle that it replaces. For example, consider the following grammar:
+<p>We have seen that attributes of terminals can be passed from yylex() to yyparse(), whereas attributes of a non-terminal can be synthesized. An attribute of a non-terminal grammar symbol is said to be synthesized if it has been calculated from the attribute values of it's children in the parse tree. Thus the (synthesized) attribute associated with a non-terminal is calculated using the attribute values of the symbols in the handle that it replaces. For example, consider the following grammar:
 </p>
 
 <div class="syntax">
@@ -549,11 +549,11 @@ expr:  		 expr '+' expr		{$$ = $1 + $3;}<br>
 <p>Note that at any point in the parser’s execution, the symbols $1, $2, $3 etc., refers to the first, second, third etc. attribute values (of the corresponding tokens) on top of the stack.  $$ refers to the attribute value of the non-terminal which is the head of the production.  When the non-terminal is pushed on to the parse stack, the value of $$ is pushed on to the attribute stack. $$ refers to the symbol on top of the stack after a reduction has taken place.</p>
 <left><img src="img/ywl4.png"  style="max-width=50%" </left>
 <right><img src="img/ywl5.png" style="max-width=50%" </right>
-<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<p>PARSE STACK-BEFORE READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE READ</p>
 
 <left><img src="img/ywl6.png"  style="max-width=50%" </left>
 <right><img src="img/ywl7.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 
 <p>6. The parser executes a shift action. Now Lex reads and returns the token ‘+’. Since this is a literal token,  its value, ‘+’ gets pushed into both the parse stack and the attribute stack after implicit type coercion .
 </p>
@@ -569,10 +569,10 @@ expr:  		 expr '+' expr		{$$ = $1 + $3;}<br>
 </p>
 <left><img src="img/ywl12.png"  style="max-width=50%" </left>
 <right><img src="img/ywl13.png" style="max-width=50%" </right>
-<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<p>PARSE STACK-BEFORE READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE READ</p>
 <left><img src="img/ywl14.png"  style="max-width=50%" </left>
 <right><img src="img/ywl15.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 
 <p>9. Now even though a valid reduction is possible for expr + expr, the parser executes a shift action. This is because shift/reduce conflict is resolved by looking at operator precedence. <a href="yacc.html#navlookahead" >Recall</a> shift/reduce parsing.  The next token, ‘*’ is returned by Lex. This is again a literal token and is pushed into both the parse stack and attribute stack.
 </p>
@@ -592,10 +592,10 @@ expr:  		 expr '+' expr		{$$ = $1 + $3;}<br>
 <p>12. A reduction by expr:DIGIT  takes place.</p>
 <left><img src="img/ywl22.png"  style="max-width=50%" </left>
 <right><img src="img/ywl23.png" style="max-width=50%" </right>
-<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<p>PARSE STACK-BEFORE READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE READ</p>
 <left><img src="img/ywl24.png"  style="max-width=50%" </left>
 <right><img src="img/ywl25.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>13. Since there are no matching rules, a shift action is executed. The literal token ‘+’ is returned by Lex and pushed into both stacks by YACC.
 </p>
 <left><img src="img/ywl26.png"  style="max-width=50%" </left>
@@ -608,17 +608,17 @@ expr:  		 expr '+' expr		{$$ = $1 + $3;}<br>
 <p>15. A reduction by the rule expr:DIGIT takes place.</p>
 <left><img src="img/ywl30.png"  style="max-width=50%" </left>
 <right><img src="img/ywl31.png" style="max-width=50%" </right>
-<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<p>PARSE STACK-BEFORE READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE READ</p>
 <left><img src="img/ywl32.png"  style="max-width=50%" </left>
 <right><img src="img/ywl33.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>16. The parse stack now contains ‘expr + expr’. Now a reduction by the rule expr : expr ‘+’ expr takes place. The tokens ‘expr’, ‘+’ and ‘expr’ in the parse stack are replaced by a single ‘expr’. The semantic action {$$=$1+$3} executes. $1 and $3 refer to the first and third values in the attribute stack , that is, 4 and 5 respectively. Hence the value of the head($$), ‘expr’, is set to 4+5(=9). ‘4’ ,’+’, and ‘5’ are popped out from the stack and ‘9’ is pushed in.</p>
 <left><img src="img/ywl34.png"  style="max-width=50%" </left>
 <right><img src="img/ywl35.png" style="max-width=50%" </right>
-<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<p>PARSE STACK-BEFORE READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE READ</p>
 <left><img src="img/ywl36.png"  style="max-width=50%" </left>
 <right><img src="img/ywl37.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>17. Since there are no matching reductions, a shift action takes place. Lexer returns the literal token ‘)’ which is pushed to both parser stack and attribute stack. </p>
 <left><img src="img/ywl38.png"  style="max-width=50%" </left>
 <right><img src="img/ywl39.png" style="max-width=50%" </right>
@@ -627,37 +627,37 @@ expr:  		 expr '+' expr		{$$ = $1 + $3;}<br>
 </p>
 <left><img src="img/ywl40.png"  style="max-width=50%" </left>
 <right><img src="img/ywl41.png" style="max-width=50%" </right>
-<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<p>PARSE STACK-BEFORE READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE READ</p>
 <left><img src="img/ywl42.png"  style="max-width=50%" </left>
 <right><img src="img/ywl43.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>19. Now we have expr*expr on the top of the parser stack. Reduction by the rule expr: expr ‘*’ expr occurs. The tokens ‘expr’, ‘*’ and ‘expr’ are removed from the parse stack and a single ‘expr’ is pushed instead. The symbols ‘3’, ‘*’ and ‘9’ are replaced by ‘27’ (that is, 3*9) in the attribute stack.
 </p>
 <left><img src="img/ywl44.png"  style="max-width=50%" </left>
 <right><img src="img/ywl45.png" style="max-width=50%" </right>
-<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<p>PARSE STACK-BEFORE READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE READ</p>
 <left><img src="img/ywl46.png"  style="max-width=50%" </left>
 <right><img src="img/ywl47.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 
 <p>20. Reduction by the rule expr: expr ‘+’ expr takes place. Now we have a single ‘expr’ in the parser stack and ‘29’ in the attribute stack.
 </p>
 <left><img src="img/ywl48.png"  style="max-width=50%" </left>
 <right><img src="img/ywl49.png" style="max-width=50%" </right>
-<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>
+<p>PARSE STACK-BEFORE READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE READ</p>
 <left><img src="img/ywl50.png"  style="max-width=50%" </left>
 <right><img src="img/ywl51.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>21. Finally, lexer returns the ‘\n’ character and the final reduction to ‘start’ occurs by the rule start: expr ‘\n’. The semantic action prints ‘29’. </p>
 <left><img src="img/ywl52.png"  style="max-width=50%" </left>
 <right><img src="img/ywl53.png" style="max-width=50%" </right>
 <p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
 <left><img src="img/ywl54.png"  style="max-width=50%" </left>
 <right><img src="img/ywl55.png" style="max-width=50%" </right>
-<p>PARSE STACK-BEFORE RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE RED</p>,/a
+<p>PARSE STACK-BEFORE READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-BEFORE READ</p>,/a
 <left><img src="img/ywl56.png"  style="max-width=50%" </left>
 <right><img src="img/ywl57.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>22. Lexer now encounters end of input (You need to enter Ctrl+D to indicate end of input as input is being read from stdout.) As a result yylex calls yywrap() which returns a non-zero value indication end of input. <a href="lex.html#navyywraplink"> yylex() </a>returns 0. (The $ in the input buffer stands for the end of input marker.)
 </p>
 
@@ -990,7 +990,7 @@ int main(void) {
 <p>2. Yacc reduces DIGIT to expr following the rule expr	:	DIGIT and sets the attribute value of expr to the attribute value of INTEGER which is the pointer to the node containing 3.  Yacc then calls yylex for the next token.	</p>
 <left> <img src="img/ywlexp4.png" style="max-width=50%"</left>
 <right><img src="img/ywlexp3.png"  style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>3. On reading + lexer creates a node and sets its op field to +. The flag field is set to 1 indicating that the node contains an operator. This node is passed to the parser by setting yylval to a pointer to this node. </p>
 <left> <img src="img/ywlexp6.png" style="max-width=50%"</left>
 <right><img src="img/ywlexp5.png"  style="max-width=50%" </right>
@@ -1003,7 +1003,7 @@ int main(void) {
 <p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
 <left><img src="img/ywlexp10.png" style="max-width=50%" </left>
 <right><img src="img/ywlexp9.png"  style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>Note that the reduction expr : expr ‘+’ expr  does not take place since * has higher precedence over +. The look-ahead hence tells the parser to shift and not reduce [LINK].
 </p>
 <p>6. ‘*’ is read and returned similar to step 3. No reduction takes place in YACC since there are no matching rules.</p>
@@ -1020,7 +1020,7 @@ int main(void) {
 <p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
 <left> <img src="img/ywlexp18.png" style="max-width=50%"</left>
 <right><img src="img/ywlexp17.png"  style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>9. The operator ‘-‘ is read passed to YACC similar to step 3.
 </p>
 <left><img src="img/ywlexp20.png" style="max-width=50%" </left>
@@ -1033,34 +1033,34 @@ int main(void) {
 <p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
 <left><img src="img/ywlexp24.png" style="max-width=50%" </left>
 <right><img src="img/ywlexp23.png"  style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>11. Now the reduction expr: expr ‘-‘ expr can take place. The nodes containing 21 and 16 are set to the l and r fields of the node containing ‘-‘ and the pointer to ‘-‘ is now the attribute value of the head. The bottom most part of the tree has been created.</p>
 <left><img src="img/ywlexp26.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp25.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>12. The literal token ‘(‘ is read and returned. The reduction expr: ‘(‘ expr ‘)’ can now take place. Note how operator precedence is overridden using parentheses.</p>
 <left><img src="img/ywlexp28.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp27.png" style="max-width=50%" </right><br>
 <p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
 <left><img src="img/ywlexp30.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp29.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>13. Now the reduction expr: expr ‘*‘ expr can take place. The nodes containing 4 and ‘-‘ are set to the l and r fields of the node containing ‘*‘ and the pointer to ‘*‘ is now the attribute value of the head. The tree now looks like this:</p>
 <left><img src="img/ywlexp32.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp31.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>14. Now the reduction expr: expr ‘+‘ expr can take place. The nodes containing 33 and ‘*‘ are set to the l and r fields of the node containing ‘+‘ and the pointer to ‘+‘ is now the attribute value of the head. The whole tree now looks like this: has been created.
 </p>
 <left><img src="img/ywlexp34.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp33.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>15. Lexer now reads ‘\n’ and finally the reduction program: expr ‘\n’ takes place and the function evaluate is called with the rot node containing ‘+’ passed as argument.</p>
 <left><img src="img/ywlexp36.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp35.png" style="max-width=50%" </right><br>
 <p>PARSE STACK-AFTER SHIFT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER SHIFT</p>
 <left><img src="img/ywlexp38.png"  style="max-width=50%" </left>
 <right><img src="img/ywlexp37.png" style="max-width=50%" </right>
-<p>PARSE STACK-AFTER RED &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER RED</p>
+<p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>16.  An inorder evaluation of the tree returns 243 which is printed as result.</p>
 <p>But in order to have multiple custom attribute values, YACC offers a useful feature called %union to customize the type of YYSTYPE. %union is useful when we require to have different tokens of different types. For example if we wanted some tokens to be of the  type int and some tokens to be of the type char. The following code segment can be added to declarations section of the YACC program to achieve that.</p>
 
@@ -1094,7 +1094,7 @@ expr: expr OP expr { printf("%c %d %d",$2,$1,$3); }
 <p>Note that the type of the attribute of each token must be mentioned when the token is being declared using the following syntax.
 </p>
 <div class="syntax">
-%token <type> tokenname
+%token &lt;token-type&gt; tokenname
 </div>
 <p>
 'type' must be declared under %union prior to use in the declaration of a token. If the type of a token is not explicitly mentioned, no attribute value can be assigned to the token i.e, it is assumed to be of type void.
