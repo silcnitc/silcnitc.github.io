@@ -54,7 +54,7 @@
                             For this, an <b>activation record</b> is created in the stack for each function call (and the stack grows). The activation record is also used to save the state (registers in use) of the invoking function and some control information (like the return address of the calling program).
                         </p>
                         <p>
-                            Each activation record has a base, and the <b>base pointer (BP)</b> is a machine register that points to the base of the current functions activation record. When one function invokes another, the base pointer value of the caller is pushed on to the stack and BP is set to point to the new activation record base. Upon return, the activation record is popped off the stack and old value of base pointer is restored. The <b>stack pointer (SP)</b> must always point to the top of the stack.
+                            Each activation record has a base, and the <b>base pointer (BP)</b> is a machine register that points to the base of the activation record of the currently executing function. When one function invokes another, the base pointer value of the caller is pushed on to the stack and BP is set to point to the new activation record base. Upon return, the activation record is popped off the stack and old value of base pointer is restored. The <b>stack pointer (SP)</b> must always point to the top of the stack.
                         </p>
                         <p>
                             The <b>calling convension</b> fixes in what order arguments to a function must be pushed by the caller to the called function, the place in the activation record where the return value is expected to be written by the callee etc.  The structure of the activation record explained below will clarify the calling convension.
@@ -68,7 +68,7 @@
                         </p>
                         <ol>
                           <li>A pushes its machine state (registers in use) into the stack so that the registers are free for use in B.</li>
-                          <li>A pushes to arguments to B in the order they appear in the declaration.</li>
+                          <li>A pushes the arguments to B in the order they appear in the declaration.</li>
                           <li>A pushes one empty space in the stack for B to place its return value.</li>
                           <li>A invokes B. (This results in generation of a CALL instruction which results in pushing the instruction pointer into the stack and transfer of control to B).</li>
                         </ol>
