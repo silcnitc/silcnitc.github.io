@@ -301,7 +301,7 @@
                         <b>Text Size, Data Size, Heap Size</b> and <b>Stack size</b> indicates the sizes of Text, Data, Heap and Stack regions to be allocated by the OS loader when the file is loaded for execution.
                     </p>
                     <p>
-                        Note : The present eXpOS virtual address space model requires that the data and stack must be in the same memory area and must be managed by the compiler / application program (this means that the program must contain the code to initialize the value of the stack pointer). The value of Data Size field is ignored. Moreover, the eXpOS loader (exec system call) sets the size of text region to 2048 words and stack region to 1024 words in memory irrespective of the values present in the header.
+                        Note : The present eXpOS virtual address space model requires that the data and stack must be in the same memory area and must be managed by the compiler / application program (this means that the program must contain the code to initialize the value of the stack pointer). The value of Data Size field is ignored. Moreover, the eXpOS loader sets the size of text region to 2048 words and stack region to 1024 words in memory irrespective of the values present in the header.
                     </p>
                     <p>
                         If the <b>Runtime Library</b> must be included when the file is loaded, the Library Flag is set to 1 in the executable file. If this flag is not set then neither memory is allocated for the heap nor the library linked to the address space of the process at execution time.
