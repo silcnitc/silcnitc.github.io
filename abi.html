@@ -439,7 +439,10 @@
                     </p>
                     <script src="js/7cab9602bc70ca74fefbc7956a53fe93.js"></script>
                     <p>
-                        The machine code to the left pops the values from the stack. The function code and arguments were inputs to the library module and hence they may be discarded now. The return value which is stored in the stack by the system call is fetched and used by the user program by popping out to some register.
+                        The machine code shown above is executed upon return from the library call and pops out the values that were pushed before the call. The function code and arguments were inputs to the library module and hence they may be discarded now. The return value which is stored in the stack by the system call must be popped out and saved to some register.  This value will be the only relevant information after return from the call.  
+                    </p> 
+                    <p>
+                        Note:  The eXpOS library interface permits many more functions (interfaces to eXpOS system calls).  Since these functions are not relevant for the implementation of the ExpL specification here, those details are left out.  The full details of eXpOS library are given LINK: HERE.  
                     </p>
                  </article>
 
