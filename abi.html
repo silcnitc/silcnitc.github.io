@@ -348,7 +348,7 @@
                         The eXpOS library consists of a collection of user level routines provided as part of the operating system. These routines are loaded into the memory during OS start up and can be linked to the address space of any user program by the OS loader. The OS loader will link these routines to the library region of the address space <a href="#nav-virtual-address-space-model">(see address space)</a> if the library flag in the header of the executable file being loaded is set to 1 <a href="#nav-XEXE-executable-file-format">(see xexe)</a>.
                     </p>
                     <p>
-                        The library provides a <b>uniform  interface</b> through which an application program can invoke dynamic memory allocation / de-allocation routines (Alloc(), Free() and Initialize()) and input - output routines (Read() and Write()).  Thus, while tranlsating a high level ExpL program containing calls to the above functions, a compiler needs to be concerned only about how to translate these high level function calls to the corresponding library function calls.   
+                        The library provides a <b>uniform  interface</b> through which an application program can invoke dynamic memory allocation / de-allocation routines (Alloc(), Free() and Initialize()) and input - output routines (Read() and Write()).  Thus, while translating a high level ExpL program containing calls to the above functions, a compiler needs to be concerned only about how to translate these high level function calls to the corresponding library function calls.   
                     </p>
 
                     <p>
