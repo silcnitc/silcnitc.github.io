@@ -364,17 +364,17 @@
 
                     <h3 style="clear:right">Invoking a library module</h3>
 
-                    <script src="https://gist.github.com/vishnupriyam/f20916a0b864642f1cb04ff2ceebe46c.js"></script>
+                    <script src="js/f20916a0b864642f1cb04ff2ceebe46c.js"></script>
                     <p>
                         A library module invocation using the high level application programmer's interface of a programming language like ExpL must be translated by the compiler to to a set of machine instructions as given above.
                     </p>
                     <p>
-                        Following are the library functions and details relevant to ExpL Compiler:
+                        Following are the library functions and details relevant for ExpL Compilation:
                     </p>
                     <p>
                         <table class="doctable">
                             <tr>
-                                <th>Library Function / System Call</th>
+                                <th>Library Function</th>
                                 <th>Function Code</th>
                                 <th>Argument 1</th>
                                 <th>Argument 2</th>
@@ -439,7 +439,7 @@
                     <p>
                         The following machine instructions are present after the CALL instruction in the ExpL compiled machine code given in the previous step.
                     </p>
-                    <script src="https://gist.github.com/vishnupriyam/7cab9602bc70ca74fefbc7956a53fe93.js"></script>
+                    <script src="js/7cab9602bc70ca74fefbc7956a53fe93.js"></script>
                     <p>
                         The machine code to the left pops the values from the stack. The function code and arguments were inputs to the library module and hence they may be discarded now. The return value which is stored in the stack by the system call is fetched and used by the user program by popping out to some register.
                     </p>
