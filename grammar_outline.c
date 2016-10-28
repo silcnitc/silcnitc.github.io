@@ -36,15 +36,15 @@ GDecl : TypeName Gidlist ';'      ;
 Gidlist : Gidlist ',' Gid
     |   Gid                     ;
 
-Gid :   ID                      { GInstall(TypeTable*, $1, NULL, NULL); }
-    |   ID '(' ArgList ')'      { GInstall(TypeTable*, $2, NULL); }
-    |   ID '[' NUM ']'          { GInstall(TypeTable*, $1,NULL,$3); }
+Gid :   ID                      { GInstall(varname,ttableptr, 1, NULL); }
+    |   ID '(' ParamList ')'      { GInstall(varname,ttableptr, 0,$3); }
+    |   ID '[' NUM ']'          { GInstall(varname,ttableptr, $3,NULL); }
     ;
 
-ArgList :  ArgList Arg  { AppendArglist($1,$2);}
-        |  Arg
+ParamList :  ParamList Arg  { AppendArglist($1,$2);}
+        |  Param
 
-Arg : TypeName ID { CreateArglist($1,$2); }
+Param : TypeName ID { CreateArglist($1,$2); }
 
 
 FDefBlock : TypeName ID '(' ArgList ')' '{' LdeclBlock Body '}'
