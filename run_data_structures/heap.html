@@ -91,7 +91,7 @@
                     <!--<article class="grid col-full" id="nav-associated-methods">
                         <h2>Associated Methods</h2>
                         <ul>
-                            <li>void <b>initialise()</b> : To initialise the heap with required initial values.</li>
+                            <li>void <b>initialize()</b> : To initialize the heap with required initial values.</li>
                             <li>int <b>alloc(int size)</b> : allocates continuos locations of given size and returns the starting address of allocated block.</li>
                             <li>int <b>free(int addr)</b> : frees the memory block starting with the given addr are erasing the data in that block and returns a value indicating the success and failure of free operation.</li>
                         </ul>
@@ -102,7 +102,7 @@
                             In this algorithm, the chunk size allocated is fixed. Lets call the fixed size as HB_SIZE, say 8. The heap is considered here as a list of blocks of HB_SIZE.
                         </p>
                         <p>
-                            The first block in the list is reserved. Initially, the first index of reserved block stores the index of first free block. The first index of every free block stores the index of next available free block. The last block stores -1 in the first index. This is how it looks initially(after the call to initialise() function).
+                            The first block in the list is reserved. Initially, the first index of reserved block stores the index of first free block. The first index of every free block stores the index of next available free block. The last block stores -1 in the first index. This is how it looks initially(after the call to initialize() function).
                         </p>
                         <img src="../img/data_structure_10.png" alt="Figure : Intial Heap diagram" />
                         <p>
