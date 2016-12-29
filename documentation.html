@@ -32,67 +32,78 @@
                 <br>
                 <br>
             </header>
-            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
-                <menu>
-                    <ul>
-                       <!-- <li><p class="mbottom"><h3>DISCLAIMER</h3>This stage of the project is still under construction. The documentation available here is an image of the draft version.</p></li> -->
-                    </ul>
-                </menu>
+            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar" style="position: static;">
+              <menu>
+                <ul>
+                  <li><a class="sec" href="#nav-using-lex">Using Lex</a></li>
+                  <li><a class="sec" href="#nav-using-yacc">Using Yacc</a></li>
+                  <li><a class="sec" href="#nav-using-lex-yacc">Using YACC with LEX</a></li>
+                  <li><a class="sec" href="#nav-expl-specification">ExpL Specification</a></li>
+                  <li><a class="sec" href="#nav-expl-grammar-outline">ExpL Grammar Outline</a></li>
+                  <li><a class="sec" href="#nav-compiletime-datastructures">Compile Time Data Structures</a></li>
+                  <li><a class="sec" href="#nav-runtime-datastructures">Run Time Data Structures</a></li>
+                  <li><a class="sec" href="#nav-codegen">Code Generation</a></li>
+                  <li><a class="sec" href="#nav-label-translation">Label Translation</a></li>
+                  <li><a class="sec" href="#nav-abi">Application Binary Interface</a></li>
+                  <li><a class="sec" href="#nav-library-implementation">Library Implementation</a></li>
+                  <li><a class="sec" href="#nav-xsm-machine-simulator-instructions">XSM Machine Simulator Instructions</a></li>
+              </ul>
+              </menu>
             </aside>
             <section class="grid col-three-quarters mq2-col-full">
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-using-lex">
                     <h2>Using LEX</h2>
-                    <p>LEX is a tool used to generate a lexical analyzer.This document is a tutorial for the use of LEX for SIL Compiler development.Technically, LEX translates a set of regular expression specifications (given as input in input_file.l) into a C implementation of a corresponding finite state machine (lex.yy.c). This C 					program, when compiled, yields an executable lexical analyzer.....
+                    <p>LEX is a tool used to generate a lexical analyzer.This document is a tutorial for the use of LEX for SIL Compiler development.Technically, LEX translates a set of regular expression specifications (given as input in input_file.l) into a C implementation of a corresponding finite state machine (lex.yy.c). This C program, when compiled, yields an executable lexical analyzer.....
               	    <a href ="lex.html" target="_blank"> read more</a></p>
                 </article>
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-using-yacc">
                     <h2>Using YACC</h2>
                     <p>YACC (Yet Another Compiler Compiler) is a tool used to generate a parser.This document is a tutorial for the use of YACC to generate a parser for SIL.YACC translates a given Context Free Grammar (CFG) specifications (input in input_file.y) into a C implementation (y.tab.c) of a corresponding push down automaton (i.e., a finite state machine with a stack).This C program when compiled, yields an executable parser....<a href ="yacc.html" target="_blank"> read more</a> </p>
                 </article>
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-using-lex-yacc">
                     <h2>Using YACC with LEX</h2>
                 	<p> In the previous documents, we have noted that YACC is used to generate a parser (<a href = "yacc.html">YACC documentation</a>) and LEX is used to generate a lexical analayzer (<a href = "lex.html">LEX documentation</a>). YACC generates the definition for yyparse() in y.tab.c and LEX generates the definition for yylex() in lex.yy.c. We have also noted that yyparse() repetitively calls yylex() to read tokens from the input stream....<a href ="ywl.html" target="_blank">read more</a></p>
                 </article>
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-expl-specification">
                     <h2>ExpL Specification</h2>
                 	<p>This section of the document walks through the specification of compiler for Experimental Language(ExpL).
                 	The syntax and semantics are explained with general program structure and sample programs.The Data Types....
                 	<a href ="expl.html" target="_blank">read more</a></p>
                 </article>
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-expl-grammar-outline">
                     <h2>ExpL Grammar Outline</h2>
                     <p>An outline for the ExpL grammer is given. Calls to functions that update the symbol table, type table and the abstract synatx tree data structures are indicated as semantic actions at certain places....
                     <a href ="grammar-outline.html" target="_blank">read more</a></p>
                 </article>
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-compiletime-datastructures">
                     <h2>Compile Time Data Structures</h2>
                     <p>The compilation of an ExpL program involves two phases. In the first phase (called the analysis phase), the source ExpL program is analyzed (lexical, syntax and semantic analysis are completed in this phase) and if the program is free of syntax and semantic errors, an intermediate representation of ...
                     <a href ="data-structures.html" target="_blank">read more</a></p>
                 </article>
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-runtime-datastructures">
                     <h2>Run Time Data Structures</h2>
                     <p>Before explaining the data structures used for the execution phase, it is necessary to understand the requirements and the underlying theoretical concepts in some detail. <a href ="run-data-structures.html" target="_blank">read more</a></p>
                 </article>
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-codegen">
                     <h2>Code Generation</h2>
                     <p>ExpL compiler converts the intermediate representation(the abstract syntax tree) of the ExpL program to a machine code that can be readily executed by the XSM machine.<a href ="codegen.html" target="_blank">read more</a></p>
                 </article>
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-label-translation">
                     <h2>Label Translation</h2>
                     <p>The code area of the memory where the function\'s code is not decide by the compiler during analysis phase. So to solve this issue, compiler generates psuedo addresses for all labels....<a href ="label-translation.html" target="_blank">read more</a></p>
                 </article>
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-abi">
                     <h2>Application Binary Interface</h2>
                 	<p><!--The <a href="http://exposnitc.github.io/abi.html">Application Binary Interface</a> of eXpOS running on the <a href="http://exposnitc.github.io/arch_spec.html">XSM architecture</a> is given <a href="http://exposnitc.github.io/abi.html">here</a>. The functions for Intialise(), Alloc() and Free() are implemented by the eXpOS library (see <a href="http://exposnitc.github.io/os_spec-files/dynamicmemoryroutines.html">eXpOS high level library interface</a> specification). Hence an ExpL compiler is only required to generate XSM target code to redirect calls to these function to the corresponding library functions. The compiler is required to generate target assembly code for the rest of the source program and fix the code, stack and heap addresses according to the ABI specification.  The compiler is also required to generate an <a href="http://exposnitc.github.io/abi.html#collapse3">XEXE header</a> for the executable file generated so that the resultant target file can be loaded and executed by the eXpOS loader. -->The ExpL compiler needs to translate a given source program and generate the target machine code into an executable file in a format which is recognized by the load module of the target operating system. Thus, in order to generater the executable, the following information needs to be made available to the compiler ...<a href ="abi.html" target="_blank">read more</a></p>
                 </article>
 
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-library-implementation">
                     <h2>Library Implementation</h2>
                     <p></p>
                     
                 </article>
 
-                <article class="grid col-full">
+                <article class="grid col-full" id="nav-xsm-machine-simulator-instructions">
                     <h2>XSM Machine Simulator Instructions</h2>
                     <p></p>
                     
