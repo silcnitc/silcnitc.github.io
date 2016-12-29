@@ -45,21 +45,19 @@
                             Within your XSM directory, use the following command to run the simulator
                         </p>
                         <pre>
-                            <b><i>./xsm [--timer=#1] [--disk=#2] [--console=#3] [--debug]</i></b>
+                            <b><i>./xsm -l library.lib -e <filename.xsm> [--debug]</i></b>
                         </pre>
                         <br>
                         <p>
-                            (i) <b><i>Syntax</i></b> : --timer=value <br>
-                            <b><i>Semantics</i></b> : This flag sets the number of user mode instructions after which timer interrupt is triggered to the value specified. --timer=0 disables the timer. The range of value is from 0 to 1024.<br><br>
+                            
+                            (i) <b><i>Syntax</i></b> : -l library.lib <br>
+                            <b><i>Semantics</i></b> : This flag loads the library, library.lib to the machine memory.<br><br>
 
-                            (ii) <b><i>Syntax</i></b> : --disk=value <br>
-                            <b><i>Semantics</i></b> : This flag sets the number of user mode instructions after which the disk interrupt is triggered to the value specified. The range of value is from 0 to 1024. Note that count begins only after a LOAD or STORE machine instruction gets executed.<br><br>
+                            (ii) <b><i>Syntax</i></b> : -e <filename.xsm> <br>
+                            <b><i>Semantics</i></b> : This flag loads the executable file named as filename which is of the <a href="abi.html##nav-XEXE-executable-file-format"> XEXE format </a>. <br><br>
 
-                            (iii) <b><i>Syntax</i></b> : --console=value <br>
-                            <b><i>Semantics</i></b> : This flag sets the number of user mode instructions after which console interrupt is triggered to the value specified. The range of value is from 0 to 1024. Note that count begins only after a IN machine instruction gets executed.<br><br>
-
-                            (iv) <b><i>Syntax</i></b> : --debug <br>
-                            <b><i>Semantics</i></b> : This flag sets the machine into DEBUG mode when it encounters a BRKP machine instruction. Any BRKP instruction in the program will be ignored by the machine if this flag is not set. Further details are given in the section below. The machine instruction INI gets enabled only in DEBUG mode.<br><br>
+                            (iii) <b><i>Syntax</i></b> : --debug <br>
+                            <b><i>Semantics</i></b> : This flag sets the machine into DEBUG mode when it encounters a BRKP machine instruction. Any BRKP instruction in the program will be ignored by the machine if this flag is not set. Further details are given in the section below.<br><br>
                         </p>
                         <br>
                     </article>
