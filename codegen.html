@@ -53,7 +53,7 @@
                     </pre>
                     <br>
                     <p>
-                        The codegen() function takes as input a pointer to the root of an abstract syntax tree and a pointer to a file to which the target code has to be written. The codegen function generates assembly code corresponding to the program represented by the AST. The codegen() function essentially invokes itself <b>recursively</b> to generate assembly code for the subtrees. The result of evaluation is a value which is stored in a register. The codegen() function returns the register number that would contain the evaluated value when the assembly code is executed. (when no value results in evaluating a tree node, there is no register allocated to store the value and -1 is returned by codegen() indicating this fact).
+                        The codegen() function takes as input a pointer to the root of an abstract syntax tree and a pointer to a file to which the target code has to be written. The codegen() function generates assembly code corresponding to the program represented by the AST. The codegen() function essentially invokes itself <b>recursively</b> to generate assembly code for the subtrees. The result of evaluation is a value which is stored in a register. The codegen() function returns the register number that would contain the evaluated value when the assembly code is executed. (when no value results in evaluating a tree node, there is no register allocated to store the value and -1 is returned by codegen() indicating this fact).
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-implementation">
