@@ -79,11 +79,14 @@ The token DIGIT must be declared in the <i>declaration section</i> to be used in
 
     %}
 
-    %token DIGIT
+    %token DIGIT NEWLINE
 		 <c id="navyr"></c>
     %%
 
-    start : expr '\n'           {printf("\nComplete");exit(1);}
+    start : expr NEWLINE           { 
+                                      printf("\nComplete");
+                                      exit(1);
+                                    }
 	    ;
 
     expr:  expr '+' expr        {printf("+ ");}
@@ -94,11 +97,12 @@ The token DIGIT must be declared in the <i>declaration section</i> to be used in
 
     %%
     <c id="navya"></c>
-    yyerror()
-    {
-	    printf("Error");
-    }
-    main()
+    void yyerror(char const *s) 
+    { 
+        printf("yyerror  %s\n",s); 
+        return ;
+    } 
+    int main()
     {
 	    yyparse();
 	    return 1;
@@ -155,9 +159,12 @@ expr: expr '+' expr
 
 	%%
 
-	[0-9]+	return DIGIT;
+	[0-9]+	{
+            yylval = atoi(yytext);
+            return DIGIT;
+          }
 	"+"	return *yytext;
-	"*"	return *yytext;
+	"-"	return *yytext;
 	"("	return *yytext;
 	")"	return *yytext;
 
@@ -180,8 +187,8 @@ expr: expr '+' expr
     <div class="syntax">
         user@localhost:~$ gcc lex.yy.c y.tab.c -o in2post.exe <br>
 		user@localhost:~$ ./in2post.exe <br>
-		11+22*33 <br>
-		11 22 33 * + <br>
+		11+22-33 <br>
+		11 22 33 + - <br>
 		user@localhost:~$
 	</div>
 <!--	<p>There exists an alternative method in which the definition of yylex() can be made visible to yyparse(). It can be done by compiling both the .c files (lex.yy.c & y.tab.c) by providing multiple arguments to gcc. An example has been shown below: </p>
@@ -199,7 +206,7 @@ gcc lex.yy.c y.tab.c
 <p>When the input</p>
 
 <div class="syntax">
-		11+22*33
+		11+22-33
 </div>
 is given to the executable file (in2post.exe) <br><br>1. The <a href="#navya">main() function</a> in y.tab.c begins execution. It calls yyparse() which inturn calls yylex() for tokens. <br>2. yylex() reads the input and finds that "11" found in the input matches with the pattern for token DIGIT and returns DIGIT.<br>3. yyparse() which obtains the token DIGIT, shifts it to the parser stack. <br>4. A reduction (corresponding to the rule <i>expr: DIGIT</i>) takes place. This results in the terminal getting replaced with the non-terminal(<i>expr</i>) in the parser stack<br>5. The C statement (semantic action) corresponding to the production is executed (i.e., <i>printf("%d ",$1);</i> is executed.). This prints 11. </p>
 <p>We will see what '$1' means and why printing '$1' results in printing the value 11 in detail in the next section.</p>
@@ -218,7 +225,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 		<th class="tg-e3zv">Output Stream<br></th>
   </tr>
   <tr>
-    <td class="tg-031e">11 + 22 * 33</td>
+    <td class="tg-031e">11 + 22 - 33</td>
 		<td class="tg-031e"></td>
     <td class="tg-031e"><br></td>
     <td class="tg-031e">_</td>
@@ -226,7 +233,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 		<td class="tg-e31e"><br></td>
   </tr>
   <tr>
-    <td class="tg-031e">+ 22 * 33</td>
+    <td class="tg-031e">+ 22 - 33</td>
 		<td class="tg-031e">DIGIT</td>
     <td class="tg-031e">DIGIT<br></td>
     <td class="tg-031e">SHIFT</td>
@@ -234,7 +241,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 		<td class="tg-e31e"><br></td>
   </tr>
 	<tr>
-    <td class="tg-031e">+ 22 * 33</td>
+    <td class="tg-031e">+ 22 - 33</td>
 		<td class="tg-031e"></td>
     <td class="tg-031e">expr<br></td>
     <td class="tg-031e">REDUCE</td>
@@ -242,7 +249,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 		<td class="tg-e31e">11<br></td>
   </tr>
   <tr>
-    <td class="tg-031e">22 * 33</td>
+    <td class="tg-031e">22 - 33</td>
 		<td class="tg-031e">+</td>
     <td class="tg-031e">expr +</td>
     <td class="tg-031e">SHIFT</td>
@@ -250,7 +257,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 		<td class="tg-e31e">11</td>
   </tr>
 	<tr>
-    <td class="tg-031e">* 33</td>
+    <td class="tg-031e">- 33</td>
 		<td class="tg-031e">DIGIT</td>
     <td class="tg-031e">expr + 22</td>
     <td class="tg-031e">SHIFT</td>
@@ -258,7 +265,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 		<td class="tg-e3ze">11</td>
   </tr>
 	<tr>
-    <td class="tg-031e">* 33</td>
+    <td class="tg-031e">- 33</td>
 		<td class="tg-031e"></td>
     <td class="tg-031e">expr + expr<br></td>
     <td class="tg-031e">REDUCE</td>
@@ -267,8 +274,8 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
   </tr>
   <tr>
     <td class="tg-031e">33</td>
-		<td class="tg-031e">*</td>
-    <td class="tg-031e">expr + expr *</td>
+		<td class="tg-031e">-</td>
+    <td class="tg-031e">expr + expr -</td>
     <td class="tg-031e">SHIFT</td>
 		<td class="tg-e31e"></td>
 		<td class="tg-e31e">11 22</td>
@@ -276,7 +283,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
   <tr>
     <td class="tg-031e"><br></td>
 		<td class="tg-031e">DIGIT</td>
-    <td class="tg-031e">expr + expr * DIGIT</td>
+    <td class="tg-031e">expr + expr - DIGIT</td>
     <td class="tg-031e">SHIFT</td>
 		<td class="tg-e31e"></td>
 		<td class="tg-e31e">11 22</td>
@@ -284,7 +291,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
   <tr>
     <td class="tg-031e"><br></td>
 		<td class="tg-031e">0</td>
-    <td class="tg-031e">expr + expr * expr</td>
+    <td class="tg-031e">expr + expr - expr</td>
     <td class="tg-031e">REDUCE</td>
 <td class="tg-031e">printf("%d ",$1);</td>
 	<td class="tg-e31e">11 22 33</td>
@@ -294,8 +301,8 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
 		<td class="tg-031e"></b></td>
     <td class="tg-031e">expr + expr</td>
     <td class="tg-031e">REDUCE</td>
-	<td class="tg-e31e">printf("* ");</td>
-	<td class="tg-e31e">11 22 33 *</td>
+	<td class="tg-e31e">printf("- ");</td>
+	<td class="tg-e31e">11 22 33 -</td>
   </tr>
   <tr>
     <td class="tg-031e"><br></td>
@@ -303,7 +310,7 @@ A complete illustration of all the shift and reduce steps is given <a href="#nav
     <td class="tg-031e">expr<br></td>
     <td class="tg-031e">REDUCE</td>
 		<td class="tg-031e">printf("+ ");</td>
-		<td class="tg-031e">11 22 33 * +</td>
+		<td class="tg-031e">11 22 33 - +</td>
   </tr>
 </table>
 <br>
