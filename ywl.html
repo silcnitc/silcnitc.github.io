@@ -166,7 +166,7 @@ expr: expr '+' expr
 	"+"	return *yytext;
 	"-"	return *yytext;
 	[()]	return *yytext;
-
+  '\n' return NEWLINE;
 	%%
 
 	<a id="navyywrapexp" href="lex.html#navyywrap">yywrap</a>()
