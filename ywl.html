@@ -165,8 +165,7 @@ expr: expr '+' expr
           }
 	"+"	return *yytext;
 	"-"	return *yytext;
-	"("	return *yytext;
-	")"	return *yytext;
+	[()]	return *yytext;
 
 	%%
 
