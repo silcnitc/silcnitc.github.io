@@ -445,7 +445,33 @@
                         Note:  The eXpOS library interface permits many more functions (interfaces to eXpOS system calls).  Since these functions are not relevant for the implementation of the ExpL specification here, those details are left out.  The full details of eXpOS library are given <a href="http://exposnitc.github.io/os_spec-files/dynamicmemoryroutines.html" target="_blank">here</a>.  
                     </p>
                  </article>
-
+                
+                <article class="grid col-full" id="nav-eXpOS-system-library-interface">
+                    <h2>Low Level System Call Interface for eXpOS on XSM architecture</h2>
+                    <p>
+                        The ExpL library file library.lib contains assembly instructions to implement the library functions
+                        Alloc(), Free() and Initialize().  For the input/output Read() and Write(), the library code invokes
+                        the corresponding ExpOS system call for console read and write.  Thus, the library simply passes the 
+                        call to a low level call to the operating system as console input/ouput functions are implemented at 
+                        the OS level.  
+                    </p>
+                    <p>
+                        In order to implement the library, one must know the low level system call interface to the operating 
+                        system so that the input/ouput calls to the library can be correctly translated to the corresponding 
+                        low level OS system calls.  This section specifices the low level OS interface provided by the ExpOS 
+                        Operating System running on the XSM machine architecture.  The interface describes the software interrupt instruction (trap) corresponding to the consolve input/output system calls and the calling conventions for passing arguments and extracting return values of the system call through the application program's stack. This part is architecture dependent.
+                    </p>
+                    <h3>System Calls</h3>
+                    <p>
+                        For an application program, there are two stages in executing a system call:
+                    </p>
+                    
+                    <ul>
+                        <li><b>Before the system call</b> :   The calling application must set up the arguments in the (user) stack before executing the trap instruction.  </li>
+                        <li><b>After the system call</b> :   The return value of the system call must be extracted from the stack.  </li>
+                        
+                    </ul>
+                </article>
                 </div>
             </section>
         </div>
