@@ -861,11 +861,11 @@ expr: expr OP expr { printf("%c %c %c",$2,$1,$3);}
     NOTE : Always keep declarations in a header file, function definitions in .c file and include them in your yacc file. This would keep your code clean.
 </p>
 <p>exptree.h</p>
-<script src="../js/e10adeb0a6e91fbcc02b.js"></script>
+<script src="js/e10adeb0a6e91fbcc02b.js"></script>
 <p> As the lexer scans the input, it should recognise two types of tokens – numbers and operators. ( In the following example we have used literal tokens to indicate each of the  operators '+' , '-', '*', '/'. ) The attribute value corresponding to these tokens can be made to indicate which number/operator was read. We will pack this information in the node structure tnode mentioned above .</p>
 
 <p>exptree.l</p>
-<script src="../js/e0fe5bb9afa1e35ccff3.js"></script>
+<script src="js/e0fe5bb9afa1e35ccff3.js"></script>
 <!--<pre>
 %{
 	#include &ltstdlib.h&gt
@@ -908,11 +908,11 @@ return 1;
 </pre>-->
 <p>Notice that yylval is assigned a pointer to newly allocated (using malloc) node of type node.   This is possible because we have already set YYSTYPE to node * and hence yylval assumes this type.   Thus, for each token that is a number (DIGIT)  or operator(returned as literal tokens '+', '-' , '*', '/' ) that is recognized by the lexer, we pack the information in a node structure and a pointer to this node is passed as attribute to the parser.   During reductions, the semantic actions specified in the parser will set the left and the right pointers of these nodes appropriately to complete the creation of the expression tree. We will see how these actions are executed in detail next.</p>
 <p>exptree.y</p>
-<script src="../js/5031b7ea3f3ae455902c.js"></script>
+<script src="js/5031b7ea3f3ae455902c.js"></script>
 <p>
     The following .c file gives the required function definitions.
 </p>
-<script src="../js/93043940064376273a29.js"></script>
+<script src="js/93043940064376273a29.js"></script>
 <!--
 <pre>
 %{
