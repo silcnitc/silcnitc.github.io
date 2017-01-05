@@ -232,11 +232,7 @@
                         The CALL instruction copies the address of the next instruction to be fetched(this value must be IP + 2 since each instruction is two memory words) on to location SP + 1. It also increments SP by one and transfers control to the instruction specified by the target_address. The RET instruction restores the IP value stored at location pointed by SP, decrements SP by one and continues execution fetching the next instruction pointed to by IP
                     </p>
 
-                    <h4>Debug Instruction</h4>
-                    <p>
-                        <i>Syntax</i> : BRKP<br>
-                        <i>Semantics</i> : The machine when run in <a href="xsmusagespec.html#nav-debug" target="_blank"> debug mode </a> invokes the debugger when this intruction is executed. This instruction can be used for debugging system code.<br>
-                    </p>
+                    
                     <table class="doctable" style="text-align:left">
                         <tbody>
                             <tr>
@@ -256,6 +252,11 @@
                             </tr>
                         </tbody>
                     </table>
+                    <h4 id="nav-debug">Debug Instruction</h4>
+                        <p>
+                            <i>Syntax</i> : BRKP<br>
+                            <i>Semantics</i> : The machine when run in <a href="xsmusagespec.html#nav-debug" target="_blank"> debug mode </a> invokes the debugger when this intruction is executed. This instruction can be used for debugging system code.<br>
+                        </p><br/>
                 </article>
                 <article class="grid col-full" id="nav-virtual-address-space-model">
                     <h2>The virtual address space model</h2>
