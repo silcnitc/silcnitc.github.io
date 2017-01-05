@@ -59,7 +59,7 @@
                             <b><i>Semantics</i></b> : This flag loads the library, library.lib to the machine memory. (The simulator specification does not allow any name other than library.lib for the library file.) The argument is optional and needs to be given only if the library is to be linked to page 0 and page 1 of the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> virtual address space </a><br><br>
 
                             (ii) <b><i>Syntax</i></b> : -e &lt;filename.xsm&gt; <br>
-                            <b><i>Semantics</i></b> : This flag loads the executable file named as filename which is of the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> XEXE format </a>.  This argument is mandatory.  The file is loaded into pages 4,5,6 and 7 in the <a href="abi.html#nav-virtual-address-space-model"> virtual address space </a>. <br><br>
+                            <b><i>Semantics</i></b> : This flag loads the executable file named as filename which is of the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> XEXE format </a>.  This argument is mandatory.  The file is loaded into pages 4,5,6 and 7 in the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> virtual address space </a>. <br><br>
 
                             (iii) <b><i>Syntax</i></b> : --debug <br>
                             <b><i>Semantics</i></b> : This flag sets the machine into DEBUG mode when it encounters a BRKP machine instruction. Any <a href="abi.html#nav-debug" target="_blank"> BRKP instruction </a> in the program will be ignored by the machine if this flag is not set. Further details are given in the section below.<br><br>
