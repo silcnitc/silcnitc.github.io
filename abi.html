@@ -501,7 +501,7 @@
 
                     <div style="clear:left">
                         <p>
-                            <img src="img/system_call_stack2.png" width="100px" height="100px" style="float:right;margin-left:3px">
+                            <img src="img/system_call_stack2.png" width="50%" height="50%" style="float:right;margin-left:3px">
                             <br/>The INT instruction in XSM will push the value of IP + 2 on to the stack. This is the address of the instruction immediately following the INT instruction in the calling program. Each instruction is 2 words, hence IP is incremented by 2. Upon execution of the IRET instruction from the system call, execution resumes from this value of IP. The INT instruction changes mode from <b>User</b> mode to <b>Kernel</b> mode and passes control to the Interrupt Routine corresponding to the system call. The figure to the right shows the contents of the stack immediately after the execution of the INT instruction. 
                         </p>
                     </div>  
@@ -516,7 +516,7 @@
 
                     <div>
                         <p>
-                            <pre style="float:left;margin-right:10px">
+                            <pre style="float:left;margin-right:5px">
                                 POP Ri           // Pop and save the return value into some register Ri
                                 POP Rj           // Pop and discard argument 3
                                 POP Rj           // Pop and discard argument 2
