@@ -450,17 +450,19 @@
                     <h2>Low Level System Call Interface</h2>
                     <p>
                         The ExpL library file <i>library.lib</i> contains assembly instructions to implement the library functions
-                        <i>Alloc(), Free() and Initialize()</i>.  For the input/output functions Read() and Write(), the library code invokes the corresponding ExpOS system call for console read and write. Thus, the library simply passes the 
-                        call to a low level call to the operating system as console input/ouput functions are implemented at 
-                        the OS level.  
+                        <i>Alloc(), Free() and Initialize()</i>.  For the input/output functions Read() and Write(), the library code invokes the corresponding ExpOS system calls for console read and write. Thus, the library simply converts the 
+                        library call to a low level call to the operating system. This is because console input/ouput functions are implemented at the OS level.  
                     </p>
+
                     <p>
                         In order to implement the library, one must know the low level system call interface to the operating 
                         system so that the input/ouput calls to the library can be correctly translated to the corresponding 
                         low level OS system calls.  This section specifices the low level OS interface provided by the ExpOS 
                         Operating System running on the XSM machine architecture.  The interface describes the software interrupt instruction (trap) corresponding to the consolve input/output system calls and the calling conventions for passing arguments and extracting return values of the system call through the application program's stack. This part is architecture as well as operating system dependent.
                     </p>
+
                     <h3>System Calls</h3>
+                    
                     <p>
                         For an application program, there are two stages in executing a system call:
                     </p>
@@ -470,11 +472,12 @@
                         <li>2. <b>After the system call</b> :   The return value of the system call must be extracted from the stack.  </li>
                         
                     </ul>
+                    
                     <h3>Invoking a system call</h3>
                       <p>
                         A user program invokes a system call by first pushing the system call number and then the arguments into the stack and then invoking the <b>INT</b> machine instruction corresponding to the system call. The eXpOS ABI stipulates that the number of arguments pushed into the stack is fixed at three. 
                     </p>
-                <p>
+                    <p>
                         <pre style = "float:right;margin-left:10px;width:700px">
                             PUSH System_Call_Number     // Push system call number 
                             PUSH Argument_1             // Push argument 1 to the stack
@@ -485,43 +488,49 @@
                                                         // The number can be any number between 4 and 18                              
                         </pre>
 
-                        A ExpL library must translate Read() and Write() calls to a set of machine instructions (see the instructions to the right). These are the stack operations that must be performed by the user program before the INT instruction is executed.  </p>
-                        <br/>
-                        <div>
-                            <p style="clear:right">
-                                <img src="img/system_call_stack1.png" width="100px" height="100px" style="float:left;margin-right:5px">
-                                <br/><br/>
-                                The arguments must be pushed into the stack in  such a way that the last argument comes on the top. An additional push instruction ('PUSH R0') is inserted to have an empty space in the stack for the return value. The system call implementation stores the return value in this space. The system call number must also pushed to the stack. The interrupt routine needs this value to identify the system call. The figure to the left shows the data stored in stack just before an INT instruction. 
-                            </p>                           
-                         </div>
+                        The ExpL library must translate Read() and Write() calls to a set of machine instructions (see the instructions to the right). These are the stack operations that must be performed by the user program before the INT instruction is executed.  
+                    </p>
+                    <br/>
+                    <div>
+                        <p style="clear:right">
+                            <img src="img/system_call_stack1.png" width="100px" height="100px" style="float:left;margin-right:3px">
+                            <br/><br/>
+                            The arguments must be pushed into the stack in  such a way that the last argument comes on the top. An additional push instruction ('PUSH R0') is inserted to have an empty space in the stack for the return value. The system call implementation stores the return value in this space. The system call number must also pushed to the stack. The interrupt routine needs this value to identify the system call. The figure to the left shows the data stored in stack just before an INT instruction. 
+                        </p>                           
+                     </div>
 
-                        <div style="clear:left">
-                            <p>
-                                <img src="img/system_call_stack2.png" width="100px" height="100px" style="float:right;margin-left:5px">
-                                <br/>The INT instruction in XSM will push the value of IP + 2 on to the stack. This is the address of the instruction immediately following the INT instruction in the user program. Each instruction is 2 words, hence IP is incremented by 2. Upon execution of the IRET instruction from the system call, execution resumes from this value of IP. The INT instruction changes mode from <b>User</b> mode to <b>Kernel</b> mode and passes control to the Interrupt Routine corresponding to the system call. The figure to the right shows the contents of the stack immediately after the execution of the INT instruction. 
-                            </p>
-                        </div>  
-<br/>
-                        <h3 style="clear:right">After return from the system call</h3>
+                    <div style="clear:left">
                         <p>
-                            The IRET instruction transfers control back to the instruction that immediately follows the INT instruction. The following machine instructions are present after the INT instruction in the ExpL compiled machine code given in the previous step. 
+                            <img src="img/system_call_stack2.png" width="100px" height="100px" style="float:right;margin-left:5px">
+                            <br/>The INT instruction in XSM will push the value of IP + 2 on to the stack. This is the address of the instruction immediately following the INT instruction in the user program. Each instruction is 2 words, hence IP is incremented by 2. Upon execution of the IRET instruction from the system call, execution resumes from this value of IP. The INT instruction changes mode from <b>User</b> mode to <b>Kernel</b> mode and passes control to the Interrupt Routine corresponding to the system call. The figure to the right shows the contents of the stack immediately after the execution of the INT instruction. 
                         </p>
-                        <div>
-                        <p>
-                        <pre style="float:left;margin-right:10px">
-                            POP Ri           // Pop and save the return value into some register Ri
-                            POP Rj           // Pop and discard argument 3
-                            POP Rj           // Pop and discard argument 2
-                            POP Rj           // Pop and discard argument 1
-                            POP Rj           // Pop and discard the system call number
-                                             // Now the stack is popped back to the state before call   
-                        </pre>
+                    </div>  
+                        
+                    <br/>
+                        
+                    <h3 style="clear:right">After return from the system call</h3>
 
-                        The machine code to the left pops the values from the stack. The system call number and arguments were inputs to the system call and hence they may be discarded now. The return value which is stored in the stack by the system call is fetched and used by the user program by popping out to some register.   </p>
+                    <p>
+                        The IRET instruction transfers control back to the instruction that immediately follows the INT instruction. The following machine instructions are present after the INT instruction in the ExpL compiled machine code given in the previous step. 
+                    </p>
+
+                    <div>
+                        <p>
+                            <pre style="float:left;margin-right:10px">
+                                POP Ri           // Pop and save the return value into some register Ri
+                                POP Rj           // Pop and discard argument 3
+                                POP Rj           // Pop and discard argument 2
+                                POP Rj           // Pop and discard argument 1
+                                POP Rj           // Pop and discard the system call number
+                                                 // Now the stack is popped back to the state before call   
+                            </pre>
+
+                            The machine code to the left pops the values from the stack. The system call number and arguments were inputs to the system call and hence they may be discarded now. The return value which is stored in the stack by the system call is fetched and used by the user program by popping out to some register.   
+                        </p>
 
                         <h3 style="clear:left">System calls and their translation</h3>
                         <p>
-                        Associated with each system call, there is a system call number and interrupt routine number. The system call number is used to identify a system call. The interrupt routine number denotes the number of the interrupt routine which  handles the system call.       
+                            Associated with each system call, there is a system call number and interrupt routine number. The system call number is used to identify a system call. The interrupt routine number denotes the number of the interrupt routine which  handles the system call.       
                         </p>
                         <p>               
                             <table class="doctable">
@@ -560,8 +569,7 @@
                                 *Note:  The Read() and Write() library functions expect a memory address from (or to) which read or write is performed. 
                             </sup>
                         </p>
-
-                        </div><br/>
+                    </div>
                 </article>
                 </div>
             </section>
