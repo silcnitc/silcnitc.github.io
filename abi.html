@@ -482,6 +482,40 @@
                         <li>2. <b>After the system call</b> :   The return value of the system call must be extracted from the stack.  </li>
                         
                     </ul>
+                    <p>               
+                            <table class="doctable">
+                            <tr>
+                                <th>Library Function</th>
+                                <th>System Call Number</th>
+                                <th>Interrupt Routine Number</th>
+                                <th>Argument 1</th>
+                                <th>Argument 2</th>
+                                <th>Argument 3</th>
+                                <th>Return Values</th>
+                            </tr>
+                            <tr>
+                                  <td rowspan="3">Read</td>
+                                  <td rowspan="3">7</td>
+                                  <td rowspan="3">6</td>
+                                  <td rowspan="3">-1</td>
+                                  <td rowspan="3">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="3">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - File Descriptor given is invalid</tr>
+                                  <td>-2 - Read error</tr>
+                              </tr>
+                            <tr>
+                                  <td rowspan="2">Write</td>
+                                  <td rowspan="2">5</td>
+                                  <td rowspan="2">7</td>
+                                  <td rowspan="2">-2</td>
+                                  <td rowspan="2">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="2">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - File Descriptor given is invalid</tr>
+                              </tr>
+                            </table>
+                        </p>
                 </article>
                 </div>
             </section>
