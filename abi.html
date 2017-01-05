@@ -478,9 +478,9 @@
                         For an application program, there are two stages in executing a system call:
                     </p>
                     
-                    <ul>
-                        <li><b>Before the system call</b> :   The calling application must set up the arguments in the (user) stack before executing the trap instruction.  </li>
-                        <li><b>After the system call</b> :   The return value of the system call must be extracted from the stack.  </li>
+                    <ul id="otis">
+                        <li>1. <b>Before the system call</b> :   The calling application must set up the arguments in the (user) stack before executing the trap instruction.  </li>
+                        <li>2. <b>After the system call</b> :   The return value of the system call must be extracted from the stack.  </li>
                         
                     </ul>
                 </article>
@@ -500,7 +500,7 @@
             </div>
 
             <nav class="grid col-one-third ">
-                <ul>
+                <ul >
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="uc.html">Contact</a></li>
