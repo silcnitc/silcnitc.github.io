@@ -495,13 +495,13 @@
                         <p style="clear:right">
                             <img src="img/system_call_stack1.png" width="100px" height="100px" style="float:left;margin-right:3px">
                             <br/><br/>
-                            The arguments must be pushed into the stack in  such a way that the last argument comes on the top. An additional push instruction ('PUSH R0') is inserted to have an empty space in the stack for the return value. The system call implementation stores the return value in this space. The system call number must also pushed to the stack. The interrupt routine needs this value to identify the system call. The figure to the left shows the data stored in stack just before an INT instruction. 
+                            The arguments must be pushed into the stack in  such a way that the last argument comes on the top. An additional push instruction ('PUSH R0') is inserted to have an empty space in the stack for the return value. The system call implementation stores the return value in this space. The system call number must be pushed to the stack before the call because the interrupt routine needs this value to identify the system call. The figure to the left shows the data stored in stack just before an INT instruction. 
                         </p>                           
                      </div>
 
                     <div style="clear:left">
                         <p>
-                            <img src="img/system_call_stack2.png" width="100px" height="100px" style="float:right;margin-left:5px">
+                            <img src="img/system_call_stack2.png" width="100px" height="100px" style="float:right;margin-left:3px">
                             <br/>The INT instruction in XSM will push the value of IP + 2 on to the stack. This is the address of the instruction immediately following the INT instruction in the user program. Each instruction is 2 words, hence IP is incremented by 2. Upon execution of the IRET instruction from the system call, execution resumes from this value of IP. The INT instruction changes mode from <b>User</b> mode to <b>Kernel</b> mode and passes control to the Interrupt Routine corresponding to the system call. The figure to the right shows the contents of the stack immediately after the execution of the INT instruction. 
                         </p>
                     </div>  
