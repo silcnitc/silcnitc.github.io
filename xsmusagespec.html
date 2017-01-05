@@ -27,21 +27,26 @@
         <div class="Services-page main grid-wrap">
             <header class="grid col-full">
                 <hr/>
-                <p class="fleft">XSM Usage specification for Compiler Lab</p>
+                <p class="fleft">XSM Simulator Usage specification</p>
                 <br>
                 <br>
-                <a class="button" href=#">Download as PDF</a>
+                <a class="button" href="#"> Download as PDF </a>
             </header>
 
-            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
+            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar" style="position: static;">
+              <menu>
+                <ul>
+                  <li><a class="sec" href="#nav-debug">Debugging</a></li>              
+                </ul>
+              </menu>
             </aside>
             <section class="grid col-three-quarters mq2-col-full">
                 <div class="grid-wrap">
                     <article class="grid col-full" id="nav-intro">
                         <!-- <h2>Expl Usage specification for Compiler Lab</h2> -->
                         <p>
-                            The <b>XSM (eXperimental String Machine)</b> Simulator is used to simulate the XSM hardware.<br>
-                            <br>
+                            The <b>XSM (eXperimental String Machine)</b> Simulator is used to simulate the hardware and OS abstractions specified in the ExpOS <a href="abi.html" target="_blank" >Application Binary Interface</a>.<br>
+                            <br/>
                             Within your XSM directory, use the following command to run the simulator
                         </p>
                         <pre>
@@ -51,17 +56,17 @@
                         <p>
                             
                             (i) <b><i>Syntax</i></b> : -l library.lib <br>
-                            <b><i>Semantics</i></b> : This flag loads the library, library.lib to the machine memory.<br><br>
+                            <b><i>Semantics</i></b> : This flag loads the library, library.lib to the machine memory. (The simulator specification does not allow any name other than library.lib for the library file.) The argument is optional and needs to be given only if the library is to be linked to page 0 and page 1 of the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> virtual address space </a><br><br>
 
                             (ii) <b><i>Syntax</i></b> : -e &lt;filename.xsm&gt; <br>
-                            <b><i>Semantics</i></b> : This flag loads the executable file named as filename which is of the <a href="abi.html#nav-XEXE-executable-file-format"> XEXE format </a>. <br><br>
+                            <b><i>Semantics</i></b> : This flag loads the executable file named as filename which is of the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> XEXE format </a>.  This argument is mandatory.  The file is loaded into pages 4,5,6 and 7 in the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> virtual address space </a>. <br><br>
 
                             (iii) <b><i>Syntax</i></b> : --debug <br>
-                            <b><i>Semantics</i></b> : This flag sets the machine into DEBUG mode when it encounters a BRKP machine instruction. Any BRKP instruction in the program will be ignored by the machine if this flag is not set. Further details are given in the section below.<br><br>
+                            <b><i>Semantics</i></b> : This flag sets the machine into DEBUG mode when it encounters a BRKP machine instruction. Any <a href="abi.html#nav-debug" target="_blank"> BRKP instruction </a> in the program will be ignored by the machine if this flag is not set. Further details are given in the section below.<br><br>
                         </p>
                         <br>
                     </article>
-                    <article class="grid col-full" id="nav-intro">
+                    <article class="grid col-full" id="nav-debug">
                         <h2>Debugging</h2>
                         <p>
                             The --debug flag is used to debug the running machine. When this flag is set and the machine encounters a breakpoint instruction, the machine enters the DEBUG mode. In this mode a prompt is displayed which allows the user to enter commands to inspect the state of the machine.
@@ -92,18 +97,18 @@
                         </p>
 
                          <p>
-                            (5) <b><i>Syntax</i></b> : reg / r &lt;register_name_1&gt; lt;register_name_2&gt; <br>
+                            (5) <b><i>Syntax</i></b> : reg / r &lt;register_name_1&gt; &lt;register_name_2&gt; <br>
                             <b><i>Semantics</i></b> : Displays the contents of the registers from &lt;register_name_1&gt; to lt;register_name_2&gt; in the order specified in (3).
                         </p>
 
-                    <!--      <p>
-                            (6) <b><i>Syntax</i></b> : mem / m <page_num>  <br>
+<!--                         <p>
+                            (6) <b><i>Syntax</i></b> : mem / m &lt;page_num&gt;  <br>
                             <b><i>Semantics</i></b> : Displays the contents of the memory page <page_num>. <br>
                             Sample usage: mem 5, m 20
                         </p>
 
                          <p>
-                            (7) <b><i>Syntax</i></b> : mem / m <page_num_1> <page_num_2> :<br>
+                            (7) <b><i>Syntax</i></b> : mem / m &lt;page_num_1&gt; &lt;page_num_2&gt; :<br>
                             <b><i>Semantics</i></b> : Displays the contents of the memory from pages <page_num_1> to <page_num_2>. 
                             <br>Sample usage: mem 5 8, m 0 10
                         </p>
@@ -155,7 +160,7 @@
                         </p>
 
                         <p>
-                            (17) <b><i>Syntax</i></b> : location / l &ltaddress><br>
+                            (17) <b><i>Syntax</i></b> : location / l &lt;address&gt;<br>
                             <b><i>Semantics</i></b> : Displays the content at memory address (Address Translation takes place if used in USER mode)
                         </p>
 
@@ -177,8 +182,8 @@
                         <p>
                             (21) <b><i>Syntax</i></b> : help / h  <br>
                             <b><i>Semantics</i></b> : Displays commands.
-                        </p> -->
-
+                        </p> 
+ -->
                         <br>
                     </article>
                 </div>

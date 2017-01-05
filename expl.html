@@ -71,7 +71,7 @@
 
                           <h4>Composite data types</h4>
                             <p><b>Arrays</b></p>
-                            <p style="text-indent: 3em;">Arrays can be of <b>integer</b>, <b>string</b> or <b>user-defined</b> types only.  Only single-dimensional arrays are allowed. Arrays are <a href="https://en.wikipedia.org/wiki/Static_variable" target="_blank">statically allocated</a>.  </p>
+                            <p style="text-indent: 3em;">Arrays can be of <b>integer</b> or <b>string</b> types only.  Only single-dimensional arrays are allowed. Arrays are <a href="https://en.wikipedia.org/wiki/Static_variable" target="_blank">statically allocated</a>.  </p>
                             <p><i>Example</i> :</p>
                             <pre>
                               int a[10];            /* array a indexed a[0],a[1],..a[9], can store 10 integers*/
@@ -89,17 +89,15 @@
                             </pre>
                             <p>a variable of type mytype is declared as:</p>
                             <pre>
-                              mytype var, vararray[10];
+                              mytype var1, var2;
                             </pre>
                             <p>Storage for the variable is allocated as:</p>
                             <pre>
                               var = alloc();   /* Note:  Access without allocation can lead to run time errors */
-                              vararray[0] = alloc();
                             </pre>
                             <p>Its fields may be accessed as:</p>
                             <pre>
                               var.a = 10;     /*  the “.” symbol is used to access member fields */
-                              vararray[0].b = "hello";
                             </pre>
                             <p>The memory allocated may be freed as:</p>
                             <pre>
@@ -126,13 +124,13 @@
                             All user-defined types in a program must be defined in the type definition section. The Type Definition section starts with the keyword <b>type</b> and ends with the keyword <b>endtype.</b>
                         </p>
                         <i>Example</i>
-                        <script src="https://gist.github.com/vishnupriyam/67898e19a3cb8f2dc010.js"></script>
+                        <script src="js/67898e19a3cb8f2dc010.js"></script>
                         <h4>Global Declarations</h4>
                         <p>
                             The global declaration part of an ExpL program begins with the keyword <b>decl</b> and ends with the keyword <b>enddecl</b>. All global variables, arrays and functions in a program must be declared in this section.
                         </p>
                         <p>
-                            Global variables may be of type integer, string, a user defined type, an integer array, a string array or an array of a user-defined type. The <b>variables declared globally must be allocated statically</b> by the compiler. Global variables are visible throughout the program <b>unless suppressed</b> by a redeclaration within the scope of some function. Array type variables can be declared only globally. Only single dimensional arrays are allowed. Variables <b>cannot be assigned values during the declaration phase.</b>
+                            Global variables may be of type integer, string, a user defined type, an integer array, a string array. The <b>variables declared globally must be allocated statically</b> by the compiler. Global variables are visible throughout the program <b>unless suppressed</b> by a redeclaration within the scope of some function. Array type variables can be declared only globally. Only single dimensional arrays are allowed. Variables <b>cannot be assigned values during the declaration phase.</b>
                         </p>
                         <p>
                             For every function except the special <b>main</b> function defined in an ExpL program, there must be a declaration. A function declaration should specify the name of the function, the name and type of each of its arguments and the return type of the function. A function can have integer/string/user defined type arguments. The return type of a function also can be integer/string/user-defined type. ExpL enforces <b>call-by-value</b> semantics for integer and string parameters and <b>call-by-reference</b> for user-defined types. (A variable of a user defined type typically stores a reference to its store.) <b>Arrays cannot be passed as arguments.</b> If a global variable name appears as an argument of a function, then within the scope of the function, the new declaration will be valid and the global declaration is suppressed. Different functions may have arguments of the same name. However, the same name cannot be given to two or more arguments in a function. The general form of declarations is as follows:
@@ -316,10 +314,10 @@
                         <h2>Sample Programs</h2>
                         <h6>An Example ExpL Program without user defined types</h6>
                         <p>The following program calculates and prints out the factorial of the first n numbers, value of n read from standard input.</p>
-                        <script src="https://gist.github.com/vishnupriyam/ac11acaaf3a82ba24efe.js"></script>
+                        <script src="js/ac11acaaf3a82ba24efe.js"></script>
                         <h6>Sample ExpL program using User Defined types</h6>
                         <p>The following program reads elements into a linked list and prints them.</p>
-                        <script src="https://gist.github.com/vishnupriyam/2d790a0323028fc9c5ed.js"></script>
+                        <script src="js/2d790a0323028fc9c5ed.js"></script>
                     </article>
                     <article class="grid col-full" id="nav-appendix">
                         <h2>Appendix</h2>

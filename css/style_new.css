@@ -735,3 +735,6 @@ header > nav > ul > li{
 		margin-left: 20% !important;
 	}
 }
+#otis li {
+    list-style-type: none;
+}
