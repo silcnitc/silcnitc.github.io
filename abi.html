@@ -470,47 +470,7 @@
                         <li>2. <b>After the system call</b> :   The return value of the system call must be extracted from the stack.  </li>
                         
                     </ul>
-                    <p>               
-                            <table class="doctable">
-                            <tr>
-                                <th>Library Function</th>
-                                <th>System Call Number</th>
-                                <th>Interrupt Routine Number</th>
-                                <th>Argument 1</th>
-                                <th>Argument 2</th>
-                                <th>Argument 3</th>
-                                <th>Return Values</th>
-                            </tr>
-                            <tr>
-                                  <td rowspan="3">Read</td>
-                                  <td rowspan="3">7</td>
-                                  <td rowspan="3">6</td>
-                                  <td rowspan="3">-1</td>
-                                  <td rowspan="3">Buffer (int/str)<font color="red">*</font></td>
-                                  <td rowspan="3">-</td>
-                                  <td>0 - Success</tr>
-                                  <td>-1 - File Descriptor given is invalid</tr>
-                                  <td>-2 - Read error</tr>
-                              </tr>
-                            <tr>
-                                  <td rowspan="2">Write</td>
-                                  <td rowspan="2">5</td>
-                                  <td rowspan="2">7</td>
-                                  <td rowspan="2">-2</td>
-                                  <td rowspan="2">Buffer (int/str)<font color="red">*</font></td>
-                                  <td rowspan="2">-</td>
-                                  <td>0 - Success</tr>
-                                  <td>-1 - File Descriptor given is invalid</tr>
-                              </tr>
-                            </table>
-                            <sup>
-                            *Note:  The Read() and Write() library functions expect a memory address from (or to) which read or write is performed. 
-                        </sup>
-                        </p>
-                        <h3>Invoking a system call</h3>
-                        <p>
-                            A user program invokes a system call by first pushing the system call number and then the arguments into the stack and then invoking the <b>INT</b> machine instruction corresponding to the system call. The eXpOS ABI stipulates that the number of arguments pushed into the stack is fixed at three. 
-                        </p>
+                    
                           <p>
     <pre style = "float:right;margin-left:10px;width:700px">
     PUSH System_Call_Number     // Push system call number 
@@ -553,6 +513,52 @@
 </pre>
 
 The machine code to the left pops the values from the stack. The system call number and arguments were inputs to the system call and hence they may be discarded now. The return value which is stored in the stack by the system call is fetched and used by the user program by popping out to some register.   </p>
+
+<h3 style="clear:left">System calls and their translation</h3>
+<p>
+Associated with each system call, there is a system call number and interrupt routine number. The system call number is used to identify a system call. The interrupt routine number denotes the number of the interrupt routine which  handles the system call. An interrupt routine may handle more than one system call.       
+</p>
+<p>               
+                            <table class="doctable">
+                            <tr>
+                                <th>Library Function</th>
+                                <th>System Call Number</th>
+                                <th>Interrupt Routine Number</th>
+                                <th>Argument 1</th>
+                                <th>Argument 2</th>
+                                <th>Argument 3</th>
+                                <th>Return Values</th>
+                            </tr>
+                            <tr>
+                                  <td rowspan="3">Read</td>
+                                  <td rowspan="3">7</td>
+                                  <td rowspan="3">6</td>
+                                  <td rowspan="3">-1</td>
+                                  <td rowspan="3">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="3">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - File Descriptor given is invalid</tr>
+                                  <td>-2 - Read error</tr>
+                              </tr>
+                            <tr>
+                                  <td rowspan="2">Write</td>
+                                  <td rowspan="2">5</td>
+                                  <td rowspan="2">7</td>
+                                  <td rowspan="2">-2</td>
+                                  <td rowspan="2">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="2">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - File Descriptor given is invalid</tr>
+                              </tr>
+                            </table>
+                            <sup>
+                            *Note:  The Read() and Write() library functions expect a memory address from (or to) which read or write is performed. 
+                        </sup>
+                        </p>
+                        <h3>Invoking a system call</h3>
+                        <p>
+                            A user program invokes a system call by first pushing the system call number and then the arguments into the stack and then invoking the <b>INT</b> machine instruction corresponding to the system call. The eXpOS ABI stipulates that the number of arguments pushed into the stack is fixed at three. 
+                        </p>
 </div><br/>
                 </article>
                 </div>
