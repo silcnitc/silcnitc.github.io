@@ -332,10 +332,10 @@
                         	Arguments to functions are passed by value. This means that changes to made to the values of an argument inside a function will not be visible outside the function.
                         </p>
                         <p>
-                        	However, if a variable is of a user defined type, after allocation using the Alloc() function, the variable stores the memory address of the actual data in heap memory where the data associated with the variable is stored. ExpL specification allows the data to be modified using the variable. If the data stored variable changed, the change will be visible globally. This is because heap memory is globally visible.
+                        	However, if a variable is of a user defined type, after allocation using the Alloc() function, the variable stores the memory address of the actual data in heap memory where the data associated with the variable is stored. ExpL specification allows the data to be modified using the variable. If the data stored variable is changed with in a function, the change will be visible globally. This is because heap memory is globally visible.
                         </p>
                         <p>
-							The scope rules are explained by the following example. 
+							The scope rules are illustrated by the following example. 
                         </p>
                         <pre>
                         	// code need to be added 
