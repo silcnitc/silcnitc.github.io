@@ -41,6 +41,7 @@
                         <li><a class="sec" href="#nav-general-program-structure">General Program Structure</a</li>
                         <li><a class="sec" href="#nav-stmts-and-exprs">Statements and Expressions</a><li>
                         <li><a class="sec" href="#nav-dynamic-memory-allocation">Dynamic Memory Allocation</a></li>
+                        <li><a class="sec" href="#nav-fun-par-passing">Functions and parameter passing</a></li>
                         <li><a class="sec" href="#nav-sample-programs">Sample Programs</a></li>
                         <li><a class="sec" href="#nav-appendix">Appendix</a></li>
                     </ul>
@@ -173,6 +174,8 @@
                         </p>
                         <p>
                             The syntax of local declarations and definitions are similar to those of global declarations except that arrays and functions cannot be declared inside a function. Local variables are visible only within the scope of the function where they are declared. The scope of a parameter is limited to the function. Static scope rules apply.
+
+                            A function can have a user defined type as its return type.  Similarly, parameters to a function can be of user defined types.   
                         </p>
                         <p>
                             The <b>main()</b> function, by specification, must be a <b>zero argument</b> function of <b>return type integer</b>. It must be defined immediately after declaration section, before all other functions are defined. Program execution begins from the body of the main function. The main function must not be declared. The definition part of main should be given in the same format as any other function. 
@@ -223,16 +226,22 @@
                     <article class="grid col-full" id="nav-stmts-and-exprs">
                         <h2>Statements and Expressions</h2>
 
-                        <p>Before taking up statements, we should look at the different kinds of <b>constants</b> and <b>expressions</b> in the language.  ExpL has three kinds of expressions,  a) <b>Arithmetic</b> expressions, b) <b>String </b> expressions and c) <b>Logical</b> expressions.    </p>
+                        <p>Before taking up statements, we should look at the different kinds of <b>constants</b> and <b>expressions</b> in the language.  ExpL has four kinds of expressions,  a) <b>Arithmetic</b> expressions, b) <b>String </b> expressions, c) <b>Logical</b> expressions and d) Expressions that evaluate to <b>user defined types</b>.    </p>
 
                         <h3>Constants</h3>
                           <p>Any numerical value (Example: 234) is an <i>integer constant</i>.  A quoted string (Example: “hello”) is a <i>string constant</i>. ExpL allows a special constant NULL whose type is void.
                           </p>
 
                         <h3>Arithmetic and String Expressions</h3>
-                          <p>Any integer(or string) constant/variable is a valid arithmetic (or string) expression, provided the scope rules  are not violated.  ExpL treats a function returning integer (or string) as an integer expression (or string expression) and the value of a function is its return value. </p>
-                          <p>ExpL provides five <b>arithmetic operators</b>, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization apply. ExpL is strongly typed and <b>any type mismatch or scope violation must be reported at compile time</b>.</p>
-                          <p><i>Examples</i> : <i> 5, a[a[5+x]]+x , (f2() + b[x] + 5), sum + listObject.data , a[listObject.data] + f2(listObject) * 8</i> etc. are arithmetic expressions, provided type and scope rules are not violated.  </p>
+                        <p>
+                            Any integer(or string) constant/variable is a valid arithmetic (or string) expression, provided the scope rules  are not violated.  ExpL treats a function returning integer (or string) as an integer expression (or string expression) and the value of a function is its return value. 
+                        </p>
+                        <p>
+                            ExpL provides five <b>arithmetic operators</b>, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization apply. ExpL is strongly typed and <b>any type mismatch or scope violation must be reported at compile time</b>.
+                        </p>
+                        <p>
+                            <i>Examples</i> : <i> 5, a[a[5+x]]+x , (f2() + b[x] + 5), sum + listObject.data , a[listObject.data] + f2(listObject) * 8</i> etc. are arithmetic expressions, provided type and scope rules are not violated. Note that the function f2() must have return type int for the expression to be valid.
+                        </p>
 
                         <h3>Logical Expressions</h3>
                             <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by ExpL are <, >, <=, >=, ==, and !=.  Again <b>standard syntax and semantic conventions apply</b>. Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.</p>  
