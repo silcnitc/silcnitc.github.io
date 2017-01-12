@@ -41,7 +41,7 @@
                         <li><a class="sec" href="#nav-general-program-structure">General Program Structure</a</li>
                         <li><a class="sec" href="#nav-stmts-and-exprs">Statements and Expressions</a><li>
                         <li><a class="sec" href="#nav-dynamic-memory-allocation">Dynamic Memory Allocation</a></li>
-                        <li><a class="sec" href="#nav-fun-par-passing">Functions and parameter passing</a></li>
+                        <li><a class="sec" href="#nav-fun-par-passing">Parameter passing</a></li>
                         <li><a class="sec" href="#nav-sample-programs">Sample Programs</a></li>
                         <li><a class="sec" href="#nav-appendix">Appendix</a></li>
                     </ul>
@@ -321,6 +321,27 @@
                           retval = free(t);  /* Free the allocated block , t must be a user defined variable */
                         </pre>
                         <p>Intialize() must be invoked before any allocation is made and it resets the heap to default values. A call to alloc() allocates contiguous memory locations in the <b>heap memory</b> (memory reserved for dynamic memory allocation) and returns the address of the starting location. The Expl compiler sets the variable (of a user defined type) on the left of the assignment to store this memory address.  A call to free() deallocates contiguous memory locations in the heap memory that is referenced by the user defined type variable. The function free()  returns NULL on successful deallocation.  Otherwise, the value of t is unchanged by a call to free(). All unallocated user defined variables are set to the predefined constant NULL.</p>
+                    </article>
+                     <article class="grid col-full" id="nav-fun-par-passing">
+                        <h2>Parameter passing</h2>
+
+                        <p>
+                        	Functions can take any number of arguments and must return a single value. The arguments and return values may be of integer, string or user defined types.
+                        </p>
+                        <p>
+                        	Arguments to functions are passed by value. This means that changes to made to the values of an argument inside a function will not be visible outside the function.
+                        </p>
+                        <p>
+                        	However, if a variable is of a user defined type, after allocation using the Alloc() function, the variable stores the memory address of the actual data in heap memory where the data associated with the variable is stored. ExpL specification allows the data to be modified using the variable. If the data stored variable changed, the change will be visible globally. This is because heap memory is globally visible.
+                        </p>
+                        <p>
+							The scope rules are explained by the following example. 
+                        </p>
+                        <pre>
+                        	// code need to be added 
+                        </pre>
+
+
                     </article>
                     <article class="grid col-full" id="nav-sample-programs">
                         <h2>Sample Programs</h2>
