@@ -482,22 +482,21 @@
                         A user program invokes a system call by first pushing the system call number and then the arguments into the stack and then invoking the <b>INT</b> machine instruction corresponding to the system call. The eXpOS ABI stipulates that the number of arguments pushed into the stack is fixed at three. 
                     </p>
                     <p>
-                        <pre style = "float:right;margin-left:10px;width:700px">
-                            PUSH System_Call_Number     // Push system call number 
-                            PUSH Argument_1             // Push argument 1 to the stack
-                            PUSH Argument_2             // Push argument 2 to the stack
-                            PUSH Argument_3             // Push argument 3 to the stack
-                            <b>PUSH R0                     // Push an empty space for RETURN VALUE</b>
-                            INT number                  // Invoke the corresponding INT instruction. 
-                                                        // The number can be any number between 4 and 18                              
+                        <pre style = "float:right;width:600px">
+    PUSH System_Call_Number     // Push system call number 
+    PUSH Argument_1             // Push argument 1 to the stack
+    PUSH Argument_2             // Push argument 2 to the stack
+    PUSH Argument_3             // Push argument 3 to the stack
+    <b>PUSH R0                     // Push an empty space for RETURN VALUE</b>
+    INT number                  // Invoke the corresponding INT instruction. 
+                                // The number can be any number between 4 and 18                              
                         </pre>
-
                         The ExpL library must translate Read() and Write() calls to a set of machine instructions (see the instructions to the right). These are the stack operations that must be performed by the user program before the INT instruction is executed.  
                     </p>
                     <br/>
                     <div>
                         <p style="clear:right">
-                            <img src="img/system_call_stack1.png" width="100px" height="100px" style="float:left;margin-right:3px">
+                            <img src="img/system_call_stack1.png" style="float:left;margin-right:3px;width:350px !important;height:350px !important">
                             <br/><br/>
                             The arguments must be pushed into the stack in  such a way that the last argument comes on the top. An additional push instruction ('PUSH R0') is inserted to have an empty space in the stack for the return value. The system call implementation stores the return value in this space. The system call number must be pushed to the stack before the call because the interrupt routine needs this value to identify the system call. The figure to the left shows the data stored in stack just before an INT instruction. 
                         </p>                           
@@ -505,7 +504,7 @@
 
                     <div style="clear:left">
                         <p>
-                            <img src="img/system_call_stack2.png" width="50%" height="50%" style="float:right;margin-left:3px">
+                            <img src="img/system_call_stack2.png" style="float:right;margin-left:3px;width:350px !important;height:350px !important">
                             <br/>The INT instruction in XSM will push the value of IP + 2 on to the stack. This is the address of the instruction immediately following the INT instruction in the calling program. Each instruction is 2 words, hence IP is incremented by 2. Upon execution of the IRET instruction from the system call, execution resumes from this value of IP. The INT instruction changes mode from <b>User</b> mode to <b>Kernel</b> mode and passes control to the Interrupt Routine corresponding to the system call. The figure to the right shows the contents of the stack immediately after the execution of the INT instruction. 
                         </p>
                     </div>  
@@ -521,12 +520,12 @@
                     <div>
                         <p>
                             <pre style="float:left;margin-right:5px">
-                                POP Ri           // Pop and save the return value into some register Ri
-                                POP Rj           // Pop and discard argument 3
-                                POP Rj           // Pop and discard argument 2
-                                POP Rj           // Pop and discard argument 1
-                                POP Rj           // Pop and discard the system call number
-                                                 // Now the stack is popped back to the state before call   
+    POP Ri           // Pop and save the return value into some register Ri
+    POP Rj           // Pop and discard argument 3
+    POP Rj           // Pop and discard argument 2
+    POP Rj           // Pop and discard argument 1
+    POP Rj           // Pop and discard the system call number
+                     // Now the stack is popped back to the state before call   
                             </pre>
 
                             The machine code to the left pops the values from the stack. The system call number and arguments were inputs to the system call and hence they may be discarded now. The return value which is stored in the stack by the system call is fetched and used by the user program by popping out to some register.   
