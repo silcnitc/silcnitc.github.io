@@ -10,433 +10,456 @@
         <script src="js/sticky_sidebar.js" charset="utf-8"></script>
 
     </head>
-    <div class="container">
-        <header id="navtop">
-            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
-            <nav class="fright">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-        			    <li><a href="#">Help</a></li>
-        			    <li><a href="#">Code</a></li>
-        			    <!-- <li><a href="roadmap.html">Roadmap</a></li> -->
-        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
-                </ul>
-            </nav>
-        </header>
-        <div class="Services-page main grid-wrap">
-            <header class="grid col-full">
-                <hr/>
-                <!-- <p class="fleft">High Level Library Interface For eXpOS</p> -->
-                <!-- <br> -->
-                <br>
-                <a class="button" href="#">Download as PDF</a>
-            </header>
+    <body>
+      <div class="container">
+          <header id="navtop">
+              <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+              <nav class="fright">
+                  <ul>
+                      <li><a href="index.html">Home</a></li>
+                      <li><a href="about.html">About</a></li>
+          			    <li><a href="#">Help</a></li>
+          			    <li><a href="#">Code</a></li>
+          			    <!-- <li><a href="roadmap.html">Roadmap</a></li> -->
+          			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                  </ul>
+              </nav>
+          </header>
+          <div class="Services-page main grid-wrap">
+              <header class="grid col-full">
+                  <hr/>
+                  <!-- <p class="fleft">High Level Library Interface For eXpOS</p> -->
+                  <!-- <br> -->
+                  <br>
+                  <a class="button" href="#">Download as PDF</a>
+              </header>
 
-            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
-           </aside>
-            <section class="grid col-three-quarters mq2-col-full">
-                <div class="grid-wrap">
-                    <article class="grid col-full" id="nav-intro">
-                        <h2>High Level Library Interface For eXpOS</h2>
-                        <p>
-                            The High Level Library Interface is a unified interface to access system call routines and dynamic memory management functions from application programs. The ExpL language allows applications to access the OS routines only through the library interface. The syntax for the call to the library function in ExpL is :
-                        </p>
-                        <pre >
-                            t = exposcall(fun_code, arg1, arg2, arg3);
-                        </pre>
-                        <p>
-                            Depending on the fun_code the control is transferred to the system call routines (see below) .
-                        </p>
-                        <p>
-                        <table class="doctable">
-                            <tr>
-                                <th>Library Function / System Call</th>
-                                <th>Function Code</th>
-                                <th>Argument 1</th>
-                                <th>Argument 2</th>
-                                <th>Argument 3</th>
-                                <th>Return Values</th>
-                            </tr>
-                            <tr >
-                                <td rowspan="3">Create</td>
-                                <td rowspan="3"> "Create"</td>  
-                                <td rowspan="3">File Name (str)</td>
-                                <td rowspan="3">Permission (int)</td>
-                                <td rowspan="3">-</td>
-                                  <td>0  - Success</tr>
-                                  <td>-1 - No Space for file</tr>
-                                  <td>-2 - If the file already Exists</tr>
+              <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
+             </aside>
+              <section class="grid col-three-quarters mq2-col-full">
+                  <div class="grid-wrap">
+                      <article class="grid col-full" id="nav-intro">
+                          <h2>High Level Library Interface For eXpOS</h2>
+                          <p>
+                              The High Level Library Interface is a unified interface to access system call routines and dynamic memory management functions from application programs. The ExpL language allows applications to access the OS routines only through the library interface. The syntax for the call to the library function in ExpL is :
+                          </p>
+                          <pre >
+                              t = exposcall(fun_code, arg1, arg2, arg3);
+                          </pre>
+                          <p>
+                              Depending on the fun_code the control is transferred to the system call routines (see below) .
+                          </p>
+                          <p>
+                          <table class="doctable">
+                              <tr>
+                                  <th>Library Function / System Call</th>
+                                  <th>Function Code</th>
+                                  <th>Argument 1</th>
+                                  <th>Argument 2</th>
+                                  <th>Argument 3</th>
+                                  <th>Return Values</th>
                               </tr>
+                              <tr >
+                                  <td rowspan="3">Create</td>
+                                  <td rowspan="3"> "Create"</td>  
+                                  <td rowspan="3">File Name (str)</td>
+                                  <td rowspan="3">Permission (int)</td>
+                                  <td rowspan="3">-</td>
+                                    <td>0  - Success</tr>
+                                    <td>-1 - No Space for file</tr>
+                                    <td>-2 - If the file already Exists</tr>
+                                </tr>
+
+                                <tr>
+                                  <td rowspan="4">Open</td>
+                                  <td rowspan="4">"Open"</td>      
+                                  <td rowspan="4">File Name (str)</td>
+                                  <td rowspan="4">-</td>
+                                  <td rowspan="4">-</td>
+                                  <td>File Descriptor (int) - Success</tr>
+                                  <td>-1 - fFile not found or file is not a data or root file</tr>
+                                  <td>-2 - Process has reached its limit of resources</tr>
+                                  <td>-3 - System has reached its limit of open files</tr>
+                                </tr>
+
+
+                                <tr>
+                                 <td rowspan="3">Close</td>
+                                 <td rowspan="3">"Close"</td>
+                                 <td rowspan="3">File Descriptor (int)</td>
+                                 <td rowspan="3">-</td>
+                                 <td rowspan="3">-</td>
+                                 <td>0 - Success</tr>
+                                 <td>-1 - invalid File descriptor</tr>
+                                 <td>-2 - File locked by calling process</tr>
+                                </tr>
+                                                                 
+                              <tr>
+                                  <td rowspan="4">Delete</td>
+                                  <td rowspan="4">"Delete"</td>  
+                                  <td rowspan="4">File Name (str)</td>
+                                  <td rowspan="4">-</td>
+                                  <td rowspan="4">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - File not found or file is not a data file</tr>
+                                  <td>-2 - File is open</tr>
+                                  <td>-3 - Permission denied</tr>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">Write</td>
+                                    <td rowspan="2"> "Write"</td>
+                                    <td rowspan="2">-2</td>
+                                    <td rowspan="2">Buffer (int/str)<font color="red">*</font></td>
+                                    <td rowspan="2">-</td>
+                                    <td>0 - Success</tr>
+                                    <td>-1 - File Descriptor given is invalid</tr>
+                                </tr>
+
+                                <tr>
+                                    <td rowspan="3">Seek</td>
+                                    <td rowspan="3">"Seek"</td>
+                                    <td rowspan="3">File Descriptor (int)</td>
+                                    <td rowspan="3">Offset (int)</td>
+                                    <td rowspan="3">-</td>
+                                    <td>0 - Success</tr>
+                                    <td>-1 - File Descriptor given is invalid</tr>
+                                    <td>-2 - Offset value moves the file pointer to a position outside the file</tr>
+                                </tr>
+
+                                <tr>
+                                    <td rowspan="3">Read</td>
+                                    <td rowspan="3">"Read"</td>
+                                    <td rowspan="3">File Descriptor (int)</td>
+                                    <td rowspan="3">Buffer (int/str)<font color="red">*</font></td>
+                                    <td rowspan="3">-</td>
+                                    <td>0 - Success</tr>
+                                    <td>-1 - File Descriptor given is invalid</tr>
+                                    <td>-2 - File pointer has reached the end of file</tr>
+                                </tr>
+                              <!--- -->
+
+                                <tr>
+                                  <td rowspan="3">Fork</td>
+                                  <td rowspan="3">"Fork"</td>
+                                  <td rowspan="3">-</td>
+                                  <td rowspan="3">-</td>
+                                  <td rowspan="3">-</td>
+                                  <td>PID (int) - Success, the return value to the parent is the process descriptor(PID) of the child process.</tr>  
+                                  <td>0 - Success, the return value to the child.</tr>  
+                                  <td>-1 - Failure, Number of processes has reached the maximum limit. Returns to the parent</tr>  
+                                </tr>     
+                                <tr>
+                                  <td rowspan="2">Exec</td>
+                                  <td rowspan="2">"Exec"</td>
+                                  <td rowspan="2">File Name (str)</td>  
+                                  <td rowspan="2">-</td>
+                                  <td rowspan="2">-</td>
+                                  <td>-1 - File not found or file is of invalid type</tr>  
+                                  <td>-2 - Out of memory or disk swap space</tr>  
+                                </tr>
+
+                                <tr>
+                                  <td>Exit</td>
+                                  <td>"Exit"</td>     
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>  
+                                </tr>
+
+                                <tr>
+                                    <td>Getpid</td>
+                                    <td>"Getpid"</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>Process Identifier (int) - Success</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Getppid</td>
+                                    <td>"Getppid"</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>Parent Process Identifier (int) - Success</td>
+                                </tr>
 
                               <tr>
-                                <td rowspan="4">Open</td>
-                                <td rowspan="4">"Open"</td>      
-                                <td rowspan="4">File Name (str)</td>
-                                <td rowspan="4">-</td>
-                                <td rowspan="4">-</td>
-                                <td>File Descriptor (int) - Success</tr>
-                                <td>-1 - fFile not found or file is not a data or root file</tr>
-                                <td>-2 - Process has reached its limit of resources</tr>
-                                <td>-3 - System has reached its limit of open files</tr>
-                              </tr>
-
-
-                              <tr>
-                               <td rowspan="3">Close</td>
-                               <td rowspan="3">"Close"</td>
-                               <td rowspan="3">File Descriptor (int)</td>
-                               <td rowspan="3">-</td>
-                               <td rowspan="3">-</td>
-                               <td>0 - Success</tr>
-                               <td>-1 - invalid File descriptor</tr>
-                               <td>-2 - File locked by calling process</tr>
-                              </tr>
-                                                               
-                            <tr>
-                                <td rowspan="4">Delete</td>
-                                <td rowspan="4">"Delete"</td>  
-                                <td rowspan="4">File Name (str)</td>
-                                <td rowspan="4">-</td>
-                                <td rowspan="4">-</td>
-                                <td>0 - Success</tr>
-                                <td>-1 - File not found or file is not a data file</tr>
-                                <td>-2 - File is open</tr>
-                                <td>-3 - Permission denied</tr>
-                              </tr>
-                              <tr>
-                                  <td rowspan="2">Write</td>
-                                  <td rowspan="2"> "Write"</td>
-                                  <td rowspan="2">-2</td>
-                                  <td rowspan="2">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="2">Wait</td>
+                                  <td rowspan="2">"Wait"</td> 
+                                  <td rowspan="2">Process Identifier (int)</td>
+                                  <td rowspan="2">-</td>
                                   <td rowspan="2">-</td>
                                   <td>0 - Success</tr>
-                                  <td>-1 - File Descriptor given is invalid</tr>
-                              </tr>
+                                  <td>-1 - Given process identifier is invalid or it is the pid of the invoking process.</tr>
+                                </tr>
 
-                              <tr>
-                                  <td rowspan="3">Seek</td>
-                                  <td rowspan="3">"Seek"</td>
+                                <tr>
+                                  <td>Signal</td>
+                                  <td>"Signal"</td> 
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>0 - Success</td>  
+                                </tr>
+
+                                
+                                <tr>
+                                  <td rowspan="3">FLock</td>
+                                  <td rowspan="3">"FLock"</td>     
                                   <td rowspan="3">File Descriptor (int)</td>
-                                  <td rowspan="3">Offset (int)</td>
                                   <td rowspan="3">-</td>
-                                  <td>0 - Success</tr>
-                                  <td>-1 - File Descriptor given is invalid</tr>
-                                  <td>-2 - Offset value moves the file pointer to a position outside the file</tr>
-                              </tr>
-
-                              <tr>
-                                  <td rowspan="3">Read</td>
-                                  <td rowspan="3">"Read"</td>
-                                  <td rowspan="3">File Descriptor (int)</td>
-                                  <td rowspan="3">Buffer (int/str)<font color="red">*</font></td>
                                   <td rowspan="3">-</td>
-                                  <td>0 - Success</tr>
-                                  <td>-1 - File Descriptor given is invalid</tr>
-                                  <td>-2 - File pointer has reached the end of file</tr>
-                              </tr>
-                            <!--- -->
+                                  <td>0 - Success</tr>  
+                                  <td>-1 - File Descriptor is invalid</tr>  
+                                  <td>-2 - Permission denied</tr>  
+                                </tr>
 
-                              <tr>
-                                <td rowspan="3">Fork</td>
-                                <td rowspan="3">"Fork"</td>
-                                <td rowspan="3">-</td>
-                                <td rowspan="3">-</td>
-                                <td rowspan="3">-</td>
-                                <td>PID (int) - Success, the return value to the parent is the process descriptor(PID) of the child process.</tr>  
-                                <td>0 - Success, the return value to the child.</tr>  
-                                <td>-1 - Failure, Number of processes has reached the maximum limit. Returns to the parent</tr>  
-                              </tr>     
-                              <tr>
-                                <td rowspan="2">Exec</td>
-                                <td rowspan="2">"Exec"</td>
-                                <td rowspan="2">File Name (str)</td>  
-                                <td rowspan="2">-</td>
-                                <td rowspan="2">-</td>
-                                <td>-1 - File not found or file is of invalid type</tr>  
-                                <td>-2 - Out of memory or disk swap space</tr>  
-                              </tr>
+                                <tr>
+                                    <td rowspan="3">FUnLock</td>
+                                    <td rowspan="3">"FUnLock"</td>
+                                    <td rowspan="3">File Descriptor (int)</td>  
+                                    <td rowspan="3">-</td>
+                                    <td rowspan="3">-</td>
+                                    <td>0 - Success</tr>
+                                    <td>-1 - File Descriptor is invalid</tr>
+                                    <td>-2 - File was not locked by the calling process</tr>
+                                </tr>
 
-                              <tr>
-                                <td>Exit</td>
-                                <td>"Exit"</td>     
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>  
-                              </tr>
+                                <tr>
+                                    <td rowspan="3">Semget</td>
+                                    <td rowspan="3">"Semget"</td>
+                                    <td rowspan="3">-</td>
+                                    <td rowspan="3">-</td>
+                                    <td rowspan="3">-</td>
+                                    <td>SEMID (int) - Success, returns a semaphore descriptor(SEMID)</tr>
+                                    <td>-1 - Process has reached its limit of resources</tr>
+                                    <td>-2 - Number of semaphores has reached its maximum</tr>
+                                </tr>
 
-                              <tr>
-                                  <td>Getpid</td>
-                                  <td>"Getpid"</td>
+                                <tr>
+                                    <td rowspan="2">Semrelease</td>
+                                    <td rowspan="2">"Semrelease"</td>
+                                    <td rowspan="2">Semaphore Descriptor (int)</td>
+                                    <td rowspan="2">-</td>
+                                    <td rowspan="2">-</td>
+                                    <td>0 - Success</tr>
+                                    <td>-1 - Semaphore Descriptor is invalid</tr>
+                                </tr>
+
+                                <tr>
+                                    <td rowspan="2">SemLock</td>
+                                    <td rowspan="2">"SemLock" </td>
+                                    <td rowspan="2">Semaphore Descriptor (int)</td>
+                                    <td rowspan="2">-</td>
+                                    <td rowspan="2">-</td>
+                                    <td>0 - Success or the semaphore is already locked by the current process</tr>
+                                    <td>-1 - Semaphore Descriptor is invalid</tr>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3">SemUnLock</td>
+                                    <td rowspan="3">"SemUnLock"</td>
+                                    <td rowspan="3">Semaphore Descriptor (int)</td>
+                                    <td rowspan="3">-</td>
+                                    <td rowspan="3">-</td>
+                                    <td>0 - Success</tr>
+                                    <td>-1 - Semaphore Descriptor is invalid</tr>
+                                    <td>-2 - Semaphore was not locked by the calling process</tr>
+                                </tr>
+                                
+                                <tr>
+                                  <td>Shutdown</td>
+                                  <td>"Shutdown"</td>     
                                   <td>-</td>
                                   <td>-</td>
                                   <td>-</td>
-                                  <td>Process Identifier (int) - Success</td>
-                              </tr>
-
-                              <tr>
-                                  <td>Getppid</td>
-                                  <td>"Getppid"</td>
                                   <td>-</td>
+                                </tr>
+                                <tr>
+                                  <td style="color:red" rowspan="3">Newusr</td>
+                                  <td rowspan="3">"Newusr"</td>     
+                                  <td rowspan="3">User name</td>
+                                  <td rowspan="3">Password</td>
+                                  <td rowspan="3">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - User already exists</tr>
+                                  <td>-2 - Permission denied</tr>
+                                </tr>
+                                <tr>
+                                  <td style="color:red" rowspan="3">Remusr</td>
+                                  <td rowspan="3">"Remusr"</td>     
+                                  <td rowspan="3">User name </td>
+                                  <td rowspan="3">-</td>
+                                  <td rowspan="3">-</td>
+                                  <td>0 - Success</tr>
+                                  <td>-1 - User does not exist</tr>
+                                  <td>-2 - Permission denied</tr>
+                                </tr>
+                                <tr>
+                                  <td style="color:red">Setpwd</td>
+                                  <td>"Setpwd"</td>     
+                                  <td>User name</td>
+                                  <td>New Password</td>
                                   <td>-</td>
-                                  <td>-</td>
-                                  <td>Parent Process Identifier (int) - Success</td>
-                              </tr>
-
-                            <tr>
-                                <td rowspan="2">Wait</td>
-                                <td rowspan="2">"Wait"</td> 
-                                <td rowspan="2">Process Identifier (int)</td>
-                                <td rowspan="2">-</td>
-                                <td rowspan="2">-</td>
-                                <td>0 - Success</tr>
-                                <td>-1 - Given process identifier is invalid or it is the pid of the invoking process.</tr>
-                              </tr>
-
-                              <tr>
-                                <td>Signal</td>
-                                <td>"Signal"</td> 
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>0 - Success</td>  
-                              </tr>
-
-                              
-                              <tr>
-                                <td rowspan="3">FLock</td>
-                                <td rowspan="3">"FLock"</td>     
-                                <td rowspan="3">File Descriptor (int)</td>
-                                <td rowspan="3">-</td>
-                                <td rowspan="3">-</td>
-                                <td>0 - Success</tr>  
-                                <td>-1 - File Descriptor is invalid</tr>  
-                                <td>-2 - Permission denied</tr>  
-                              </tr>
-
-                              <tr>
-                                  <td rowspan="3">FUnLock</td>
-                                  <td rowspan="3">"FUnLock"</td>
-                                  <td rowspan="3">File Descriptor (int)</td>  
-                                  <td rowspan="3">-</td>
-                                  <td rowspan="3">-</td>
-                                  <td>0 - Success</tr>
-                                  <td>-1 - File Descriptor is invalid</tr>
-                                  <td>-2 - File was not locked by the calling process</tr>
-                              </tr>
-
-                              <tr>
-                                  <td rowspan="3">Semget</td>
-                                  <td rowspan="3">"Semget"</td>
-                                  <td rowspan="3">-</td>
-                                  <td rowspan="3">-</td>
-                                  <td rowspan="3">-</td>
-                                  <td>SEMID (int) - Success, returns a semaphore descriptor(SEMID)</tr>
-                                  <td>-1 - Process has reached its limit of resources</tr>
-                                  <td>-2 - Number of semaphores has reached its maximum</tr>
-                              </tr>
-
-                              <tr>
-                                  <td rowspan="2">Semrelease</td>
-                                  <td rowspan="2">"Semrelease"</td>
-                                  <td rowspan="2">Semaphore Descriptor (int)</td>
-                                  <td rowspan="2">-</td>
-                                  <td rowspan="2">-</td>
-                                  <td>0 - Success</tr>
-                                  <td>-1 - Semaphore Descriptor is invalid</tr>
-                              </tr>
-
-                              <tr>
-                                  <td rowspan="2">SemLock</td>
-                                  <td rowspan="2">"SemLock" </td>
-                                  <td rowspan="2">Semaphore Descriptor (int)</td>
-                                  <td rowspan="2">-</td>
-                                  <td rowspan="2">-</td>
-                                  <td>0 - Success or the semaphore is already locked by the current process</tr>
-                                  <td>-1 - Semaphore Descriptor is invalid</tr>
-                              </tr>
-                              <tr>
-                                  <td rowspan="3">SemUnLock</td>
-                                  <td rowspan="3">"SemUnLock"</td>
-                                  <td rowspan="3">Semaphore Descriptor (int)</td>
-                                  <td rowspan="3">-</td>
-                                  <td rowspan="3">-</td>
-                                  <td>0 - Success</tr>
-                                  <td>-1 - Semaphore Descriptor is invalid</tr>
-                                  <td>-2 - Semaphore was not locked by the calling process</tr>
-                              </tr>
-                              
-                              <tr>
-                                <td>Shutdown</td>
-                                <td>"Shutdown"</td>     
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                              </tr>
-                              <tr>
-                                <td style="color:red" rowspan="3">Newusr</td>
-                                <td rowspan="3">"Newusr"</td>     
-                                <td rowspan="3">User name</td>
-                                <td rowspan="3">Password</td>
-                                <td rowspan="3">-</td>
-                                <td>0 - Success</tr>
-                                <td>-1 - User already exists</tr>
-                                <td>-2 - Permission denied</tr>
-                              </tr>
-                              <tr>
-                                <td style="color:red" rowspan="3">Remusr</td>
-                                <td rowspan="3">"Remusr"</td>     
-                                <td rowspan="3">User name </td>
-                                <td rowspan="3">-</td>
-                                <td rowspan="3">-</td>
-                                <td>0 - Success</tr>
-                                <td>-1 - User does not exist</tr>
-                                <td>-2 - Permission denied</tr>
-                              </tr>
-                              <tr>
-                                <td style="color:red">Setpwd</td>
-                                <td>"Setpwd"</td>     
-                                <td>User name</td>
-                                <td>New Password</td>
-                                <td>-</td>
-                                <td>-1 - Unauthorised attempt to change password</td>
-                              </tr>
-                              <tr>
-                                <td style="color:red" rowspan="2">Getuname</td>
-                                <td rowspan="2">"Getuname"</td>     
-                                <td rowspan="2">User ID (int)</td>
-                                <td rowspan="2">-</td>
-                                <td rowspan="2">-</td>
-                                <td>-1 - Invalid UserID</tr>
-                                <td>User Name - Success</tr>
-                              </tr>
-                              <tr>
-                                <td style="color:red" rowspan="2">Getuid</td>
-                                <td rowspan="2">"Getuid"</td>     
-                                <td rowspan="2">User name</td>
-                                <td rowspan="2">-</td>
-                                <td rowspan="2">-</td>
-                                <td>-1 - Invalid Username</tr>
-                                <td>uid - Success</tr>
-                              </tr>
-                              <tr>
-                                <td style="color:red" rowspan="2">Login</td>
-                                <td rowspan="2">"Login"</td>     
-                                <td rowspan="2">User name (str)</td>
-                                <td rowspan="2">Password (str)</td>
-                                <td rowspan="2">-</td>
-                                <td>-1 - Invalid username or password</tr>
-                                <td>-2 - Permission denied</tr>
-                              </tr>
-                                                        
+                                  <td>-1 - Unauthorised attempt to change password</td>
+                                </tr>
                                 <tr>
-                                  <td>Test</td>
-                                  <td>"Test"</td>
-                                  <td>Unspecified</td>
-                                  <td>Unspecified</td>
-                                  <td>Unspecified</td>
-                                  <td>-</td>
-                              </tr>
-                              <tr class = "active">
-                                  <td rowspan="2">Initialize</td>
-                                  <td rowspan="2">"Initialize"</td>
+                                  <td style="color:red" rowspan="2">Getuname</td>
+                                  <td rowspan="2">"Getuname"</td>     
+                                  <td rowspan="2">User ID (int)</td>
                                   <td rowspan="2">-</td>
                                   <td rowspan="2">-</td>
-                                  <td rowspan="2">-</td>
-                                  <td>0 - Success</tr>
-                                  <td>-1 - Failure</tr>
-                              </tr>
-                              <tr class = "active">
-                                  <td rowspan="2">Alloc</td>
-                                  <td rowspan="2">"Alloc"</td>
-                                  <td rowspan="2">Size (int)</td>
-                                  <td rowspan="2">-</td>
-                                  <td rowspan="2">-</td>
-                                  <td>Address in the heap allocated (int) </tr>
-                                  <td>-1 - No allocation</tr>
-                              </tr>
-                              <tr class = "active">
-                                  <td rowspan="2">Free</td>
-                                  <td rowspan="2">"Free"</td>
-                                  <td rowspan="2">Pointer (int)</td>
-                                  <td rowspan="2">-</td>
-                                  <td rowspan="2">-</td>
-                                  <td>0 - Success</tr>
-                                  <td>-1 - Failure</tr>
-                              </tr>
-                        </table>
-                        <sup>
-                            * Note:  The Read() and Write() library functions expect a pointer to a memory address from (or to) which read or write is performed. 
-                        </sup>
-                    </p>
-                    <p>
-                        The description of the system calls can be seen here. The dynamic memory management routines are described below.
-                    </p>
-                    </article>
-                    <article class="grid col-full" id="nav-data-types">
-                        <h2>Dynamic Memory Routines</h2>
-                        <h4>Initialize</h4>
-                        <p>
-                            <p>Arguments: None </p>
-                            <p>Return Value:</p>
-                            <table class="doctable">
+                                  <td>-1 - Invalid UserID</tr>
+                                  <td>User Name - Success</tr>
+                                </tr>
                                 <tr>
-                                    <td>0</td>
-                                    <td>Success</td>
-                                </tr> 
+                                  <td style="color:red" rowspan="2">Getuid</td>
+                                  <td rowspan="2">"Getuid"</td>     
+                                  <td rowspan="2">User name</td>
+                                  <td rowspan="2">-</td>
+                                  <td rowspan="2">-</td>
+                                  <td>-1 - Invalid Username</tr>
+                                  <td>uid - Success</tr>
+                                </tr>
                                 <tr>
-                                    <td>-1</td>
-                                    <td>Failure</td>
-                                </tr> 
-                            </table>
-                            <br>
-                            <p>
-                                Description: Intitalizes the heap data structures and sets up the heap area of the process.It is the applications responsibility to invoke Initialize() before the first use of Alloc(). The behaviour of Alloc() and Free() when invoked without an Intialize() operation is undefined. Any memory allocated before an Intialize() operation will be reclaimed for future allocation. 
-                            </p>
-                        </p>
-                        <h4>Alloc</h4>
-                        <p>
-                            <p>Arguments: Size (int) </p>
-                            <p>Return Value:</p>
-                            <table class="doctable">
-                                <tr>
-                                    <td>integer</td>
-                                    <td>Address in the heap allocated</td>
-                                </tr> 
-                                <tr>
-                                    <td>-1</td>
-                                    <td>No allocation</td>
-                                </tr>  
-                            </table>
-                            <br>
-                            <p>
-                                Description: The Alloc operation takes as input an integer, allocates contiguous words equal to the input specified and returns a pointer (i.e., an integer memory address) to the beginning of the allocated memory in the heap. 
-                            </p>
-                        </p>
-                        <h4>Free</h4>
-                        <p>
-                            <p>Arguments: Pointer (int)</p>
-                            <p>Return Value:</p>
-                            <table class="doctable">
-                                <tr>
-                                    <td>0</td>
-                                    <td>Success</td>
-                                </tr> 
-                                <tr>
-                                    <td>-1</td>
-                                    <td>Failure</td>
-                                </tr>  
-                            </table>
-                            <br>
-                            <p>
-                                Description: The Free operation takes a pointer (i.e., an integer memory address) of a previously allocated memory block and returns it to the heap memory pool.  If the pointer does not correspond to a valid reference to the beginning of a previously allocated memory block, the behaviour of Free is not defined.  
-                            </p>
-                        </p>
-                    </article>
-                </div>
-            </section>
-        </div>
-    </div>
+                                  <td style="color:red" rowspan="2">Login</td>
+                                  <td rowspan="2">"Login"</td>     
+                                  <td rowspan="2">User name (str)</td>
+                                  <td rowspan="2">Password (str)</td>
+                                  <td rowspan="2">-</td>
+                                  <td>-1 - Invalid username or password</tr>
+                                  <td>-2 - Permission denied</tr>
+                                </tr>
+                                                          
+                                  <tr>
+                                    <td>Test</td>
+                                    <td>"Test"</td>
+                                    <td>Unspecified</td>
+                                    <td>Unspecified</td>
+                                    <td>Unspecified</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr class = "active">
+                                    <td rowspan="2">Initialize</td>
+                                    <td rowspan="2">"Initialize"</td>
+                                    <td rowspan="2">-</td>
+                                    <td rowspan="2">-</td>
+                                    <td rowspan="2">-</td>
+                                    <td>0 - Success</tr>
+                                    <td>-1 - Failure</tr>
+                                </tr>
+                                <tr class = "active">
+                                    <td rowspan="2">Alloc</td>
+                                    <td rowspan="2">"Alloc"</td>
+                                    <td rowspan="2">Size (int)</td>
+                                    <td rowspan="2">-</td>
+                                    <td rowspan="2">-</td>
+                                    <td>Address in the heap allocated (int) </tr>
+                                    <td>-1 - No allocation</tr>
+                                </tr>
+                                <tr class = "active">
+                                    <td rowspan="2">Free</td>
+                                    <td rowspan="2">"Free"</td>
+                                    <td rowspan="2">Pointer (int)</td>
+                                    <td rowspan="2">-</td>
+                                    <td rowspan="2">-</td>
+                                    <td>0 - Success</tr>
+                                    <td>-1 - Failure</tr>
+                                </tr>
+                          </table>
+                          <sup>
+                              * Note:  The Read() and Write() library functions expect a pointer to a memory address from (or to) which read or write is performed. 
+                          </sup>
+                      </p>
+                      <p>
+                          The description of the system calls can be seen here. The dynamic memory management routines are described below.
+                      </p>
+                      </article>
+                      <article class="grid col-full" id="nav-data-types">
+                          <h2>Dynamic Memory Routines</h2>
+                          <h4>Initialize</h4>
+                          <p>
+                              <p>Arguments: None </p>
+                              <p>Return Value:</p>
+                              <table class="doctable">
+                                  <tr>
+                                      <td>0</td>
+                                      <td>Success</td>
+                                  </tr> 
+                                  <tr>
+                                      <td>-1</td>
+                                      <td>Failure</td>
+                                  </tr> 
+                              </table>
+                              <br>
+                              <p>
+                                  Description: Intitalizes the heap data structures and sets up the heap area of the process.It is the applications responsibility to invoke Initialize() before the first use of Alloc(). The behaviour of Alloc() and Free() when invoked without an Intialize() operation is undefined. Any memory allocated before an Intialize() operation will be reclaimed for future allocation. 
+                              </p>
+                          </p>
+                          <h4>Alloc</h4>
+                          <p>
+                              <p>Arguments: Size (int) </p>
+                              <p>Return Value:</p>
+                              <table class="doctable">
+                                  <tr>
+                                      <td>integer</td>
+                                      <td>Address in the heap allocated</td>
+                                  </tr> 
+                                  <tr>
+                                      <td>-1</td>
+                                      <td>No allocation</td>
+                                  </tr>  
+                              </table>
+                              <br>
+                              <p>
+                                  Description: The Alloc operation takes as input an integer, allocates contiguous words equal to the input specified and returns a pointer (i.e., an integer memory address) to the beginning of the allocated memory in the heap. 
+                              </p>
+                          </p>
+                          <h4>Free</h4>
+                          <p>
+                              <p>Arguments: Pointer (int)</p>
+                              <p>Return Value:</p>
+                              <table class="doctable">
+                                  <tr>
+                                      <td>0</td>
+                                      <td>Success</td>
+                                  </tr> 
+                                  <tr>
+                                      <td>-1</td>
+                                      <td>Failure</td>
+                                  </tr>  
+                              </table>
+                              <br>
+                              <p>
+                                  Description: The Free operation takes a pointer (i.e., an integer memory address) of a previously allocated memory block and returns it to the heap memory pool.  If the pointer does not correspond to a valid reference to the beginning of a previously allocated memory block, the behaviour of Free is not defined.  
+                              </p>
+                          </p>
+                      </article>
+                  </div>
+              </section>
+          </div>
+      </div>
+    <footer class="center part clearfix">
+      <ul class="social column3 mleft">
+          <li><a href="https://github.com/silcnitc">Github</a></li>
+      </ul>
+        <div class="up column3 mright"> <a href="#navtop" class="ir">Go up</a> </div>
+        <nav class="column3">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="uc.html">Contact</a></li>
+          </ul>
+        </nav>
+    </footer>
+    </body>
+
+    <!-- Javascript - jQuery
+    <script src="http://code.jquery.com/jquery.min.js"></script>-->
+    <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
+    <!--[if (gte IE 6)&(lte IE 8)]>
+    <script src="js/selectivizr.js"></script>
+    <![endif]-->
+    <script src="js/scripts.js"></script>
 </html>
