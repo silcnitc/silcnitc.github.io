@@ -878,12 +878,11 @@ The input can be interpreted as [1+2]+3 or 1+[2+3].</p>
 	<p>The parser can choose to reduce by reducing the handle expr+expr on top of the stack to expr.</p>
 <p><big>Case 2: </big>When the parser reaches the configuration as in Case 1, it could chose to shift instead of reduce, hence resulting in the configuration of:</p>
 	<pre>STACK:	$ expr+expr+expr	&nbspI/P BUFFER:	$</pre>
-	<p>Now, the parser can reduce expr+expr on top of the stack to expr, following which the contents of the stack expr 	+expr can be reduced to the expr.
+	<p>Now, the parser can reduce expr+expr on top of the stack to expr, following which the contents of the stack expr 	+expr can be reduced to the expr.</p>
+<p id="associativity">The example showed how the parser faced a conflict on deciding between the shift and reduce actions. Such conflicts are called shift/reduce conflicts. If the parser had chosen to reduce (like in Case 1), the input would be interpreted as [1+2]+3 (left associative). If the parser chooses to shift (like in Case 2), the input would be interpreted as 1+[2+3] (right associative). The difference in the interpretations is the associativity of the '+' operator. As the + operator is left associative, we would want the input to be interpreted as (1+2)+3. This can be done by specifying the associativity of the token '+' using the YACC keyword <b>%left</b> in the Declarations section as shown below:</p>
 
-The example showed how the parser faced a conflict on deciding between the shift and reduce actions. Such conflicts are called shift/reduce conflicts. If the parser had chosen to reduce (like in Case 1), the input would be interpreted as [1+2]+3 (left associative). If the parser chooses to shift (like in Case 2), the input would be interpreted as 1+[2+3] (right associative). The difference in the interpretations is the associativity of the '+' operator. As the + operator is left associative, we would want the input to be interpreted as (1+2)+3. This can be done by specifying the associativity of the token '+' using the YACC keyword <b>%left</b> in the Declarations section as shown below:</p>
-
-     <div class="syntax">
-	%left '+'
+  <div class="syntax">
+	 %left '+'
   </div>
  <p>
  Once this had been done, when the parser faces a conflict it
