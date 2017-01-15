@@ -1,0 +1,65 @@
+<!Doctype html>
+<html lang="en">
+<head>
+<title>TESTCASE 7</title>
+<meta charset="UTF-8">
+<link rel="../stylesheet" href="../css/style.css">
+</head>
+<body>
+<pre>
+decl
+ int ExtendedEuclid(int a,int b);
+enddecl
+
+int ExtendedEuclid(int a,int b)
+{
+ decl
+  int r0,r1,s0,s1,t0,t1,qi,ri,si,ti;
+ enddecl
+
+ begin
+  r0 = a;
+  r1 = b;
+  s0 = 1;
+  s1 = 0;
+  t0 = 0;
+  t1 = 1;
+
+  while(r1 != 0) do
+   qi = r0/r1;
+   ri = r0 - (qi*r1);
+   si = s0 - (qi*s1);
+   ti = t0 - (qi*t1);
+   r0 = r1;
+   r1 = ri;
+   s0 = s1;
+   s1 = si;
+   t0 = t1;
+   t1 = ti;
+  endwhile;
+
+  write(r0);
+  write(s0);
+  write(t0);
+
+  return 0;
+ end
+}
+
+int main()
+{
+ decl
+  int a,b,c;
+ enddecl
+
+ begin
+  read(a);
+  read(b);
+  c = ExtendedEuclid(a,b);
+  return 0;
+ end 
+} 
+
+</pre>
+</body>
+</html>

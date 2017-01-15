@@ -1,9 +1,65 @@
-<!DOCTYPE html>
-<html>
+<!Doctype html>
+<html lang="en">
 <head>
-	<title>TEST 2</title>
+<title>TESTCASE 2</title>
+<meta charset="UTF-8">
+<link rel="../stylesheet" href="../css/style.css">
 </head>
 <body>
-        <script src="../js/test2.js"></script>
+<pre>
+type
+  List
+  {
+    int data;
+    List next;
+  }
+endtype
+
+decl
+    List head;
+enddecl
+
+int main()
+{
+  decl
+    int length, x;
+    List p, q;
+  enddecl
+
+  begin
+    x = initialize();
+    
+    head=null;
+    read(length); 
+
+    q=head;
+    while (length!=0)  do
+      read(x);
+      p=alloc();
+      p.data=x;
+      p.next=null;
+
+      if (head==null) then
+      head=p;
+      q=p;
+      else
+      q.next=p;
+      q=q.next;
+      endif;
+      
+      length=length-1;
+    endwhile;
+
+    p=head;
+    while(p!=null)  do
+      write(p.data);
+      p=p.next;
+    endwhile;
+
+    return 1;
+  end
+}
+
+</pre>
 </body>
 </html>

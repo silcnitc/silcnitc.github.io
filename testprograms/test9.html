@@ -1,0 +1,43 @@
+<!Doctype html>
+<html lang="en">
+<head>
+<title>TESTCASE 9</title>
+<meta charset="UTF-8">
+<link rel="../stylesheet" href="../css/style.css">
+</head>
+<body>
+<pre>
+decl
+ int fun(int x),a;
+enddecl
+
+int fun(int x)
+{
+ begin
+  if(x &gt;= 100) then
+   a = 100;
+  else
+   a = fun(100 + fun(x+100));
+  endif;
+
+  return a;
+ end
+}
+
+int main()
+{
+ decl
+  int b,c;
+ enddecl
+
+ begin
+  read(b);
+  c = fun(b);
+  write(c);
+
+  return 0;
+ end
+}
+</pre>
+</body>
+</html>

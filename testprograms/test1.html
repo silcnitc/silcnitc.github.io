@@ -1,11 +1,48 @@
-<!DOCTYPE html>
-<html>
+<!Doctype html>
+<html lang="en">
 <head>
-	<title>TEST 1</title>
+<title>TESTCASE 1</title>
+<meta charset="UTF-8">
+<link rel="../stylesheet" href="../css/style.css">
 </head>
 <body>
-		<article class="grid col-full">
-        	<script src="../js/test1.js"></script>
-        </article>
+<pre>
+decl
+  int fact(int n);
+enddecl
+
+int fact(int n)
+{
+  decl
+    int f;
+  enddecl
+
+  begin
+    if(n&lt;=1) then
+      f=1;
+    else
+      f=n*fact(n-1);
+    endif;
+
+    return f;
+  end
+}
+
+int main()
+{
+  decl
+    int a,res;
+  enddecl
+
+  begin
+    read(a);
+    res = fact(a);
+    write(res);
+
+    return 0;
+  end  
+}  
+
+</pre>
 </body>
 </html>
