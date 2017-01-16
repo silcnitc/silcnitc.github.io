@@ -1,0 +1,134 @@
+<!Doctype html>
+<html lang="en">
+<head>
+<title>TESTCASE 5</title>
+<meta charset="UTF-8">
+<link rel="../stylesheet" href="../css/style.css">
+</head>
+<body>
+<pre>
+type
+  bst{
+  int a;
+  bst left;
+  bst right;
+  }
+endtype
+
+decl
+  int in,opt;
+  bst insert(bst h, int key);
+  int inOrder(bst h); 
+  int preOrder(bst h);
+  int postOrder(bst h);           
+enddecl
+
+bst insert(bst h, int key)
+{
+
+  begin
+    if (h == null) then
+    h = alloc();
+    h.a = key;
+    h.left = null;
+    h.right = null;
+
+    else if (key < h.a) then
+            h.left  = insert(h.left, key);
+
+         else if (key > h.a) then
+                 h.right = insert(h.right, key);
+              endif;
+          endif;
+    endif;   
+   
+    return h;
+  end
+}
+
+int inOrder(bst h){
+     
+  begin
+    
+  if(h!=null) then
+     
+    in=inOrder(h.left);
+    write(h.a);
+    in=inOrder(h.right);
+  endif;
+  return 1;
+  end
+}
+
+int preOrder(bst h){
+     
+  begin
+    
+  if(h!=null) then
+    write(h.a);
+    in=preOrder(h.left);
+    
+    in=preOrder(h.right);
+  endif;
+  return 1;
+  end
+}
+
+int postOrder(bst h){
+     
+  begin
+    
+  if(h!=null) then
+    
+    in=postOrder(h.left);
+    
+    in=postOrder(h.right);
+    write(h.a);
+  endif;
+  return 1;
+  end
+}
+
+int main()
+{ 
+  decl
+  int val,flag;
+  bst Root;
+  enddecl
+
+  begin
+  val = initialize();
+  Root = null;
+
+  flag=1;
+  while(flag==1) do
+    read(opt);
+
+    if(opt==1) then
+    read(val);
+    Root=insert(Root,val);
+    else 
+    if(opt==2) then
+      in=inOrder(Root);
+    else
+      if(opt==3) then
+      in=preOrder(Root);
+      else
+      if(opt==4) then
+        in=postOrder(Root);
+      else
+        flag=0;
+      endif;
+      endif;
+    endif;
+    endif;
+  
+  endwhile;
+  
+  return 9;
+  end
+}
+
+</pre>
+</body>
+</html>
