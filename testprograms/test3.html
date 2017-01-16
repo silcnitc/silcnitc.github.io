@@ -1,48 +1,63 @@
 <!Doctype html>
 <html lang="en">
 <head>
-<title>TESTCASE 3</title>
+<title>TESTCASE 4</title>
 <meta charset="UTF-8">
 <link rel="../stylesheet" href="../css/style.css">
 </head>
 <body>
 <pre>
 decl 
-   int n,arr[50],i,j,dup; 
+  int n,arr[10],i,j,dup, BubbleSort(int first, int last); 
 enddecl
+
+int BubbleSort(int first, int last)
+{
+  decl
+    int temp;
+  enddecl
+
+  begin
+    if((first < last) AND (last > 0)) then
+
+      if(arr[first] > arr[first+1]) then
+        temp = arr[first];
+        arr[first] = arr[first+1];
+        arr[first+1] = temp;
+      endif;
+
+      dup = BubbleSort(first+1, last);
+      dup = BubbleSort(first, last-1);
+    endif;
+
+    return 0;
+  end
+}
 
 int main()
 {
+  decl
+    int r;
+  enddecl
+
   begin
-  read(n);
+    read(n);
 
-  i=0;
-  while(i&lt;n) do
-    read(arr[i]);
-    i = i+1;
-  endwhile;
-
-  i=0;
-  while(i&lt;n) do
-    j=i;
-    while(j&lt;n) do
-      if(arr[i]&gt;arr[j]) then
-        dup = arr[i];
-        arr[i] = arr[j];
-        arr[j] = dup;
-      endif;
-      j = j + 1;
+    i=0;
+    while(i&lt;n) do
+      read(arr[i]);
+      i = i+1;
     endwhile;
-    i = i+1;
-  endwhile;
 
-  i=0;
-  while(i&lt;n) do
-    write(arr[i]);
-    i = i+1;
-  endwhile;
+    r = BubbleSort(0,n-1);
 
-  return 0;
+    i=0;
+    while(i&lt;n) do
+      write(arr[i]);
+      i = i+1;
+    endwhile;
+
+    return 0;
   end
 }
 </pre>
