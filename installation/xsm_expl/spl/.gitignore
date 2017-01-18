@@ -1,0 +1,9 @@
+spl
+lex.yy.c
+y.tab.c
+y.tab.h
+*~
+*.xsm
+*.temp
+*.o
+progs/*

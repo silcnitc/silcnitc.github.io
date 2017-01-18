@@ -1,0 +1,18 @@
+cd xfs-interface
+
+if [ "$1" == "-l" ]; then
+  ./xfs-interface load --library ../$2
+  ./xfs-interface load --init ../$4
+else
+	./xfs-interface load --init	../$2
+fi
+
+cd ../xsm_dev
+
+echo $3
+
+if [ "$5" == "--debug" ] || [ "$3" == "--debug" ]; then
+	./xsm --debug
+else
+	./xsm
+fi
