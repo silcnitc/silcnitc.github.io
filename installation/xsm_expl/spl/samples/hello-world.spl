@@ -1,0 +1,2 @@
+R0 = "HELLO_WORLD";
+print R0;

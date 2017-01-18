@@ -1,0 +1,21 @@
+alias i R0;
+alias j R1;
+alias n R2;
+print TIMER; //to check if the values in constant file is accessible
+readi n;
+i = 2;
+while( i <= n) do
+	j = 2;
+	R3 = 0;
+	while(j < i) do
+		if(i % j == 0) then
+			R3 = 1;
+			break;
+		endif;		
+		j = j + 1; 
+	endwhile;
+	if(R3 == 0) then
+		print i;
+	endif;
+	i = i + 1;
+endwhile;

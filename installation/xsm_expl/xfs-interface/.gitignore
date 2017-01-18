@@ -1,0 +1,12 @@
+xfs-interface
+disk.xfs
+*.dat
+*~
+*.o
+*.xsm
+*.txt
+*.tmp
+temp*
+test
+inodetable.txt
+rootfile.txt
