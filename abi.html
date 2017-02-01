@@ -260,7 +260,28 @@
                         </p><br/>
                     <h4 id = "nav-int">Software Interrupt</h4>
                         <p>
-                            Generates an interrupt to the kernel with n (4 to 18) as a parameter. The instruction for triggering interrupt is INT n, where n is the interrupt routine number.
+                            <i>Syntax</i> : INT n<br>
+                            <i>Semantics</i> : Generates an interrupt to the kernel with the interrupt number (n between 4 to 18) as an argument. The interrupt numbers relevant to the present project are given below.
+                        </p>
+                        <p>               
+                            <table class="doctable">
+                            <tr>
+                                <th>System Call</th>
+                                <th>Interrupt Routine Number</th>
+                            </tr>
+                            <tr>
+                                  <td >Read</td>
+                                  <td >6</td>
+                              </tr>
+                            <tr>
+                                  <td >Write</td>
+                                  <td >7</td>
+                              </tr>
+                            <tr>
+                                  <td >Exit</td>
+                                  <td >10</td>
+                              </tr>
+                            </table>
                         </p>
                 </article>
                 <article class="grid col-full" id="nav-virtual-address-space-model">
@@ -356,7 +377,7 @@
                 <article class="grid col-full" id="nav-eXpOS-system-library-interface">
                     <h2>The library interface</h2>
                     <p>
-                        The library provides a <b>uniform  interface</b> through which an application program can invoke dynamic memory allocation / de-allocation routines (Alloc(), Free() and Initialize()) and input - output routines (Read() and Write()).  Thus, while translating a high level ExpL program containing calls to the above functions, a compiler needs to be concerned only about how to translate these high level function calls to the corresponding library function calls.   
+                        The library provides a <b>uniform  interface</b> through which an application program can invoke dynamic memory allocation / de-allocation routines (Alloc(), Free() and Initialize()), input - output routines (Read() and Write()) and program exit (Exit()).  Thus, while translating a high level ExpL program containing calls to the above functions, a compiler needs to be concerned only about how to translate these high level function calls to the corresponding library function calls.   
                     </p>
 
                     <p>
@@ -364,17 +385,14 @@
                         <br>
                     </p>
                     <p>
-                        The ABI stipulates that all calls to library functions must be translated by the compiler to a CALL to virtual address 0, with an appropriate function code that identifies the service requested (Alloc(), Free(), Initalize(), Read() or Write()). This is because the library is linked to <b>virtual address 0</b> of the address space of a process by the OS loader.  A call to the library requires four arguments (a function code to identify the service and three arguments) to be passed through the stack. The library will invoke the corresponding low level system call / memory management routine and returns to the user program the return value of the system call / memory management routine through the stack. The figure above shows the contents of the stack immediately before a call to this library routine.
-                    </p>
-                    <p>
-                        The invocation details for the system calls and the dynamic memory management routines using the library interface can be seen <a href="http://exposnitc.github.io/os_spec-files/dynamicmemoryroutines.html" target="_blank"><b>here</b></a>.
+                        The ABI stipulates that all calls to the library functions must be translated by the compiler to a CALL to virtual address 0, with an appropriate function code that identifies the service requested (Alloc(), Free(), Initalize(), Read(), Write() or Exit()). This is because the library is linked to <b>virtual address 0</b> of the address space of a process by the OS loader.  A call to the library requires four arguments (a function code to identify the service and three arguments) to be passed through the stack. The library will invoke the corresponding low level system call / memory management routine and returns to the user program the return value of the system call / memory management routine through the stack. The figure above shows the contents of the stack immediately before a call to this library routine.
                     </p>
 
                     <h3 style="clear:right">Invoking a library module</h3>
 
                     <script src="js/f20916a0b864642f1cb04ff2ceebe46c.js"></script>
                     <p>
-                        A library module invocation using the high level application programmer's interface of a programming language like ExpL must be translated by the compiler to to a set of machine instructions as given above.
+                        A library module invocation using the high level application programmer's interface of a programming language like ExpL must be translated by the compiler to a set of machine instructions as given above.
                     </p>
                     <p>
                         Following are the library functions and details relevant for ExpL Compilation:
@@ -407,6 +425,14 @@
                                   <td rowspan="2">-</td>
                                   <td>0 - Success</tr>
                                   <td>-1 - File Descriptor given is invalid</tr>
+                              </tr>
+                            <tr class = "active">
+                                  <td rowspan="1">Exit</td>
+                                  <td rowspan="1">"Exit"</td>
+                                  <td rowspan="1">-</td>
+                                  <td rowspan="1">-</td>
+                                  <td rowspan="1">-</td>
+                                  <td>-</tr>
                               </tr>
                             <tr class = "active">
                                   <td rowspan="2">Initialize</td>
@@ -458,8 +484,7 @@
                     <h2>Low Level System Call Interface</h2>
                     <p>
                         The ExpL library file <i>library.lib</i> contains assembly instructions to implement the library functions
-                        <i>Alloc(), Free() and Initialize()</i>.  For the input/output functions Read() and Write(), the library code invokes the corresponding ExpOS system calls for console read and write. Thus, the library simply converts the 
-                        library call to a low level call to the operating system. This is because console input/ouput functions are implemented at the OS level.  
+                        <i>Alloc(), Free() and Initialize()</i>.  For the input/output functions Read()/Write() as well as the program exit system call Exit(), the library code invokes the corresponding ExpOS system calls for console read/write/exit. Thus, the library simply converts the library call to a low level call to the operating system. This is because console input/ouput functions are implemented at the OS level.  
                     </p>
 
                     <p>
@@ -570,6 +595,15 @@
                                   <td rowspan="2">-</td>
                                   <td>0 - Success</tr>
                                   <td>-1 - File Descriptor given is invalid</tr>
+                              </tr>
+                            <tr>
+                                  <td rowspan="1">Exit</td>
+                                  <td rowspan="1">10</td>
+                                  <td rowspan="1">10</td>
+                                  <td rowspan="1">-</td>
+                                  <td rowspan="1">-</td>
+                                  <td rowspan="1">-</td>
+                                  <td>-</tr>
                               </tr>
                             </table>
                             <sup>
