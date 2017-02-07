@@ -104,7 +104,9 @@
                         </p>
                         <p>
                             The table constructed after the first parse of the above code is shown below.
-                            <script type="text/javascript"></script>
+                        </p>
+                        <p>
+                            <img src="img/label-table.png">
                         </p>
                         <p>
                             The second parse is done on the input and the labels are translated to their address using the above table and the target machine code is generated. According to XSM instruction set, the only <a href="abi.html#nav-XSM-instruction-set"> machine instructions</a> which contain labels are : JMP, JZ, JNZ and CALL. Only these instructions need to be recognised by the parser and the labels present in these instructions are to be replaced with the respective memory addresses ( using the table ). All the labels preceeded by the semicolons (:) are to be removed in this parse.
