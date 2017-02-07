@@ -75,25 +75,54 @@
                 </article>
                 <article class="grid col-full" id="nav-illustration">
                     <h2>Illustration</h2>
-                    <div  class="col-one-half">
                     <p>
                         The above procedure is demonstrated with the help of a program snippet.
                     </p>
+                    <div  class="col-one-half">
                         <script src="js/36a210c1c92cd7ac6d45eb119b4d0020.js"></script>
                     </div>
                     <div class="grid col-full">
-                        <div class="fleft col-one-third">
+                        <p>
+                            The code generated after the codegen() phase is shown in the <a href="#fig1"> figure 1</a> ( It consists of labels ).
+                        </p>
+                        <div class="fleft col-one-third" id="fig1">
                             <p>
-                                The code before the two-time passlabel translation looks as follows:
+                                Figure 1
+                                <script src="js/cbc271f4cff409923ac1989a9433bdfe.js"></script>
                             </p>
-                            <script src="js/cbc271f4cff409923ac1989a9433bdfe.js"></script>
                         </div>
-                        <div style="padding-right: 15em" class="fright col-one-third">
+                        <div style="padding-right: 15em" class="fright col-one-third" id="fig2">
                             <p>
-                                The code after the two-time passlabel translation looks as follows:
+                                Figure 2
                             </p>
                             <script src="js/d2de8b9cd8a88a5054c9ead9e697e99a.js"></script>
                         </div>
+                    </div>
+                    <div>
+                        <p>
+                            All the labels preceeded by the semicolon (:) are to be recognized in the first parse and the memory address of this instruction need to be stored in the table along with the label because the next instruction which is the starting instruction under this label will be at this address after removing the label. Note that this parse is only to construct the table.
+                        </p>
+                        <p>
+                            The table constructed after the first parse of the above code is shown below.
+                            <script type="text/javascript"></script>
+                        </p>
+                        <p>
+                            The second parse is done on the input and the labels are translated to their address using the above table and the target machine code is generated. According to XSM instruction set, the only <a href="abi.html#nav-XSM-instruction-set"> machine instructions</a> which contain labels are : JMP, JZ, JNZ and CALL. Only these instructions need to be recognised by the parser and the labels present in these instructions are to be replaced with the respective memory addresses ( using the table ). All the labels preceeded by the semicolons (:) are to be removed in this parse.
+                        </p>
+                        <p>
+                            The target code after the label translation is shown in the <a href="#fig2"> figure 2</a>.
+                        </p>
+                        <hr>
+                    </div>
+                    <div>
+                        <h3>How to implement the parser?</h3>
+                        <p>
+                            The above parser can be implemented using a single Lex program.The following functions provided by Lex can be useful while implementing the parser :
+                            <ul>
+                                <li id="otis">1. <b>yyless(k)</b> : Returns the first k characters in yytext(lexeme).</li>
+                                <li id="otis">2. <b>yytext+k</b> : ignores the first k characters in yytext(lexeme).</li>
+                            </ul>
+                        </p>
                     </div>
                     <!-- <script src="https://gist.github.com/vishnupriyam/6cde145e400e15cfda5f1a65366a264f.js"></script> -->
                     <!-- <script src="js/6ce685d686f903d3e976dd8b20b11763.js"></script> -->
