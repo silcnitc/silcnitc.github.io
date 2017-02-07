@@ -145,19 +145,21 @@
                         <p>
                             Let us take an example:<br><br>
 
-                            If you are given a two node expression tree as shown below corresponding to the expression (3+2):
-
-                            /* Tree here */
-
+                            If you are given a two node expression tree as shown below corresponding to the expression (3+2):<br>
+                        </p>
+                        <p>
+                            <img src="img/tree1.png">
+                        </p>
+                        <p>
                             The evaluation strategy will be:
-
-                            1.  Store 3 in a register – say R0 .
-                            2.  Store 2 in a register – say R1
-                            3.  ADD R0, R1.
-
-                            The result will be stored in R0 and is sufficent for us.  
-
-                            To generate code for the above tasks and write it into a target_file, you must write code as:  
+                            <ul>
+                                <li id="otis">1.  Store 3 in a register – say R0.</li>
+                                <li id="otis">2.  Store 2 in a register – say R1.</li>
+                                <li id="otis">3.  ADD R0, R1.</li>
+                            </ul>
+                        </p>
+                        <p>               
+                            The result will be stored in R0 and is sufficient for us. To generate code for the above tasks and write it into a target_file, you must write code as:  
 
                             <div class="syntax">
                                 fprintf(target_file, “MOV R0, 3”);<br/>
@@ -166,83 +168,95 @@
                             </div>
 
                             However, life becomes complicated if we have an expression like (3+2)+(5+6) resulting in the following tree.
-
-                            Figure
                         </p>
-                            <p>
-                                Of course, we can handle this case also.  But the strategy will not generatlize because our compiler does not know the input expression before-hand.  Technically speaking, we speak about this issue as  “expression is not available at compile time, but only known at run time”.   Your code generation module must be more intelligent to  generate code for an arbitrary expression.  
-                            </p>
-                            <p>
-                                The root of the problem in the code above is  that R0 and R1 has been picked by you and not your code.<br>
-                                Thus, we must have a register allocation policy (basically a function) that returns a free register whenever we require one. Basically, you must write the following functions:
-                            </p>
-                            <div class="syntax">
+                        <p>
+                            <img src="img/tree2.png">
+                        </p>
+                        <p>
+                            Of course, we can “hand craft” this case also.  But the strategy will not generalize. The basic issue is that your compiler does not know the input expression before-hand.  Technically speaking, the issue is that the “expression is not available at <b>compile time</b>, but only known at <b>run time</b>”. Your code generation module must be more <i>“intelligent”</i> to handle <i>arbitrary expressions</i>.  
+                        </p>
+                        <p>
+                            The root of the problem in the code above is that R0 and R1 has been picked by you and not your compiler.Thus, we must have a <b>register allocation policy</b> (basically a function) that returns a free register whenever we require one. That is, you must design the following functions:
+                        </p>
+                        <div class="syntax">
                             int getReg()   //  Allocate a free registers
-                            </div>
-                            
-                            <p>That returns the register number of an unallocated register, so that you can look like:  </p>
+                        </div>
+                        
+                        <p>
+                            That returns the register number of an unallocated register, so that your code for adding 3 and 2 would look like:
+                        </p>
 
-                            <div class="syntax">
-                                int p = getReg();<br>
-                                int q = getReg();<br>    
-                                fprintf( target file, “MOV R%d, 3”, p);<br>
-                                fprintf(target_ file, “MOV R%d, 2”, q);<br>
-                                fprintf(target_file, “ADD R%d, R%d,”, p,q);<br>
-                            </div>
+                        <div class="syntax">
+                            int p = getReg();<br>
+                            int q = getReg();<br>    
+                            fprintf( target file, “MOV R%d, 3”, p);<br>
+                            fprintf(target_ file, “MOV R%d, 2”, q);<br>
+                            fprintf(target_file, “ADD R%d, R%d,”, p,q);<br>
+                        </div>
 
-                            <p>
-                                In addition to allocating registers, you must also have mechanism to release a register back into the register pool. In the above example, after the ADD instruction is generated R1 can be released and send back to the register pool.    
-                            </p>
+                        <p>
+                            In addition to allocating registers, you must also have mechanism to <b>release a register</b> back into the register pool. In the above example, after the ADD instruction is generated R1 can be released and send back to the register pool.    
+                        </p>
 
-                            <p>For this purpose, you will write a functions</p>
-                                <div class="syntax">
-                                freeReg() //  Releases a register.  
-                                </div>
-                            <p>
-                                To make the allocation  strategy simple, we will generate target code in such a way that  the result of a CPU instruction involing two registers will be always stored in the register with lower index.    The above code, for example, stores  result of the above computation is kept in R0 and not R1 so that the register with the higher index value can be released.    This means that the freeReg() function does not require any arguments.  Instead, freeReg() and getReg() can be designed to keep track of the higest numbered register allocated so far and hence can keep track of the right register that must be allocated or freed.  
-
-                            The following summarizes the register allocation strategy [Link Register Allocation documentation]:  
-                            </p>
-                            <pre>
-                            1 Whenever a register is needed, allocate the lowest numbered register that is free.  (Thus, give R0 if possible, otherwise R1 etc.)  
+                        <p>
+                            For this purpose, you will write a function
+                        </p>
+                        
+                        <div class="syntax">
+                            freeReg() //  Releases a register.  
+                        </div>
+                        
+                        <p>
+                            To make the allocation  strategy simple,  we suggest that you  generate target code in such a way that  <i>the result of a CPU instruction involving two registers</i> will be always stored in the register with lower index. The above code, for example, stores result of the above computation is kept in R0 and not R1 so that the register with the higher index value can be released. As a consequence, the freeReg() function does not require any arguments.  Instead, freeReg() and getReg() can be designed to keep track of the highest numbered register allocated so far and hence can keep track of the correct register that must be allocated or freed.   
+                        </p>
+                        <p>
+                            The following summarizes the register allocation strategy [Link Register Allocation documentation]:
+                        </p>
+                        <div class="syntax">
+                            1. Whenever a register is needed, allocate the lowest numbered register that is free. (Thus, give R0 if possible, otherwise R1 etc.)<br>
 
                             2.  Whenever we free a register, always release the highest used register.  Thus was allocated previously.  (Thus, if R0, R1 and R2 were allocated, freeReg() must release R2).
-                            </pre>
+                        </div>
 
-                            <p>
-                                Finally, we must design a code generation module.  The strategy here is to start with an expression tree and do the following:
-                            </p>
-                            <pre>
-                            1.  At the leaf nodes of the tree (corresponding to a NUM),  Allocate a new register and store the number to the register.
-                            2.  At the intermediete nodes :
-                                a.  Generate code for the left subtree (recursively);  find out the register holding the result.
-                                b.  Evaluate the right subtree (recursively); find out the register holding the result.
-                                c.  ADD the contents of the two registers and store the result in the lower numbered register
-                                d.  Release the higher numbered register and return.
-                            </pre>
+                        <p>
+                            Finally, we must design a code generation module.  The strategy here is to start with an expression tree and do the following:
+                        </p>
 
-                            <p>
-                                In the above box, as step 2.a and 2.b requires finding the index of the register which stores the result of expression evaluation, the simplest strategy is to make the codeGen() function return the index of the register storing the result.  This leads to the following definition of the getReg() function:  
-                             </p>
-                            <pre>
-                            #define reg_index int;  
-                            reg_index codeGen( struct node *t) {
-                              ..
-                              ..
-                              return [result-regIndex]   
+                        <div class="syntax">
+                            1.  At the leaf nodes of the tree (corresponding to a NUM),  Allocate a new register and store the number to the register.<br>
+                            2.  At the intermediete nodes :<br>
+                            &emsp;a.  Generate code for the left subtree (recursively). Find out the register holding the result.<br>
+                            &emsp;b.  Evaluate the right subtree (recursively). Find out the register holding the result.<br>
+                            &emsp;c.  ADD the contents of the two registers and store the result in the lower numbered register.<br>
+                            &emsp;d.  Release the higher numbered register and return.<br>
+                        </div>
+
+                        <p>
+                            In the above box, as step 2.a and 2.b requires finding the index of the register which stores the result of expression evaluation. The simplest strategy is to design a codeGen() function that can take as input an expression tree and generates code for the expression, <i>returning the index of the register storing the result</i> :  
+                        </p>
+                        <div class="syntax">
+                            #define reg_index int;<br>  
+                            reg_index codeGen( struct node *t) {<br>
+                            &emsp;..<br>
+                            &emsp;..<br>
+                            &emsp;return [result-regIndex]<br>   
                             }
-                            </pre>
+                        </div>
+                        <p>
+                            The codeGen() function takes as input a pointer to the root of an expression tree and generates code for the subtree rooted at that node. After generating code, the function must return the index of the register storing the result.
                         </p>
                         <p>
-                            <b>Task 2</b>:   Complete the simple compiler for expression evaluation: [ LINK]  
-                            You must have read the XSM Assembly language programming tutorial before proceeding further.  
+                            <b>Task 2</b>: Complete the simple compiler for expression evaluation and generate the executable file. The result of expression evaluation may be stored in the first location of the stack region – memory address 4096.  Note that the XEXE executable format must be adhered so that the XSM simulator can load and execute the file.   
                         </p>
                         <p>
-                            <b>Task 3</b>:  Use the <a href="xsmusagespec.html">XSM simulator</a> to execute the target program on the XSM machine and watch the contents of the result register.
-                            <ul>
-                                <li id="otis"><b>Exercise 1</b>:  Modify the grammar to E :  E + E | E*E | (E) | NUM  (Assumes that * has higher precedence than +).</li>
-                                <li id="otis"><b>Exercise 2</b>:  Modify your code generation module to store the result of the expression evaluation to the first location in <a href="abi.html#nav-virtual-address-space-model">stack region</a> and watch the contents in debug mode.</li>
-                            </ul>
+                            <b>Note</b>:  To run the simulator, you must prepare the library.lib together with the XEXE executable file.  Please follow instructions in the XSM environment tutorial [LINK].
+                        </p>
+                        <p>
+                            <b>Exercise 2</b>:  Modify the grammar to 
+                            <div class="syntax">E :  E + E | E*E | E-E| E/E | (E) | NUM</div>  Assume standard rules of precedence and associativity. 
+                        </p>
+                        <p>
+                            <b>Exercise 3</b>:  Redo Exercise 3 assuming that the input expression is given in prefix from.
                         </p>
                     </article>
                 </div>
