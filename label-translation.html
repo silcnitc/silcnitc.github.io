@@ -59,14 +59,13 @@
                         </ol>
                     </p>-->
                     <p>
-                        Labels are generated while translating the high level program constructs such as if-conditional, while loops and functions into target machine code. The XSM simulator stipulates that the target machine code should not contain any labels. So the compiler writer need to write a program to translate all the labels with the corresponding memory addresses compatible with the memory layout of the XSM simulator.This conversion is called the Label translation.
+                        Labels are generated while translating the high level program constructs such as if-conditional, while loops and functions into target machine code. The XSM simulator stipulates that the target machine code should not contain any labels. So the compiler designer need to write a program to translate all the labels with the corresponding memory addresses compatible with the memory layout specified in the <a href="abi.htmll#nav-virtual-address-space-model"> ABI</a>. This conversion is called the Label translation.
                     </p>
                     <p>
-                        The input to the label translator program is the machine code with labels generated after codegen() section. The output is the target machine code without the labels ( replaced with corresponding addresses ).
+                        The input to the label translator program is the machine code with labels generated after <a href="codegen.html"> codegen()</a> section. The output is the target machine code without the labels ( replaced with corresponding addresses ).
                     </p>
                     <p>
-                        The main idea in writing Label translater program is provided below.<br>
-                        This stage mainly comprises of two parts.
+                        The main idea behind label translation is to execute the following two steps.<br>
                         <ul>
                             <li id="otis">1. The input ( machine code with labels ) is parsed and a table in which the labels are mapped with their corresponding addresses is created.</li>
 
@@ -84,7 +83,7 @@
                     </div>
                     <div class="grid col-full">
                         <p>
-                            The code generated after the codegen() phase is shown in the <a href="#fig1"> figure 1</a> ( It consists of labels ).
+                            The code generated after the <a href="codegen.html"> codegen()</a> phase is shown in the figure 1 ( It consists of labels ).
                         </p>
                         <div class="fleft col-one-third" id="fig1">
                             <p>
@@ -122,7 +121,14 @@
                         <p>
                             The above parser can be implemented using a single Lex program.The following functions provided by Lex can be useful while implementing the parser :
                             <ul>
-                                <li id="otis">1. <b>yyless(k)</b> : Returns the first k characters in yytext(lexeme).</li>
+                                <li id="otis">1. <b>yyless(k)</b> : Returns all but the first n characters of the current token back to the input stream, where they will be rescanned when the scanner looks for the next match. <b>yytext</b> and <b>yyleng</b> are adjusted appropriately (e.g., yyleng will now be equal to n ).<br>
+                                For example, on the input "foobar" the following will write out "foobarbar":<br>
+                                <div class="syntax">                                    
+                                    %%<br>
+                                    foobar    ECHO; yyless(3);<br>
+                                    [a-z]+    ECHO;<br>
+                                </div>
+                                An argument of 0 to yyless will cause the entire current input string to be scanned again. Unless you've changed how the scanner will subsequently process its input (using BEGIN, for example), this will result in an endless loop. Note that yyless is a macro and can only be used in the flex input file, not from other source files.</li>
                                 <li id="otis">2. <b>yytext+k</b> : ignores the first k characters in yytext(lexeme).</li>
                             </ul>
                         </p>
