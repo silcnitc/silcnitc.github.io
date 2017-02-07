@@ -51,25 +51,34 @@
                     <article class="grid col-full" id="nav-stage0">
                         <h2>Stage 0 : Installation</h2>
                         <p>
-                        	Follow the set up instructions provided <a href="install.html">here</a>.
+                        	The set up instructions for Lex, Yacc and XSM simulator are provided in this <a href="install.html">link</a>.
                         </p>
                     </article>
                     <article class="grid col-full" id="nav-stage1">
-                        <h2>Stage 1 : Simple Compiler for Expressions</h2>
+                        <h2>Stage 1 : Code generation for Arithmetic Expressions</h2>
                         <p>                        
                             <b>Prerequisites</b>:<br/>
                             <ul>
-                                <li id="otis">1.  Read <a href="lex.html" target="_blank">Lex</a>, <a href="yacc.html" target="_blank">Yacc</a> and <a href="ywl.html" target="_blank">Using Lex with Yacc</a> tutorials.</li>  
-                                <li id="otis">2.  Read XSM assembly language programming tutorial.</li>
+                                <li id="otis">1.  You must be comfortable with LEX and YACC.  ( If you are not, you must first do <a href="lex.html" target="_blank">LEX</a> tutorial, <a href="yacc.html" target="_blank">YACC</a> Tutorial and <a href="ywl.html" target="_blank">Using Lex with Yacc</a> tutorials.)</li>   
+                                <li id="otis">2.  You must have completed the XSM environment tutorial[LINK] before staring this stage.</li>
                             </ul>
                         </p>
                         <p>                        
                             <b>Learning Objectives</b>:<br/>
+                            <p>In this stage, you will:</p>  
                             <ul>
-                                <li id="otis">1.  Use Lex and Yacc to parse an arithmetic expression and create and expression tree.</li>  
-                                <li id="otis">2.  Generate XSM code to evaluate the expression and store the value in a register.</li>
-                                <li id="otis">3.  Use the XSM simulator to run the target code and watch the contents of the register storing the output value in <a href="xsmusagespec.html#nav-debug">debug mode</a>.</li>
+                            <li id="otis">1.  Parse an input  arithmetic expression and create and expression tree using YACC and LEX.</li>
+                            <li id="otis">2.  Recursively traverse the tree and generate assembly language code.  You learn to solve the <i>register allocation problem</i> enroute.</li>
                             </ul>
+                        </p>
+                        <p>
+                            The strategy of the roadmap is to help you build the compiler in stages.  We start here by building a compiler for simple arithmetic expressions. In subsequent stages, we will add more features of the language by one, learning the relevant theoretical concepts along the way. 
+                        </p>
+                        <p>
+                            In this stage, you will implement a very simple compiler that can take an arithmetic expression as input (from some input file)  and generate a target executable file containing XSM instructions to evaluate the expression and output the result.  
+                        </p>
+                        <p>
+                            We assume that you have implemented the library routine for handling console output, which you were asked to do in the XSM execution environment tutorial.  
                         </p>
                         <p>                            
                             Consider arithmetic expressions with the following syntax.
@@ -95,7 +104,7 @@
                             /*Make a leaf tnode and set the value of val field*/<br/>
                             struct tnode* makeLeafNode(int n);<br/>
                             <br/>
-                            /*Make a tnode with opertor, left and right branches set*/<br/>
+                            /*Make a tnode with operator, left and right branches set*/<br/>
                             struct tnode* makeOperatorNode(char c,struct tnode *l,struct tnode *r);
                             </div>  
                             <!-- TreeCreate(...)  function to create tree – Again, just enough for the purpose, explaining arguments.   -->
@@ -103,22 +112,38 @@
                         <p>
                             <b>Task 1</b>:  Build the expression tree for the given input.<br>
                             <b>Exercise 1</b>:  Output the prefix and postfix forms of the expression from the tree.<br>
-                            Now, comes the next  task - to generate assembly language program equivalent for the expression and write it out into an executable file which an OS loader (given to you) will be able to understand.<br>
+                        </p>
 
+                        <p>
+                            (Note:  You would have already completed this task if you have done the <a href="ywl.html" target="_blank"> tutorial </a>).
+                        </p>
+                        <p>    
+                            Now, comes the next task - to generate assembly language program equivalent for the expression and write it out into an executable file in the XEXE format.  Once this is done, you can use the simulator to load the XEXE file into the memory of the XSM machine and execute it as outlined in the XSM run time environment tutorial [LINK].
+                        </p>
+
+                        <p>
                             To do this, one needs to know the following:<br>
                             <ul>
-                                <li id="otis">1. The <a href="abi.html#nav-XSM-instruction-set">machine instruction set</a> of the target machine.</li>
-                                <li id="otis">2. You need to know the address in the memory (in the target machine) where each instruction you generate will be loaded (by the OS loader). This is because program control instructions like JMP, CALL etc. requires specification of the jump address.<br>
-                                The <a href="abi.html#nav-virtual-address-space-model">memory model</a> explains where your code gets into memory. The first instruction generated by you will be loaded to the address 2056. Each XSM instruction occupies 2 memory words. Hence, the next instruction will be loaded at address 2058 and so on.</li>
-                                <li id="otis">3.  You need fix the memory addresses where variables and other data is stored.  For example, for each variable in the program, the compiler will have to allocate storage space in memory.    In addition to this, the machine registers can also be used to store data.  In the present experiment, you will be using machine registers for storage.</li>
+                                <li id="otis">1. The machine model and the <a href="abi.html#nav-XSM-instruction-set">instruction set</a> of the target machine.</li>
+                                
+                                <li id="otis">2. Format of the <a href="abi.html#nav-XEXE-executable-file-format"> executable file</a>.</li>
+                                
+                                <li id="otis">3. You need to know the address in the memory (in the target machine) where each instruction you generate will be loaded (by the OS loader). This is because program control instructions like JMP, CALL etc.,  requires specification of the jump address. <br>
+                                
+                                As already outlined in the XSM enviornment tutorial[LINK], the header will be loaded into addresses 2048-2055. The first instruction generated by you will be loaded to the address 2056. Each XSM instruction occupies 2 memory words. Hence, the next instruction will be loaded at address 2057 and so on. The entry point field of the header must contain the address of the first instruction to be fetched and executed.</li>
+
+                                <li id="otis">4. You need fix the memory addresses where variables and other data is stored. For example, for each variable in the program, the compiler will have to allocate storage space in memory. The ABI stipulates that the region for this is the <a href="abi.html#nav-virtual-address-space-model"> stack region</a>. Thus each variable must be stored in some address between 4096 and 5119.</li>
+
+                                <li id="otis">5. Since XSM machine stipulates that arithmetic and logic instructions can be done only when operands are loaded into machine registers, we need to load the contents of variables/constants in the program into the machine registers before processing them. This brings in the problem of register allocation. The XSM machine makes available 20 registers (R0-R19) for the compiler.</li>   
                             </ul>
-
-
-<!--                             [You might have noted that the  ... words in the code region (starting at address 20...) is used to store a header for the executable file.   This will be explained later.] -->  
-
-                            Of the above,  evaluation of expressions require you to handle only (3).  Later stages will introduce you to (1) and (2).<br>  
-
-                            Given the above, what must be the strategy?   Let us take an example:   
+                        </p>
+                        <p>
+                            Of the above, the XSM execution environment tutorial has already explained (1) and (2). Evaluation of expressions do not involve either storage allocation or program control transfer (JMP). Hence, we will not take up (3) and (4) at this stage. However, we need to solve (5) now. 
+                        </p>
+-------------------------------------------------------TILL HERE----------------------------------------------------------
+                        <p><h3>What must be the evaluation strategy?</h3></p>
+                        <p>
+                            Let us take an example:<br><br>
 
                             If you are given a two node expression tree as shown below corresponding to the expression (3+2):
 
@@ -143,7 +168,7 @@
                             However, life becomes complicated if we have an expression like (3+2)+(5+6) resulting in the following tree.
 
                             Figure
-
+                        </p>
                             <p>
                                 Of course, we can handle this case also.  But the strategy will not generatlize because our compiler does not know the input expression before-hand.  Technically speaking, we speak about this issue as  “expression is not available at compile time, but only known at run time”.   Your code generation module must be more intelligent to  generate code for an arbitrary expression.  
                             </p>
@@ -157,13 +182,13 @@
                             
                             <p>That returns the register number of an unallocated register, so that you can look like:  </p>
 
-                            <pre>
-                            int p = getReg();
-                            int q = getReg();    
-                            fprintf( target file, “MOV R%d, 3”, p);
-                            fprintf(target_ file, “MOV R%d, 2”, q);
-                            fprintf(target_file, “ADD R%d, R%d,”, p,q);
-                            </pre>
+                            <div class="syntax">
+                                int p = getReg();<br>
+                                int q = getReg();<br>    
+                                fprintf( target file, “MOV R%d, 3”, p);<br>
+                                fprintf(target_ file, “MOV R%d, 2”, q);<br>
+                                fprintf(target_file, “ADD R%d, R%d,”, p,q);<br>
+                            </div>
 
                             <p>
                                 In addition to allocating registers, you must also have mechanism to release a register back into the register pool. In the above example, after the ADD instruction is generated R1 can be released and send back to the register pool.    

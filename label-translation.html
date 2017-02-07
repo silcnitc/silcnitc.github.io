@@ -44,7 +44,7 @@
                 <div class="grid-wrap">
                 <article class="grid col-full" id="nav-introduction">
                     <h2>Introduction</h2>
-                    <p>
+<!--                     <p>
                         The code area of the memory where the function's code is not decided by the compiler during analysis phase. So to solve this issue, compiler generates psuedo addresses for all labels. All calls to the function will be translated to an assembly level call to this pseudo address. Label translation is done to assign the correct addresses.
                     </p>
                     <p>
@@ -56,13 +56,28 @@
                             <li>In the first pass, the correct adrress of each label is found out and store the mapping (say, in an array).</li>
                             <li>In the second pass, all the call and jumps statements with pseudo addresses, i.e, labels are replaced by the correct addresses obtained from the mapping.</li>
                         </ol>
+                    </p>-->
+                    <p>
+                        Labels are generated while translating the high level program constructs such as if-conditional, while loops and functions into target machine code. The XSM simulator stipulates that the target machine code should not contain any labels. So the compiler writer need to write a program to translate all the labels with the corresponding memory addresses compatible with the memory layout of the XSM simulator.This conversion is called the Label translation.
+                    </p>
+                    <p>
+                        The input to the label translator program is the machine code with labels generated after codegen() section. The output is the target machine code without the labels ( replaced with corresponding addresses ).
+                    </p>
+                    <p>
+                        The main idea in writing Label translater program is provided below.<br>
+                        This stage mainly comprises of two parts.
+                        <ul>
+                            <li id="otis">1. The input ( machine code with labels ) is parsed and a table in which the labels are mapped with their corresponding addresses is created.</li>
+
+                            <li id="otis">2. Parse the input again and replace all the labels with their corresponding addresses by looking into the table created above.</li>
+                        </ul>
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-illustration">
                     <h2>Illustration</h2>
                     <div  class="col-one-half">
                     <p>
-                        Consider the example below.
+                        The above procedure is demonstrated with the help of a program snippet.
                     </p>
                         <script src="js/36a210c1c92cd7ac6d45eb119b4d0020.js"></script>
                     </div>
