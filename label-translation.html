@@ -62,7 +62,7 @@
                         Labels are generated while translating the high level program constructs such as if-conditional, while loops and functions into target machine code. The XSM simulator stipulates that the target machine code should not contain any labels. So the compiler designer need to write a program to translate all the labels with the corresponding memory addresses compatible with the memory layout specified in the <a href="abi.htmll#nav-virtual-address-space-model"> ABI</a>. This conversion is called the Label translation.
                     </p>
                     <p>
-                        The input to the label translator program is the machine code with labels generated after <a href="codegen.html"> codegen()</a> section. The output is the target machine code without the labels ( replaced with corresponding addresses ).
+                        The input to the label translator program is the machine code with labels generated after <a href="codegen.html"> codeGen()</a> section. The output is the target machine code without the labels ( replaced with corresponding addresses ).
                     </p>
                     <p>
                         The main idea behind label translation is to execute the following two steps.<br>
@@ -83,7 +83,7 @@
                     </div>
                     <div class="grid col-full">
                         <p>
-                            The code generated after the <a href="codegen.html"> codegen()</a> phase is shown in the figure 1 ( It consists of labels ).
+                            The code generated after the <a href="codegen.html"> codeGen()</a> phase is shown in the figure 1 ( It consists of labels ).
                         </p>
                         <div class="fleft col-one-third" id="fig1">
                             <p>
@@ -99,17 +99,26 @@
                         </div>
                     </div>
                     <div>
-                        <p>
-                            All the labels preceeded by the semicolon (:) are to be recognized in the first parse and the memory address of this instruction need to be stored in the table along with the label because the next instruction which is the starting instruction under this label will be at this address after removing the label. Note that this parse is only to construct the table.
+                                                <p>
+                            In the machine code generated after codegen section, labels occur in two different ways.<br>
+                            <ul>
+                                <li id="otis">1. Instructions in which labels are followed by semicolon (:).</li>
+                                <li id="otis"><b>Examples</b> : F0: at address 2066, L0: at address 2104, L1: at address 2166, MAIN: at address 2192 as in <a href="#fig1">figure1</a></li>.
+                                <li id="otis">2. Instructions which contain labels in them are JMP, JZ, JNZ and CALL.</li>
+                                <li id="otis"><b>Examples</b> : JMP L1 at address 2102, JZ R0, L3 at address 2258, CALL MAIN at address 2062 etc., as in <a href="#fig1">figure1</a>.</li>
+                            </ul>
                         </p>
                         <p>
-                            The table constructed after the first parse of the above code is shown below.
+                            Now, we will understand the label translation procedure with the help of an example label F0 from the <a href="#fig1">figure1</a>.<br>
+                            First <b>F0:</b> need to be recognized and the memory address of the label occurance need to be stored. In this case the instruction F0: is occuring at memory address 2066. Now we need to parse the entire machine code to find the occurrences of labels in the instructions. In this parse we remove the instruction F0: at memory address 2066 <b>[Why?]</b>. In the <a href="#fig1">figure1</a>, there are two instructions that use this label <b> CALL F0 occuring at address 2140 </b> and <b>CALL F0 occuring at address 2312</b>. We will replace the labels in these instructions with the address of F0: (2066) we stored earlier. So, now the instructions will become <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
                         </p>
+                        <p>
+                            The label translater program need to parse the entire machine code two times. In the first parse we identify all the label instructions of first type and store the memory addresses of the occurrences of the labels along with the corresponding labels in a label-address table. The table constructed after the first parse of the above code is shown below.
                         <p>
                             <img src="img/label-table.png">
                         </p>
                         <p>
-                            The second parse is done on the input and the labels are translated to their address using the above table and the target machine code is generated. According to XSM instruction set, the only <a href="abi.html#nav-XSM-instruction-set"> machine instructions</a> which contain labels are : JMP, JZ, JNZ and CALL. Only these instructions need to be recognised by the parser and the labels present in these instructions are to be replaced with the respective memory addresses ( using the table ). All the labels preceeded by the semicolons (:) are to be removed in this parse.
+                            In the second parse, we recognize the label occurrences of first type and remove them <b>[Why?]</b> and replace the labels with the corresponding memory address in the label occurrences of second type.
                         </p>
                         <p>
                             The target code after the label translation is shown in the <a href="#fig2"> figure 2</a>.
