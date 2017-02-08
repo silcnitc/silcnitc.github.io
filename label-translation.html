@@ -59,7 +59,7 @@
                         </ol>
                     </p>-->
                     <p>
-                        Labels are generated while translating the high level program constructs such as if-then-else, while-do and function calls into target machine code. The XSM simulator stipulates that the target machine code should not contain any labels. So the compiler designer need to write a program to translate all the labels with the corresponding memory addresses compatible with the memory layout specified in the <a href="abi.htmll#nav-virtual-address-space-model"> ABI</a>. This conversion is called the Label translation.
+                        Labels are generated while translating the high level program constructs such as if-then-else, while-do and function calls into target machine code as an intermediate step in code generation. Labels are needed because the target address of a JUMP instruction may not be known at the time of generating code. However these labels must be replaced with target addresses in the final target code. Thus the compiler designer needs to write a program to replace all the labels in the program with the correct memory addresses eventually. This conversion is called Label translation.
                     </p>
                     <p>
                         The input to the label translator program is the machine code with labels generated after <a href="codegen.html"> codeGen()</a> section. The output is the target machine code without the labels ( replaced with corresponding addresses ).
