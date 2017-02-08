@@ -88,7 +88,7 @@
                             <b>Prerequisites</b>:<br/>
                             <ul>
                                 <li id="otis">1.  You must be comfortable with LEX and YACC.  ( If you are not, you must first do <a href="lex.html" target="_blank">LEX</a> tutorial, <a href="yacc.html" target="_blank">YACC</a> Tutorial and <a href="ywl.html" target="_blank">Using Lex with Yacc</a> tutorials.)</li>   
-                                <li id="otis">2.  You must have completed the <a href="xsm-environment-tut.html">XSM environment tutorial</a> before staring this stage.</li>
+                                <li id="otis">2.  You must have completed the <a href="xsm-environment-tut.html" target="_blank">XSM environment tutorial</a> before staring this stage.</li>
                             </ul>
                         </p>
                         <p>                        
@@ -106,14 +106,14 @@
                             In this stage, you will implement a very simple compiler that can take an arithmetic expression as input (from some input file)  and generate a target executable file containing XSM instructions to evaluate the expression and output the result.  
                         </p>
                         <p>
-                            We assume that you have implemented the library routine for handling console output, which you were asked to do in the XSM execution environment tutorial.  
+                            We assume that you have implemented the library routine for handling console output, which you were asked to do in the <a href="xsm-environment-tut.html" target="_blank">XSM execution environment tutorial</a>.  
                         </p>
                         <p>                            
                             Consider arithmetic expressions with the following syntax.
                             <div class="syntax">
                                 E :  E + E | (E) | NUM  
                             </div>
-                            Where the <a href="lex.html#navyytext" target="_blank">lexeme</a> <b>NUM</b> correspond to integers.  Assume left <a href="yacc.html#associativity" target="_blank">associativity</a>  for '+'. Thus, the <a href="lex.html#token" target="_blank">tokens</a> relevant are : NUM and +. The attribute value associated with a number is the number read.  Assume that the input file is passed as argument to the main() function in YACC.  
+                            Where the <a href="lex.html#navyytext" target="_blank">lexeme</a> <b>NUM</b> correspond to integers.  Assume left <a href="yacc.html#associativity" target="_blank">associativity</a>  for '+'. Thus, the <a href="lex.html#token" target="_blank">tokens</a> relevant are NUM and +. The attribute value associated with a number is the number read.  Assume that the input file is passed as argument to the main() function in YACC.  
                         </p>
                         <p>
                             The lexer must pack the attribute into a tree node of the following structure:
