@@ -119,9 +119,9 @@
                             The lexer must pack the attribute into a tree node of the following structure:
                            <div class="syntax">         
                             typedef struct tnode{<br>
-                                int val;            //value of for the expression tree<br>
-                                char *op;           //indicates the opertor branch<br>
-                                struct tnode *left,*right;      //left and right branches<br>
+                            &emsp;int val;            //The result of evaluation of sub expression rooted at this node<br>
+                            &emsp;char *op;           //indicates the name of the opertor for a non leaf node<br>
+                            &emsp;struct tnode *left,*right;      //left and right branches<br>
                             }tnode;<br>
                             <br>
                             #define YYSTYPE tnode*
@@ -143,10 +143,10 @@
                         </p>
 
                         <p>
-                            (Note:  You would have already completed this task if you have done the <a href="ywl.html" target="_blank"> tutorial </a>).
+                            (Note:  You would have already completed this task if you have done the <a href="ywl.html" target="_blank"> Using Yacc With Lex tutorial </a>).
                         </p>
                         <p>    
-                            Now, comes the next task - to generate assembly language program equivalent for the expression and write it out into an executable file in the XEXE format.  Once this is done, you can use the simulator to load the XEXE file into the memory of the XSM machine and execute it as outlined in the XSM run time environment tutorial [LINK].
+                            Now, comes the next task - to generate assembly language program equivalent for the expression and write it out into an executable file in the XEXE format.  Once this is done, you can use the simulator to load the XEXE file into the memory of the XSM machine and execute it as outlined in the <a href="xsm-environment-tut.html"> XSM run time environment tutorial</a>.
                         </p>
 
                         <p>
@@ -237,14 +237,16 @@
                             To make the allocation  strategy simple,  we suggest that you  generate target code in such a way that  <i>the result of a CPU instruction involving two registers</i> will be always stored in the register with lower index. The above code, for example, stores result of the above computation is kept in R0 and not R1 so that the register with the higher index value can be released. As a consequence, the freeReg() function does not require any arguments.  Instead, freeReg() and getReg() can be designed to keep track of the highest numbered register allocated so far and hence can keep track of the correct register that must be allocated or freed.   
                         </p>
                         <p>
-                            The following summarizes the register allocation strategy [Link Register Allocation documentation]:
+                            The following summarizes the register allocation strategy:
                         </p>
                         <div class="syntax">
                             1. Whenever a register is needed, allocate the lowest numbered register that is free. (Thus, give R0 if possible, otherwise R1 etc.)<br>
 
                             2.  Whenever we free a register, always release the highest used register.  Thus was allocated previously.  (Thus, if R0, R1 and R2 were allocated, freeReg() must release R2).
                         </div>
-
+                        <p>
+                            <b>Note:</b> Here we assume that machine registers never get exhausted. We will address the situation arising out of non availability of registers in later.
+                        </p>
                         <p>
                             Finally, we must design a code generation module.  The strategy here is to start with an expression tree and do the following:
                         </p>
