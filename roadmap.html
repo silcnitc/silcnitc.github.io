@@ -244,9 +244,7 @@
 
                             2.  Whenever we free a register, always release the highest used register.  Thus was allocated previously.  (Thus, if R0, R1 and R2 were allocated, freeReg() must release R2).
                         </div>
-                        <p>
-                            <b>Note:</b> Here we assume that machine registers never get exhausted. We will address the situation arising out of non availability of registers in later.
-                        </p>
+                        
                         <p>
                             Finally, we must design a code generation module.  The strategy here is to start with an expression tree and do the following:
                         </p>
@@ -272,7 +270,7 @@
                             }
                         </div>
                         <p>
-                            The codeGen() function takes as input a pointer to the root of an expression tree and generates code for the subtree rooted at that node. After generating code, the function must return the index of the register storing the result.
+                            The codeGen() function takes as input a pointer to the root of an expression tree and generates code for the subtree rooted at that node. After generating code, the function must return the index of the register storing the result. See this <a href="codegen.html" target="_blank">link</a> for furthur details.
                         </p>
                         <p>
                             <b>Task 2</b>: Complete the simple compiler for expression evaluation and generate the executable file. The result of expression evaluation may be stored in the first location of the stack region – memory address 4096.  Note that the XEXE executable format must be adhered so that the XSM simulator can load and execute the file.   
@@ -286,6 +284,10 @@
                         </p>
                         <p>
                             <b>Exercise 3</b>:  Redo Exercise 2 assuming that the input expression is given in prefix from.
+                        </p>
+                        <p>
+                            <b>Note:</b> Here we assumeed that machine registers never get exhausted. XSM provides 20 general purpose registers and these registers are sufficient for all practial purposes.  However, if all registers are exhausted,
+                            then space will have to be allocated in memory.  We will not address this contingency in this roadmap.  If register pool is exhausted, your compiler may stop compilation and flag "Out of registers"  error.  
                         </p>
                     </article>
                 </div>
