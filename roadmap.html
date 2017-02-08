@@ -1,0 +1,309 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>Roadmap</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/style_new.css">
+        <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Code</a></li>
+                        <li><a href="roadmap.html">Roadmap</a></li>
+                        <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">ROADMAP</p>
+                <br>
+                <br>
+                <!--<a class="button" href="">Download as PDF</a>-->
+            </header>
+            <aside class="grid col-one-quarter mq2-col-full">
+                <menu>
+                    <ul>
+                        <li class="sec"><a href="#nav-stage0">0. Installation</a> </li>
+                        <li class="sec"><a href="#nav-stage1">1. Simple Compiler for Expressions</a></li>
+                    </ul>
+                </menu>
+            </aside>
+            <body>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                    <article class="grid col-full">
+                        <h2>Using roadmap</h2>
+                        <p>
+                            This roadmap is divided into stages. Each stage is to be done in the sequential order. Incrementally you will build ExpL Compiler according to its specification. Links are provided throughout the document for further reference. <!-- There are two kinds of links, <a href="#" class="imp">important links</a> and <a href="#">informative links</a>. You must visit the <a href="#" class="imp">Important links</a>  the read the immediate section to which the link points to,  in order to proceed with the roadmap. <a href="#">Informative links</a> may be clicked if you want more information at a particular point. However this information may not be necessary at that point. You can proceed with the roadmap without visiting these links also. -->
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-stage0">
+                        <h2>Stage 0 : Installation and Preparation</h2>
+                        <p>
+                        	In this stage, you will download and familiarize yourself with the simulation package and learn the compiler design software tools LEX and YACC.  Follow the instructions below.
+                        </p>
+                        <p>
+                            1.  Install the LEX, YACC and the XSM simulator package.  Follow the instructions <a href="install.html" target="_blank">here</a>.
+                        </p>
+                        <p>
+                            You need to learn two software tools - YACC and LEX which you will use in the project. These tools are somewhat
+                            sophisticated. Fortunately, understanding what is enough for the purposes of our compiler project is not very difficult. The following tutorials will help you through this process.
+                        </p>
+                        <p>
+                            If you are not already familiar with the tools LEX and YACC do the following:<br>
+                            <ul>
+                                <li id="otis">2.  Complete the <a href="lex.html" target="_blank">LEX tutorial</a>.</li>
+                                <li id="otis">3.  Complete the YACC following <a href="yacc.html" target="_blank">tutorial</a>.</li>
+                                <li id="otis">4.  Complete the <a href="ywl.html" target="_blank">Using YACC with LEX tutorial</a>.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            The next step is to understand the target machine envionment. You must carefully go through the following tutorial
+                            before proceeding to the next stage of this roadmap.
+                        </p>
+                        <p>
+                            5.  Complete the XSM execution environment tutorial[LINK].
+                        </p>
+                        <p>
+                            With this, you are ready with all the required pre-requisites to proceed further in this roadmap.
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-stage1">
+                        <h2>Stage 1 : Code generation for Arithmetic Expressions</h2>
+                        <p>                        
+                            <b>Prerequisites</b>:<br/>
+                            <ul>
+                                <li id="otis">1.  You must be comfortable with LEX and YACC.  ( If you are not, you must first do <a href="lex.html" target="_blank">LEX</a> tutorial, <a href="yacc.html" target="_blank">YACC</a> Tutorial and <a href="ywl.html" target="_blank">Using Lex with Yacc</a> tutorials.)</li>   
+                                <li id="otis">2.  You must have completed the XSM environment tutorial[LINK] before staring this stage.</li>
+                            </ul>
+                        </p>
+                        <p>                        
+                            <b>Learning Objectives</b>:<br/>
+                            <p>In this stage, you will:</p>  
+                            <ul>
+                            <li id="otis">1.  Parse an input  arithmetic expression and create and expression tree using YACC and LEX.</li>
+                            <li id="otis">2.  Recursively traverse the tree and generate assembly language code.  You learn to solve the <i>register allocation problem</i> enroute.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            The strategy of the roadmap is to help you build the compiler in stages.  We start here by building a compiler for simple arithmetic expressions. In subsequent stages, we will add more features of the language by one, learning the relevant theoretical concepts along the way. 
+                        </p>
+                        <p>
+                            In this stage, you will implement a very simple compiler that can take an arithmetic expression as input (from some input file)  and generate a target executable file containing XSM instructions to evaluate the expression and output the result.  
+                        </p>
+                        <p>
+                            We assume that you have implemented the library routine for handling console output, which you were asked to do in the XSM execution environment tutorial.  
+                        </p>
+                        <p>                            
+                            Consider arithmetic expressions with the following syntax.
+                            <div class="syntax">
+                                E :  E + E | (E) | NUM  
+                            </div>
+                            Where the <a href="lex.html#navyytext" target="_blank">lexeme</a> <b>NUM</b> correspond to integers.  Assume left <a href="yacc.html#associativity" target="_blank">associativity</a>  for '+'. Thus, the <a href="lex.html#token" target="_blank">tokens</a> relevant are : NUM and +. The attribute value associated with a number is the number read.  Assume that the input file is passed as argument to the main() function in YACC.  
+                        </p>
+                        <p>
+                            The lexer must pack the attribute into a tree node of the following structure:
+                           <div class="syntax">         
+                            typedef struct tnode{<br>
+                                int val;            //value of for the expression tree<br>
+                                char *op;           //indicates the opertor branch<br>
+                                struct tnode *left,*right;      //left and right branches<br>
+                            }tnode;<br>
+                            <br>
+                            #define YYSTYPE tnode*
+                            </div>
+                      <!--       Specifiy YYSTACK type:  /* Give  tree node definition just sufficient for this purpose, explaining why each field is required */ -->   
+                            Since the semantics actions in the parser must build the tree, the following function must be written:
+                            <div class="syntax">
+                            /*Make a leaf tnode and set the value of val field*/<br/>
+                            struct tnode* makeLeafNode(int n);<br/>
+                            <br/>
+                            /*Make a tnode with operator, left and right branches set*/<br/>
+                            struct tnode* makeOperatorNode(char c,struct tnode *l,struct tnode *r);
+                            </div>  
+                            <!-- TreeCreate(...)  function to create tree – Again, just enough for the purpose, explaining arguments.   -->
+                        </p>
+                        <p>
+                            <b>Task 1</b>:  Build the expression tree for the given input.<br>
+                            <b>Exercise 1</b>:  Output the prefix and postfix forms of the expression from the tree.<br>
+                        </p>
+
+                        <p>
+                            (Note:  You would have already completed this task if you have done the <a href="ywl.html" target="_blank"> tutorial </a>).
+                        </p>
+                        <p>    
+                            Now, comes the next task - to generate assembly language program equivalent for the expression and write it out into an executable file in the XEXE format.  Once this is done, you can use the simulator to load the XEXE file into the memory of the XSM machine and execute it as outlined in the XSM run time environment tutorial [LINK].
+                        </p>
+
+                        <p>
+                            To do this, one needs to know the following:<br>
+                            <ul>
+                                <li id="otis">1. The machine model and the <a href="abi.html#nav-XSM-instruction-set">instruction set</a> of the target machine.</li>
+                                
+                                <li id="otis">2. Format of the <a href="abi.html#nav-XEXE-executable-file-format"> executable file</a>.</li>
+                                
+                                <li id="otis">3. You need to know the address in the memory (in the target machine) where each instruction you generate will be loaded (by the OS loader). This is because program control instructions like JMP, CALL etc.,  requires specification of the jump address. <br>
+                                
+                                As already outlined in the XSM enviornment tutorial[LINK], the header will be loaded into addresses 2048-2055. The first instruction generated by you will be loaded to the address 2056. Each XSM instruction occupies 2 memory words. Hence, the next instruction will be loaded at address 2058 and so on. The entry point field of the header must contain the address of the first instruction to be fetched and executed.</li>
+
+                                <li id="otis">4. You need fix the memory addresses where variables and other data is stored. For example, for each variable in the program, the compiler will have to allocate storage space in memory. The ABI stipulates that the region for this is the <a href="abi.html#nav-virtual-address-space-model"> stack region</a>. Thus each variable must be stored in some address between 4096 and 5119.</li>
+
+                                <li id="otis">5. Since XSM machine stipulates that arithmetic and logic instructions can be done only when operands are loaded into machine registers, we need to load the contents of variables/constants in the program into the machine registers before processing them. This brings in the problem of register allocation. The XSM machine makes available 20 registers (R0-R19) for the compiler.</li>   
+                            </ul>
+                        </p>
+                        <p>
+                            Of the above, the XSM execution environment tutorial has already explained (1) and (2). Evaluation of expressions do not involve either storage allocation or program control transfer (JMP). Hence, we will not take up (3) and (4) at this stage. However, we need to solve (5) now. 
+                        </p>
+                        <p><h3>What must be the evaluation strategy?</h3></p>
+                        <p>
+                            Let us take an example:<br><br>
+
+                            If you are given a two node expression tree as shown below corresponding to the expression (3+2):<br>
+                        </p>
+                        <p>
+                            <img src="img/tree1.png">
+                        </p>
+                        <p>
+                            The evaluation strategy will be:
+                            <ul>
+                                <li id="otis">1.  Store 3 in a register – say R0.</li>
+                                <li id="otis">2.  Store 2 in a register – say R1.</li>
+                                <li id="otis">3.  ADD R0, R1.</li>
+                            </ul>
+                        </p>
+                        <p>               
+                            The result will be stored in R0 and is sufficient for us. To generate code for the above tasks and write it into a target_file, you must write code as:  
+
+                            <div class="syntax">
+                                fprintf(target_file, “MOV R0, 3”);<br/>
+                                fprintf(target_file, “MOV R1, 2”);<br/>
+                                fprintf(target_file, “ADD R0, R1”);<br/>
+                            </div>
+
+                            However, life becomes complicated if we have an expression like (3+2)+(5+6) resulting in the following tree.
+                        </p>
+                        <p>
+                            <img src="img/tree2.png">
+                        </p>
+                        <p>
+                            Of course, we can “hand craft” this case also.  But the strategy will not generalize. The basic issue is that your compiler does not know the input expression before-hand.  Technically speaking, the issue is that the “expression is not available at <b>compile time</b>, but only known at <b>run time</b>”. Your code generation module must be more <i>“intelligent”</i> to handle <i>arbitrary expressions</i>.  
+                        </p>
+                        <p>
+                            The root of the problem in the code above is that R0 and R1 has been picked by you and not your compiler.Thus, we must have a <b>register allocation policy</b> (basically a function) that returns a free register whenever we require one. That is, you must design the following functions:
+                        </p>
+                        <div class="syntax">
+                            int getReg()   //  Allocate a free registers
+                        </div>
+                        
+                        <p>
+                            That returns the register number of an unallocated register, so that your code for adding 3 and 2 would look like:
+                        </p>
+
+                        <div class="syntax">
+                            int p = getReg();<br>
+                            int q = getReg();<br>    
+                            fprintf( target file, “MOV R%d, 3”, p);<br>
+                            fprintf(target_ file, “MOV R%d, 2”, q);<br>
+                            fprintf(target_file, “ADD R%d, R%d,”, p,q);<br>
+                        </div>
+
+                        <p>
+                            In addition to allocating registers, you must also have mechanism to <b>release a register</b> back into the register pool. In the above example, after the ADD instruction is generated R1 can be released and send back to the register pool.    
+                        </p>
+
+                        <p>
+                            For this purpose, you will write a function
+                        </p>
+                        
+                        <div class="syntax">
+                            freeReg() //  Releases a register.  
+                        </div>
+                        
+                        <p>
+                            To make the allocation  strategy simple,  we suggest that you  generate target code in such a way that  <i>the result of a CPU instruction involving two registers</i> will be always stored in the register with lower index. The above code, for example, stores result of the above computation is kept in R0 and not R1 so that the register with the higher index value can be released. As a consequence, the freeReg() function does not require any arguments.  Instead, freeReg() and getReg() can be designed to keep track of the highest numbered register allocated so far and hence can keep track of the correct register that must be allocated or freed.   
+                        </p>
+                        <p>
+                            The following summarizes the register allocation strategy [Link Register Allocation documentation]:
+                        </p>
+                        <div class="syntax">
+                            1. Whenever a register is needed, allocate the lowest numbered register that is free. (Thus, give R0 if possible, otherwise R1 etc.)<br>
+
+                            2.  Whenever we free a register, always release the highest used register.  Thus was allocated previously.  (Thus, if R0, R1 and R2 were allocated, freeReg() must release R2).
+                        </div>
+
+                        <p>
+                            Finally, we must design a code generation module.  The strategy here is to start with an expression tree and do the following:
+                        </p>
+
+                        <div class="syntax">
+                            1.  At the leaf nodes of the tree (corresponding to a NUM),  Allocate a new register and store the number to the register.<br>
+                            2.  At the intermediete nodes :<br>
+                            &emsp;a.  Generate code for the left subtree (recursively). Find out the register holding the result.<br>
+                            &emsp;b.  Evaluate the right subtree (recursively). Find out the register holding the result.<br>
+                            &emsp;c.  ADD the contents of the two registers and store the result in the lower numbered register.<br>
+                            &emsp;d.  Release the higher numbered register and return.<br>
+                        </div>
+
+                        <p>
+                            In the above box, as step 2.a and 2.b requires finding the index of the register which stores the result of expression evaluation. The simplest strategy is to design a codeGen() function that can take as input an expression tree and generates code for the expression, <i>returning the index of the register storing the result</i> :  
+                        </p>
+                        <div class="syntax">
+                            #define reg_index int;<br>  
+                            reg_index codeGen( struct node *t) {<br>
+                            &emsp;..<br>
+                            &emsp;..<br>
+                            &emsp;return [result-regIndex]<br>   
+                            }
+                        </div>
+                        <p>
+                            The codeGen() function takes as input a pointer to the root of an expression tree and generates code for the subtree rooted at that node. After generating code, the function must return the index of the register storing the result.
+                        </p>
+                        <p>
+                            <b>Task 2</b>: Complete the simple compiler for expression evaluation and generate the executable file. The result of expression evaluation may be stored in the first location of the stack region – memory address 4096.  Note that the XEXE executable format must be adhered so that the XSM simulator can load and execute the file.   
+                        </p>
+                        <p>
+                            <b>Note</b>:  To run the simulator, you must prepare the library.lib together with the XEXE executable file.  Please follow instructions in the XSM environment tutorial [LINK].
+                        </p>
+                        <p>
+                            <b>Exercise 2</b>:  Modify the grammar to 
+                            <div class="syntax">E :  E + E | E*E | E-E| E/E | (E) | NUM</div>  Assume standard rules of precedence and associativity. 
+                        </p>
+                        <p>
+                            <b>Exercise 3</b>:  Redo Exercise 2 assuming that the input expression is given in prefix from.
+                        </p>
+                    </article>
+                </div>
+            </section>
+            </body>
+        <footer class="center part clearfix">
+            <ul class="social column3 fleft">
+                <li><a href="https://github.com/silcnitc">Github</a></li>
+            </ul>
+          <div class="up column3 mright"> <a href="#navtop" class="ir">Go up</a> </div>
+          <nav class="column3">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="uc.html">Contact</a></li>
+            </ul>
+          </nav>
+      </footer>
+    <!-- Javascript - jQuery
+    <script src="http://code.jquery.com/jquery.min.js"></script>-->
+    <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
+    <!--[if (gte IE 6)&(lte IE 8)]>
+    <script src="js/selectivizr.js"></script>
+    <![endif]-->
+    <script src="js/scripts.js"></script>
+</html>
