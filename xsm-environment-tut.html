@@ -29,7 +29,7 @@
                 <p class="fleft">XSM Execution Environment</p>
                 <br>
                 <br>
-                <!--<a class="button" href="">Download as PDF</a>-->
+                <a class="button" href="">Download as PDF</a>
             </header>
             <aside class="grid col-one-quarter mq2-col-full">
                 <menu>
@@ -123,7 +123,10 @@
 							fprintf(target_file, "BRKP");
   						</div>
   					</p>
-						[THE Figure NEED TO BE ADDED]
+  					<p>
+	  					<script src="js/edda61e70ba922a59f37b9680c420b53.js"></script>
+  					</p>
+						<!-- [THE Figure NEED TO BE ADDED] -->
 					<p>
 						However, the header must be written into the first eight words of the target file before writing out the instructions. You must reserve the first eight words of the executable file for the header before writing code into the file. Now, set the entry point field to the first instruction to be executed. If the code is written immedietely after the header, the first instruction will be loaded to memory address 2056 and 2057 (see <a href="abi.html#nav-virtual-address-space-model" target="_blank">memory model</a>). Hence, you must set the header as:<br>
 						<div class="syntax"> fprintf(target_file, " %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ",0,2056,256,0,0,0,0,0); </div> 
