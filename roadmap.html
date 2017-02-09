@@ -35,7 +35,7 @@
                 <menu>
                     <ul>
                         <li class="sec"><a href="#nav-stage0">0. Installation</a> </li>
-                        <li class="sec"><a href="#nav-stage1">1. Simple Compiler for Expressions</a></li>
+                        <li class="sec"><a href="#nav-stage1">1. CodeGeneration for Arithmetic Expressions</a></li>
                     </ul>
                 </menu>
             </aside>
@@ -188,11 +188,11 @@
                         <p>               
                             The result will be stored in R0 and is sufficient for us. To generate code for the above tasks and write it into a target_file, you must write code as:  
 
-                            <div class="syntax">
-                                fprintf(target_file, “MOV R0, 3”);<br/>
-                                fprintf(target_file, “MOV R1, 2”);<br/>
-                                fprintf(target_file, “ADD R0, R1”);<br/>
-                            </div>
+                        <div class="syntax">
+                            fprintf(target_file, "MOV R0, 3");<br>
+                            fprintf(target_file, "MOV R1, 2");<br>
+                            fprintf(target_file, "ADD R0, R1");<br>
+                        </div>
 
                             However, life becomes complicated if we have an expression like (3+2)+(5+6) resulting in the following tree.
                         </p>

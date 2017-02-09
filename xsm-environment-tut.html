@@ -1,75 +1,136 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>Roadmap</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/style_new.css">
+        <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Code</a></li>
+                        <li><a href="roadmap.html">Roadmap</a></li>
+                        <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">XSM Execution Environment</p>
+                <br>
+                <br>
+                <!--<a class="button" href="">Download as PDF</a>-->
+            </header>
+            <aside class="grid col-one-quarter mq2-col-full">
+                <menu>
+                    <ul>
+                        <li class="sec"><a href="#"></a> </li>
+                        <li class="sec"><a href=""></a></li>
+                    </ul>
+                </menu>
+            </aside>
+            <body>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                    <article class="grid col-full">
+	                    <p>                    	
+							A Tutorial on program execution.<br>
+							<b>Pre-requisite reading:</b>
+							<ul>
+								<li id="otis">1.  A rigorous reading of <a href="abi.html#nav-virtual-address-space-model">XSM virtual machine model</a>.</li>
+								<li>2.  A quick reading of  the ExpOS <a href="abi.html">ABI documentation</a> for XSM machine.</li>
+							</ul>
+						</p>
+						<p>
+							<b>Learning Objectives </b>:
+							<p>
+								At the end of this tutorial you will be able to generate XEXE executable files containing XSM assembly language programs which can be run on the XSM simulator given to you. Along the way, you will learn how to use the system call and library interface of the underlying Operating system to handle console input and output.
+							</p>
+						</p>
+					</article>
+                    <article class="grid col-full">
+                    <p>
+                    	This tutorial helps you to gain a basic understanding of the execution environment provided by the XSM simulator. The compiler you design for the ExpL language is supposed to generate target XSM machine code that runs on the XSM Simulator provided to you. However, the bare machine cannot directly run the target code. The operating system (OS)  that runs on top of the machine is the actual software that sets up an execution enviornment necessary for running the target code. Hence, the compiler's obligation is to generate target code that is understandable to the operating system.
+                    </p>
+                    <p>
+                    	Consequently, there must be a document provided by the OS implementation to the compiler designer that explains the interface to the operating system that the compiler must adhere to. This document is called the application binary interface or ABI. The XSM simulator given to you is actually much more than a bare XSM hardware simulator. It has the capacity to understand the ABI for the ExpOS operating System for the XSM machine. This ABI expects that the compiler generates the target file in a format called the <a href="abi.html#nav-XEXE-executable-file-format">XEXE executable format</a>.
+                    </p>
+  					<p>
+  						Your compiler simply needs to generate an executable file following the XEXE executable format and store it on the local machine. When you use the XSM simulator to run the program, the following actions take place.<br>
+  						<ul>
+  							<li id="otis">1. The script that runs the simulator transfers the file from your local machine's disk to the XSM machine's (simulated) hard disk.</li>
+  							<li id="otis">2. It then boots up the operating system (the OS is already preloaded in the simulator's hard disk). The bootstrap loader starts in the kernel mode and sets up a user process in memory, allocating an address space.  Then, it transfers the execute file from the hard disk to the <a href="abi.html#nav-virtual-address-space-model">code region</a> of this memory. Page tables are also set up to run the process in user mode[LINK]</li>
+  							<li id="otis">3. Finally, the simulator sets the instruction pointer (IP) to the address specified in the entry-point field of the header of the executable file and control transfers to this instruction, resulting in execution of the loaded program starting with the instruction specified by the entry point. The machine also switches from the kernel mode to the user mode. (Technically, the OS code pushes the entry point address on to the program's stack and executes the IRET instruction[LINK] resulting in transfer of control in user mode to the specified memory address. These details are not relevant for your work and are noted just for the sake of information.)</li>
+  						</ul>
+  					</p>
+  					<p>
+  						We start now by generating a small XEXE executable file containing an XSM program to find the sum of two numbers and store the value in a register. The value of the register will have to be inspected in order to view the ouput. This is possible by executing the XSM simulator in <a href="xsmusagespec.html#nav-debug">debug mode</a>. Later we will see how console input and output are handled.
+  					</p>
+  				</article>
+                <article class="grid col-full">
+	                <p>
+	                	<b>Experiment I</b> : Adding two numbers.<br>
+	                	<hr>
+	                </p>
+	                <p>
+	                	As noted above, executable programs must be designed in such a way that it must be possible for the file to be loaded and executed by the underlying operating system. When a program is loaded into memory for execution by the OS, the OS typically assigns a virtual address space (or simply an address space). In the present case, the address space of a program starts at address 0 of the memory and ends at address 5119. This means that while designing the target program, you may assume that this is the total computer memory accessible to the program when it executes.
+	                </p>
+	                <p>
+	                	The compiler typically divides this memory into various regions – namely the code region, (often called the text region), data region, stack region, heap region etc. The ABI specifies the starting address and ending address of each region in the address space. This is specified <a href="abi.html#nav-virtual-address-space-model">HERE</a>. The ABI specifies that  the compiler must divide the memory into four regions – library, code, stack and heap. (there is no separate data region – instead the stack region must be used for this as well).
+	                </p>
+   					<p>
+   						For our immediete reqruiements, the important region is the code region. The code region contains two parts – a <b>header</b> (addresses 2048 to 2055) and <b>code</b> (address 2056-4095). The target code will be loaded into this region of the memory when the OS (simulator) loads the program for execution. Details will be described soon.
+   					</p>
+   					<p>
+   						The XEXE executable format stipulates that the first 8 words of an executable file must be a header. The rest of the file must contain assembly language program to be executed. The loader actually will simply copy the contents of the executable file into the region of memory between addresses 2048 and 4095. Consequently, the header will be loaded between 2048-2055 and the rest of the file (containing the XSM instructions) into addresses 2056 to 4095. The contents of the file will be copied to the memory in the order in which they appear in the file.
+   					</p>
+   					<p>
+   						Since each XSM assembly instruction requires two words of memory storage, the first instruction will be loaded into address 2056 and 2057, the second in 2058 and 2059 and so forth.  Since the code region of the memory ends at 4095, the maximum number of instructions possible in a program is limited to 1020. This is the limit set by the particular OS platform used in this experiment. 
+   					</p>
+   					<p>
+   						One important field of the header is its second entry – the entry point. The loader initializes the instruction pointer (IP) register of the XSM machine to this value. Thus, if entry point is 2064, the simulator the XSM machine simulator will start program execution by fetching the instruction stored at this address. The ABI stipulates that the value of the first field called the magic number must be set to zero. The setting of other fields in the header are not relevant for this experiment.
+   					</p>
+    				<p>
+    					<b>Note</b>:  When the program is actually loaded for execution by the OS, the physical addresses in the actual memory to which the executable program is loaded will be different from the virtual addresses set by the compiler. Such relocation requires architecture support. In the XSM machine, the support is through paging. However address translation is a concern of the OS, not of the compiler. Hence we will not puruse this matter here. However, for those interested, details on XSM paging scheme is given HERE[LINK].
+    				</p>
+  					<p>
+  						With this, we complete the background needed to complete the present experiment.  We now proceed to the implementation.<br>
+  						<b>Implementation</b><br>
+						An XSM assembly language program to find the sum of two numbers could work as the following:<br>
+						<div class="syntax">
+							1.  Store the first number in a register – say R0.<br>
+							2.  Store the second number  in a register – say R1.<br>
+							3.  ADD R0, R1.<br>
+						</div>
+  					</p>
+  					<p>
+  						The result will be stored in R0.<br>
+  						To generate code for the above tasks and write it into a target_file, you must write code as:<br>
+  						<div class="syntax">
+  							fprintf(target_file, "MOV R0, 3");<br>
+							fprintf(target_file, "MOV R1, 2");<br>
+							fprintf(target_file, "ADD R0, R1");<br>
+  						</div>
+  					</p>
 
-A Tutorial on program execution.  
 
-Pre-requisite reading:
+  
 
-(1).  A rigorous reading of XSM virtual machine model [LINK]  
-(2).  A quick reading of  the ExpOS ABI documentation for XSM machine [LINK]
-
-Learning Objectives:
-
-At the end of this tutorial you will be able to generate XEXE executable files containing XSM assembly language programs which can be run on the XSM simulator given to you.   Along the way, you will learn how to use the system call and library interface of the underlying Operating system to handle console input and output.  
------------------------------------------------------------------------------------------------
-
-This tutorial helps you to gain a basic understanding of the execution environment provided by the XSM simulator.  
-
-The compiler you design for the ExpL language is supposed to generate target XSM machine code that runs on the XSM Simulator provided to you.   
-
-However, the bare machine cannot directly run the target code.  The operating system (OS)  that runs on top of the machine is the actual software  that sets up an execution enviornment necessary for running the target code.  Hence, the compiler's obligation is to generate target code that is understandable to the operating system.
-
-Consequently, there must be a document provided by the OS implementation to the compiler designer that explains the interface to the operating system that the compiler must adhere to.  This document is called the application binary interface or ABI.   
-
-The XSM simulator given to you is actually much more than a bare XSM hardware simulator.  It has the capacity to understand the ABI for the ExpOS operating System for the XSM machine.   This ABI expects that the compiler generates the target file in a format called the XEXE executable format [LINK]   
-
-Your compiler simply needs to generate an executable file following the XEXE executable format and store it on the local machine.  When you use the XSM simulator to run the program,  the following actions take place.  
-
-1.  The script that runs the simulator transfers the file from your local machine's disk to the XSM machine's (simulated) hard disk.
-
-2.   It then boots up the operating system (the OS is already preloaded in the simulator's hard disk).  The bootstrap loader starts in the kernel mode and sets up a user process in memory, allocating an address space.  Then, it transfers the execute file from the hard disk to the code region [LINK] of this memory.  Page tables are also set up to run the process in user mode[LINK]  
-
-3.  Finally, the simulator sets the instruction pointer (IP) to the address specified in the entry-point field of the header of the executable file and control transfers to this instruction, resulting in execution of the loaded program starting with the instruction specified by the entry point.  The machine also switches from the kernel mode to the user mode.   (Technically, the OS code pushes the entry point address on to the program's stack and executes the IRET instruction[LINK] resulting in transfer of control in user mode to the specified memory address.   These details are not relevant for your work and are noted just for the sake of information.)
-
-We start now by generating a small XEXE executable file containing an XSM program to find the sum of two numbers and store the value in a register.  The value of the register will have to be inspected in order to view the ouput.  This is possible by executing the XSM simulator in debug mode [LINK].   Later we will see how console input and output are handled.  
-
-Experiment I :  Adding two numbers.  
-
-As noted above, executable programs must be designed in such a way that it must be possible for the file to be loaded and executed by the underlying operating system.   
-
-When a program is loaded into memory for execution by the OS, the OS typically assigns a virtual address space (or simply an address space).    In the present case, the address space of a program starts at address 0 of the memory and ends at address 5119.  This means that while designing the target program, you may assume that this is the total computer memory accessible to the program when it executes.  
-
-The compiler typically divides this memory into various regions – namely the code region,  (often called the text region), data region, stack region, heap region etc.   The ABI specifies the starting address and ending address of each region in the address space.  This is specified HERE [LINK TO MEMORY REGIONS].  The ABI specifies that  the compiler must divide the memory into four regions – library, code, stack and heap.  (there is no separate data region – instead the stack region must be used for this as well).  
-
-For our immediete reqruiements, the important region is the code region.   The code region contains two parts – a header (addresses 2048 to 2055) and code (address 2056-4095).   The target code  will be loaded into this region of the memory when the OS (simulator) loads the program for execution.  Details will be described soon.  
-
-The XEXE executable format stipulates that the  first 8 words of an executable file must be a header.  The rest of the file must contain assembly language program to be executed.    
-
-The loader actually will simply copy the contents of the executable file into the region of memory between addresses 2048 and 4095.   Consequently, the header will be loaded between 2048-2055 and the rest of the file (containing the XSM instructions)  into addresses 2056 to 4095.  The contents of the file will be copied to the memory in the order in which they appear in the file.  
-
-Since each XSM assembly instruction requires two words of memory storage, the first instruction will be loaded into address 2056 and 2057, the second in 2058 and 2059 and so forth.  Since the code region of the memory ends at 5119, the maximum number of instructions possible in a program is limited to 1020.  This is the limit set by the particular OS platform used in this experiment.    
-
-One important field of the header is its second entry – the entry point.  The loader initializes the instruction pointer (IP) register of the XSM machine to this value.  Thus, if entry point is 2064, the simulator the XSM machine simulator will start program execution by fetching the instruction stored at this address.  The ABI stipulates that the value of the first field called the magic number must be set to zero. The setting of other fields in the header are not relevant for this experiment.  
-
-[Note:  When the program is actually loaded for execution by the OS, the physical addresses in the actual memory to which the executable program is loaded will be different from the virtual addresses set by the compiler.  Such relocation requires architecture support.  In the XSM machine, the support is through paging.   However address translation  is a concern of  the OS, not of the compiler.  Hence we will not puruse this matter here.  However,  for those interested, details on XSM paging scheme is given HERE.]  
-
-With this, we complete the background needed to complete the present experiment.  We now proceed to the implementation.  
-
-Implementation  
-
-An XSM assembly language program to find the sum of two numbers could work as the following:
-
-1.  Store the first number in a register – say R0 .
-2.  Store the second number  in a register – say R1
-3.  ADD R0, R1.
-
-The result will be stored in R0.  
-
-To generate code for the above tasks and write it into a target_file, you must write code as:  
+  
 
 Coloured box
 
-fprintf( target file, “MOV R0, 3”);
-fprintf(target_ file, “MOV R1, 2”);
-fprintf(target_file, “ADD R0, R1”);
+
 
 Coloured box ends
 
