@@ -47,8 +47,8 @@
 							A Tutorial on program execution.<br>
 							<b>Pre-requisite reading:</b>
 							<ul>
-								<li id="otis">1.  A rigorous reading of <a href="abi.html#nav-virtual-address-space-model">XSM virtual machine model</a>.</li>
-								<li>2.  A quick reading of  the ExpOS <a href="abi.html">ABI documentation</a> for XSM machine.</li>
+								<li id="otis">1.  A rigorous reading of <a href="abi.html#nav-virtual-address-space-model" target="_blank">XSM virtual machine model</a>.</li>
+								<li>2.  A quick reading of  the ExpOS <a href="abi.html" target="_blank">ABI documentation</a> for XSM machine.</li>
 							</ul>
 						</p>
 						<p>
@@ -63,30 +63,30 @@
                     	This tutorial helps you to gain a basic understanding of the execution environment provided by the XSM simulator. The compiler you design for the ExpL language is supposed to generate target XSM machine code that runs on the XSM Simulator provided to you. However, the bare machine cannot directly run the target code. The operating system (OS)  that runs on top of the machine is the actual software that sets up an execution enviornment necessary for running the target code. Hence, the compiler's obligation is to generate target code that is understandable to the operating system.
                     </p>
                     <p>
-                    	Consequently, there must be a document provided by the OS implementation to the compiler designer that explains the interface to the operating system that the compiler must adhere to. This document is called the application binary interface or ABI. The XSM simulator given to you is actually much more than a bare XSM hardware simulator. It has the capacity to understand the ABI for the ExpOS operating System for the XSM machine. This ABI expects that the compiler generates the target file in a format called the <a href="abi.html#nav-XEXE-executable-file-format">XEXE executable format</a>.
+                    	Consequently, there must be a document provided by the OS implementation to the compiler designer that explains the interface to the operating system that the compiler must adhere to. This document is called the application binary interface or ABI. The XSM simulator given to you is actually much more than a bare XSM hardware simulator. It has the capacity to understand the ABI for the ExpOS operating System for the XSM machine. This ABI expects that the compiler generates the target file in a format called the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank">XEXE executable format</a>.
                     </p>
   					<p>
   						Your compiler simply needs to generate an executable file following the XEXE executable format and store it on the local machine. When you use the XSM simulator to run the program, the following actions take place.<br>
   						<ul>
   							<li id="otis">1. The script that runs the simulator transfers the file from your local machine's disk to the XSM machine's (simulated) hard disk.</li>
-  							<li id="otis">2. It then boots up the operating system (the OS is already preloaded in the simulator's hard disk). The bootstrap loader starts in the kernel mode and sets up a user process in memory, allocating an address space.  Then, it transfers the execute file from the hard disk to the <a href="abi.html#nav-virtual-address-space-model">code region</a> of this memory. Page tables are also set up to run the process in user mode[LINK]</li>
+  							<li id="otis">2. It then boots up the operating system (the OS is already preloaded in the simulator's hard disk). The bootstrap loader starts in the kernel mode and sets up a user process in memory, allocating an address space.  Then, it transfers the execute file from the hard disk to the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> code region</a> of this memory. Page tables are also set up to run the process in user mode[LINK]</li>
   							<li id="otis">3. Finally, the simulator sets the instruction pointer (IP) to the address specified in the entry-point field of the header of the executable file and control transfers to this instruction, resulting in execution of the loaded program starting with the instruction specified by the entry point. The machine also switches from the kernel mode to the user mode. (Technically, the OS code pushes the entry point address on to the program's stack and executes the IRET instruction[LINK] resulting in transfer of control in user mode to the specified memory address. These details are not relevant for your work and are noted just for the sake of information.)</li>
   						</ul>
   					</p>
   					<p>
-  						We start now by generating a small XEXE executable file containing an XSM program to find the sum of two numbers and store the value in a register. The value of the register will have to be inspected in order to view the ouput. This is possible by executing the XSM simulator in <a href="xsmusagespec.html#nav-debug">debug mode</a>. Later we will see how console input and output are handled.
+  						We start now by generating a small XEXE executable file containing an XSM program to find the sum of two numbers and store the value in a register. The value of the register will have to be inspected in order to view the ouput. This is possible by executing the XSM simulator in <a href="xsmusagespec.html#nav-debug" target="_blank">debug mode</a>. Later we will see how console input and output are handled.
   					</p>
   				</article>
                 <article class="grid col-full">
 	                <p>
-	                	<b>Experiment I</b> : Adding two numbers.<br>
-	                	<hr>
+	                	<b>Experiment I</b> : Using Registers.<br>
+	                	<b>Excercise 1</b> : Adding two numbers.
 	                </p>
 	                <p>
 	                	As noted above, executable programs must be designed in such a way that it must be possible for the file to be loaded and executed by the underlying operating system. When a program is loaded into memory for execution by the OS, the OS typically assigns a virtual address space (or simply an address space). In the present case, the address space of a program starts at address 0 of the memory and ends at address 5119. This means that while designing the target program, you may assume that this is the total computer memory accessible to the program when it executes.
 	                </p>
 	                <p>
-	                	The compiler typically divides this memory into various regions – namely the code region, (often called the text region), data region, stack region, heap region etc. The ABI specifies the starting address and ending address of each region in the address space. This is specified <a href="abi.html#nav-virtual-address-space-model">HERE</a>. The ABI specifies that  the compiler must divide the memory into four regions – library, code, stack and heap. (there is no separate data region – instead the stack region must be used for this as well).
+	                	The compiler typically divides this memory into various regions – namely the code region, (often called the text region), data region, stack region, heap region etc. The ABI specifies the starting address and ending address of each region in the address space. This is specified <a href="abi.html#nav-virtual-address-space-model" target="_blank">HERE</a>. The ABI specifies that  the compiler must divide the memory into four regions – library, code, stack and heap. (there is no separate data region – instead the stack region must be used for this as well).
 	                </p>
    					<p>
    						For our immediete reqruiements, the important region is the code region. The code region contains two parts – a <b>header</b> (addresses 2048 to 2055) and <b>code</b> (address 2056-4095). The target code will be loaded into this region of the memory when the OS (simulator) loads the program for execution. Details will be described soon.
@@ -117,49 +117,41 @@
   						The result will be stored in R0.<br>
   						To generate code for the above tasks and write it into a target_file, you must write code as:<br>
   						<div class="syntax">
-  							fprintf(target_file, "MOV R0, 3");<br>
-							fprintf(target_file, "MOV R1, 2");<br>
-							fprintf(target_file, "ADD R0, R1");<br>
+  							fprintf(target_file, "MOV R0, 3\n");<br>
+							fprintf(target_file, "MOV R1, 2\n");<br>
+							fprintf(target_file, "ADD R0, R1\n");<br>
+							fprintf(target_file, "BRKP");
   						</div>
   					</p>
-
-
-  
-
-  
-
-Coloured box
-
-
-
-Coloured box ends
-
-Figure
-
-However, the header must be written into the first eight words of the target file before writing out the instructions.    You must reserve the first eight words of the executable file for the header before writing code into the file.  Now, set the entry point field to the first instruction to be executed.  If the code is written immedietely after the header,  the first instruction will be loaded to memory address 2056 and 2057 (see memory model ABI LINK).  Hence, you must set the header as:
-
-fprint(target_file, “%d %d %d %d “%d %d %d %d”,0,2056,256,0,0,0,0,0);  
-
-The above code essentially sets the first field – magic number - to  0,  the second field - entry point - to 2056, the third field – text size to 256 and other fields to 0.   The text size fields tell the OS that only one memory page need be allocated for storing the code.  (The present program requires just 14 memory words (why?) – but still the minimum allocation possible is one page = 512 words).  
-
-
-Now, to run the executable file, you must use the XSM simulator.  The simulator usage commands are specified here [LINK TO SIMULATOR USAGE INSTRUCTIONS].  You must read the above link before proceeding further.  
-
-The simulator expects a library file by the name library.lib together with the XEXE executable file to be supplied as a command line argument.   You will learn more about the library in later stages.  For now create a file library.lib with just on instruction:
-\box
-RET
-\end box
-Caption:  Contents of library.lib file
+						[THE Figure NEED TO BE ADDED]
+					<p>
+						However, the header must be written into the first eight words of the target file before writing out the instructions. You must reserve the first eight words of the executable file for the header before writing code into the file. Now, set the entry point field to the first instruction to be executed. If the code is written immedietely after the header, the first instruction will be loaded to memory address 2056 and 2057 (see <a href="abi.html#nav-virtual-address-space-model" target="_blank">memory model</a>). Hence, you must set the header as:<br>
+						<div class="syntax"> fprintf(target_file, " %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ",0,2056,256,0,0,0,0,0); </div> 
+					</p>
+					<p>
+						The above code essentially sets the first field – magic number - to  0, the second field - entry point - to 2056, the third field – text size to 256 and other fields to 0. The text size fields tell the OS that only one memory page need be allocated for storing the code. (The present program requires just 14 memory words [Why?] – but still the minimum allocation possible is one page = 512 words).
+					</p>
+					<p>
+						Now, to run the executable file, you must use the XSM simulator. The simulator usage commands are specified <a href="xsmusagespec.html" target="_blank">here</a>. You must read the above link before proceeding further.
+					</p>
+					<p>
+						The simulator expects a library file by the name library.lib together with the XEXE executable file to be supplied as a command line argument. You will learn more about the library in later stages. For now create a file library.lib with just on instruction:
+						<div class="syntax">RET</div>
+						<sub>Contents of library.lib file</sub>
+					</p>
 
 
 /*  Give usage instructions here – run the simulator in debug mode and  watch the contents of register R0 – spoon feed   - complete this part */  
-
-Note:  You would have observed that if you try to continue to execute beyond the last instruction, the simulator flags abnormal program termination.  This is because after executing the last instruction of the program, the simulator increments the instruction pointer and tries to execute the next instruction.  However, since there is no valid instruction stored in the memory, the simulator will enconter an invalid instruction and generate an exception.  This results in transfer of program control to the OS kernel code that will terminate execution and report error.  We will see how graceful program termination is achieved in the next experiment.  
-
-
-Exercise 1.2:  Write an XSM assembly langauge  program to find the largerst of three numbers and run it on the simulator.  You will learn how to handle the JMP instruction while doing this exercise.  
-
-Exercise 1.3.  Modify your code generation module to store the result of the previous program in the first location in stack region [LINK] namely address 4096 and watch the contents in debug mode after execution.  
+					<p>
+						<b>Note</b>: You would have observed that if you try to continue to execute beyond the last instruction, the simulator flags abnormal program termination. This is because after executing the last instruction of the program, the simulator increments the instruction pointer and tries to execute the next instruction. However, since there is no valid instruction stored in the memory, the simulator will enconter an invalid instruction and generate an exception. This results in transfer of program control to the OS kernel code that will terminate execution and report error.  We will see how graceful program termination is achieved in the next experiment.  
+					</p>
+					<p>
+						<b>Exercise 2 </b>:  Write an XSM assembly langauge  program to find the largerst of three numbers and run it on the simulator.  You will learn how to handle the JMP instruction while doing this exercise.
+					</p>
+  					<p>
+  						<b>Exercise 3 </b>:  Modify your code generation module to store the result of the previous program in the first location in <a href="abi.html#nav-virtual-address-space-model" target="_blank">stack region</a> namely address 4096 and watch the contents in debug mode after execution.
+  					</p>
+  				</article>
 
 
 Experiment II :  Input/Output using OS system call interface
