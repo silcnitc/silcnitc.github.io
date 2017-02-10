@@ -36,6 +36,7 @@
                     <ul>
                         <li class="sec"><a href="#pre-requisites">Pre-Requisites</a> </li>
                         <li class="sec"><a href="#experiment1">Experiment I</a></li>
+                        <li class="sec"><a href="#experiment2">Experiment II</a></li>
                     </ul>
                 </menu>
             </aside>
@@ -144,19 +145,40 @@
 						<script src="js/a244076527f1f9daae58794006b3461a.js"></script>
 					</p>
 					<p>
-						The above code essentially sets the first field – magic number - to  0, the second field - entry point - to 2056, the third field – text size to 256 and other fields to 0. The text size fields tell the OS that only one memory page need be allocated for storing the code. (The present program requires just 14 memory words [Why?] – but still the minimum allocation possible is one page = 512 words).
+						The above code essentially sets the first field – magic number - to  0, the second field - entry point - to 2056, the third field – text size to 256 and other fields to 0. The text size fields tell the OS that only one memory page need be allocated for storing the code. (The present program requires just 14 memory words <b>[Why?]</b> – but still the minimum allocation possible is one page = 512 words).
 					</p>
 					<p>
 						Now, to run the executable file, you must use the XSM simulator. The simulator usage commands are specified <a href="xsmusagespec.html" target="_blank">here</a>. You must read the above link before proceeding further.
 					</p>
 					<p>
 						The simulator expects a library file by the name library.lib together with the XEXE executable file to be supplied as a command line argument. You will learn more about the library in later stages. For now create a file library.lib with just on instruction:
-						<div class="syntax">RET</div>
-						<sub>Contents of library.lib file</sub>
+						<script src="js/2b86865baf9befd7ff0e87fb5fa7ba8b.js"></script>
+					</p>
+					<p>
+						Now we will try to execute the target_file in the <a href="xsmusagespec.html" target="_blank">debug mode</a>.
+						<ul>
+							<li id="otis">1. Open terminal and navigate to the simulator folder.</li>
+							<li id="otis">2. Type "./xsm -l library.lib -e target_file.xsm --debug".</li>
+						</ul>
+					</p>
+					<p>
+						Since we are trying to execute the target_file in debug mode, the simulator executes all the instructions present before the BRKP instruction. We can check the contents of the registers at this point.
+						<ul>
+							<li id="otis">Type "reg R1".</li>
+							<p> pic here</p>
+						</ul>
+						We can see that value 2 is stored in this register. Now try typing "reg R0".
+							<p> pic here</p>
+						We can see that value stored in the register is 5.<b>[Why?]</b><br>
+						Now type "reg R0 R1"
+						<p>PIC HERE</p> 
+						The command "reg Rn Rm" dislays the contents of all registers from n to m.
+						Now type "reg"
+						<p>PIC HERE</p> 
+						This command displays the contents of all the machine registers namely IP, SP, BP, PTBR, PTLR, EIP, EC, EPN, EMA, R0-R19 in that order.
 					</p>
 
-
-/*  Give usage instructions here – run the simulator in debug mode and  watch the contents of register R0 – spoon feed   - complete this part */  
+<!-- /*  Give usage instructions here – run the simulator in debug mode and  watch the contents of register R0 – spoon feed   - complete this part */  <br><br> -->
 					<p>
 						<b>Note</b>: You would have observed that if you try to continue to execute beyond the last instruction, the simulator flags abnormal program termination. This is because after executing the last instruction of the program, the simulator increments the instruction pointer and tries to execute the next instruction. However, since there is no valid instruction stored in the memory, the simulator will enconter an invalid instruction and generate an exception. This results in transfer of program control to the OS kernel code that will terminate execution and report error.  We will see how graceful program termination is achieved in the next experiment.  
 					</p>
@@ -167,11 +189,11 @@
   						<b>Exercise 3 </b>:  Modify your code generation module to store the result of the previous program in the first location in <a href="abi.html#nav-virtual-address-space-model" target="_blank">stack region</a> namely address 4096 and watch the contents in debug mode after execution.
   					</p>
   				</article>
-
-
-Experiment II :  Input/Output using OS system call interface
-
-Reading Assignment:  Read the low level system call interface of the ABI [LINK]  
+  				<article class="grid col-full">
+	                <p id="experiment2"> <b>Experiment II</b> :  Input/Output using OS system call interface</p>
+	                <p>
+						<b>Reading Assignment</b>:  Read the low level system call interface of the ABI [LINK]  
+	                </p>
 
 In this experiment, you will extend the previous stage to print the result of adding two numbers  to the console using a low system call interface provided by the ABI.    
 
