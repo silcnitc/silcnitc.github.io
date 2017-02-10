@@ -34,15 +34,16 @@
             <aside class="grid col-one-quarter mq2-col-full">
                 <menu>
                     <ul>
-                        <li class="sec"><a href="#pre-requisites">Pre-Requisites</a> </li>
-                        <li class="sec"><a href="#experiment1">Experiment I</a></li>
-                        <li class="sec"><a href="#experiment2">Experiment II</a></li>
+                        <li class="sec"><a href="#nav-pre-requisites">Pre-Requisites</a> </li>
+                        <li class="sec"><a href="#nav-experiment1">Experiment I</a></li>
+                        <li class="sec"><a href="#nav-experiment2">Experiment II</a></li>
+                        <li class="sec"><a href="#nav-experiment3">Experiment III</a></li>
                     </ul>
                 </menu>
             </aside>
             <body>
             <section class="grid col-three-quarters mq2-col-full">
-                <div class="grid-wrap" id="pre-requisites">
+                <div class="grid-wrap" id="nav-pre-requisites">
                     <article class="grid col-full">
 	                    <p>                    	
 							A Tutorial on program execution.<br>
@@ -84,7 +85,7 @@
   					<hr>
   				</article>
                 <article class="grid col-full">
-	                <p id="experiment1">
+	                <p id="nav-experiment1">
 	                	<b>Experiment I</b> : Using Registers.<br>
 	                </p>
 	                <p>
@@ -188,84 +189,97 @@
   					<p>
   						<b>Exercise 3 </b>:  Modify your code generation module to store the result of the previous program in the first location in <a href="abi.html#nav-virtual-address-space-model" target="_blank">stack region</a> namely address 4096 and watch the contents in debug mode after execution.
   					</p>
+  					<hr>
   				</article>
   				<article class="grid col-full">
-	                <p id="experiment2"> <b>Experiment II</b> :  Input/Output using OS system call interface</p>
+	                <p id="nav-experiment2"> <b>Experiment II</b> :  Input/Output using OS system call interface</p>
 	                <p>
-						<b>Reading Assignment</b>:  Read the low level system call interface of the ABI [LINK]  
+						<b>Reading Assignment</b>:  Read the low level system call interface of the <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank">ABI</a>  
 	                </p>
+	                <p>
+						In this experiment, you will extend the previous stage to print the result of adding two numbers to the console using a low system call interface provided by the ABI.    
+	                </p>
+	                <p>
+						The conceptual point to understand here is that console I/O is handled by the kernel routines operating system.   Kernel modules execute in previliged mode of execution and can execute special previliged instructions that access devices and other resources in a machine.  
+	                </p>
+	                <p>
+						However, your XEXE executable program execute in unpreviliged mode. Such programs are called <b>application programs</b> or simply applications. These programs cannot contain previliged instructions. (If you try to write previliged instruction in your program and execute, the machine will raise an exception when it fetches the instruction and the exception handler module of the OS kernel will terminate the application, flagging an error.) The <a href="abi.html#nav-XSM-instruction-set"  target="_blank">instructions</a> specified in the ABI given to you are all unpreviliged instructions. (To know more about previliged instructions in XSM, see <a href="http://exposnitc.github.io/arch_spec-files/instruction_set.html#privileged_instruction" target="_blank"> ExPOS documentation</a>).  
+					</p>
+					<p>
+						An OS typically provides you with a set of kernel level routines called system calls which your code can invoke for performing console I/O. A system call is invoked by a trap instruction (The INT instruction is the trap instruction of the XSM machine) specifying the system call number specifying the particular OS service (like read/write/program exit) required. (see details <a href="abi.html#syscalltable" target="_blank">here</a>). The OS also specifies how an application must pass arguments and extract return values from system calls called the calling conventions. Generally, arguments to a system call are passed through the application program's stack. These details are written down in the  <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank">low level system call interface</a> of the ABI.   
+  					</p>
+  					<p>
+						<b>Note</b>:  An OS typically will provide a large number of system call for various requirements. For our purposes, the relevant system calls are those for console read, console write and program exit.
+					</p>
+					<p>
+						As noted previously, the arguments/return values to/from a system call are passed through a program stack. Each application maintains a stack region in memory where run-time data can be stored while the program executes. The ABI specification stipulates that the stack region of a program shall be between memory addresses 4096 and 5119. The application generally reserves some initial addresses starting from 4096 for storing global variables in the program (called <b>static allocation</b>) and then initializes the stack to the first free memory after those allocated to variables. Arguments to a system call are pushed into the stack before executing the INT instruction. Before the system call transfer control back (using the IRET instruction – see [LINK]), return values would have been pushed into the stack.
+					</p>
+					<p>
+						<b>Implementation</b> :<br><br>
 
-In this experiment, you will extend the previous stage to print the result of adding two numbers  to the console using a low system call interface provided by the ABI.    
+						In Exercise 3 of Eperiment I, you are asked to store the sum of two numbers into memory address 4096. Now, we will see how this number can be printed out into the console.
+					</p>
+					<p>
+						To print the contents of memory location 4096  into the console, we need to:
+						<ul>
+							<li id="otis">1. Push the address 4096 into the stack along with other arguments to the system call.</li>
+							<li id="otis">2. Invoke the write system call using the INT instruction specifying the appropriate interrupt number.</li>
+						</ul>
+					</p>
+					<p>
+						The following example shows sample code that must be added to your earlier program to output the contents of the location 4096.
+					</p>
 
-The conceptual point to understand here is that console I/O is handled by the kernel routines operating system.   Kernel modules execute in previliged mode of execution and can execute special previliged instructions that access devices and other resources in a machine.  
+					<p>
+						Explain with comments.  
+						// Instructions to be executed before the system call  
+						MOV [4096], R0
+						MOV SP, 4096
+						MOV R0, 5
 
-However, your XEXE executable program execute in unpreviliged mode.  Such programs are called application programs or simply applications.  These programs cannot contain previliged instructions.  (If you try to write previliged instruction in your program and execute, the machine will raise an exception when it fetches the instruction and the exception handler module of the OS kernel will terminate the application, flagging an error.)    The instructions [LINK]  specified in the ABI given to you are all unpreviliged instructions.   (To know more about previliged instructions in XSM, see [LINK – ExPOS documentation]).  
-
-An OS typically provides you with a set of kernel level routines called system calls which your code can invoke for performing console I/O.   A system call is invoked by a trap instruction  (The INT instruction is the trap instruction of the XSM machine) specifying the system call number specifying the particular OS service (like read/write/program exit) required. (see details here [LINK within ABI].   The OS also specifies how an application must pass arguments and extract return values from system calls called the calling conventions.   Generally, arguments to a system call are passed through the application program's stack.    These details are written down in the  low level system call interface of the ABI [LINK]   
-  
-Note:  An OS typically will provide a large number of system call for various requirements.  For our purposes, the relevent system calls are those for console read, console write and program exit.
-
-As noted previously, the arguments/return values to/from a system call are passed through a program stack.   Each application maintains a stack region in memory where run-time data can be stored while the program executes.    The ABI specification stipulates that the stack region of a program shall be between memory addresses 4096 and 5119.  The application generally reserves some initial addresses starting from 4096 for storing global variables in the program (called static allocation) and then initializes the stack to the first free memory after those allocated to variables.  Arguments to a system call are pushed into the stack before executing the INT instruction.  Before the system call transfer control back (using the IRET instruction – see [LINK]), return values would have been pushed into the stack.   
-
-Implementation
-
-In Exercise 1.3  asked you to store the sum of two numbers into memory address 4096.  Now, we will see how this number can be printed out into the console.  
-
-To print the contents of memory location 4096  into the console, we need to:
-
-1.  Push the address 4096 into the stack along with other arguments to the system call.  
-2.  Invoke the write system call using the INT instruction specifying the appropriate interrupt number.
-
-The following example shows sample code that must be added to your earlier program to output the contents of the location 4096.  
-
-Explain with comments.  
-// Instructions to be executed before the system call  
-MOV SP, 4096
-MOV R0, 5
-
-The XSM machine increments SP immedietely before a PUSH operation by XSM machine and hence the first PUSH operation will be storing data to address 4097 (and hence will not destroy the data in address 4096).  
-
-
-
-Now, the arguments to a write operation must be pushed on to the stack:  
-
-1.  System call number  :  5
-
-    MOV R0, 5
-    PUSH R0                                                 
-
-2.  Argument 1:  value -2    
-2.  Argument 3:  Address of the memory word to be pushed  -  Here value is 4096.
-3.  Argument 3 is blank.   /* PUSH R0  - push any register */  
-
-Now, invoke the trap instruction to invoke the kernel module for console output.  The ABI specifies that the interrupt number must be 7
-  
-INT 7  
-
-Add figure to show the state of the stack.  
-
-The above sequence of instructions will invoke the write system call.  Upon successful write operation, the value 0 will be returned to the calling program through the stack.  We assume here that the call will be successful.  
-
-
-Now upon exit from the system call :
-
-1.  The return value may be retrievied if required.
-2.  The stack must be set back to the state before the call as stipulated in the ABI.  This is necessary to avoid loss of stack space after each call.  
-
-The following instructions will do the above.  
-
-Begin box
-//  The following code must be executed after return from the system call
-POP R0 //
-POP R1
-POP R1
-POP R1
-POP R1  // Pop out all – stack must come back to state before the call.  
-Box Ends.  
+						The XSM machine increments SP immedietely before a PUSH operation by XSM machine and hence the first PUSH operation will be storing data to address 4097 (and hence will not destroy the data in address 4096).  
 
 
 
+						Now, the arguments to a write operation must be pushed on to the stack:  
 
+						1.  System call number  :  5
+
+						    MOV R0, 5
+						    PUSH R0                                                 
+
+						2.  Argument 1:  value -2    
+						2.  Argument 3:  Address of the memory word to be pushed  -  Here value is 4096.
+						3.  Argument 3 is blank.   /* PUSH R0  - push any register */  
+
+						Now, invoke the trap instruction to invoke the kernel module for console output.  The ABI specifies that the interrupt number must be 7
+						  
+						INT 7  
+
+						Add figure to show the state of the stack.  
+					</p>
+					<p>
+						The above sequence of instructions will invoke the write system call. Upon successful write operation, the value 0 will be returned to the calling program through the stack. We assume here that the call will be successful.
+					</p>
+					<p>					
+						Now upon exit from the system call :
+						<ul>
+							<li id="otis">1. The return value may be retrievied if required.</li>
+							<li id="otis">2. The stack must be set back to the state before the call as stipulated in the ABI.  This is necessary to avoid loss of stack space after each call.</li>
+						</ul>
+					</p>
+					<p>
+						The following instructions will do the above.  
+						<div class="syntax">
+						//  The following code must be executed after return from the system call
+						POP R0 //
+						POP R1
+						POP R1
+						POP R1
+						POP R1  // Pop out all – stack must come back to state before the call.
+						</div>
+					</p>
+					<p>
 
 /*  complete the part */
 Now, having generated the executable program run the program using the simulator.
@@ -275,54 +289,75 @@ Add Give run instructions HERE.
 Show output.  There will be an exception error because exit was done SHOW THE OUTPUT HERE.
 /*        upto this   */
 
-
-Observe that the simulator flagged an error after the last statement was executed.  This happened because after executing the last valid instruction in the program, the simulator had no idea that the program had ended and hence tried to fetch from memory the next instruction.  However, since there is no valid insturction in that memory location, the machine raises an exception [see LINK for exceptions of XSM] and control was transfered to an exception handler routine of the OS kernel.  Typically, in a multitasking environment, the OS will terminate the program, reclaim resources allocated to it an schedule some other process.   
-
-The exception handler routine of the XSM simulator given to you is designed to print an error message and  terminate the simulation.  
-
-The “proper” way to exit the application is to invoke the exit system call.  This will inform the OS that the program has finished execution.  The exit system call code of a typical OS kernel will “gracefully” exit the application and schedule other programs for execution.   The OS will never return to the application that invokes the exit system call.  
-
-The exit system call routine of the XSM simulator given to you will print a message indicating successful program execution and terminate the simulation.  
-
-Exercise 1.4   Follow the instructions in the low level system call interface of the ABI to invoke the exit system call after the console output in your previous program.  
-
-Exercise 1.5   Write an XSM assembly language program to read three numbers from the console and print the largest.   (Invoke the read system call for console input.)  
-
-Exercise 1.6  Write an XSM assembly language program to read numbers until a zero is entered and print their sum.
-
-Important Note:  Exercises 1.5 and 1.6 essentially ask you to handle conditional and iterative constructs in assembly language.   These exercises give insight into how machine code must be genrated for  if-then-else and while-do constructs of  programming languages.     
-
-
-
-Experiment III :  Understanding the Library Interface
-
-Prerequisite Reading:   Read and understand the library interface [LINK]  
-
-In this experiment, you will learn how to implement the library interface stipulated in the ABI for supporting read, write and exit system calls.  
-
-The  memory address space model [LINK] of a program reserves the first 1024 words of the address space of a program to load a library.   Here we explain the purpose of the library.
-
-If we consider C programs, almost every program uses the routines in the library stdio.h.  Since in a computer system, several application programs will be running concurrently, it is a good idea to have the code for stdio.h loaded once at bootstrap time into some region of the physical memory and link this memory to the address space of each program's standard library region at load time.    This code will be designed once and shared between all applications.  
-
-The ABI specifies that the ExpOS library for XSM machine must be linked to address  0 to 1024.   The XSM simulator given to you will load the contents of the file library.lib to the addresses 0-1024 of your program.    The ABI stipulates that the library must support functions for read, write and exit.  (The library also must contain functions Alloc, Free and Initialize which will not be discussed here.)  
-
-Two access any library function, an application must transfer control to the code at memory address 0 using the instruction CALL.  This is the first memory address in the library region.  The arguments to the call specify which library function is being invoked.    The library interface is specified here [LINK]    
-
-An application program can execute read, write and exit functions through the library.  This means that once the library is implemented, application programs can invoke call the library to perform read, write and exit operations by passing appropriate function identifying code and arguments.  Internally, the library contains code that  calls the system call.  
-
-One might naturally raise the question – why should we route the system calls through the library than call them directly as was done so far.  There are several advantages in using the library.   At a later time, if the interrupt number for an OS service – say write – gets modified, only the library needs to be replaced.  The compiler need not be modified, nor application programs need re-compilation.  Thus, the library provides an abstraction that hides low level details from the compiler and the application.  
-
- 
-
-
-Implementation:  
-
-In this experiment, we implement the program of Experiment II using the library.  
-
-/*  Complete this stage in the same lines at  Experiment I and Experiment II */  
-
-Exercise 1.7   Implement read() and exit() functions of the library.  
-
-Exercise 1.8   Modify the program to read three numbers from the console and print the largest to perform I/O using the library interface.   
-
-Exercise 1.9  Modify  language program to read numbers until a zero is entered from the console and print their sum to perform I/O using the library interface.  
+					</p>
+					<p>
+						Observe that the simulator flagged an error after the last statement was executed. This happened because after executing the last valid instruction in the program, the simulator had no idea that the program had ended and hence tried to fetch from memory the next instruction. However, since there is no valid insturction in that memory location, the machine raises an exception [see LINK for exceptions of XSM] and control was transfered to an exception handler routine of the OS kernel. Typically, in a multitasking environment, the OS will terminate the program, reclaim resources allocated to it an schedule some other process.
+					</p>
+					<p>   
+						The exception handler routine of the XSM simulator given to you is designed to print an error message and terminate the simulation.
+					</p>
+					<p>
+						The "proper" way to exit the application is to invoke the exit system call. This will inform the OS that the program has finished execution. The exit system call code of a typical OS kernel will "gracefully" exit the application and schedule other programs for execution. The OS will never return to the application that invokes the exit system call.
+					</p>
+					<p>
+						The exit system call routine of the XSM simulator given to you will print a message indicating successful program execution and terminate the simulation.  
+					</p>
+					<p>
+						<b>Exercise 4</b> : Follow the instructions in the low level system call interface of the ABI to invoke the exit system call after the console output in your previous program.  
+					</p>
+					<p>
+						<b>Exercise 5</b> : Write an XSM assembly language program to read three numbers from the console and print the largest. (Invoke the read system call for console input.)
+					</p>
+					<p>
+						<b>Exercise 6</b> : Write an XSM assembly language program to read numbers until a zero is entered and print their sum.
+					</p>
+					<p>
+						<b>Important Note</b> :  Exercises 5 and 6 essentially ask you to handle conditional and iterative constructs in assembly language. These exercises give insight into how machine code must be genrated for <b>if-then-else and while-do</b> constructs of programming languages.     
+					</p>
+					<hr>
+				</article>
+				<article class="grid col-full">
+	                <p id="nav-experiment3">
+						<b>Experiment III</b> : Understanding the Library Interface
+					</p>
+					<p>
+						<b>Prerequisite Reading</b> : Read and understand the <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank">library interface</a>.
+					</p>
+					<p>
+						In this experiment, you will learn how to implement the library interface stipulated in the ABI for supporting read, write and exit system calls.  
+					</p>
+					<p>
+						The  <a href="abi.html#nav-virtual-address-space-model" target="_blank">memory address space model</a> of a program reserves the first 1024 words of the address space of a program to load a library. Here we explain the purpose of the library.
+					</p>
+					<p>
+						If we consider C programs, almost every program uses the routines in the library stdio.h. Since in a computer system, several application programs will be running concurrently, it is a good idea to have the code for stdio.h loaded once at bootstrap time into some region of the physical memory and link this memory to the address space of each program's standard library region at load time. This code will be designed once and shared between all applications.  
+					</p>
+					<p>
+						The ABI specifies that the ExpOS library for XSM machine must be linked to address 0 to 1024. The XSM simulator given to you will load the contents of the file library.lib to the addresses 0 - 1024 of your program. The ABI stipulates that the library must support functions for read, write and exit. (The library also must contain functions Alloc, Free and Initialize which will not be discussed here.)
+					</p>
+					<p>
+						To access any library function, an application must transfer control to the code at memory address 0 using the instruction <b>CALL</b>. This is the first memory address in the library region. The arguments to the call specify which library function is being invoked. The library interface is specified <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank">here</a>.    
+					</p>
+					<p>
+						An application program can execute read, write and exit functions through the library. This means that once the library is implemented, application programs can invoke call the library to perform read, write and exit operations by passing appropriate function identifying code and arguments. Internally, the library contains code that  calls the system call.  
+					</p>
+					<p>
+						One might naturally raise the question – why should we route the system calls through the library than call them directly as was done so far. There are several advantages in using the library. At a later time, if the interrupt number for an OS service – say write – gets modified, only the library needs to be replaced. The compiler need not be modified, nor application programs need re-compilation. Thus, the library provides an abstraction that hides low level details from the compiler and the application.
+					</p>
+					<p>
+						<b>Implementation</b> :<br><br>	
+							In this experiment, we implement the program of Experiment II using the library.  
+					</p>
+					<p>
+						/*  Complete this stage in the same lines at Experiment I and Experiment II */  
+					</p>
+					<p>
+						<b>Exercise 7</b> : Implement read() and exit() functions of the library.  
+					</p>
+					<p>
+						<b>Exercise 8</b> : Modify the program to read three numbers from the console and print the largest to perform I/O using the library interface.   
+					</p>
+					<p>
+						<b>Exercise 9</b> : Modify language program to read numbers until a zero is entered from the console and print their sum to perform I/O using the library interface.  
+					</p>
+				</article>
