@@ -381,6 +381,99 @@
 						<b>Implementation</b> :<br><br>	
 							In this experiment, we implement the program of Experiment II using the library.  
 					</p>
+                    <p>
+                        To print the contents of memory location 4096 into the console, we need to:
+                        <ul>
+                            <li id="otis">1. Push the address 4096 into the stack along with other arguments to the system call.</li>
+                            <li id="otis">2. Invoke the write system call using the INT instruction specifying the appropriate interrupt number.</li>
+                        </ul>
+                        The step 1 will remain same as in the above experiment. We will implement step 2 using library interface.
+                    </p>
+                    <p>
+                        The following example shows sample code that must be added to the program written in Experiment I to output the contents of the location 4096.
+                    </p>
+
+                    <p>
+                        Store the value of the R0 in the memory location 4096.
+                        <div class="syntax">MOV [4096], R0</div>
+                    </p>
+                    <p>
+                        The XSM machine increments SP immedietely before a PUSH operation by XSM machine and hence the first PUSH operation will be storing data to address 4097 (and hence will not destroy the data in address 4096).  
+                        <div class="syntax">MOV SP, 4096</div>
+                    </p>
+                    <p>
+                        Now, the arguments to a write operation must be pushed on to the stack:  
+                        <b>Function Code</b> : "Write"
+                        <div class="syntax">
+                            MOV R2, "Write"<br>
+                            PUSH R2
+                        </div>
+                    </p>
+                    <p>
+                        <b>Argument 1</b> :  value -2
+                        <div class="syntax">
+                            MOV R2, -2<br>
+                            PUSH R2
+                        </div>
+                    </p>
+                    <p>
+                        <b>Argument 2</b> : Address of the memory word to be pushed  -  Here value is 4096. 
+                        <div class="syntax">
+                            MOV R2, 4096
+                            PUSH R2
+                        </div>
+                    </p>
+                    <p>
+                        <b>Argument 3</b> : Blank /* Push any register */
+                        <div class="syntax">
+                            PUSH R2
+                        </div>
+                    </p>
+                     <p>
+                        <b>Storage for Return Value</b> :  Push any register
+                        <div class="syntax">
+                            PUSH R2
+                        </div>
+                    </p>
+                    <p>
+                        The main difference between system call interface and library interface come at this instruction. In case system call interface we call interrupt that is specific to the action required (INT 7 for Write, INT 6 for Read etc.,) but in case of system call interface we will always use <b>CALL 0</b> only because this is the starting address of the library (Remeber that library file is loaded in the memory addresses 0 - 1024.). The particular action required can be distinguished in this case with the help of function code passed. In this case "Write" is passed as function code and in case of read, "Read" is passed and so on.
+                        <div class="syntax">
+                            CALL 0
+                        </div>
+                    </p>
+                          
+                    <p style="color: red;">
+                        Add figure to show the state of the stack.  
+                    </p>
+
+                    <p>
+                        The above sequence of instructions will invoke the write system call from the library. Upon successful write operation, the value 0 will be returned to the calling program through the stack. We assume here that the call will be successful.
+                    </p>
+                    <p>                 
+                        Now upon exit from the system call :
+                        <ul>
+                            <li id="otis">1. The return value may be retrievied if required.</li>
+                            <li id="otis">2. The stack must be set back to the state before the call as stipulated in the ABI.  This is necessary to avoid loss of stack space after each call.</li>
+                        </ul>
+                    </p>
+                    <p>
+                        The following instructions will do the above.  
+                        <div class="syntax">
+                        //  The following code must be executed after return from the system call<br>
+                        POP R0 // Pop and save the return value in some register<br>
+                        POP R1 // Pop and discard the argument3<br>
+                        POP R1 // Pop and discard the argument2<br>
+                        POP R1 // Pop and discard the argument1<br>
+                        POP R1 // Pop out all – stack must come back to state before the call.<br>
+                        </div>
+                    </p>
+                    <p>
+                        The target_file will look as shown below after adding the Write system call.
+                        <script src="js/24948d2964c96f78c7dcd3b0f0d1e3fd.js"></script>
+                    </p>
+                    <p>
+                        
+                    </p>
 					<p style="color: red;">
 						/*  Complete this stage in the same lines at Experiment I and Experiment II */  
 					</p>
