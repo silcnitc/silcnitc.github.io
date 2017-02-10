@@ -165,26 +165,26 @@
 					<p>
 						Since we are trying to execute the target_file in debug mode, the simulator executes all the instructions present before the BRKP instruction. We can check the contents of the registers at this point.
 						<ul>
-							<li id="otis">Type "reg R1".</li>
+							<li id="otis">Type <b>reg R1</b>.</li>
 							<p> pic here</p>
 						</ul>
 						We can see that value 2 is stored in this register. Now try typing "reg R0".
 							<p> pic here</p>
 						We can see that value stored in the register is 5.<b>[Why?]</b><br>
-						Now type "reg R0 R1"
+						Now type <b>reg R0 R1</b>
 						<p>PIC HERE</p> 
 						The command "reg Rn Rm" dislays the contents of all registers from n to m.
-						Now type "reg"
+						Now type <b>reg</b>
 						<p>PIC HERE</p> 
 						This command displays the contents of all the machine registers namely IP, SP, BP, PTBR, PTLR, EIP, EC, EPN, EMA, R0-R19 in that order.
 					</p>
 
 <!-- /*  Give usage instructions here – run the simulator in debug mode and  watch the contents of register R0 – spoon feed   - complete this part */  <br><br> -->
 					<p>
-						<b>Note</b>: You would have observed that if you try to continue to execute beyond the last instruction, the simulator flags abnormal program termination. This is because after executing the last instruction of the program, the simulator increments the instruction pointer and tries to execute the next instruction. However, since there is no valid instruction stored in the memory, the simulator will enconter an invalid instruction and generate an exception. This results in transfer of program control to the OS kernel code that will terminate execution and report error.  We will see how graceful program termination is achieved in the next experiment.  
+						<b>Note</b>: You would have observed that if you try to continue to execute beyond the last instruction, the simulator flags abnormal program termination. This is because after executing the last instruction of the program, the simulator increments the instruction pointer and tries to execute the next instruction. However, since there is no valid instruction stored in the memory, the simulator will enconter an invalid instruction and generate an exception. This results in transfer of program control to the OS kernel code that will terminate execution and report error. We will see how graceful program termination is achieved in the next experiment.  
 					</p>
 					<p>
-						<b>Exercise 2 </b>:  Write an XSM assembly langauge  program to find the largerst of three numbers and run it on the simulator.  You will learn how to handle the JMP instruction while doing this exercise.
+						<b>Exercise 2 </b>:  Write an XSM assembly langauge program to find the largerst of three numbers and run it on the simulator. You will learn how to handle the JMP instruction while doing this exercise.
 					</p>
   					<p>
   						<b>Exercise 3 </b>:  Modify your code generation module to store the result of the previous program in the first location in <a href="abi.html#nav-virtual-address-space-model" target="_blank">stack region</a> namely address 4096 and watch the contents in debug mode after execution.
@@ -192,9 +192,9 @@
   					<hr>
   				</article>
   				<article class="grid col-full">
-	                <p id="nav-experiment2"> <b>Experiment II</b> :  Input/Output using OS system call interface</p>
+	                <p id="nav-experiment2"> <b>Experiment II</b> : Input/Output using OS system call interface</p>
 	                <p>
-						<b>Reading Assignment</b>:  Read the low level system call interface of the <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank">ABI</a>  
+						<b>Reading Assignment</b>: Read the low level system call interface of the <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank">ABI</a>  
 	                </p>
 	                <p>
 						In this experiment, you will extend the previous stage to print the result of adding two numbers to the console using a low system call interface provided by the ABI.    
@@ -231,31 +231,62 @@
 					</p>
 
 					<p>
-						Explain with comments.  
+<!-- 						Explain with comments.  
 						// Instructions to be executed before the system call  
 						MOV [4096], R0
 						MOV SP, 4096
 						MOV R0, 5
-
+ -->
+ 						Store the value of the R0 in the memory location 4096.
+ 						<div class="syntax">MOV [4096], R0</div>
+ 					</p>
+ 					<p>
 						The XSM machine increments SP immedietely before a PUSH operation by XSM machine and hence the first PUSH operation will be storing data to address 4097 (and hence will not destroy the data in address 4096).  
-
-
-
+ 						<div class="syntax">MOV SP, 4096</div>
+ 					</p>
+ 					<p>
 						Now, the arguments to a write operation must be pushed on to the stack:  
-
-						1.  System call number  :  5
-
-						    MOV R0, 5
-						    PUSH R0                                                 
-
-						2.  Argument 1:  value -2    
-						2.  Argument 3:  Address of the memory word to be pushed  -  Here value is 4096.
-						3.  Argument 3 is blank.   /* PUSH R0  - push any register */  
-
-						Now, invoke the trap instruction to invoke the kernel module for console output.  The ABI specifies that the interrupt number must be 7
+ 						<b>System Call Number</b> : 5 for Write
+ 						<div class="syntax">
+	 						MOV R2, 5<br>
+	 						PUSH R2
+ 						</div>
+ 					</p>
+ 					<p>
+ 						<b>Argument 1</b> :  value -2
+ 						<div class="syntax">
+	 						MOV R2, -2<br>
+	 						PUSH R2
+	 					</div>
+	 				</p>
+ 					<p>
+ 						<b>Argument 2</b> : Address of the memory word to be pushed  -  Here value is 4096. 
+ 						<div class="syntax">
+	 						MOV R2, 4096
+	 						PUSH R2
+ 						</div>
+ 					</p>
+ 					<p>
+ 						<b>Argument 3</b> : Blank /* Push any register */
+ 						<div class="syntax">
+ 							PUSH R2
+ 						</div>
+ 					</p>
+ 					 <p>
+ 						<b>Storage for Return Value</b> :  Push any register
+ 						<div class="syntax">
+ 							PUSH R2
+ 						</div>
+ 					</p>
+ 					<p>
+						Now, invoke the trap instruction to invoke the kernel module for console output. The ABI specifies that the interrupt number must be 7.<br><br>
+ 						<b>Interrupt Number</b> :  7 for Write System Call
+ 						<div class="syntax">
+ 							INT 7
+						</div>
+					</p>
 						  
-						INT 7  
-
+					<p>
 						Add figure to show the state of the stack.  
 					</p>
 					<p>
@@ -272,22 +303,22 @@
 						The following instructions will do the above.  
 						<div class="syntax">
 						//  The following code must be executed after return from the system call<br>
-						POP R0 <br>
-						POP R1<br>
-						POP R1<br>
-						POP R1<br>
-						POP R1  // Pop out all – stack must come back to state before the call.<br>
+						POP R0 // Pop and save the return value in some register<br>
+						POP R1 // Pop and discard the argument3<br>
+						POP R1 // Pop and discard the argument2<br>
+						POP R1 // Pop and discard the argument1<br>
+						POP R1 // Pop out all – stack must come back to state before the call.<br>
 						</div>
 					</p>
 					<p>
 
-/*  complete the part */
-Now, having generated the executable program run the program using the simulator.
+						/*  complete the part */
+						Now, having generated the executable program run the program using the simulator.
 
-Add Give run instructions HERE.  
+						Add Give run instructions HERE.  
 
-Show output.  There will be an exception error because exit was done SHOW THE OUTPUT HERE.
-/*        upto this   */
+						Show output.  There will be an exception error because exit was done SHOW THE OUTPUT HERE.
+						/*        upto this   */
 
 					</p>
 					<p>
