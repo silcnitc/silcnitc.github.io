@@ -450,7 +450,7 @@
                         The above sequence of instructions will invoke the write system call from the library. Upon successful write operation, the value 0 will be returned to the calling program through the stack. We assume here that the call will be successful.
                     </p>
                     <p>                 
-                        Now upon exit from the system call :
+                        Now upon exit from the call :
                         <ul>
                             <li id="otis">1. The return value may be retrievied if required.</li>
                             <li id="otis">2. The stack must be set back to the state before the call as stipulated in the ABI.  This is necessary to avoid loss of stack space after each call.</li>
@@ -472,7 +472,71 @@
                         <script src="js/24948d2964c96f78c7dcd3b0f0d1e3fd.js"></script>
                     </p>
                     <p>
-                        
+                        Now we need to write logic in the library file to handle the request for Write system call. Earlier we have created the "library.lib" file with RET instruction alone. Now we will edit this file.
+                    </p>
+                    <p>
+                        When CALL 0 is executed, the IP+2 is pushed on the top of the stack and IP is set to 0. Therefore now IP points to the first instruction of the library file.
+                    </p>
+                    <p>
+                        Since every call to the library points IP to 0 address, we need to have logic to distinguish the type of request at this address. The information regarding the type of request can be found from the function code that is pushed as an argument on the stack. The function code can be obtained from the stack using SP - 5<b>[Why?]</b>.
+                    </p>
+                    <p>
+                        In this experiment we are dealing only with "Write" system call, so we will have our discussion only specific to it. After recognising the type of request we need to handle the request in the same way we did in the previos experiment using system call interface. The arguments to be passed in the system call interface are system call number(5),-2,buffer to be written (4096) and a blank argument. In case of library interface we already have argument 2 (buffer) and argument 3 (blank) on the stack at SP - 4 and SP - 3 respectively. Hence we need to store these values from the stack into registers and push them as arguments to system call.
+                    </p>
+                    <p>
+                        Get the function code from the stack and compare if it is equal to "Write" and get the arguments from the stack. 
+                        <div class="syntax">
+                            MOV R1, SP<br>
+                            MOV R2, 5<br>
+                            SUB R1, R2<br>
+                            MOV R2, "Write"<br>
+                            MOV R1, [R1]<br>
+                            EQ R1, R2<br>
+                            JZ R1, 62<br>
+                            MOV R1, SP<br>
+                            MOV R2, 4<br>
+                            SUB R1, R2<br>
+                            MOV R2, [R1]    //argument 1 at SP - 4<br>
+                            ADD R1, 1<br>
+                            MOV R3, [R1]    //argument 2 at SP - 3<br>
+                            ADD R1, 1<br>
+                            MOV R4, [R1]    //argument 3 at SP - 2<br>
+                        </div>
+                    </p>
+                    <p>
+                            Once you get the arguments, the procedure to invoke the system call is same as we did in the earlier experiment.
+                            <div class="syntax">
+                                /* pushing arguments and space for return value for system call */<br>
+                                MOV R5, 5       //System call number 5 for Write<br>
+                                PUSH R5<br>
+                                PUSH R4         //since [SP - 4] = -2<br>
+                                PUSH R2         //since [SP - 3] = 4096<br>
+                                PUSH R3         //since [SP - 2] = blank<br>
+                                PUSH R5         // space for return value<br>
+                                <br>
+                                /* trap instruction */<br>
+                                INT 7<br>
+                                <br>
+                                /* Pop the arguments and return value */<br>
+                                POP R1          //Pop and save return value<br>
+                                POP R2          //Pop and discard<br>
+                                POP R2          //Pop and discard<br>
+                                POP R2          //Pop and discard<br>
+                                POP R2          //Pop and discard<br>
+                            </div><br>
+                            The return value obtained need to stored in the space pushed by the user program in the stack.
+                            <div class="syntax">
+                                /* Storing the return value on the top of the stack */<br>
+                                MOV R2, SP<br>
+                                MOV R3, 1<br>
+                                SUB R2, R3<br>
+                                MOV [R2], R1<br>
+                                RET
+                            </div>
+                    </p>
+                    <p>
+                        The library.lib file will look as shown below after adding the code to handle Write system call.
+                        <script src="js/593f1d9b41ce0bc9ce6c6a173f96c68c.js"></script>
                     </p>
 					<p style="color: red;">
 						/*  Complete this stage in the same lines at Experiment I and Experiment II */  
