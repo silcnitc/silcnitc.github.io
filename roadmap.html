@@ -36,6 +36,7 @@
                     <ul>
                         <li class="sec"><a href="#nav-stage0">0. Installation</a> </li>
                         <li class="sec"><a href="#nav-stage1">1. CodeGeneration for Arithmetic Expressions</a></li>
+                        <li class="sec"><a href="#nav-stage2">2. Introduction to static storage allocation</a></li>
                     </ul>
                 </menu>
             </aside>
@@ -289,6 +290,125 @@
                             <b>Note:</b> Here we assumeed that machine registers never get exhausted. XSM provides 20 general purpose registers and these registers are sufficient for all practial purposes.  However, if all registers are exhausted,
                             then space will have to be allocated in memory.  We will not address this contingency in this roadmap.  If register pool is exhausted, your compiler may stop compilation and flag "Out of registers"  error.  
                         </p>
+                        <hr>
+                    </article>
+                    <article class="grid col-full" id="nav-stage2">
+                        <h2>2. Introduction to static storage allocation</h2>
+                        <p>
+                            <b>Prerequisites</b> :
+                            <ul>
+                                <li id="otis">1.  You must be comfortable with LEX and YACC.  (If you are not, you must first do <a href="lex.html" target="_blank"> LEX tutorial</a>, <a href="yacc.html" target="_blank">YACC Tutorial</a> and <a href="ywl.html" target="_blank"> YACC+LEX tutorial</a>.)</li>
+                                <li id="otis">2.  You must have completed the XSM environment tutorial[LINK] before staring this stage.</li>
+                            </ul>  
+                        </p>
+                        <p>
+                            <b>Learning Objectives</b> :
+                            <ul>
+                                <li id="otis">In this stage, you will extend the expression evaluator of the previous stage to support a set of pre-defined variables with Input/Output and assignment statements. You will get introduced to the notion of static storage allocation enroute. You will also learn to differentiate between statements and expressions and also construct an <i>abstract syntax tree representation</i> for a program.</li>
+                            </ul>
+                         </p>
+                         <p>
+                            Consider a simple programming language with the following syntax:
+                            <div class="syntax">
+                                Program ::= BEGIN Slist END<br>
+                                <br>
+                                Slist ::=  Slist Stmt<br>
+                                <br>
+                                Stmt ::= InputStmt |  OuptputStmt | AsgStmt<br>
+                                <br>
+                                InputStmt ::= READ(ID);<br>
+                                <br>
+                                OutputStmt ::== WRITE(E);<br>
+                                <br>
+                                AsgStmt ::==  ID = E;<br>
+                            </div> 
+                            Apart from the <a href="lex.html" target="_blank">literal tokens</a>, BEGIN, END, READ, and WRITE are tokens corresponding to keywords “begin”, “end”, “read” and “write”.  ID is a token for variables.  We will permit only variables [a-z].
+                         </p>
+                         <p>
+                            To support variables to appear in expressions, you must add the rule <b>E := ID</b> to the expression syntax used in Stage 1. The above syntax defines a small programming language that permits just straight line programs (programs without conditionals, loops, jumps or such control transfer constructs). There are only 26 pre-defined variables that are supported – a, b,c,..,z. A typical program would look like:
+                            <div class="syntax">
+                                begin<br>
+                                &emsp;Read (a);<br>  
+                                &emsp;Read (b);<br>
+                                &emsp;d = a + 2 * b;<br>
+                                &emsp;Write (a+d);<br>
+                                end;   
+                            </div>
+                         </p>
+                         <p>
+                            We will assume that variables can store only integers. Handling variables of multiple types will be taken up in subsequent stages.<br><br>  
+
+                            A conceptual point to note here is that apart from the addition of variables, the extended language now has two kinds of constructs – expressions and <b>statements</b>. While an expression evaluates to a value (in this case, we limit ourselves to integer expressions), a statement commands the execution of some action by the machine. For example, the statement <i>Read(a);</i> instructs the action of reading a variable from the console into a variable a. <i>Write(a+d);</i> instructs evaluation of the expression (a+d) and printing the result into the console output.
+                        </p>
+                        <p>
+                            Another important conceptual point to note is that the introduction of variables also demand binding <span style="color: red;">[Dangerous area! - we will give Wiki link!]</span> them to storage (memory) locations. The storage location associated with a variable must hold the value of the variable at each point of program execution. A statement (like the assignment statement or a read statement) that alters the value of a variable must result in a change the value stored in the corresponding storage location.
+                        </p>
+                        <p>
+                            In the present case, the compiler can fix the address for each variable in memory right at the time of program compilation. Since the ABI stipulate that storage allocation must be done in the stack region, we can pre-allocate the first 26 memory locations in the stack region of <a href="abi.html#nav-virtual-address-space-model" target="_blank">memory</a> for the variables a-z. Thus, variable a will refer to contents of address 4096, b to contents of address 4097 and so on. Any time the compiler encounters the variable – say a, the address to be looked at is fixed – in this case 4096. Such allocation policy is called <b>static allocation</b>. In later stages you will encounter situations where it will not be possible for the compiler to fix memory address of a variable at compile time. This leads to <b>run time</b> and <b>dynamic memory allocation</b> policies. For now, we will be content with static allocation.
+                        </p>
+                        <p> 
+                            To implement the above, your compiler must:
+                            <ul>
+                                <li id="otis">1. Fix the storage location for each variable. As noted above, the first 26 locations of the stack region starting at address 4096 may be assigned for a to z. Note that the XSM machine can store an integer in a single memory location. Hence, for each variable we need to allocate only 1 memory word. Note that "allocation" here means that while generating code, the compiler assumes when it generates code that the variable a is stored in location 4096, b in location 4097 and so forth.</li>
+
+                                <li id="otis"><b>Note</b> : Some programming languages stipulate that variables must be initialized to zero.  In that case, the compiler must generate code to MOV 0 to each of these locations before generating code for statements in the program. Some machines provide machine instructions that support initializing memory to zero.  Certain operating systems would have initialized all memory regions (except those to which code is loaded into) to zero at load time.  We will not pursue these issues here.</li>
+
+                                <li id="otis">2. To translate an assignment statement, the compiler must generate code evaluate the expression and then MOV the contents of the register storing the result to the memory location allocated for the variable.</li>
+
+                                <li id="otis">3. To translate a Read statement, the compiler must generate code to invoke the <a href="abi.htmll#nav-lowlevel-syscall-interface" target="_blank">read system call</a> passing the address of the variable as argument. Write is implemented similarly.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            But before getting into code generation, we must create an <b>abstract syntax tree (AST)</b> for the program.  An abstract syntax tree is a tree representation of the program, just like an expression tree for expressions. An abstract syntax tree for the above program would look like the following:
+
+                            <span style="color: red;" >Add Figure HERE</span>
+                        </p>
+                        <p>
+                            Observe that each node now needs to store distinguishing information like:
+                            <ul>
+                                <li id="otis">1. Whether it corresponds is a variable, constant, operator, assignment statement, write statement or read statement.</li>
+                                <li id="otis">2. In case of operators, the information on the operator must be present.</li>
+                                <li id="otis">3. There are also connector nodes which simply connects two statements together.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            This leads to the definition of the following node structure:  
+                            <div class="syntax" style="color: red;">
+                            struct node {
+
+                            //  Again include fields that are just enough.
+                            }
+
+                            The TreeCreate() function may be defined as:
+
+                            struct node * TreeCreate(  -- fill in arguments just necessary for the experiment --)  
+                            </div>
+                        </p>
+                        <p>
+                            <b>Task 1</b> : Use Yacc and Lex to generate abstract syntax tree representation of a program. A file containing the source program will be input to your program.
+                        </p>
+                        <p>
+                            Thus, after parsing, we use the syntax directed translation scheme of YACC to construct an intermediate representation – namely, the abstract syntax tree. This phase of compilation is sometimes called the <b>front end</b> of the compiler. The next step is to recursively traverse the expression tree to generate executable code.  This is typically called the <b>back end</b>. The output of the front end is generally a <b>machine independent intermediate representation</b> like the AST. The back end of course will be dependent on the target platform.  
+                        </p>
+                        <p>
+                            <b>Task 2</b> : Modify CodeGen() function of Stage 1 to generate code for the abstract syntax tree generated as Task 1 above.
+                        </p>
+                        <p>
+                            In the next stage, we will see how program control instructions like if-then-else can be incorporated into the language.
+                        </p>
+                        <p>
+                            <b>Note</b> : An abstract syntax tree is an <a href="https://en.wikipedia.org/wiki/Intermediate_representation" target="_blank">intermediate representation</a> of the source program in a tree from suitable for code generation. There are several other forms of intermediate representations like the three address code form, the static single assignment form etc. This roadmap will be based on the abstract syntax tree representation.   
+                        </p>
+                        <p>
+                            In commercial strength compilers, the source is first translated to intermediate forms like the three address form which is a bit more of a <b>low level representation</b> than the AST. Typically machine independent <a href="https://en.wikipedia.org/wiki/Optimizing_compiler" target="_blank">code optimizations</a> are performed on the intermediate code and only then the back-end code generation is run. This step is followed by another set of machine dependent code optimizations before the target file is finally generated. As these issues are beyond the scope of our project, we will not dwell into these matters further in this roadmap.
+                        </p>
+                        <p>
+                            <b>Exercise 1</b> : Build an <b>evaluator</b> for the program. (Hint: Your front end does not change. But, instead of generating code from the AST, you can recursively "evaluate" it. For storage allocation of variables, you can simply declare an array that can store 26 integers and allocate one entry for each variable).
+                        </p>
+                        <p>  
+                            <b>Note</b> : The compiler generates target code which must be executed by the target machine. In our case, the compiler you wrote as Task 2 actually is a <b>cross compiler</b>. This means that your compiler generated target code that is not for your host system, but on some other target platform – which in our case the simulated XSM machine. The evaluator done in Exercise 1 actually does not generating "code" for any machine. Instead, it executes the program in "then and there". Such a program could be classified as an <b>interpreter</b>. (Unfortunately, the standard terminology in literature associated with the term "interpreter" seems to be contradictory to this classification).
+                        </p>
+                        <hr>
                     </article>
                 </div>
             </section>
