@@ -128,10 +128,10 @@
   						The result will be stored in R0.<br>
   						To generate code for the above tasks and write it into a target_file, you must write code as:<br>
   						<div class="syntax">
-  							fprintf(target_file, "MOV R0, 3\n");<br>
-							fprintf(target_file, "MOV R1, 2\n");<br>
-							fprintf(target_file, "ADD R0, R1\n");<br>
-							fprintf(target_file, "BRKP");
+							fprintf(target_file, "BRKP");<br>
+              fprintf(target_file, "MOV R0, 3\n");<br>
+              fprintf(target_file, "MOV R1, 2\n");<br>
+              fprintf(target_file, "ADD R0, R1\n");
   						</div>
   					</p>
   					<p >
@@ -163,20 +163,31 @@
 						</ul>
 					</p>
 					<p>
-						Since we are trying to execute the target_file in debug mode, the simulator executes all the instructions present before the BRKP instruction. We can check the contents of the registers at this point.
+						Since we are trying to execute the target_file in debug mode, the simulator executes all the instructions present before the BRKP instruction. We will look at the status of register R0 before the execution of instruction "MOV R0, 3".
+                        <img src="img/reg0before.png">
 						<ul>
-							<li id="otis">Type <b>reg R1</b>.</li>
-							<p style="color: red;"> pic here</p>
+							<li id="otis">Type "s" and then type "reg R0".</li>
 						</ul>
-						We can see that value 2 is stored in this register. Now try typing "reg R0".
-						<p style="color: red;"> pic here</p>
-						We can see that value stored in the register is 5.<b>[Why?]</b><br>
-						Now type <b>reg R0 R1</b>
-						<p style="color: red;">PIC HERE</p> 
-						The command "reg Rn Rm" dislays the contents of all registers from n to m.
-						Now type <b>reg</b>
-						<p style="color: red;">PIC HERE</p> 
-						This command displays the contents of all the machine registers namely IP, SP, BP, PTBR, PTLR, EIP, EC, EPN, EMA, R0-R19 in that order.
+                        <img src="img/reg0after.png">
+                        <ul>
+                            <li id="otis">We can see that value 3 is stored in this register. Now try typing "s" and then "reg R1".</li>
+                        </ul>
+						<img src="img/reg1.png">
+                        <ul>
+                            <li id="otis">Type "s" and then type "reg R0".</li>
+                        </ul>
+                        <img src="img/regR05.png">
+						<ul>
+                            <li id="otis">We can see that value stored in the register is 5.<b>[Why?]</b></li>
+                            <li id="otis">Now type <b>reg R0 R1</b></li>
+                        </ul>
+						<img src="img/regR0R1.png"> 
+						<ul>
+                            <li id="otis">The command "reg Rn Rm" dislays the contents of all registers from n to m.</li>
+                            <li id="otis">Now type <b>reg</b>.</li>
+                        </ul>
+						<img src="img/reg.png"> 
+						<br>This command displays the contents of all the machine registers namely IP, SP, BP, PTBR, PTLR, EIP, EC, EPN, EMA, R0-R19 in that order.
 					</p>
 
 <!-- /*  Give usage instructions here – run the simulator in debug mode and  watch the contents of register R0 – spoon feed   - complete this part */  <br><br> -->
@@ -261,15 +272,16 @@
  						</div>
  					</p>
  					<p>
+ 						<b>Note</b> : Whenever there is a blank argument or a space to be pushed on to the stack, we follow the convention of pushing R0 on to the stack and the status of stack in the figure will be shown using blank argument only.<br><br>
  						<b>Argument 3</b> : Blank /* Push any register */
  						<div class="syntax">
- 							PUSH R2
+ 							PUSH R0
  						</div>
  					</p>
  					 <p>
  						<b>Storage for Return Value</b> :  Push any register
  						<div class="syntax">
- 							PUSH R2
+ 							PUSH R0
  						</div>
  					</p>
  					<p>
@@ -279,9 +291,9 @@
  							INT 7
 						</div>
 					</p>
-						  
-					<p style="color: red;">
-						Add figure to show the state of the stack.  
+					<p>
+						The status of the stack after the INT instruction will look as shown below<br>
+						<img src="img/syscallstack.png">
 					</p>
 					<p>
 						The above sequence of instructions will invoke the write system call. Upon successful write operation, the value 0 will be returned to the calling program through the stack. We assume here that the call will be successful.
@@ -426,13 +438,13 @@
                     <p>
                         <b>Argument 3</b> : Blank /* Push any register */
                         <div class="syntax">
-                            PUSH R2
+                            PUSH R0
                         </div>
                     </p>
                      <p>
                         <b>Storage for Return Value</b> :  Push any register
                         <div class="syntax">
-                            PUSH R2
+                            PUSH R0
                         </div>
                     </p>
                     <p>
@@ -442,9 +454,10 @@
                         </div>
                     </p>
                           
-                    <p style="color: red;">
-                        Add figure to show the state of the stack.  
-                    </p>
+                    <p>
+						The status of the stack after the INT instruction will look as shown below<br>
+						<img src="img/libcallstack.png">
+					</p>
 
                     <p>
                         The above sequence of instructions will invoke the write system call from the library. Upon successful write operation, the value 0 will be returned to the calling program through the stack. We assume here that the call will be successful.
