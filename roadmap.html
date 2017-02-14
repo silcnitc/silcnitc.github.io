@@ -328,17 +328,17 @@
                             To support variables to appear in expressions, you must add the rule <b>E := ID</b> to the expression syntax used in Stage 1. The above syntax defines a small programming language that permits just straight line programs (programs without conditionals, loops, jumps or such control transfer constructs). There are only 26 pre-defined variables that are supported – a, b,c,..,z. A typical program would look like:
                             <div class="syntax">
                                 begin<br>
-                                &emsp;Read (a);<br>  
-                                &emsp;Read (b);<br>
+                                &emsp;read (a);<br>  
+                                &emsp;read (b);<br>
                                 &emsp;d = a + 2 * b;<br>
-                                &emsp;Write (a+d);<br>
+                                &emsp;write (a+d);<br>
                                 end;   
                             </div>
                          </p>
                          <p>
                             We will assume that variables can store only integers. Handling variables of multiple types will be taken up in subsequent stages.<br><br>  
 
-                            A conceptual point to note here is that apart from the addition of variables, the extended language now has two kinds of constructs – expressions and <b>statements</b>. While an expression evaluates to a value (in this case, we limit ourselves to integer expressions), a statement commands the execution of some action by the machine. For example, the statement <i>Read(a);</i> instructs the action of reading a variable from the console into a variable a. <i>Write(a+d);</i> instructs evaluation of the expression (a+d) and printing the result into the console output.
+                            A conceptual point to note here is that apart from the addition of variables, the extended language now has two kinds of constructs – expressions and <b>statements</b>. While an expression evaluates to a value (in this case, we limit ourselves to integer expressions), a statement commands the execution of some action by the machine. For example, the statement <i>read(a);</i> instructs the action of reading a variable from the console into a variable a. <i>write(a+d);</i> instructs evaluation of the expression (a+d) and printing the result into the console output.
                         </p>
                         <p>
                             Another important conceptual point to note is that the introduction of variables also demand binding <span style="color: red;">[Dangerous area! - we will give Wiki link!]</span> them to storage (memory) locations. The storage location associated with a variable must hold the value of the variable at each point of program execution. A statement (like the assignment statement or a read statement) that alters the value of a variable must result in a change the value stored in the corresponding storage location.
@@ -360,8 +360,9 @@
                         </p>
                         <p>
                             But before getting into code generation, we must create an <b>abstract syntax tree (AST)</b> for the program.  An abstract syntax tree is a tree representation of the program, just like an expression tree for expressions. An abstract syntax tree for the above program would look like the following:
-
-                            <span style="color: red;" >Add Figure HERE</span>
+                        </p>
+                        <p>
+                            <img src="img/ast_stage2.png">
                         </p>
                         <p>
                             Observe that each node now needs to store distinguishing information like:
