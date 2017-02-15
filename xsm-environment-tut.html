@@ -140,13 +140,13 @@
   					</p>
 					<p>
 						However, the header must be written into the first eight words of the target file before writing out the instructions. You must reserve the first eight words of the executable file for the header before writing code into the file. Now, set the entry point field to the first instruction to be executed. If the code is written immedietely after the header, the first instruction will be loaded to memory address 2056 and 2057 (see <a href="abi.html#nav-virtual-address-space-model" target="_blank">memory model</a>). Hence, you must set the header as:<br>
-						<div class="syntax"> fprintf(target_file, " %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ",0,2056,256,0,0,0,0,0); </div> 
+						<div class="syntax"> fprintf(target_file, " %d\n %d\n %d\n %d\n %d\n %d\n %d\n %d\n ",0,2056,0,0,0,0,0,0); </div> 
 					</p>
 					<p>
 						<script src="js/a244076527f1f9daae58794006b3461a.js"></script>
 					</p>
 					<p>
-						The above code essentially sets the first field – magic number - to  0, the second field - entry point - to 2056, the third field – text size to 256 and other fields to 0. The text size fields tell the OS that only one memory page need be allocated for storing the code. (The present program requires just 14 memory words <b>[Why?]</b> – but still the minimum allocation possible is one page = 512 words).
+						The above code essentially sets the first field – magic number - to  0, the second field - entry point - to 2056 and other fields to 0.
 					</p>
 					<p>
 						Now, to run the executable file, you must use the XSM simulator. The simulator usage commands are specified <a href="xsmusagespec.html" target="_blank">here</a>. You must read the above link before proceeding further.
@@ -329,11 +329,8 @@
 							<li id="otis">2. Type "./xsm -e < path to target_file.xsm> "</li>
 						</ul>
 					</p>
-					<p style="color: red;">
+					<p>
 						You can see that the value 5 is printed on the console along with the error.
-						Show output.  There will be an exception error because exit was done SHOW THE OUTPUT HERE.
-						/*        upto this   */
-
 					</p>
 					<p>
 						Observe that the simulator flagged an error after the last statement was executed. This happened because after executing the last valid instruction in the program, the simulator had no idea that the program had ended and hence tried to fetch from memory the next instruction. However, since there is no valid insturction in that memory location, the machine raises an exception [see LINK for exceptions of XSM] and control was transfered to an exception handler routine of the OS kernel. Typically, in a multitasking environment, the OS will terminate the program, reclaim resources allocated to it an schedule some other process.
