@@ -450,7 +450,7 @@
                             if (a+b) then Write(c);<br>  
                             </div>
                             or 
-                            <div>
+                            <div class="syntax">
                             a = b<c;<br>
                             </div>
 are <b>invalid</b>. Your compiler must flag a "<i>type mismatch</i>" error if such constructs are encountered during the AST construction process. A program with type errors must not pass the compiler's type check scrutinty and the compiler must report error without generating code if the program has type errors.   Type analysis is a part of the responsibilities of a compiler (normally classified under <a href="https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)" target="_blank">semantic analysis</a>).   
@@ -468,7 +468,7 @@ For example, consider the AST for the following erratic expression.
 Here, the root of AST is an assignment node which is <b>typeless</b>. (statements have no type, only expressions have a type associated with them).   The left subtree of the root is a variable, and hence has type integer.  The right subtree is a  +  node of type integer.  Hence, at the root, there is no type mismatch.  However, the right child of the right subtree has type boolean and does not match the operand type for the + operator.  Hence  the compiler must terminate compilation flagging error "type mismatch".  Note that the compiler can stop processing when the first error is encountered without proceeding further with the tree construction.  
 
 To implement type checking, add a type field in the AST node structure.  
-<div class="syntax" 
+<div class="syntax">
 #define inttype 1
 #define booltype 0  
 
