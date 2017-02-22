@@ -461,7 +461,7 @@
                                 d = ( a + b ) + ( c &lt; 3 )
                             </div>  
                             <p>
-                                //FIGURE NEED TO BE ADDED
+                               <img src="img/ast3.png">
                             </p>
                         </p>
                         <p>
@@ -470,17 +470,6 @@
                         <p>
                             To implement type checking, add a nodetype field in the AST node structure.  
                             <script src="js/09129e56138b0207d595eaefbf2873cd.js"></script>
-<!--                             <div class="syntax">
-                                #define inttype 1
-                                #define booltype 0  
-
-                                struct node { 
-
-                                 ---
-                                  int type;
-                                 ---
-                                }  
-                            </div> -->
 							Now for leaf nodes of the tree, since you have either constants or variables, the type must be set to integer. Next, while constructing the tree for intermediate nodes, check whether the types of the children are compatible with the operator at the root. For instance, for the addition operation, the check could be as the following:
 							<div class="syntax"> 
 							E :== E+E {<br>       
@@ -536,8 +525,9 @@
 						</p>
 						<p>
 							The expression tree for the above statement would look like:
-
-							// Give picture here //
+                        </p>
+                        <p>
+                            <img src="img/ast31.png">
 						</p>
 						<p>
 							Suppose variable a is bound to address 4096, b to address 4097, then our plan is to generate code that would look like the following:
