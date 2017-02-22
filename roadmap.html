@@ -83,6 +83,7 @@
                         <p>
                             With this, you are ready with all the required pre-requisites to proceed further in this roadmap.
                         </p>
+                            <div class="up column3 mright"> <a href="#navtop" class="ir">Go up</a> </div>
                     </article>
                     <article class="grid col-full" id="nav-stage1">
                         <h2>Stage 1 : Code generation for Arithmetic Expressions</h2>
@@ -289,7 +290,9 @@
                         <p>
                             <b>Note:</b> Here we assumed that machine registers never get exhausted. XSM provides 20 general purpose registers and these registers are sufficient for all practial purposes.  However, if all registers are exhausted, then space will have to be allocated in memory.  We will not address this contingency in this roadmap. If register pool is exhausted, your compiler may stop compilation and flag "Out of registers"  error.  
                         </p>
-                        <hr>
+                        <div class="up column3 mright">
+                            <a href="#navtop">  &#x2191; </a>
+                        </div>
                     </article>
                     <article class="grid col-full" id="nav-stage2">
                         <h2>Stage 2. Introduction to static storage allocation</h2>
@@ -399,6 +402,9 @@
                         <p>  
                             <b>Note</b> : The compiler generates target code which must be executed by the target machine. In our case, the compiler you wrote as Task 2 actually is a <b>cross compiler</b>. This means that your compiler generated target code that is not for your host system, but on some other target platform – which in our case the simulated XSM machine. The evaluator done in Exercise 1 actually does not generate "code" for any machine. Instead, it executes the program in "then and there". Such a program could be classified as an <b>interpreter</b>. (Unfortunately, the standard terminology in literature associated with the term "interpreter" seems to be contradictory to this classification).
                         </p>
+                        <div class="up column3 mright">
+                            <a href="#navtop">  &#x2191; </a>
+                        </div>
                     </article>
                     <article class="grid col-full" id="nav-stage3">
                         <h2>Stage 3:  Adding Flow Control Statements</h2>  
@@ -586,6 +592,9 @@
 						<p>
 							<b>Exercise</b> : Add <i>repeat-until</i> and <i>do-while</i> statements to the language with standard semantics.
                         </p>
+                        <div class="up column3 mright">
+                            <a href="#navtop">  &#x2191; </a>
+                        </div>
                         <hr>
                     </article>
                 </div>
