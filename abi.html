@@ -70,13 +70,13 @@
                         The virtual machine model provided to user level programs by the ExpOS on the  machine is described here. The virtual machine model explains the "view" of the machine provided to the application by the operating system.  
                     </p>
                     <p>
-                        The XSM virtual machine contains 20 general purpose registers (R0-R19) and three special regisers - Stack pointer (SP), Base pointer (BP) and the Instruction pointer (IP).  The SP register is normally used to point to the top of the application program's stack.  The BP register is used to point to the base of the activation record of the currently executing function.  IP points to the next instruction in the user memory to be fetched and executed.  The memory address space available to the application is of 5120 words starting at (virtual) address 0 and ending at virtual address 5119.
+                        The XSM virtual machine contains 20 general purpose registers (R0-R19) and three special registers - Stack pointer (SP), Base pointer (BP) and the Instruction pointer (IP).  The SP register is normally used to point to the top of the application program's stack.  The BP register is used to point to the base of the activation record of the currently executing function.  IP points to the next instruction in the user memory to be fetched and executed.  The memory address space available to the application is of 5120 words starting at (virtual) address 0 and ending at (virtual) address 5119.
                     </p>
                     <p> 
                         The OS stipulates that this virtual address space must be divided into various regions called library, code, heap and stack. These will be described in detail later. The virtual machine model also allows the application to invoke traps to the operating system kernel for read, write and program termination (using the INT instruction).  The details of the implementation of the kernel routines are hidden from the application and the application needs to know only the interface to invoke these routines.  These interfaces will also be described later in this documentation.
                     </p>
                     <p>
-                        The following figure gives a high level picture of the XSM virtual machine model.   
+                        The following figure gives a high level picture of the XSM virtual machine model.<br>   
                         //PICTURE NEED TO BE ADDED
                     </p>  
 
