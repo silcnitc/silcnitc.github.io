@@ -46,7 +46,6 @@
                 <div class="grid-wrap" id="nav-pre-requisites">
                     <article class="grid col-full">
 	                    <p>                    	
-							A Tutorial on program execution.<br>
 							<b>Pre-requisite reading:</b>
 							<ul>
 								<li id="otis">1.  A rigorous reading of <a href="abi.html#nav-virtual-address-space-model" target="_blank">XSM virtual machine model</a>.</li>
@@ -76,7 +75,7 @@
   						<ul>
   							<li id="otis">1. The script that runs the simulator transfers the file from your local machine's disk to the XSM machine's (simulated) hard disk.</li>
   							<li id="otis">2. It then boots up the operating system (the OS is already preloaded in the simulator's hard disk). The bootstrap loader starts in the kernel mode and sets up a user process in memory, allocating an address space.  Then, it transfers the execute file from the hard disk to the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> code region</a> of this memory. Page tables are also set up to run the process in user mode[LINK].</li>
-  							<li id="otis">3. Finally, the simulator sets the instruction pointer (IP) to the address specified in the entry-point field of the header of the executable file and control transfers to this instruction, resulting in execution of the loaded program starting with the instruction specified by the entry point. The machine also switches from the kernel mode to the user mode. (Technically, the OS code pushes the entry point address on to the program's stack and executes the IRET instruction[LINK] resulting in transfer of control in user mode to the 	specified memory address. These details are not relevant for your work and are noted just for the sake of information.)</li>
+  							<li id="otis">3. Finally, the simulator sets the instruction pointer (IP) to the address specified in the entry-point field of the header of the executable file and control transfers to this instruction, resulting in execution of the loaded program starting with the instruction specified by the entry point. The machine also switches from the kernel mode to the user mode. (Technically, the OS code pushes the entry point address on to the program's stack and executes the <a href="http://exposnitc.github.io/arch_spec-files/instruction_set.html" target="_blank">IRET instruction</a> resulting in transfer of control in user mode to the specified memory address. These details are not relevant for your work and are noted just for the sake of information.)</li>
   						</ul>
   					</p>
   					<p>
@@ -86,10 +85,7 @@
   				</article>
                 <article class="grid col-full">
 	                <p id="nav-experiment1">
-	                	<b>Experiment I</b> : Using Registers.<br>
-	                </p>
-	                <p>
-	                	<b>Excercise 1</b> : Adding two numbers.
+	                	<b>Experiment I</b> :  Adding two numbers using registers.<br>
 	                </p>
 	                <p>
 	                	As noted above, executable programs must be designed in such a way that it must be possible for the file to be loaded and executed by the underlying operating system. When a program is loaded into memory for execution by the OS, the OS typically assigns a virtual address space (or simply an address space). In the present case, the address space of a program starts at address 0 of the memory and ends at address 5119. This means that while designing the target program, you may assume that this is the total computer memory accessible to the program when it executes.
@@ -110,7 +106,7 @@
    						One important field of the header is its second entry – the entry point. The loader initializes the <b>Instruction Pointer (IP)</b> register of the XSM machine to this value. Thus, if entry point is 2064, the simulator the XSM machine simulator will start program execution by fetching the instruction stored at this address. The ABI stipulates that the value of the first field called the <b>magic number</b> must be set to zero. The setting of other fields in the header are not relevant for this experiment.
    					</p>
     				<p>
-    					<b>Note</b>:  When the program is actually loaded for execution by the OS, the physical addresses in the actual memory to which the executable program is loaded will be different from the virtual addresses set by the compiler. Such relocation requires architecture support. In the XSM machine, the support is through paging. However address translation is a concern of the OS, not of the compiler. Hence we will not pursue this matter here. However, for those interested, details on XSM paging scheme is given HERE[LINK].
+    					<b>Note</b>:  When the program is actually loaded for execution by the OS, the physical addresses in the actual memory to which the executable program is loaded will be different from the virtual addresses set by the compiler. Such relocation requires architecture support. In the XSM machine, the support is through paging. However address translation is a concern of the OS, not of the compiler. Hence we will not pursue this matter here. However, for those interested, details on XSM paging scheme is given <a href="http://exposnitc.github.io/arch_spec-files/paging_hardware.html" target="_blank">HERE</a>.
     				</p>
   					<p>
   						With this, we complete the background needed to complete the present experiment.  We now proceed to the implementation.
