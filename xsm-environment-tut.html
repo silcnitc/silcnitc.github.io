@@ -343,43 +343,43 @@
 						The exit system call routine of the XSM simulator given to you will print a message indicating successful program execution and terminate the simulation.  
 					</p>
 					<p>
-						<b>Exercise 4</b> : Follow the instructions in the low level system call interface of the ABI to invoke the exit system call after the console output in your previous program.  
+						<b>Exercise 3</b> : Follow the instructions in the low level system call interface of the ABI to invoke the <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank">exit system call</a> after the console output in your previous program.  
 					</p>
 					<p>
-						<b>Exercise 5</b> : Write an XSM assembly language program to read three numbers from the console and print the largest. (Invoke the read system call for console input.)
+						<b>Exercise 4</b> : Write an XSM assembly language program to read three numbers from the console and print the largest. (Invoke the read system call for console input.)
 					</p>
 					<p>
-						<b>Exercise 6</b> : Write an XSM assembly language program to read numbers until a zero is entered and print their sum.
+						<b>Exercise 5</b> : Write an XSM assembly language program to read numbers until a zero is entered and print their sum.
 					</p>
 					<p>
-						<b>Important Note</b> :  Exercises 5 and 6 essentially ask you to handle conditional and iterative constructs in assembly language. These exercises give insight into how machine code must be genrated for <b>if-then-else and while-do</b> constructs of programming languages.     
+						<b>Important Note</b> :  Exercises 4 and 5 essentially ask you to handle conditional and iterative constructs in assembly language. These exercises give insight into how machine code must be genrated for <b>if-then-else </b> and <b>while-do</b> constructs of programming languages.     
 					</p>
 					<hr>
 				</article>
 				<article class="grid col-full">
 	                <p id="nav-experiment3">
-						<b>Experiment III</b> : Understanding the Library Interface
+						<b>Experiment III</b> : <b>Understanding the Library Interface</b>
 					</p>
 					<p>
 						<b>Prerequisite Reading</b> : Read and understand the <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank">library interface</a>.
 					</p>
 					<p>
-						In this experiment, you will learn how to implement the library interface stipulated in the ABI for supporting read, write and exit system calls.  
+						In this experiment, you will learn how to implement the library interface stipulated in the ABI for supporting <b>read, write and exit system calls</b>.  
 					</p>
 					<p>
 						The  <a href="abi.html#nav-virtual-address-space-model" target="_blank">memory address space model</a> of a program reserves the first 1024 words of the address space of a program to load a library. Here we explain the purpose of the library.
 					</p>
 					<p>
-						If we consider C programs, almost every program uses the routines in the library stdio.h. Since in a computer system, several application programs will be running concurrently, it is a good idea to have the code for stdio.h loaded once at bootstrap time into some region of the physical memory and link this memory to the address space of each program's standard library region at load time. This code will be designed once and shared between all applications.  
+						If we consider C programs, almost every program uses the routines in the library <i>stdio.h</i>. Since in a computer system, several application programs will be running concurrently, it is a good idea to have the code for <i>stdio.h</i> loaded once at bootstrap time into some region of the physical memory and link this memory to the address space of each program's standard library region at load time. This code will be designed once and shared between all applications.  
 					</p>
 					<p>
-						The ABI specifies that the ExpOS library for XSM machine must be linked to address 0 to 1024. The XSM simulator given to you will load the contents of the file library.lib to the addresses 0 - 1024 of your program. The ABI stipulates that the library must support functions for read, write and exit. (The library also must contain functions Alloc, Free and Initialize which will not be discussed here.)
+						The ABI specifies that the ExpOS library for the XSM machine must be linked to address 0 to 1024. The XSM simulator given to you will load the contents of the file <i>library.lib</i> to the addresses 0 - 1024 of your program. The ABI stipulates that the library must support functions for read, write and exit. (The library also must contain functions Alloc, Free and Initialize which will not be discussed here.)
 					</p>
 					<p>
 						To access any library function, an application must transfer control to the code at memory address 0 using the instruction <b>CALL</b>. This is the first memory address in the library region. The arguments to the call specify which library function is being invoked. The library interface is specified <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank">here</a>.    
 					</p>
 					<p>
-						An application program can execute read, write and exit functions through the library. This means that once the library is implemented, application programs can invoke call the library to perform read, write and exit operations by passing appropriate function identifying code and arguments. Internally, the library contains code that  calls the system call.  
+						An application program can execute read, write and exit functions through the library. This means that once the library is implemented, application programs can call the library (CALL 0) to perform read, write and exit operations by passing appropriate function code and arguments. Internally, the library contains code that traps to the Os kernel.
 					</p>
 					<p>
 						One might naturally raise the question – why should we route the system calls through the library than call them directly as was done so far. There are several advantages in using the library. At a later time, if the interrupt number for an OS service – say write – gets modified, only the library needs to be replaced. The compiler need not be modified, nor application programs need re-compilation. Thus, the library provides an abstraction that hides low level details from the compiler and the application.
@@ -389,7 +389,7 @@
 							In this experiment, we implement the program of Experiment II using the library.  
 					</p>
                     <p>
-                        To print the contents of memory location 4096 into the console, we need to:
+                        Recall that to print the contents of memory location 4096 into the console, we need to:
                         <ul>
                             <li id="otis">1. Push the address 4096 into the stack along with other arguments to the system call.</li>
                             <li id="otis">2. Invoke the write system call using the INT instruction specifying the appropriate interrupt number.</li>
@@ -397,15 +397,14 @@
                         The step 1 will remain same as in the above experiment. We will implement step 2 using library interface.
                     </p>
                     <p>
-                        The following example shows sample code that must be added to the program written in Experiment I to output the contents of the location 4096.
+                        The following example shows sample code that must be added to the program written in Experiment I to output the contents of the location 4096 using the library.
                     </p>
-
                     <p>
                         Store the value of the R0 in the memory location 4096.
                         <div class="syntax">MOV [4096], R0</div>
                     </p>
                     <p>
-                        The XSM machine increments SP immedietely before a PUSH operation by XSM machine and hence the first PUSH operation will be storing data to address 4097 (and hence will not destroy the data in address 4096).  
+                        The XSM machine increments SP immediately before a PUSH operation. Hence the first PUSH operation will be storing data to address 4097 (and thus will not destroy the data in address 4096).  
                         <div class="syntax">MOV SP, 4096</div>
                     </p>
                     <p>
@@ -417,7 +416,7 @@
                         </div>
                     </p>
                     <p>
-                        <b>Argument 1</b> :  value -2
+                        <b>Argument 1</b> :  value -2 (see <a href="http://silcnitc.github.io/abi.html#nav-eXpOS-system-library-interface" target="_blank">ABI</a> for specification)
                         <div class="syntax">
                             MOV R2, -2<br>
                             PUSH R2
@@ -443,7 +442,7 @@
                         </div>
                     </p>
                     <p>
-                        The main difference between system call interface and library interface come at this instruction. In case system call interface we call interrupt that is specific to the action required (INT 7 for Write, INT 6 for Read etc.,) but in case of system call interface we will always use <b>CALL 0</b> only because this is the starting address of the library (Remeber that library file is loaded in the memory addresses 0 - 1024.). The particular action required can be distinguished in this case with the help of function code passed. In this case "Write" is passed as function code and in case of read, "Read" is passed and so on.
+                        The main difference between the system call interface and the library interface come at the next instruction. If we were using the system call interface,  we would have called the interrupt for write (INT 7).   Here instead, we will always use <b>CALL 0</b> to transfer control to the library. (Remember that library file is loaded in the memory addresses 0 - 1024.). The library understands that the action requested is a write operation by looking at the function code passed as argument (in this case "Write"). If the action requested is a read operation, then "Read" is passed, and so on.
                         <div class="syntax">
                             CALL 0
                         </div>
