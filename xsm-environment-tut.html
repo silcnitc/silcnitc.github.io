@@ -516,9 +516,9 @@
                                 /* pushing arguments and space for return value for system call */<br>
                                 MOV R5, 5       //System call number 5 for Write<br>
                                 PUSH R5<br>
-                                PUSH R4         //since [SP - 4] = -2<br>
-                                PUSH R2         //since [SP - 3] = 4096<br>
-                                PUSH R3         //since [SP - 2] = blank<br>
+                                PUSH R4         //R4 contains [SP - 4] = -2<br>
+                                PUSH R2         //R2 contains [SP - 3] = 4096<br>
+                                PUSH R3         //R3 contains [SP - 2] = blank<br>
                                 PUSH R5         // space for return value<br>
                                 <br>
                                 /* trap instruction */<br>
@@ -531,13 +531,13 @@
                                 POP R2          //Pop and discard<br>
                                 POP R2          //Pop and discard<br>
                             </div><br>
-                            The return value obtained need to stored in the space pushed by the user program in the stack.
+                            The return value of the library is the same as the return value of the system call.  Hence the library must copy the return value of the system call back to the application as its own return value through the stack.  
                             <div class="syntax">
                                 /* Storing the return value on the top of the stack */<br>
                                 MOV R2, SP<br>
                                 MOV R3, 1<br>
                                 SUB R2, R3<br>
-                                MOV [R2], R1<br>
+                                MOV [R2], R1<br> // [SP - 1] = R1 (Return value was popped to R1 earlier)
                                 RET
                             </div>
                     </p>
@@ -549,12 +549,12 @@
 						/*  Complete this stage in the same lines at Experiment I and Experiment II */  
 					</p> -->
 					<p>
-						<b>Exercise 7</b> : Implement read() and exit() functions of the library.  
+						<b>Exercise 6</b> : Implement read() and exit() functions of the library.  
 					</p>
 					<p>
-						<b>Exercise 8</b> : Modify the program to read three numbers from the console and print the largest to perform I/O using the library interface.   
+						<b>Exercise 7</b> : Modify the program to read three numbers from the console and print the largest to perform I/O using the library interface.   
 					</p>
 					<p>
-						<b>Exercise 9</b> : Modify language program to read numbers until a zero is entered from the console and print their sum to perform I/O using the library interface.  
+						<b>Exercise 8</b> : Modify the program to read numbers until a zero is entered from the console and print their sum to perform I/O using the library interface.  
 					</p>
 				</article>
