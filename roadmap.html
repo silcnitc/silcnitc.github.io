@@ -98,12 +98,13 @@
                             <b>Learning Objectives</b>:<br/>
                             <p>In this stage, you will:</p>  
                             <ul>
-                            <li id="otis">1.  Parse an input  arithmetic expression and create and expression tree using YACC and LEX.</li>
-                            <li id="otis">2.  Recursively traverse the tree and generate assembly language code.  You learn to solve the <i>register allocation problem</i> enroute.</li>
+                                <li id="otis">1.  Parse an input  arithmetic expression and create an expression tree using YACC and LEX.</li>
+                                <li id="otis">2.  Recursively traverse the tree and generate assembly language code.  You learn to solve the <i>register allocation problem</i> enroute.</li>
                             </ul>
+                            <hr>
                         </p>
                         <p>
-                            The strategy of the roadmap is to help you build the compiler in stages.  We start here by building a compiler for simple arithmetic expressions. In subsequent stages, we will add more features of the language by one, learning the relevant theoretical concepts along the way. 
+                            The strategy of the roadmap is to help you build the compiler in stages.  We start here by building a compiler for simple arithmetic expressions. In subsequent stages, we will add features of the language one by one, learning the relevant theoretical concepts along the way. 
                         </p>
                         <p>
                             In this stage, you will implement a very simple compiler that can take an arithmetic expression as input (from some input file)  and generate a target executable file containing XSM instructions to evaluate the expression and output the result.  
@@ -122,13 +123,13 @@
                             The lexer must pack the attribute into a tree node of the following structure:
                            <div class="syntax">         
                             typedef struct tnode{<br>
-                            &emsp;char *op;           //indicates the name of the opertor for a non leaf node<br>
+                            &emsp;int val;
+                            &emsp;char *op;           //indicates the name of the operator for a non leaf node<br>
                             &emsp;struct tnode *left,*right;      //left and right branches<br>
                             }tnode;<br>
                             <br>
                             #define YYSTYPE tnode*
                             </div>
-                      <!--       Specifiy YYSTACK type:  /* Give  tree node definition just sufficient for this purpose, explaining why each field is required */ -->   
                             Since the semantics actions in the parser must build the tree, the following function must be written:
                             <div class="syntax">
                             /*Make a leaf tnode and set the value of val field*/<br/>
@@ -137,7 +138,6 @@
                             /*Make a tnode with operator, left and right branches set*/<br/>
                             struct tnode* makeOperatorNode(char op,struct tnode *l,struct tnode *r);
                             </div>  
-                            <!-- TreeCreate(...)  function to create tree – Again, just enough for the purpose, explaining arguments.   -->
                         </p>
                         <p>
                             <b>Task 1</b>:  Build the expression tree for the given input.<br>
@@ -154,15 +154,15 @@
                         <p>
                             To do this, one needs to know the following:<br>
                             <ul>
-                                <li id="otis">1. The machine model and the <a href="abi.html#nav-XSM-instruction-set" target="_blank">instruction set</a> of the target machine.</li>
+                                <li id="otis">1. The <a href="abi.html#nav-XSM-instruction-set" target="_blank">machine model and the instruction set</a> of the target machine.</li>
                                 
                                 <li id="otis">2. Format of the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> executable file</a>.</li>
                                 
-                                <li id="otis">3. You need to know the address in the memory (in the target machine) where each instruction you generate will be loaded (by the OS loader). This is because program control instructions like JMP, CALL etc.,  requires specification of the jump address. <br>
+                                <li id="otis">3. You need to know the address in the memory (in the target machine) where each instruction you generate will be loaded (by the OS loader). This is because program control instructions like JMP, CALL etc.,  requires specification of the jump address. <br><br>
                                 
                                 As already outlined in the <a href="xsm-environment-tut.html" target="_blank"> XSM run time environment tutorial</a>, the header will be loaded into addresses 2048-2055. The first instruction generated by you will be loaded to the address 2056. Each XSM instruction occupies 2 memory words. Hence, the next instruction will be loaded at address 2058 and so on. The entry point field of the header must contain the address of the first instruction to be fetched and executed.</li>
 
-                                <li id="otis">4. You need fix the memory addresses where variables and other data is stored. For example, for each variable in the program, the compiler will have to allocate storage space in memory. The ABI stipulates that the region for this is the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> stack region</a>. Thus each variable must be stored in some address between 4096 and 5119.</li>
+                                <li id="otis">4. You need to fix the memory addresses where variables and other data is stored. For example, for each variable in the program, the compiler will have to allocate storage space in memory. The ABI stipulates that the region for this is the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> stack region</a>. Thus each variable must be stored in some address between 4096 and 5119.</li>
 
                                 <li id="otis">5. Since XSM machine stipulates that arithmetic and logic instructions can be done only when operands are loaded into machine registers, we need to load the contents of variables/constants in the program into the machine registers before processing them. This brings in the problem of register allocation. The XSM machine makes available 20 registers (R0-R19) for the compiler.</li>   
                             </ul>
@@ -202,10 +202,10 @@
                             <img src="img/tree2.png">
                         </p>
                         <p>
-                            Of course, we can “hand craft” this case also.  But the strategy will not generalize. The basic issue is that your compiler does not know the input expression before-hand.  Technically speaking, the issue is that the “expression is not available at <b>compile time</b>, but only known at <b>run time</b>”. Your code generation module must be more <i>“intelligent”</i> to handle <i>arbitrary expressions</i>.  
+                            Of course, we can “hand craft” this case also.  But the strategy will not generalize. The basic issue is that your compiler does not know the input expression before-hand.  Technically speaking, the issue is that the “expression is not available at <b>compile time</b>, but only known at <b>run time</b>”. Your code generation module must be more <i>"intelligent"</i> to handle <i>arbitrary expressions</i>.  
                         </p>
                         <p>
-                            The root of the problem in the code above is that R0 and R1 has been picked by you and not your compiler.Thus, we must have a <b>register allocation policy</b> (basically a function) that returns a free register whenever we require one. That is, you must design the following functions:
+                            The root of the problem with the above code is that R0 and R1 were picked by you and not by your compiler. Thus, we must have a <b>register allocation policy</b> (basically a function) that returns a free register whenever we require one. That is, you must design the following functions:
                         </p>
                         <div class="syntax">
                             int getReg()   //  Allocate a free registers
@@ -218,7 +218,7 @@
                         <div class="syntax">
                             int p = getReg();<br>
                             int q = getReg();<br>    
-                            fprintf( target file, “MOV R%d, 3”, p);<br>
+                            fprintf(target_file, “MOV R%d, 3”, p);<br>
                             fprintf(target_ file, “MOV R%d, 2”, q);<br>
                             fprintf(target_file, “ADD R%d, R%d,”, p,q);<br>
                         </div>
@@ -236,7 +236,7 @@
                         </div>
                         
                         <p>
-                            To make the allocation  strategy simple,  we suggest that you  generate target code in such a way that  <i>the result of a CPU instruction involving two registers</i> will be always stored in the register with lower index. The above code, for example, stores result of the above computation is kept in R0 and not R1 so that the register with the higher index value can be released. As a consequence, the freeReg() function does not require any arguments.  Instead, freeReg() and getReg() can be designed to keep track of the highest numbered register allocated so far and hence can keep track of the correct register that must be allocated or freed.   
+                            To make the allocation  strategy simple,  we suggest that you  generate target code in such a way that  <i>the result of a CPU instruction involving two registers will be always stored in the register with lower index</i>. In the code above the result of the computation is kept in R0 and not R1 so that the register with the higher index value can be released. As a consequence, the freeReg() function does not require any arguments. Instead, freeReg() and getReg() can be designed to keep track of the highest numbered register allocated so far and hence can keep track of the correct register that must be allocated or freed.   
                         </p>
                         <p>
                             The following summarizes the register allocation strategy:
@@ -252,7 +252,7 @@
                         </p>
 
                         <div class="syntax">
-                            1.  At the leaf nodes of the tree (corresponding to a NUM),  Allocate a new register and store the number to the register.<br>
+                            1.  At the leaf nodes of the tree (corresponding to a NUM),  Allocate a new register and store the number &emsp;to the register.<br>
                             2.  At the intermediete nodes :<br>
                             &emsp;a.  Generate code for the left subtree (recursively). Find out the register holding the result.<br>
                             &emsp;b.  Evaluate the right subtree (recursively). Find out the register holding the result.<br>
@@ -261,21 +261,21 @@
                         </div>
 
                         <p>
-                            In the above box, as step 2.a and 2.b requires finding the index of the register which stores the result of expression evaluation. The simplest strategy is to design a codeGen() function that can take as input an expression tree and generates code for the expression, <i>returning the index of the register storing the result</i> :  
+                            In the above box, as step 2.a and 2.b requires finding the index of the register which stores the result of expression evaluation. The simplest strategy is to <b>design a codeGen() function that can take as input an expression tree and generates code for the expression, returning the index of the register storing the result</b>:  
                         </p>
                         <div class="syntax">
                             #define reg_index int;<br>  
                             reg_index codeGen( struct node *t) {<br>
                             &emsp;..<br>
                             &emsp;..<br>
-                            &emsp;return [result-regIndex]<br>   
+                            &emsp;return register number storing result<br>   
                             }
                         </div>
                         <p>
                             The codeGen() function takes as input a pointer to the root of an expression tree and generates code for the subtree rooted at that node. After generating code, the function must return the index of the register storing the result. See this <a href="codegen.html" target="_blank">link</a> for furthur details.
                         </p>
                         <p>
-                            <b>Task 2</b>: Complete the simple compiler for expression evaluation and generate the executable file. The result of expression evaluation may be stored in the first location of the stack region – memory address 4096.  Note that the XEXE executable format must be adhered so that the XSM simulator can load and execute the file.   
+                            <b>Task 2</b>: Complete the simple compiler for expression evaluation and generate the executable file. The result of expression evaluation may be stored in the first location of the stack region – memory address 4096. This value may be printed out using the write system call. Note that the XEXE executable format must be adhered so that the XSM simulator can load and execute the file.   
                         </p>
                         <p>
                             <b>Note</b>:  To run the simulator, you must prepare the library.lib together with the XEXE executable file.  Please follow instructions in the <a href="xsm-environment-tut.html" target="_blank">XSM environment tutorial</a>.
