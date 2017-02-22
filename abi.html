@@ -52,20 +52,34 @@
                         The ExpL compiler needs to translate a given source program and generate the <b>target machine code</b> into an <b>executable file</b> in a format which is recognized by the load module of the target operating system. Thus, in order to generate the executable, the following information needs to be made available to the compiler :
                     </p>
                     <ol>
-                        <li>The <b>machine instruction set</b> of the target machine.</li>
+                        <li>The <b>virtual machine model</b> and the <b>instruction set</b> of the target machine.</li>
                         <li>The (virtual) <b>address space</b> model available for the target program. Conventionally, this address space is logically divided into regions like <b>code, data, stack, heap</b> etc.</li>
                         <li>The format for the target file (<b>executable format</b>). The compiler typically passes information regarding the sizes and address regions allocated to the code, data, stack, text and heap regions to the loader by setting appropriate values in the <b>header</b> of the executable file.</li>
-                        <li>Interfaces for OS routines that needs to be invoked to get certain operations like input/output done. This is specified in <a href="#nav-eXpOS-system-library-interface">the library interface</a> documentation.</li>
+                        <li><b>Interfaces to OS (kernel) routines</b> that needs to be invoked to get certain operations like input/output done. This is specified in <a href="#nav-eXpOS-system-library-interface">the library interface</a> documentation.</li>
                     </ol>
                     <p>
-                        These specifications depend not only on the target machine architecture, but also on the operating system upon which the target machine code must execute. Typically these specifications are collected together in the OS specification into a document called the Application Binary Interface (ABI).
+                        <b>These specifications depend not only on the target machine architecture, but also on the operating system</b> upon which the target machine code must execute. Typically these specifications are collected together in the OS specification into a document called the Application Binary Interface (ABI).
                     </p>
                     <p>
                         The following sections specify the ABI for the <a href="http://exposnitc.github.io/">eXpOS operating system</a> run on the <a href="http://exposnitc.github.io/virtual_machine_spec.html">XSM virtual machine model</a>. The executable format is called the XEXE executable format.
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-XSM-instruction-set">
-                    <h2> The XSM virtual machine instruction set</h2>
+                    <h2> The XSM virtual machine model and instruction set</h2>
+                    <p>
+                        The virtual machine model provided to user level programs by the ExpOS on the  machine is described here. The virtual machine model explains the "view" of the machine provided to the application by the operating system.  
+                    </p>
+                    <p>
+                        The XSM virtual machine contains 20 general purpose registers (R0-R19) and three special regisers - Stack pointer (SP), Base pointer (BP) and the Instruction pointer (IP).  The SP register is normally used to point to the top of the application program's stack.  The BP register is used to point to the base of the activation record of the currently executing function.  IP points to the next instruction in the user memory to be fetched and executed.  The memory address space available to the application is of 5120 words starting at (virtual) address 0 and ending at virtual address 5119.
+                    </p>
+                    <p> 
+                        The OS stipulates that this virtual address space must be divided into various regions called library, code, heap and stack. These will be described in detail later. The virtual machine model also allows the application to invoke traps to the operating system kernel for read, write and program termination (using the INT instruction).  The details of the implementation of the kernel routines are hidden from the application and the application needs to know only the interface to invoke these routines.  These interfaces will also be described later in this documentation.
+                    </p>
+                    <p>
+                        The following figure gives a high level picture of the XSM virtual machine model.   
+                        //PICTURE NEED TO BE ADDED
+                    </p>  
+
                     <p>
                         The XSM virtual machine instruction set specifies the set of assembly level instructions.  The compiler must translate the source ExpL program to a target program containing only these instructions.  The assembly instructions allowed include Data Transfer Instructions, Arithmetic Instructions, Logical Instructions, Stack Instructions, Sub-routine instructions, Debug instructions and Software interrupts. The machine registers available to the target program are R0-R19, SP, BP and IP.
                     </p>
