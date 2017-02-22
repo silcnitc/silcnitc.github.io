@@ -454,12 +454,12 @@
 					</p>
 
                     <p>
-                        The above sequence of instructions will invoke the write system call from the library. Upon successful write operation, the value 0 will be returned to the calling program through the stack. We assume here that the call will be successful.
+                        The above sequence of instructions will invoke the write system call from the library. Upon successful write operation, the library must retuen value 0 to the calling program through the stack. We assume here that the call will be successful.
                     </p>
                     <p>                 
                         Now upon exit from the call :
                         <ul>
-                            <li id="otis">1. The return value may be retrievied if required.</li>
+                            <li id="otis">1. The return value may be retrieved if required.</li>
                             <li id="otis">2. The stack must be set back to the state before the call as stipulated in the ABI.  This is necessary to avoid loss of stack space after each call.</li>
                         </ul>
                     </p>
@@ -471,7 +471,7 @@
                         POP R1 // Pop and discard the argument3<br>
                         POP R1 // Pop and discard the argument2<br>
                         POP R1 // Pop and discard the argument1<br>
-                        POP R1 // Pop out all – stack must come back to state before the call.<br>
+                        POP R1 // Pop out the function code.<br>
                         </div>
                     </p>
                     <p>
@@ -488,7 +488,7 @@
                         Since every call to the library points IP to 0 address, we need to have logic to distinguish the type of request at this address. The information regarding the type of request can be found from the function code that is pushed as an argument on the stack. The function code can be obtained from the stack using SP - 5<b>[Why?]</b>.
                     </p>
                     <p>
-                        In this experiment we are dealing only with "Write" system call, so we will have our discussion only specific to it. After recognising the type of request we need to handle the request in the same way we did in the previos experiment using system call interface. The arguments to be passed in the system call interface are system call number(5),-2,buffer to be written (4096) and a blank argument. In case of library interface we already have argument 2 (buffer) and argument 3 (blank) on the stack at SP - 4 and SP - 3 respectively. Hence we need to store these values from the stack into registers and push them as arguments to system call.
+                        In this experiment we are dealing only with "Write" system call, so we will have our discussion only specific to it. After recognising the type of request we need to handle the request in the same way as we did in the previous experiment using system call interface. The arguments to be passed in the system call interface are system call number(5),-2, buffer to be written (address of the buffer is at SP - 3) and a blank argument. The library simply has to copy the arguments 1 to 3 to the system call without any modification.  
                     </p>
                     <p>
                         Get the function code from the stack and compare if it is equal to "Write" and get the arguments from the stack. 
