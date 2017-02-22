@@ -468,8 +468,9 @@
                             Here, the root of AST is an assignment node which is <b>typeless</b>. (statements have no type, only expressions have a type associated with them). The left subtree of the root is a variable, and hence has type integer. The right subtree is a  <b>+</b>  node of type integer. Hence, at the root, there is no type mismatch. However, the right child of the right subtree has type boolean and does not match the operand type for the + operator. Hence the compiler must terminate compilation flagging error "type mismatch". Note that the compiler can stop processing when the first error is encountered without proceeding further with the tree construction.
                         </p>
                         <p>
-                            To implement type checking, add a type field in the AST node structure.  
-                            <div class="syntax">
+                            To implement type checking, add a nodetype field in the AST node structure.  
+                            <script src="js/09129e56138b0207d595eaefbf2873cd.js"></script>
+<!--                             <div class="syntax">
                                 #define inttype 1
                                 #define booltype 0  
 
@@ -479,97 +480,117 @@
                                   int type;
                                  ---
                                 }  
-                            </div>
-Now for leaf nodes of the tree, since you have either constants or variables, the type must be set to integer.   Next, while constructing the tree for intermediate nodes, check whether the types of the children are compatible with the operator at the root.  For instance, for the addition operation, the check could be as the following:
-<div class="syntax" 
-E :== E+E {       if ($1->type != inttype) || ($2->type !== intype) ) {<br>
-                                      error(“type mismatch”); <br>
-                                       exit();  <br>
-                           } else { $$->type = inttype); <br>  
-                   } <br>
-</div>
-  
-if there is no mismatch, you must annotate root node ($$->type) with the proper type (integer in the above case).   
+                            </div> -->
+							Now for leaf nodes of the tree, since you have either constants or variables, the type must be set to integer. Next, while constructing the tree for intermediate nodes, check whether the types of the children are compatible with the operator at the root. For instance, for the addition operation, the check could be as the following:
+							<div class="syntax"> 
+							E :== E+E {<br>       
+							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;if (($1->nodetype != inttype) || ($2->nodetype !== intype)) {<br>
+							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;error("type mismatch"); <br>
+							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;exit();<br>
+							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;} else {<br>
+							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$$->type = inttype); <br>  
+							&emsp;&emsp;&emsp;&emsp;}<br>
+							</div>
+						</p>
+						<p>
+							If there is no mismatch, you must annotate root node ($$->nodetype) with the proper type (integer in the above case).
+						</p>
+						<p>
+							<li id="otis">
+								<b>Note</b>:  The above check is better done inside the TreeCreate() function so that the YACC file is not cluttered with C statements.
+							</li>
+						</p>  
+						<p>
+							The essential idea is that the type of each node can by synthesized from the types of the subtrees. At any stage, the compiler may terminate flagging error if a type error is found.  
+						</p>
+						<p>
+							<b>Task 1</b>:  Complete the front-end module (AST construction) for the programming language. You need to 
+							<ul>
+								<li id="otis">(1) add additional lexical tokens for the new constructs</li>  
+								<li id="otis">(2) make appropriate modifications in the tree node structure including provision for storing type attribute</li>
+								<li id="otis">(3) modify the TreeCreate() function ( ) to have three subtrees passed (for if-then-else) etc.</li>
+							</ul>
+						</p>
+						<p>
+							<b>Exercise 1</b>:  To test the implementation of Task 1, implement an <b>evaluator</b> for the expression tree.  Test with simple programs like those for finding the largest of 3 numbers, sum of n numbers (n read from input) etc.  
+						</p>
+						<p>
+							The next task is to complete the back-end code generation phase.  For better clarity, we will split the task into two steps.  
+						</p>
+						<p>
+							<ul>
+								<li id="otis"><b>Step 1</b>:  Generate code with <b>labels</b>.  At this stage labels will be placed at various control flow points of the target assembly code so that a JMP instruction will only indicate the label corresponding to the instruction to which transfer of program flow must happen.</li>
+								<li id="otis"><b>Step 2</b>:  Replace the labels with addresses.</li>
+							</ul>
+						</p>
+						<p>
+							<b>Important note</b>: You must have read the <a href="label-translation.html" target="_blank">label translation tutorial</a> before proceeding any further.
+						</p>
+						<p>
+							We will now look at Subtask 1. Consider the following statement:
+							<div class="syntax">
+								while (a < b) {<br>
+								&emsp;&emsp;a = a+1 ;<br>
+								}<br>
+							</div>
+						</p>
+						<p>
+							The expression tree for the above statement would look like:
 
-<p><li id="otis"><b>Note</b>:  The above check is better done inside the TreeCreate() function so that the YACC file is not cluttered with C statements.</li></p>  
-
-The essential idea is that the type of each node can by synthesized from the types of the subtrees. At any stage, the compiler may terminate flagging error if a type error is found.  
-
-<p><b>Task 1</b>:  Complete the front-end module (AST construction) for the programming language. You need to 
-(1) add additional lexical tokens for the new constructs  
-(2) make appropriate modifications in the tree node structure including provision for storing type attribute 
-(3) modify the TreeCreate() function ( ) to have three subtrees passed (for if-then-else) etc.  </p>
-
-<p><b>Exercise 1</b>:  To test the implementation of Task 1, implement an <b>evaluator</b> for the expression tree.  Test with simple programs like those for finding the largest of 3 numbers, sum of n numbers (n read from input) etc.  </p>
-
-The next task is to complete the back-end code generation phase.  For better clarity, we will split the task into two steps.  
-
-<b>Step 1</b>:  Generate code with <b>labels</b>.  At this stage labels will be placed at various control flow points of the target assembly code so that a JMP instruction will only indicate the label corresponding to the instruction to which transfer of program flow must happen.  
-
-<b>Step 2</b>:  Replace the labels with addresses.  
-
-Important note:  You must have read the label translation tutorial document before proceeding any further.  
-
-
-We will now look at Subtask 1.  
-
-Consider the following statement:  
-<div class="syntax">
-while (a < b) {<br>
-       a = a+1 ;<br>
-}<br>
-</div>
-The expression tree for the above statement would look like:
-
-// Give picture here //
-
-Suppose variable a is bound to address 4096, b to address 4097, then our plan is to generate code that would look like the following:  
-
-<div class="syntax">
-L1:  <br>
-MOV R0, [4096]  // transfer a to R0<br>
-MOV R1, [4097]  //  transfer b to R1<br>
-CMP R0, R1  //  a&lt;b                 <br>
-JNZ L2          //  if (a&lt;b) is false goto L2  <br>
-MOV R0, [4096]   //  transfer a to R0<br>
-ADD R0, 1             //  add 1  <br>
-MOV [4096], R0,  // transfer sum back to a<br>
-JMP L1      // goto next iteration. <br>
-L2: <br>
-... Next Instruction ..  <br>
-</div>
-
-
-Note the use of labels L1 and L2 indicating control flow points in the above code.  A while statement involves two jumps and two labels.  
-The labels are just symbols that are placed at the start of instructions to which jump instructions must branch to.  Placing labels in the code relieves us from bothering about the exact memory address to which jump must be made.  Of course, this is only a temporary measure.  The final target code must not contain labels.    
-
-Our strategy here is to first generate code with labels and then replace the labels with addresses.  
-
-To implement the plan, we may name labels in the program L0, L1, ... .  We must design an int GetLabel() function that returns the index of the next unused label.  Thus the first call to GetLabel() returns 0, next call returns 1 and so forth.  
-
-The code generation strategy for the while-do statement is illustrated by the following pseudo-code.  
-<div class="syntax">
-int label_1 = getLabel();<br>
-int label_2 = getLabel();<br>
-fprintf (target_file “L%d”, Label_1)  //  Place the first label here.  <br>
-Generate code for the guard expression.    <br>
-Generate code to compare the result to zero and if so jump to label_2 // loop exit   <br>
-Generate code for the body of the while loop.<br>
-fprintf(target_file, “JMP L%d”, label_1);   // return to the beginning of the loop.  <br>
-fprintf(target_file, “L%d”, label_2);    // Place the second label here<br>
-</div>
-
-<b>Task 2</b>:  Complete the code generation with labels for while-do, if-then and if-then-else constructs.  
-
-Now, we must complete Step 2 of replacing the labels with the correct addresses.  This is explained in the <a href="label-translation.html" target="_blank">label translation documentation</a>.  
-
-<b>Task 3</b>:    Read the link specified above and complete the label translation for  if-then, if-then-else and the while-do statement.
-
-<b>Exercise 2</b>:  Write (a) program to find the largest for a, b, c (values read from input) (b) program to read numbers till 0 is input and output the sum and test your Task 3 code.  
-
-<b>Task 4</b>:  Add <b>break</b> and <b>continue</b> statements.  Code for these statements need be generated only if they appear inside some while loop.  Otherwise, the compiler may simply ignore these statements, generating no code.  (The primary task is to keep track of which label to jump to when one of these statements is encountered).  
-
-<b>Exercise</b> :   Add repeat-until and do-while statements to the language with standard semantics.    
+							// Give picture here //
+						</p>
+						<p>
+							Suppose variable a is bound to address 4096, b to address 4097, then our plan is to generate code that would look like the following:
+							<div class="syntax">
+							L1:  <br>
+							MOV R0, [4096]&nbsp;&nbsp;// transfer a to R0<br>
+							MOV R1, [4097]&nbsp;&nbsp;//  transfer b to R1<br>
+							CMP R0, R1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  a&lt;b<br>
+							JNZ L2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  if (a&lt;b) is false goto L2  <br>
+							MOV R0, [4096]&nbsp;&nbsp;//  transfer a to R0<br>
+							ADD R0, 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  add 1  <br>
+							MOV [4096], R0&nbsp;&nbsp;// transfer sum back to a<br>
+							JMP L1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// goto next iteration. <br>
+							L2: <br>
+							... Next Instruction ..  <br>
+							</div>
+						</p>
+						<p>
+							Note the use of labels L1 and L2 indicating control flow points in the above code. A while statement involves two jumps and two labels. The labels are just symbols that are placed at the start of instructions to which jump instructions must branch to. Placing labels in the code relieves us from bothering about the exact memory address to which jump must be made. Of course, this is only a temporary measure. The final target code must not contain labels.
+						</p>
+						<p>
+							Our strategy here is to first generate code with labels and then replace the labels with addresses. To implement the plan, we may name labels in the program L0, L1,.... We must design an <i>int GetLabel()</i> function that returns the index of the next unused label.  Thus the first call to <i>GetLabel()</i> returns 0, next call returns 1 and so forth.
+						</p>
+						<p>
+							The code generation strategy for the while-do statement is illustrated by the following pseudo-code.  
+							<div class="syntax">
+								int label_1 = getLabel();<br>
+								int label_2 = getLabel();<br>
+								fprintf (target_file “L%d”, Label_1)  //  Place the first label here.  <br>
+								Generate code for the guard expression.    <br>
+								Generate code to compare the result to zero and if so jump to label_2 // loop exit   <br>
+								Generate code for the body of the while loop.<br>
+								fprintf(target_file, “JMP L%d”, label_1);   // return to the beginning of the loop.  <br>
+								fprintf(target_file, “L%d”, label_2);    // Place the second label here<br>
+							</div>
+						</p>
+						<p>
+							<b>Task 2</b>:  Complete the code generation with labels for while-do, if-then and if-then-else constructs.
+						</p>
+						<p>
+							Now, we must complete Step 2 of replacing the labels with the correct addresses. This is explained in the <a href="label-translation.html" target="_blank">label translation documentation</a>.  
+						</p>
+						<p>
+							<b>Task 3</b>: Read the link specified above and complete the label translation for  if-then, if-then-else and the while-do statement.
+						</p>
+						<p>
+							<b>Exercise 2</b>: Write (a) program to find the largest for a, b, c (values read from input) (b) program to read numbers till 0 is input and output the sum and test your Task 3 code.  
+						</p>
+						<p>
+							<b>Task 4</b>: Add <b>break</b> and <b>continue</b> statements.  Code for these statements need be generated only if they appear inside some while loop.  Otherwise, the compiler may simply ignore these statements, generating no code.  (The primary task is to keep track of which label to jump to when one of these statements is encountered).  
+						</p>
+						<p>
+							<b>Exercise</b> : Add repeat-until and do-while statements to the language with standard semantics.
                         </p>
                     </article>
                 </div>
