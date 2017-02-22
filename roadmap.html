@@ -37,6 +37,7 @@
                         <li class="sec"><a href="#nav-stage0">0. Installation</a> </li>
                         <li class="sec"><a href="#nav-stage1">1. CodeGeneration for Arithmetic Expressions</a></li>
                         <li class="sec"><a href="#nav-stage2">2. Introduction to static storage allocation</a></li>
+                        <li class="sec"><a href="#nav-stage3">3. Adding Flow Control Statements</a></li>
                     </ul>
                 </menu>
             </aside>
@@ -398,9 +399,8 @@
                         <p>  
                             <b>Note</b> : The compiler generates target code which must be executed by the target machine. In our case, the compiler you wrote as Task 2 actually is a <b>cross compiler</b>. This means that your compiler generated target code that is not for your host system, but on some other target platform – which in our case the simulated XSM machine. The evaluator done in Exercise 1 actually does not generate "code" for any machine. Instead, it executes the program in "then and there". Such a program could be classified as an <b>interpreter</b>. (Unfortunately, the standard terminology in literature associated with the term "interpreter" seems to be contradictory to this classification).
                         </p>
-                        <hr>
                     </article>
-                    <article>
+                    <article class="grid col-full" id="nav-stage3">
                         <h2>Stage 3:  Adding Flow Control Statements</h2>  
                         <p>
                             <b>Prerequisite</b>:  You must read the  <a href="label-translation.html" target="_blank">label translation tutorial</a> before proceeding with this stage.    
@@ -412,10 +412,10 @@
                             </ul>
                         </p>
                         <p>
-                            The if-then-else and the while-do constructs can be added to the source lanaguage of Stage 2 by adding the grammar rule:
+                            The if-then-else and the while-do constructs can be added to the source language of Stage 2 by adding the grammar rule:
                             <div class="syntax">
                                 Ifstmt ::=  IF (E) then Slist Else Slist ENDIF<br>
-                                               | IF (E) then Slist ENDIF;  
+                                &emsp;&emsp;&emsp;&emsp;&emsp;| IF (E) then Slist ENDIF;  
                                 <br>
                                 Whilestmt ::= WHILE (E) DO Slist ENDWHILE;<br>
                             </div>
@@ -426,59 +426,60 @@
                             A simple program in this language to find the largerst among three numbers would look like the following:
                             <div class="syntax">
                                 begin<br>
-                                    read(a);<br>
-                                    read(b);<br>
-                                    read(c);<br>
-                                    if (a<b) then<br> 
-                                        if (b<c) Write(c);  else Write(b); endif; <br> 
-                                    else<br>
-                                          if (a<c) Write(c); else Write(a); endif; <br>
-                                    endif; <br>
+                                &emsp;read(a);<br>
+                                &emsp;read(b);<br>
+                                &emsp;read(c);<br>
+                                &emsp;if (a &lt; b) then<br> 
+                                &emsp;&emsp;if (b &lt; c) then Write(c);  else Write(b); endif; <br> 
+                                &emsp;else<br>
+                                &emsp;&emsp;if (a &lt; c) then Write(c); else Write(a); endif; <br>
+                                &emsp;endif; <br>
                                 end <br>
                             </div>
-                            
-                            Note that we continue to assume that variables hold only integer values.  
-
-                            The first task in translation is to complete the front end.
-
-                            There is one important conceptual point to understand here before proceeding to the front end implementation.  With the introduction of logical expressions, there are two <b>types</b> of expressions in the language – <b>arithmetic expressions</b> and <b>logical expressions</b>. An arithmetic expression evaluates to an integer value whereas a logical expression evaluates to a <b>boolean value</b> – that is true/false.  
-
-                            The guard of an if-else statment or a while-do statment must be a boolean expression.  On the other hand, the expression on the right side of an assignment statement must be of integer type as variables are assumed to hold integer values only.
-
-                            In other words, a statment like 
+                            Note that we continue to assume that variables hold only integer values. The first task in translation is to complete the front end.
+                        </p>
+                        <p>
+                            There is one important conceptual point to understand here before proceeding to the front end implementation.  With the introduction of logical expressions, there are two <b>types</b> of expressions in the language – <b>arithmetic expressions</b> and <b>logical expressions</b>. An arithmetic expression evaluates to an integer value whereas a logical expression evaluates to a <b>boolean value</b> – that is true/false.
+                        </p>
+                        <p>
+                            The guard of an if-else statement or a while-do statement must be a boolean expression.  On the other hand, the expression on the right side of an assignment statement must be of integer type as variables are assumed to hold integer values only. In other words, the statements given below are <b>invalid</b>. 
                             <div class="syntax">
-                            if (a+b) then Write(c);<br>  
+                                if (a+b) then Write(c);<br>  
+                                &emsp;&emsp;OR<br>
+                                a = b &lt; c;<br>
                             </div>
-                            or 
+                        </p>
+                        <p>
+                            Your compiler must flag a "<i>type mismatch</i>" error if such constructs are encountered during the AST construction process. A program with type errors must not pass the compiler's type check scrutiny and the compiler must report error without generating code if the program has type errors. Type analysis is a part of the responsibilities of a compiler (normally classified under <a href="https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)" target="_blank">semantic analysis</a>).
+                        </p>
+                        <p>
+                            A simple way to handle this issue is to <i>annotate each node in the AST with a <b>type attribute</b></i> that indicates what is the type of the expression (or subexpression) with this node as the root.
+                        </p>
+                        <p>
+                            For example, consider the AST for the following erratic expression.
                             <div class="syntax">
-                            a = b<c;<br>
+                                d = ( a + b ) + ( c &lt; 3 )
+                            </div>  
+                            <p>
+                                //FIGURE NEED TO BE ADDED
+                            </p>
+                        </p>
+                        <p>
+                            Here, the root of AST is an assignment node which is <b>typeless</b>. (statements have no type, only expressions have a type associated with them). The left subtree of the root is a variable, and hence has type integer. The right subtree is a  <b>+</b>  node of type integer. Hence, at the root, there is no type mismatch. However, the right child of the right subtree has type boolean and does not match the operand type for the + operator. Hence the compiler must terminate compilation flagging error "type mismatch". Note that the compiler can stop processing when the first error is encountered without proceeding further with the tree construction.
+                        </p>
+                        <p>
+                            To implement type checking, add a type field in the AST node structure.  
+                            <div class="syntax">
+                                #define inttype 1
+                                #define booltype 0  
+
+                                struct node { 
+
+                                 ---
+                                  int type;
+                                 ---
+                                }  
                             </div>
-are <b>invalid</b>. Your compiler must flag a "<i>type mismatch</i>" error if such constructs are encountered during the AST construction process. A program with type errors must not pass the compiler's type check scrutinty and the compiler must report error without generating code if the program has type errors.   Type analysis is a part of the responsibilities of a compiler (normally classified under <a href="https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)" target="_blank">semantic analysis</a>).   
-
-A simple way to handle this issue is to <i>annotate each node in the AST with a <b>type attribute</b></i> that indicates what is the type of the expression (or subexpression) with this node as the root.  
-
-For example, consider the AST for the following erratic expression.  
-
- d=(a+b)+(c<3).  
-
-\begin
-     
-\end 
-
-Here, the root of AST is an assignment node which is <b>typeless</b>. (statements have no type, only expressions have a type associated with them).   The left subtree of the root is a variable, and hence has type integer.  The right subtree is a  +  node of type integer.  Hence, at the root, there is no type mismatch.  However, the right child of the right subtree has type boolean and does not match the operand type for the + operator.  Hence  the compiler must terminate compilation flagging error "type mismatch".  Note that the compiler can stop processing when the first error is encountered without proceeding further with the tree construction.  
-
-To implement type checking, add a type field in the AST node structure.  
-<div class="syntax">
-#define inttype 1
-#define booltype 0  
-
-struct node { 
-
- ---
-  int type;
- ---
-}  
-</div>
 Now for leaf nodes of the tree, since you have either constants or variables, the type must be set to integer.   Next, while constructing the tree for intermediate nodes, check whether the types of the children are compatible with the operator at the root.  For instance, for the addition operation, the check could be as the following:
 <div class="syntax" 
 E :== E+E {       if ($1->type != inttype) || ($2->type !== intype) ) {<br>
@@ -501,7 +502,7 @@ The essential idea is that the type of each node can by synthesized from the typ
 
 <p><b>Exercise 1</b>:  To test the implementation of Task 1, implement an <b>evaluator</b> for the expression tree.  Test with simple programs like those for finding the largest of 3 numbers, sum of n numbers (n read from input) etc.  </p>
 
-The next task is to complete the back-end code genration phase.  For better clarity, we will split the task into two steps.  
+The next task is to complete the back-end code generation phase.  For better clarity, we will split the task into two steps.  
 
 <b>Step 1</b>:  Generate code with <b>labels</b>.  At this stage labels will be placed at various control flow points of the target assembly code so that a JMP instruction will only indicate the label corresponding to the instruction to which transfer of program flow must happen.  
 
@@ -539,7 +540,7 @@ L2: <br>
 </div>
 
 
-Note the use of labels L1 and L2 indicating control flow points in the above code.  A while statment involves two jumps and two labels.  
+Note the use of labels L1 and L2 indicating control flow points in the above code.  A while statement involves two jumps and two labels.  
 The labels are just symbols that are placed at the start of instructions to which jump instructions must branch to.  Placing labels in the code relieves us from bothering about the exact memory address to which jump must be made.  Of course, this is only a temporary measure.  The final target code must not contain labels.    
 
 Our strategy here is to first generate code with labels and then replace the labels with addresses.  
