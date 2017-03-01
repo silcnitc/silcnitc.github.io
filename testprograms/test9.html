@@ -97,33 +97,19 @@ int main()
   enddecl
 
   begin
-  val = initialize();
-  Root = null;
+    val = initialize();
+    Root = null;
 
-  flag=1;
-  while(flag==1) do
-    read(opt);
-
-    if(opt==1) then
     read(val);
-    Root=insert(Root,val);
-    else 
-    if(opt==2) then
-      in=inOrder(Root);
-    else
-      if(opt==3) then
-      in=preOrder(Root);
-      else
-      if(opt==4) then
-        in=postOrder(Root);
-      else
-        flag=0;
-      endif;
-      endif;
-    endif;
-    endif;
-  
-  endwhile;
+
+    while(val!=0) do
+      Root = insert(Root,val);
+      read(val);
+    endwhile;
+
+    in = inOrder(Root);
+    in = preOrder(Root);
+    in = postOrder(Root);
   
   return 9;
   end
