@@ -597,7 +597,7 @@
                             <a href="#navtop">  &#x2191; </a>
                         </div>
                     </article>
-                    <article class="grid col-full" id="nav-stage3">
+                    <article class="grid col-full" id="nav-stage4">
                         <h2>Stage 4:  User Defined Variables and arrays</h2>
                         <p>
                         	<b>Learning Objectives</b>:<br><br>
@@ -758,7 +758,7 @@
 							<div class="syntax"> int a[10][10]; </div>    
 							Test your implementation with a program for multiplying two nxn matrices.
 							<br><br>
-							<b>Exercise 2</b>:  Permit <i>pointer type</i> variables as in the following declaration as in the C programming language.
+							<b id="stage4_ex2">Exercise 2</b>:  Permit <i>pointer type</i> variables as in the following declaration as in the C programming language.
 							<div class="syntax">
 								decl<br>
 								&emsp;&emsp;int x, *p;<br>
@@ -770,6 +770,571 @@
 						<p>
 							<b>Note</b>:  Right now, you are not equipped to do dynamic memory allocation for pointer variables (as done by the malloc() function of C).  Hence, a pointer type variable can be used as a pointer to another statically declared variable of the corresponding type.  Dynamic memory allocation will be discussed in later stages.
 						</p>
+                    </article>
+                    <article class="grid col-full" id="nav-stage5">
+                        <h2>Stage 5:  Adding Functions</h2>
+                        <p>
+                            <b>Prerequisite Reading</b> :  You must read the following documents before proceeding with this stage:<br>
+                            <ul>
+                                 <li id="otis">1.  The main page of the document <a href="run-data-structures.html" target="_blank">Run time allocation</a>.</li>
+                                 <li id="otis">2.  <a href="run_data_structures/run-time-stack.html" target="_blank">Run time stack Allocation</a>.</li>
+                            </ul>
+                        </p>
+                         <p>
+                            <b>Learning Objectives</b>:
+                            <ul>
+                                 <li id="otis">You will extend the  language of Stage 4 by adding functions with support for recursion. Addition of functions to the language requires handling <b>scope</b> of variables.  Support for recursion demands <b>run-time storage allocation</b>. Only integer and string type variables will be supported.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            This is the first major stage in the ExpL project.   A skeletal outline of the syntax rules for defining the extension of the language of Stage 4 to support subroutines is as below.   You are required to fill in rules required to complete the grammar.   Note that variables may be only of type integer/string.
+                            <div class="syntax">
+                                Program ::= GDeclBlock FdefBlock <a href="grammar-outline.html" target="_blank">MainBlock</a><br>
+                                             |  GdeclBlock MainBlock  <br>
+                                <br>
+                                GdeclBlock  ::=  DECL GdeclList ENDDECL <br>
+                                <br>
+                                GdeclList ::= GDeclList  GDecl
+                                <br>
+                                GDecl ::=  Type GidList ; <br>
+                                <br>
+                                GidList ::=  GidList , Gid <br>
+                                <br>
+                                Gid ::= ID <br>
+                                        | ID[NUM] <br>
+                                        | ID(ParamList) <br>
+                                <br>
+                                --------------------------------------------------------------------------------------
+                                <br>
+                                FDefBlock ::=  FdefBlock Fdef |  Fdef <br> 
+                                <br>
+                                Fdef ::=Type ID ( ArgList ) { LdeclBlock Body } <br>
+                                <br>
+                                Arglist ::= Arglist , Arg | Arg <br>
+                                <br>
+                                Arg ::= Type ID <br>
+                                <br>
+                                Type ::= INT | STR  <br>
+                                <br>
+                                -----------------------------------------------------------------------------------------
+                                LdeclBlock ::= DECL LDecList ENDDECL <br>
+                                <br>
+                                LDecList ::= LDecList LDecl <br>
+                                <br>
+                                LDecl ::=  Type IdList ;  <br>
+                                <br>
+                                IdList ::=  IdList, ID | ID <br>
+                                <br>
+                                Type ::= INT | STR <br>
+                            </div>
+                        </p>
+                        <p>
+                            Since a function call is treated as an expression (whose value is the return value of the function),  the following rules must be added:
+                            <div class="syntax">
+                                E ::= ID ()  |  ID(ArgList) <br>
+                                <br>
+                                ArgList ::=  Arglist, E  |  E <br>
+                            </div>
+                        </p>
+                        <p>
+                            The following is an example of a program with functions:  <br>
+
+                            Here is an <a href="run_data_structures/run-time-stack.html#nav-illustration" target="_blank">example</a> for a program with function.<br>
+
+                            We will take up semantic analysis and AST representation before proceeding to code generation. <br>
+
+                            Each function requires a <b>declaration</b>. The declaration of functions must be made along with the global declarations.   The declaration specifies the types and names of the <b>formal parameters</b> and its <b>return type</b>.  The compiler must store the declaration information in the symbol table.  
+
+                            For example the declarations
+                            <div class="syntax">
+                                decl<br>
+                                ..<br>
+                                .. <br>
+                                &emsp;int factorial(int n);<br>  
+                                ..<br>
+                                ..<br>
+                                enddecl<br>
+                            </div>
+
+                            specifies that factorial is a function that takes as input one integer argument and returns an integer.  This is sometimes called the <b>signature</b> of the function.   Conceptually, to invoke the factorial function, the <b>caller</b> must know:
+
+                            <ul>
+                                <li id="otis">1. The memory address to which the function call must be directed (<b>binding</b>).</li>
+                                <li id="otis">2. The <b>types and names of the formal parameters</b> to the function and the order in which the arguments must be input to the function.</li>
+                                <li id="otis">3. The <b>return type</b> of the function.</li>
+                            </ul>
+
+                            This precisely is the information that the symbol table stores.
+                        </p>
+                        <p>
+                            A function <b>definition</b> contains:  
+                            <ul>
+                                <li id="otis">a)  The function's signature.</li>
+                                <li id="otis">b)  The declaration of <b>local variables</b> of the function.</li>
+                                <li id="otis">c)  The code of the function.</li>
+                            </ul>
+                            For example, the definition of the factorial function could be as:
+                            <div class="syntax">
+                                int factorial(int n){<br>
+                                &emsp;decl             <br>
+                                &emsp;&emsp;int f;       <br>
+                                &emsp;enddecl          <br>
+                                &emsp;begin<br>
+                                &emsp;&emsp;if( n==1 || n==0 ) then<br>
+                                &emsp;&emsp;&emsp;f = 1;<br>
+                                &emsp;&emsp;else<br>
+                                &emsp;&emsp;&emsp;f = n * factorial(n-1); <br>
+                                &emsp;&emsp;endif;<br>
+                                &emsp;return f;<br>
+                                &emsp;end<br>
+                                }<br>
+                            </div>
+                            Local variables declared in a function are visible only within the function.  We say that the <b>scope</b> of a local declaration is limited to the function.   Moreover, if a global variable has a re-declaration inside a function, the local declaration overrides the global declaration.
+                        </p>
+                        <p>
+                            Thus, we have two kinds of variables.  Global variables and functions that are visible "everywhere" (or having a <b>global scope</b>) and local variables that are visible only within the functions (or having a <b>local scope</b>) where they are declared.  <br>
+
+                            The compiler needs to know the binding addresses and type of the local variables for translation of statements of the function to assembly code.  However, this information is irrelevant outside the function.  <br>
+                            To keep track of the local variable and scope information, our strategy is to keep global and local variables in different symbol tables.  We will have 
+                            <ul>
+                                <li id="otis">1.  A single <b>global symbol table</b> storing the (name, type, size, binding) information of local variables as well as (name, type, parameters, binding) information for functions.  The following structure is suggested for storing a global symbol table entry.</li>
+                            </ul>
+
+                            \box
+                              structure for  global symbol table entry, just enough for the present stage
+                            endbox 
+
+                            <ul>
+                                <li id="otis">2.  Several <b>local symbol tables</b> - one for each function containing the (name, type, binding) information for each local variable of the function.  (Note that since the language does not permit arrays to be defined within a function, the size value of local variables is always 1, hence the field is not required).   A local symbol table entry can be stored in the following structure:</li>
+                            </ul>
+
+                            \box
+                              structure for local symbol table entry. 
+                            \endbox
+                        </p>
+                        <p>
+                            What is the <b>binding address of a function</b>?  When the compiler generates code for the function, a label is placed at the start of the function.  A call to the function is translated to a low-level CALL to the corresponding label.   Later, the label has to be replaced by the address  of the instruction during the <a href="label-translation.html" target="_blank">label translation phase</a>.
+
+                            The simple scheme we suggest here is to put the label F0 before the code of the first function declared in the program, F1 before the code of the second and so on.  Hence, in the binding field of the first function, store 0.  Similarly, store 1 in the binding field of the second and so on.  A call to the first function must be translated to CALL F0 and so on.  
+
+                            With this, the global symbol table for the <a href="run_data_structures/run-time-stack.html#nav-illustration" target="_blank">program</a> would be as below.   
+
+                            \figure 
+                              Have a figure showing the contents of the global symbol table in a table form.
+                            \end figure.  
+
+
+                            Continuing with the above example, we need two local symbol tables – one for the main function and one for the factorial function.  The local symbol table holds the (name, type, binding) triple for each formal parameter as well as local variables of the function.  We will discuss the binding of local variables later.  The local symbol tables of mail and factorial would look as the following:
+
+                            \figure
+
+                            local symbol table for main (leave the binding field empty) 
+
+                            local symbol table for factorial (leave the binding field empty)  
+
+                            \endfigure 
+
+                            See LINK for more details.  
+
+                            <div class="syntax">
+                                <b>Task 1</b>:  Complete the program to build the global symbol table.  Test your program by printing out all global declarations in the program by displaying the contents of the symbol table.  You must not permit a two variables/functions (or a function and a variable) to have the same name.
+                            </div> 
+
+                            Our next aim is to perform semantic analysis and build the AST and then generate code. The strategy will be the following:
+                            <ul>
+                            <li id="otis">
+                            1.  First, create the global symbol table by processing global declarations (Task 1)
+                            </li>
+                            <li id="otis">
+                            2.  For each function for which code is not yet generated
+                                <ul>
+                                <li id="otis">a)  Check for <b>name equivalence</b> of the formal parameters of the function definition with the declaration.  Name equivalence requires that the type and name of each formal parameter of the function in the declaration and the definition must agree.</li>
+                                <li id="otis">b)  Create local symbol table containing local variables and parameters.</li>
+                                <li id="otis">c)  Build AST for the function, doing type-checking when the tree is built,  as was done in the previous stages.</li>
+                                <li id="otis">d)  Recursively traverse the tree and generate code for the function in the target file.</li>
+                                </ul>
+                            </li><br>
+                                <b>After generating code for a function, the local symbol table and the abstract syntax tree for the function can be deallocated.</b> Proceed to step 2 for the next function.
+                        </p>
+                        <p>
+                            Note that local variables and the code of a function are not visible outside the function. Hence, the local symbol table and AST for a function are not required once the code is generated.  <b>To generate code for a function call, we need only the signature of the function and this information is available in the global symbol table.</b>  The global symbol table must be maintained throughout the compilation process.    Note that the main function is just like any other function except that it has no arguments, its name must be Main and return type must be int.  
+
+                            The only non-trivial part about semantic analysis and AST construction pending discussion is how to build AST for a function call.  We start with an example.
+                        </p>
+                        <p>
+                            Suppose we have the following declarations:  
+
+                            <div class="syntax">
+                                int Compute(int p, int q);   <br> 
+                                int find(int x);  <br>
+                            </div>
+
+                            A call to the function would occur as in:<br>
+                            <br>
+                            t = Compute(a+b,find(a-b));<br>
+                            <br>
+                            The statement is semantically valid provided a, b, and c  integer type variables.  Note that the call might occur in the code of any function (including the same function – as in the case of a recursive call). <br>
+                            <br>
+                            The expression tree for this could look as below:  <br>
+
+                            \figure
+
+                            expression tree for the above call  
+
+                            \endfigure   
+                            <br>
+                            A tree node for a function call contains a pointer to a list of expressions, one expression for each argument. <b>The compiler must type check each argument and match it with the type of the corresponding formal parameter of the called function.</b>  The expression tree structure given HERE[LINK] can be used (instead of the type table pointer, just store a variable indicating INT/STR type.  We will take up user defined types later.)   The details of implementation are left to you. 
+
+                            With this information, the task of completing type checking and building expression tree for a function is straightforward.  
+
+                            <div class="syntax">
+                                <b>Task 2</b>:  Construct AST for each function after checking type and scope rules (semantic analysis).  Right now, we are concerned just with type checking and not code generation.  Note that a variable appearing in a function must first be searched for in the local symbol table of the function and then in the global symbol table if not found in the local symbol table.   Note that local declaration overrides global declaration.   The compiler must report an error if the types, names and number of arguments in each function declaration must matching with the function definition.  
+
+                            </div>
+                        </p>
+                        <p>
+                            The dynamics of a function call can be understood easily be dividing the process into the following three stages.  
+                            <ul>
+                                <li id="otis">
+                                    Step 1.  <b>Code executed in the calling function (caller)  before the transfer of control</b> to the called function (callee):
+                                    <ul>
+                                        <li id="otis">a)  The caller must <b>save the registers</b> in use so that even if the callee changes the values later,  the original values can be recovered after return from the callee.</li>
+                                        <li id="otis">b)  The caller must <b>calculate the arguments to the callee and store it</b> somewhere in a way that the <b>callee can access those values</b>.</li>
+                                        <li id="otis"> c)  The caller must indicate create some space for the callee to place the return value at the end of the call.</li>
+                                        <li id="otis"> d)  Make the control transfer to the binding address of the callee.</li>
+                                    </ul>
+                                </li>
+                                <li id="otis">
+                                    Step 2.  <b>Actions executed by the called function (callee)</b>:
+                                    <ul>
+                                        <li id="otis">a)  The callee must <b>allocate space for its local variables</b>.</li>
+                                        <li id="otis">b)  Execute the callee code.</li>
+                                        <li id="otis">c)   When encountering a return instruction, the <b>return value must be computed and stored</b> in the appropriate place specified by the caller (step 1.c above).</li>
+                                        <li id="otis">d)  Return control to the caller.</li>
+                                    </ul>
+                                </li>
+                                <li id="otis">
+                                    Step 3.  <b>Actions executed by the caller</b> after the callee returned control back to the caller.
+                                     <ul>
+                                        <li id="otis">a)  <b>Recover the return value</b> stored by the callee.</li>
+                                        <li id="otis">b)  <b>Deallocate space allocated for arguments</b> for the call in step 1(b).</li>
+                                        <li id="otis">c)  <b>Recover the machine registers</b> stored before the call in step 1(a).</li>
+                                    </ul>   
+                                </li>
+                            </ul>
+
+                            The machine code for actions in Step 1 and Step 3 must be generated when the compiler encounters a function call in the caller's code.   The compiler generates code for Step 2 while generating code for the callee function.
+                        </p>
+                        <p>
+                            To implement the above plan, we need to create storage space whenever a function call is encountered.   We will be focusing on generating code with labels are used.  Translation of labels to actual addresses can be easily done at the end as was done in Stage 4 following the <a href="label-translation.html" target="_blank">Label Translation Documentation</a>.  <br>
+                            <br>
+                            
+                            <b>Implementation Strategy</b>. <br>
+                            <br>
+                            The fundamental strategy for space allocation is to create an <b>activation record</b> for the callee in the <b>stack</b> when a function call is encountered.  <b>The compiler must generate code for creating the activation record at run-time when the call is encountered</b>. Since the storage requirements for arguments, local variables and the return value of a function are known at compile time, the compiler knows exactly how much space must be allocated for each function.   We propose following general organization for activation records:  <br>
+
+                            <ul>
+                                <li id="otis">
+                                    1.  Each <b>activation record must have a base (memory location)</b> which is determined at run time.  The machine register <b>BP (base pointer)</b> is generally used to point to the base of the activation record of the function executing currently.
+                                </li>
+                                <li id="otis">
+                                    2.  <b>Relative to the base, the address of each argument, each local variable, the address where the return value is stored etc are fixed by the compiler statically</b> (at compile time).
+                                </li>
+                                <li id="otis">
+                                    3.  Initially, the activation record for the Main function is created in the stack.  BP is initialized to the base of this activation record and the Main function starts execution.
+                                </li>
+                                <li id="otis">
+                                    4.  <b>If function A calls function B, a new activation record is created in the stack for function B above the activation record of function B</b>.  The BP is made to point to the base of activation record of B.  Upon return from B, the activation record of B is popped off the stack and BP is set back to the activation record of B.
+                                </li>
+                                <li id="otis">
+                                    5.  If function A calls function B, the address of the instruction in A to resume execution (<b>return address</b> – value of current-IP +2 in XSM machine- why?) upon return from B must be saved.  Similarly, the <b>base pointer of the caller</b> (BP value) of A <b>must be saved in the stack</b> before BP is changed to point to the base of B.  Both the return address and BP values will be stored in pre-defined locations of the activation record of B.
+                                </li>
+                                <li id="otis">
+                                    6.  In addition to the above, one additional <b>space</b> must be reserved in the activation record of B <b>to store the return value</b>.
+                                </li>
+                            </ul>
+
+
+                            A thorough reading of <br>
+
+                            <a>http://silcnitc.github.io/run_data_structures/run-time-stack.html </a><br>
+
+                            is absolutely essential to proceed any further.<br>  
+
+
+                            Supose  a function has n arguments (arg_1, arg_2,...,arg_n) and m local variables (loc_1, loc_2, ..., loc_m), its activation record in the stack may as the following
+
+                            \figure 
+
+                            \figure.  
+
+
+                            In this scheme, the following code must be generated by the caller when a call to the above function is encountered:
+
+                             <ul>
+                                <li id="otis">1.  Generate code to push registers in use into the stack.  After this, the callee stack begins.</li>
+                                <li id="otis">2.  Evaluate arg_n and push the value to stack.  Now evaluate and push arg_n-1 and so on till arg_1.  The arguments are pushed in reverse order.  (You can do it in any order as long as the same convention is followed everywhere).</li>
+                                <li id="otis">3.  Push one empty space in the stack for the callee to store the return value.</li>
+                                <li id="otis">4.  Generate Call instruction to the binding (label) of the function.</li>
+                            </ul>
+
+                            \figure 
+                            \picture before the call on left side – picture after return on the right side will discuss.  
+                            \endfigure 
+
+                            /* Task pending is to generate code for actions after return from the call */
+
+                             <ul>
+                                <li id="otis">5. Allocate a new register and store the returned value.</li>
+                                <li id="otis">6. Pop out arguments from the stack.</li>
+                                <li id="otis">7. Pop out registers.</li>
+                            </ul>
+
+                            The above actions are sufficient to generate code for handling a function invocation.  Note that to generate code for a call, only the callee's declaration information (types and order of the arguments and call label) needs to be known.   Note that the callee call could have been generated even by a different compiler.  All that the caller needs to know is the callee's <b>interface</b>, and the <b>calling convention</b> (convention regarding in what order arguments must be pushed, where should the return value be stored etc.  See also <a href="https://en.wikipedia.org/wiki/Calling_convention" target="_blank">link</a>).   
+
+
+                            Now, while generating the callee code, the callee must generate the following code before proceeding to the remaining instructions: 
+
+                            <ul>
+                                <li id="otis">1. Push the BP register into the stack.</li>
+                                <li id="otis">2. Set BP to the present value of SP register.</li>
+                                <li id="otis">3. Push enough space in the stack for storing the local variables.</li>
+                            </ul> 
+
+                            Relative to the BP value, [BP-2] is the address to which the return value must be stored.  [BP-3] stores arg_1, [BP-3] stores arg_2 and so on.  [BP+1] is for loc_1, [BP+2] for loc_2 and so on.    Thus,  after seeing the local variable declarations, the compiler can set the binding values for local variables relative to the base of activation record (BP) value as:
+                        </p>
+                        <p>
+                            table is in draft.. to be added here //
+                        </p>
+                        <p>
+                            With this convention, the code for each instruction inside the function can be generated following the rule:  <b>local variables/arguments are to be dereferenced a by adding the binding value to the contents of the BP register</b>.  Almost every modern architecture supports function calls by providing an explicit base pointer register.  <br>
+                            <br>
+                            Finally, the code for a return statement must:<br>
+                            <ul>
+                                <li id="otis">1.  Pop out the local variables from the stack.</li>
+                                <li id="otis">2.  Calculate the return expression and store the value in [BP-2].</li>
+                                <li id="otis">3.  set BP to the old value of BP in the stack.</li>
+                                <li id="otis">4.  Execute the RET instruction to pass control back to the caller.</li>
+                            </ul>
+                            <br>
+                            In the calling convention which we described above, the arguments were pushed in reverse order, space for the return value is allocated by the caller, BP of the caller had to be stored by the callee and so on.    Space created in the stack by either the callee or the caller must be restored by the respective function.  <br>
+                            <br>
+
+                            <b>IMPORTANT NOTE</b>:  In our calling convention, the caller was required to save the registers in use before the call.  What if instead, we design a  calling convention where the callee had to push the registers in use?  The problem here is that the callee does not know (and does not have to know) the caller and hence do not know at each call which were the registers in use.  Hence, the callee will have to save all machine registers, wasting time and space.  Hence, the convention of the caller storing registers in use is superior.  However, there are situations where this is not possible.  For instance, in hardware interrupt routines,  control is transferred to the callee without the caller executing a call.  In such cases, the callee will have to save (all) the machine registers for a successful return.  
+                            <br>
+
+                            The final task of this stage can be completed. <br> 
+
+                            <div class="syntax">
+                                <b>Task 3</b>:  Complete code generation for functional calls.  <br>
+                            </div>
+
+                            <b>Exercise 1</b>:  Modify the function semantics to permit pointer type variables of <a href="#stage4_ex2" target="_blank">Stage 4 (Exercise 2)</a> to be passed as arguments to functions.  This will allow a function to pass the address of a local variable to another function as an argument so that the callee can modify the contents.   Modify the syntax and semantics rules appropriately.  This feature must allow you to write functions like:<br>
+                            <br>
+                            int swap(int *p, int *q) <br>
+                            <br>
+                            Note that functions need to be permitted to return pointer type variables.  (Returning a pointer to local variable from a function is not advisable – Why?).  
+
+                            <b>Exercise 2</b> (Hard work, but insightful):  Suppose you want to extend the language with facility of <b>tuples</b>.  By a tuple, we mean an object declared as below:<br>
+                            <br>
+                            <div class="syntax">
+                                decl<br>
+                                ..<br>
+                                ..<br>
+                                &emsp;tuple tnme(type fname_1, type fname_2, .... ,type fname_n) var_1, var_2 ..  var_k;  <br>
+                                ..<br>
+                                ..<br>
+                                enddecl<br>
+                            </div>
+                            <br>
+                            Note that tuple is introduced as a new keyword.  For example, we could have:<br>
+                            <div class="syntax">
+                                decl<br>
+                                <br>
+                                 &emsp;tuple student (str name, int roll_no, str brachname, int year_of_admission) a, b, c, *sptr; <br> 
+                                 &emsp;tuple faculty (str name, int employee_id, str dept) x, y, z, *fptr;  <br>
+                                 <br>
+                                enddecl<br>
+                            </div>
+                            <br>
+                            To access a tuple you must introduce the “.” operator.  Here is an example:<br>
+                            <br>
+                            <div class="syntax">
+                                read(a.name);<br>
+                                read(x.name); <br> 
+                                if (a.name == x.name) then <br>
+                                &emsp;write("They have same names"); <br>
+                                endif; <br> 
+                            </div>
+                            <br>
+                            You must also permit assignment of a tuple type variable to another, provided the variables are of the same tuple type.  <br>
+                            <br>
+                            Design the syntax and semantics rules, make necessary modifications to the lexer, parser, symbol table and AST structures to incorporate the addition of tuples and change the code generation module accordingly.    For now, assume that tuples cannot be passed as arguments to functions or be returned by functions.   However, you must permit local tuple declarations.  Note that you have considerable freedom in deciding on the grammar rules and data structures, and even the features permitted. <br>
+                            <br>
+                            <b>Exercise 3</b>:  (Hard work, optional, but insightful.  Can be done only after Exercise 1 and Exercise 2 are completed).  
+
+                            Allow tuples and pointers to tuples to be passed as arguments to functions.  (Allowing the whole tuple to be passed creates more work in parameter passing, though not difficult in principle).   Functions may be permitted to return tuples as return values.   Permit a function that takes an argument/returns a tuple or pointers to tuple type to be declared only after the declaration of the concerned tuples (this is to avoid the <a href="https://en.wikipedia.org/wiki/Forward_declaration" target="_blank">forward reference problem</a>).  Design syntax, semantics and code generation strategies appropriately. 
+                        </p>
+                    </article>
+                    <article class="grid col-full" id="nav-stage6">
+                        <h2>Stage 6: User defined types and Dynamic Memory Allocation</h2>  
+                        <p>
+                            <b>Prerequisite Reading</b>:
+                            <ul>
+                                <li id="otis">1.  Read the <a href="expl.html" target="_blank">ExpL specification</a>.</li>
+                                <li id="otis">2.  Read about <a href="expl.html#nav-dynamic-memory-allocation" target="_blank">dynamic memory allocation</a>.</li>
+                            </ul>   
+                        </p>
+                        <p>
+                            <b>Learning Objectives</b>:
+                            <ul>
+                                 <li id="otis">You will extend the language of Stage 5 by adding support for <b>user-defined types</b> and <b>dynamic memory allocation</b>.  Issues of <b>Heap management</b> will be encountered en route.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            This is the second major stage of the ExpL compiler project and will be implemented in two parts.  In the first part, we will see how user defined types can be added to the language syntax and how semantic analysis can be performed.  The ExpL specification demands storage for user-defined types dynamically.   We will discuss how dynamic memory allocation can be achieved in the second part.  <br>
+                            <br>
+                            See the <a href="expl.html" target="_blank">ExpL language specification</a> for an informal description of the language.   It is suggested that you design your own grammar using the outline provided <a href="grammar-outline.html" target="_blank">HERE</a> as a reference.<br>  
+                            <br>
+                            The following links provide examples of ExpL programs containing user defined types.  (LINK ___ Give links to programs with dynamic memory allocation in the Test programs section).  <br>
+                            <br>
+                            We will now take up the front end - semantic analysis and AST representation before proceeding to code generation and dynamic memory allocation.    <br>
+                             <br>
+                            <b>Part I</b>:  <b>Front End</b> <br> 
+                            <br>
+                            Every user defined type requires a <b>type definition</b>.  Type definitions are placed at the beginning of a program, ahead of global declarations.  A user-defined type in ExpL essentially defines an <b>aggregate type</b>.    The <b>member fields</b> of a user defined type may have arbitrary types (subject to certain constraints – to be discussed soon). <br> 
+                            <br>
+
+                            Consider the type definition:  <br>
+                            <div class="syntax">
+                                type<br>
+                                &emsp;bst{<br>
+                                &emsp;&emsp;int a;<br>
+                                &emsp;&emsp;bst left;<br>
+                                &emsp;&emsp;bst right;<br>
+                                }<br>
+                                endtype<br>
+                                decl<br>
+                                &emsp;int in,opt;<br>
+                                &emsp;bst insert(bst h, int key);<br>
+                                &emsp;int inOrder(bst h); <br>
+                                &emsp;int preOrder(bst h);<br>
+                                &emsp;int postOrder(bst h); <br>          
+                                enddecl<br>
+                            </div>
+                            <br>
+                            This type definition specifies the node structure for a binary search tree.  The member field a has type integer, whereas <i>left</i> and <i>right</i> have type bst.   Note the <b>recursive</b> nature of the type definition.   The declaration section shows functions which take as input a <i>bst</i> or returns a <i>bst</i> or both.    Here is another type definition: <br> 
+                            <div class="syntax">
+                                type<br>
+                                &emsp;linkedList {<br>
+                                &emsp;&emsp;int data; <br> 
+                                &emsp;&emsp;linkedList next;  <br>
+                                  }<br>
+                                  <br>
+                                &emsp;markeList{<br>
+                                &emsp;&emsp;str name;  <br>
+                                &emsp;&emsp;linkedList marks; <br> 
+                                  }<br>
+                                endtype<br>
+                                decl<br>
+                                &emsp; marklist mList,temp; <br> 
+                                enddecl<br>
+                            </div>
+
+                            Note here that in the type <i>markList</i>, the member field <i>marks</i> is of the type <i>linkedList</i>.  ExpL stipulates that the member fields of a user defined type, if not of type integer or string can only of the <b>same</b> type or one of a <b>previously defined</b> type.  <br>
+                            <br>
+                            Type definitions allow the user to define aggregate data types, thereby providing <b>language support for <a href="https://en.wikipedia.org/wiki/Abstract_data_type" target="_blank">data abstraction</a></b>, a prominent theme in modern programming languages.   <br>
+                            <br>
+                            The compiler must keep track of the type definitions in some data structure.  For this purpose, we will maintain a <b>type table</b> storing the type definition information.  <b>Each user defined type will have a type table entry</b>.  In addition to user-defined types, the type table will also store "default" entries for <i>int</i>, <i>str</i>, <i>bool</i> and <i>void</i> type.   (Since logical expressions evaluate to a boolean value, they may be assigned boolean type.  The ExpL constant NULL in can be assigned to a variable of any type.  Hence, having a NULL type is useful from a purely implementation perspective.  Note here that boolean is an <b>implicit type</b> in the language.  The language does not allow the programmer to declare a variable of type boolean).  <br>
+                            <br>
+                            <b>The type table entry for a user-defined type must provide information about the names and types of its member fields</b>.  For each member field, a pointer to its type table entry must be maintained.  This <a href="data_structures/type-table.html" target="_blank">LINK</a> gives you a simple type table implementation scheme.  (You have to fill in missing details).  <br>
+                            <br>
+                            Symbol table must also be modified to handle user-defined-types information.   The <b>type field of the symbol table entry of a variable/function</b> shall <b>refer to the type table entry of the corresponding type</b> (Recall that in the case of a function, the type of a function is its return type).  The following <a href="data_structures/global-symbol-table.html" target="_blank">link</a> illustrates the organization of the global symbol table.  The type entry of each formal parameter of a function must also refer to the corresponding type table entry.   <a href="data_structures/local-symbol-table.html" target="_blank">Local symbol tables</a> of functions will require similar modification.  <br>
+                            <br>
+                            The next question is how to assign memory for user defined type variables.  We will defer this issue temporarily and hence, for now, will not discuss how to assign bindings to variables of user-defined types right now.   This will be discussed in Part II.<br>
+                            <br>
+                            We must now discuss how to use the symbol table and type table for completing semantic analysis of the input program.   Let us look at an example.  <br>
+                            <br>
+                            Consider the declaration of the type <i>markList</i> in the example above [LINK].  The language now permits statements like:<br>
+
+                            <div class="syntax">
+                            temp = mList.next; <br>
+                            if (mList.marks.data > mList.next.marks.data) then <br>
+                            &emsp;write("first student better in first subject"); <br>
+                            endif;<br>
+                            }<br>
+                            </div>
+
+                            <b>Note that the operands in expressions can now be member fields of user-defined-type variables</b>.  Similarly, the left side of an assignment statement or the variable for a read statement can now be a member field.  The grammar rules for various statements in the language are outlined <a href="grammar-outline.html" target="_blank">HERE</a>.   You must try to design your own grammar, keeping the grammar above as a guideline.  Many details are (deliberately) left out in the outline given to you.<br>
+                            <br>
+                            In the following, we use the term <b>field</b> generically to refer to <i>any</i> member field of <i>any</i> variable (of any user-defined type).  <br>
+                            <br>
+                            What must be the type of a field?  The type of <i>mList.next</i> in the above example must be the type of the member field <i>next</i> of the user defined type <i>markList</i>.  Once this information is extracted from the symbol table, the type of any statement, expression or variable can be determined correctly.   Thus, <b>an assignment statement is valid provided the types of the right side expression matches that of the left side variable</b>.  <i>The only exception to this rule is that the constant NULL (of type void) can be assigned to any variable of any user-defined type.</i> <br>  
+                            <br>
+                            Stated formally, 
+                            <div class="syntax">
+                            Field :: = Field . ID  {  $$.type = $2. type; }   <br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;             | ID  { $$.type = $1.type; } <br>
+                            </div>
+
+                            While constructing the AST,  the type entry for any field may be recursively computed using the formal rule noted above.   This information can be used for effective semantic analysis.  Arguments to functions must also be type checked against formal parameters of their declaration.    <br>
+                            <br>
+                            A plausible tree node structure and associated functions for AST construction are described <a href="data_structures/abstract-syntax-tree.html" target="_blank"> HERE</a>.  <br>
+                            <br>
+                            Note:  ExpL specification demands a rigid type analysis by <a href="https://en.wikipedia.org/wiki/Nominal_type_system" target="_blank">name equivalence</a>. This differs from the more liberal <a href="https://en.wikipedia.org/wiki/Structural_type_system" target="_blank">structural equivalance</a> in the C programming language.  <br>
+                            <br>
+                            With this background, the front end of the ExpL compiler can be completed.<br>
+                            <br>
+                            <b>Task 1</b>:  Complete the syntax and semantic analysis and construct AST for ExpL language. (<a href="expl.html" target="_blank">Specification</a>, <a href="grammar-outline.html" target="_blank">Grammar Outline</a>)
+                        </p>
+                        <p>
+                            <b>Part II</b>:  <b>Back End</b><br>
+
+                            We will first discuss the underlying concepts before getting into the back-end implementation details.<br>
+                            <br>
+                            The ExpL specification stipulates that the storage for a variable of a user-defined-type is allocated through the <a href="expl.html#nav-user-defined-types" target="_blank"><i>Alloc()</i> function</a>.<br>
+                            <br>
+                            Thus, each user-defined-type variable in ExpL must store the <b>reference</b> to its actual memory store.  <b>The actual memory may be allocated</b> by the <i>Alloc()</i> when a call to the function is encountered <b>at run time</b>.  <br>
+                            <br>
+                            From an implementation point of view, <b>a variable of a user-defined-type must be designed to hold the address of its actual memory store</b>. Whenever the <i>Alloc()</i> function is invoked for the variable,  a memory region sufficient for holding all the member fields of the variable must be allocated "somewhere" in memory and Alloc() must return the starting address of that memory region.  <b>The compiler must generate code to invoke <i>Alloc()</i> and store the return value into the variable</b>.    Thus, <b>the variable will essentially store a pointer</b> to the memory region allocated by <i>Alloc()</i>.  This easy to do, provided we have the <i>Alloc()</i> function at our disposal.  <br>
+                            <br>
+                            <b>A variable of a user-defined-type must be allocated at compile time one memory word to store an address (basically an integer) returned by <i>Alloc()</i> at run time</b>.  The allocation could be static or run-time.    ExpL specification does not permit arrays of user-defined type.<br>
+                            <br>
+                            Once the memory is allocated for a user-defined type variable, member field references can be translated easily.  The details are left to you.  <br>
+                            <br>
+                            The next problem is to design and implement the <i>Alloc()</i> function.   We will also take up the issue of designing the <i>Free()</i> function (to de-allocate some previously allocated memory).  This problem is known as the <b>dynamic memory allocation problem</b>.  (The <i>malloc()</i> and <i>free()</i> functions of the C library are <a href="https://en.wikipedia.org/wiki/C_dynamic_memory_allocation" target="_blank">dynamic memory allocation</a> routines of the C programming language.  <br>
+                            <br>
+                            The strategy of Alloc() is to maintain a <b>memory pool</b> called <b>heap memory</b>.    
+                            Allocate() will need to manage a large run-time memory pool.  To make matters simple, we will assume that Alloc() divides the whole memory into fixed size blocks.  We will assume that a block size of eight words.  In this case, the strategy is very simple:<br>
+
+                            <div class="syntax">
+                             <ul>
+                                <li id="otis">1. Before the start of the program, reserve a large area of the address space for heap. The ExpOS memory model suggests that address 1024-2047 may be used for this purpose.</li>
+                                <li id="otis">2. Organize the heap into a linear linked list of blocks, each block being of size 8. We will design a heap initializer function <i>Initialize()</i> specifically for this.</li>
+                                <li id="otis">3. When an <i>Alloc()</i> request comes, return the start address of the first free block in the list (and remove the block from the free list).</li>
+                                <li id="otis">4. When a <i>Free(address)</i> request comes (assuming <i>address</i> refers to the start address of a block already allocated), return the block pointed to by <i>address</i> back to the memory pool.</li>
+                             </ul>
+                            </div>
+
+                            The <i>pragmatic</i> restriction imposed by such a simple implementation is that a user-defined type cannot have more than eight-member fields.  Of course, we could have increased the block size to – say 16 – in which case the number of member fields can be upto 16.  For now, we will be content with the simple fixed block size scheme.  <br><br>
+
+                            With this, we can design our compiler to generate code for <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions along with the target code.   Techniques of Stage 5 suffices to build an executable file.  <br><br>
+
+                            However, there is a better way of doing things with OS support. The routines Alloc(), Free() and Initialize() will be used by every ExpL program (that uses user-defined types).   Thus, it would be profitable if these dynamic memory allocation routines are added into a shared library and loaded into the system memory once during OS bootstrap.   In this case, the OS loader must be designed link the library to each program at load-time.   This avoids the code for Alloc(), Free() and Initialize() to be built into the code of every ExpL program, saving both load-time and system memory.  <br><br>
+
+                            The ExpOS ABI[LINK] stipulates that calls to the dynamic memory functions shall be directed through the Library.   Thus, you must add Alloc(), Free() and Initialize() 
+                            as library functions.  As noted previously, the region of memory between address 1024 and 2047 must be used for heap memory allocation.  <br><br>
+
+                            It is <b>absolutely necessary</b> to read and understand Dynamic memory allocation [LINK] (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in this [LINK:  Library documentation – that link is yet to be added in documentation- will discuss].    We are now ready to complete the back end.  <br><br>
+
+                            <b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 for memory allocation.  Hence, the compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. <br><br> 
+
+                            <b>Exercise 1</b>:  Extend ExpL to permit arrays of user-defined type. <br><br> 
+
+                            If you want to do <b>variable sized block allocation</b>, more complex allocation schemes like the <a href="nav-buddy-allocation" target="_blank"><b>Buddy System Algorithm</b></a> will be required.  One would also need to understand the issue of <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)" target="_blank"><b>memory fragmentation</b></a> that can arise when variable sized allocation is done.  
+                            <br><br>
+                            <b>Exercise 2</b>:   (Nontrivial!)  Modify <i>Alloc()</i> and <i>Free()</i> library functions to implement the </b>Buddy memory allocator</p> described [HERE].  You will have to modify <i>Initialize()</i> appropriately.   The buddy system allocator is too complex to write in assembly language.  Hence write them in ExpL itself and modify your label translation scheme to generate target addresses correctly.<br>
+                        </p>
                     </article>
                 </div>
             </section>
