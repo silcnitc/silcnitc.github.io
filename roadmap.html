@@ -783,14 +783,15 @@
                          <p>
                             <b>Learning Objectives</b>:
                             <ul>
-                                 <li id="otis">You will extend the  language of Stage 4 by adding functions with support for recursion. Addition of functions to the language requires handling <b>scope</b> of variables.  Support for recursion demands <b>run-time storage allocation</b>. Only integer and string type variables will be supported.</li>
+                                 <li id="otis">You will extend the  language of Stage 4 by adding functions with support for recursion. Addition of functions to the language requires handling <b>scope</b> of variables.  Support for recursion demands <b>run-time storage allocation</b>. Only <i>integer</i> and <i>string</i> type variables will be supported.</li>
                             </ul>
+                            <hr>
                         </p>
                         <p>
                             This is the first major stage in the ExpL project.   A skeletal outline of the syntax rules for defining the extension of the language of Stage 4 to support subroutines is as below.   You are required to fill in rules required to complete the grammar.   Note that variables may be only of type integer/string.
                             <div class="syntax">
                                 Program ::= GDeclBlock FdefBlock <a href="grammar-outline.html" target="_blank">MainBlock</a><br>
-                                             |  GdeclBlock MainBlock  <br>
+                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|  GdeclBlock MainBlock  <br>
                                 <br>
                                 GdeclBlock  ::=  DECL GdeclList ENDDECL <br>
                                 <br>
@@ -801,9 +802,8 @@
                                 GidList ::=  GidList , Gid <br>
                                 <br>
                                 Gid ::= ID <br>
-                                        | ID[NUM] <br>
-                                        | ID(ParamList) <br>
-                                <br>
+                                &emsp;&emsp;&emsp;&emsp;&emsp;| ID[NUM] <br>
+                                &emsp;&emsp;&emsp;&emsp;&emsp;| ID(ParamList) <br>
                                 --------------------------------------------------------------------------------------
                                 <br>
                                 FDefBlock ::=  FdefBlock Fdef |  Fdef <br> 
@@ -815,7 +815,6 @@
                                 Arg ::= Type ID <br>
                                 <br>
                                 Type ::= INT | STR  <br>
-                                <br>
                                 -----------------------------------------------------------------------------------------
                                 LdeclBlock ::= DECL LDecList ENDDECL <br>
                                 <br>
@@ -841,11 +840,11 @@
 
                             Here is an <a href="run_data_structures/run-time-stack.html#nav-illustration" target="_blank">example</a> for a program with function.<br>
 
-                            We will take up semantic analysis and AST representation before proceeding to code generation. <br>
+                            We will take up semantic analysis and AST representation before proceeding to code generation. <br><br>
 
                             Each function requires a <b>declaration</b>. The declaration of functions must be made along with the global declarations.   The declaration specifies the types and names of the <b>formal parameters</b> and its <b>return type</b>.  The compiler must store the declaration information in the symbol table.  
 
-                            For example the declarations
+                            For example, the declarations
                             <div class="syntax">
                                 decl<br>
                                 ..<br>
@@ -889,52 +888,51 @@
                                 &emsp;end<br>
                                 }<br>
                             </div>
-                            Local variables declared in a function are visible only within the function.  We say that the <b>scope</b> of a local declaration is limited to the function.   Moreover, if a global variable has a re-declaration inside a function, the local declaration overrides the global declaration.
+                            Local variables declared in a function are <i>visible only</i> within the function.  We say that the <b>scope</b> of a local declaration is limited to the function.   Moreover, if a global variable has a re-declaration inside a function, <i>the local declaration overrides the global declaration</i>.
                         </p>
                         <p>
-                            Thus, we have two kinds of variables.  Global variables and functions that are visible "everywhere" (or having a <b>global scope</b>) and local variables that are visible only within the functions (or having a <b>local scope</b>) where they are declared.  <br>
+                            Thus, we have two kinds of variables.  Global variables and functions that are visible "everywhere" (or having a <b>global scope</b>) and local variables that are visible only within the functions (or having a <b>local scope</b>) where they are declared.  <br><br>
 
-                            The compiler needs to know the binding addresses and type of the local variables for translation of statements of the function to assembly code.  However, this information is irrelevant outside the function.  <br>
+                            The compiler needs to know the binding addresses and type of the local variables for translation of statements of the function to assembly code.  However, this information is irrelevant outside the function.  <br><br>
                             To keep track of the local variable and scope information, our strategy is to keep global and local variables in different symbol tables.  We will have 
                             <ul>
                                 <li id="otis">1.  A single <b>global symbol table</b> storing the (name, type, size, binding) information of local variables as well as (name, type, parameters, binding) information for functions.  The following structure is suggested for storing a global symbol table entry.</li>
                             </ul>
 
-                            \box
-                              structure for  global symbol table entry, just enough for the present stage
-                            endbox 
+                            <div class="syntax">
+                              //structure for  global symbol table entry, just enough for the present stage
+                            </div>
 
                             <ul>
                                 <li id="otis">2.  Several <b>local symbol tables</b> - one for each function containing the (name, type, binding) information for each local variable of the function.  (Note that since the language does not permit arrays to be defined within a function, the size value of local variables is always 1, hence the field is not required).   A local symbol table entry can be stored in the following structure:</li>
                             </ul>
 
-                            \box
-                              structure for local symbol table entry. 
-                            \endbox
+                            <div class="syntax">
+                              //structure for local symbol table entry. 
+                            </div>
                         </p>
                         <p>
-                            What is the <b>binding address of a function</b>?  When the compiler generates code for the function, a label is placed at the start of the function.  A call to the function is translated to a low-level CALL to the corresponding label.   Later, the label has to be replaced by the address  of the instruction during the <a href="label-translation.html" target="_blank">label translation phase</a>.
+                            What is the <b>binding address of a function</b>?  When the compiler generates code for the function, a label is placed at the start of the function.  A call to the function is translated to a low-level CALL to the corresponding label.   Later, the label has to be replaced by the address  of the instruction during the <a href="label-translation.html" target="_blank">label translation phase</a>.<br><br>
 
-                            The simple scheme we suggest here is to put the label F0 before the code of the first function declared in the program, F1 before the code of the second and so on.  Hence, in the binding field of the first function, store 0.  Similarly, store 1 in the binding field of the second and so on.  A call to the first function must be translated to CALL F0 and so on.  
+                            The simple scheme we suggest here is to put the label F0 before the code of the first function declared in the program, F1 before the code of the second and so on.  Hence, in the binding field of the first function, store 0.  Similarly, store 1 in the binding field of the second and so on. A call to the first function must be translated to CALL F0 and so on.<br><br>
 
-                            With this, the global symbol table for the <a href="run_data_structures/run-time-stack.html#nav-illustration" target="_blank">program</a> would be as below.   
+                            With this, the global symbol table for the <a href="run_data_structures/run-time-stack.html#nav-illustration" target="_blank">program</a> would be as below. <br><br>
 
-                            \figure 
-                              Have a figure showing the contents of the global symbol table in a table form.
-                            \end figure.  
+                            \figure <br>
+                              Have a figure showing the contents of the global symbol table in a table form.<br>
+                            \end figure.  <br><br>
 
+                            Continuing with the above example, we need two local symbol tables – one for the main function and one for the factorial function.  The local symbol table holds the (name, type, binding) triple for each formal parameter as well as local variables of the function.  We will discuss the binding of local variables later.  The local symbol tables of mail and factorial would look as the following:<br><br>
 
-                            Continuing with the above example, we need two local symbol tables – one for the main function and one for the factorial function.  The local symbol table holds the (name, type, binding) triple for each formal parameter as well as local variables of the function.  We will discuss the binding of local variables later.  The local symbol tables of mail and factorial would look as the following:
+                            \figure<br>
 
-                            \figure
+                            local symbol table for main (leave the binding field empty) <br>
 
-                            local symbol table for main (leave the binding field empty) 
+                            local symbol table for factorial (leave the binding field empty)  <br>
 
-                            local symbol table for factorial (leave the binding field empty)  
+                            \endfigure <br><br>
 
-                            \endfigure 
-
-                            See LINK for more details.  
+                            See LINK for more details. <br> 
 
                             <div class="syntax">
                                 <b>Task 1</b>:  Complete the program to build the global symbol table.  Test your program by printing out all global declarations in the program by displaying the contents of the symbol table.  You must not permit a two variables/functions (or a function and a variable) to have the same name.
@@ -953,13 +951,15 @@
                                 <li id="otis">c)  Build AST for the function, doing type-checking when the tree is built,  as was done in the previous stages.</li>
                                 <li id="otis">d)  Recursively traverse the tree and generate code for the function in the target file.</li>
                                 </ul>
-                            </li><br>
+                            </li>
+                            </ul>
                                 <b>After generating code for a function, the local symbol table and the abstract syntax tree for the function can be deallocated.</b> Proceed to step 2 for the next function.
                         </p>
                         <p>
-                            Note that local variables and the code of a function are not visible outside the function. Hence, the local symbol table and AST for a function are not required once the code is generated.  <b>To generate code for a function call, we need only the signature of the function and this information is available in the global symbol table.</b>  The global symbol table must be maintained throughout the compilation process.    Note that the main function is just like any other function except that it has no arguments, its name must be Main and return type must be int.  
+                            Note that local variables and the code of a function are not visible outside the function. Hence, the local symbol table and AST for a function are not required once the code is generated.  <b>To generate code for a function call, we need only the signature of the function and this information is available in the global symbol table.</b>  The global symbol table must be maintained throughout the compilation process.    Note that the main function is just like any other function except that it has no arguments, its name must be Main and return type must be <i>int</i>.  <br><br>
 
-                            The only non-trivial part about semantic analysis and AST construction pending discussion is how to build AST for a function call.  We start with an example.
+                            The only non-trivial part about semantic analysis and AST construction pending discussion is how to build AST for a function call.<br><br>
+                            We start with an example.
                         </p>
                         <p>
                             Suppose we have the following declarations:  
@@ -973,17 +973,17 @@
                             <br>
                             t = Compute(a+b,find(a-b));<br>
                             <br>
-                            The statement is semantically valid provided a, b, and c  integer type variables.  Note that the call might occur in the code of any function (including the same function – as in the case of a recursive call). <br>
+                            The statement is semantically valid provided a, b, and c  integer type variables.  Note that the call might occur in the code of <i>any function (including the same function – as in the case of a recursive call)</i>. <br>
                             <br>
                             The expression tree for this could look as below:  <br>
 
-                            \figure
+                            \figure<br>
 
-                            expression tree for the above call  
+                            expression tree for the above call <br> 
 
-                            \endfigure   
+                            \endfigure   <br>
                             <br>
-                            A tree node for a function call contains a pointer to a list of expressions, one expression for each argument. <b>The compiler must type check each argument and match it with the type of the corresponding formal parameter of the called function.</b>  The expression tree structure given HERE[LINK] can be used (instead of the type table pointer, just store a variable indicating INT/STR type.  We will take up user defined types later.)   The details of implementation are left to you. 
+                            A tree node for a function call contains a pointer to a list of expressions, one expression for each argument. <b>The compiler must type check each argument and match it with the type of the corresponding formal parameter of the called function.</b>  The expression tree structure given HERE[LINK] can be used (instead of the type table pointer, just store a variable indicating INT/STR type.  We will take up user defined types later.)   The details of implementation are left to you. <br><br>
 
                             With this information, the task of completing type checking and building expression tree for a function is straightforward.  
 
@@ -1059,14 +1059,14 @@
 
                             <a>http://silcnitc.github.io/run_data_structures/run-time-stack.html </a><br>
 
-                            is absolutely essential to proceed any further.<br>  
+                            is absolutely essential to proceed any further.<br>  <br>
 
 
-                            Supose  a function has n arguments (arg_1, arg_2,...,arg_n) and m local variables (loc_1, loc_2, ..., loc_m), its activation record in the stack may as the following
+                            Suppose  a function has n arguments (arg_1, arg_2,...,arg_n) and m local variables (loc_1, loc_2, ..., loc_m), its activation record in the stack may look as the following<br><br>
 
-                            \figure 
-
-                            \figure.  
+                            \figure <br>
+                            <br>
+                            \figure.  <br><br>
 
 
                             In this scheme, the following code must be generated by the caller when a call to the above function is encountered:
@@ -1078,11 +1078,11 @@
                                 <li id="otis">4.  Generate Call instruction to the binding (label) of the function.</li>
                             </ul>
 
-                            \figure 
-                            \picture before the call on left side – picture after return on the right side will discuss.  
-                            \endfigure 
+                            \figure <br>
+                            \picture before the call on left side – picture after return on the right side will discuss. <br> 
+                            \endfigure <br><br>
 
-                            /* Task pending is to generate code for actions after return from the call */
+                            /* Task pending is to generate code for actions after return from the call */<br>
 
                              <ul>
                                 <li id="otis">5. Allocate a new register and store the returned value.</li>
@@ -1090,7 +1090,7 @@
                                 <li id="otis">7. Pop out registers.</li>
                             </ul>
 
-                            The above actions are sufficient to generate code for handling a function invocation.  Note that to generate code for a call, only the callee's declaration information (types and order of the arguments and call label) needs to be known.   Note that the callee call could have been generated even by a different compiler.  All that the caller needs to know is the callee's <b>interface</b>, and the <b>calling convention</b> (convention regarding in what order arguments must be pushed, where should the return value be stored etc.  See also <a href="https://en.wikipedia.org/wiki/Calling_convention" target="_blank">link</a>).   
+                            The above actions are sufficient to generate code for handling a function invocation.  Note that to generate code for a call, only the callee's declaration information (types and order of the arguments and call label) needs to be known.   Note that the callee call could have been generated even by a different compiler.  All that the caller needs to know is the callee's <b>interface</b>, and the <b>calling convention</b> (convention regarding in what order arguments must be pushed, where should the return value be stored etc.  See also <a href="https://en.wikipedia.org/wiki/Calling_convention" target="_blank">link</a>).   <br><br>
 
 
                             Now, while generating the callee code, the callee must generate the following code before proceeding to the remaining instructions: 
@@ -1121,7 +1121,7 @@
                             <br>
 
                             <b>IMPORTANT NOTE</b>:  In our calling convention, the caller was required to save the registers in use before the call.  What if instead, we design a  calling convention where the callee had to push the registers in use?  The problem here is that the callee does not know (and does not have to know) the caller and hence do not know at each call which were the registers in use.  Hence, the callee will have to save all machine registers, wasting time and space.  Hence, the convention of the caller storing registers in use is superior.  However, there are situations where this is not possible.  For instance, in hardware interrupt routines,  control is transferred to the callee without the caller executing a call.  In such cases, the callee will have to save (all) the machine registers for a successful return.  
-                            <br>
+                            <br><br>
 
                             The final task of this stage can be completed. <br> 
 
@@ -1133,10 +1133,10 @@
                             <br>
                             int swap(int *p, int *q) <br>
                             <br>
-                            Note that functions need to be permitted to return pointer type variables.  (Returning a pointer to local variable from a function is not advisable – Why?).  
+                            Note that functions need to be permitted to return pointer type variables.  (Returning a pointer to local variable from a function is not advisable – Why?).  <br><br>
 
                             <b>Exercise 2</b> (Hard work, but insightful):  Suppose you want to extend the language with facility of <b>tuples</b>.  By a tuple, we mean an object declared as below:<br>
-                            <br>
+                            
                             <div class="syntax">
                                 decl<br>
                                 ..<br>
@@ -1146,7 +1146,7 @@
                                 ..<br>
                                 enddecl<br>
                             </div>
-                            <br>
+                            
                             Note that tuple is introduced as a new keyword.  For example, we could have:<br>
                             <div class="syntax">
                                 decl<br>
@@ -1156,9 +1156,9 @@
                                  <br>
                                 enddecl<br>
                             </div>
-                            <br>
+                            
                             To access a tuple you must introduce the “.” operator.  Here is an example:<br>
-                            <br>
+                            
                             <div class="syntax">
                                 read(a.name);<br>
                                 read(x.name); <br> 
@@ -1166,12 +1166,12 @@
                                 &emsp;write("They have same names"); <br>
                                 endif; <br> 
                             </div>
-                            <br>
+                            
                             You must also permit assignment of a tuple type variable to another, provided the variables are of the same tuple type.  <br>
                             <br>
                             Design the syntax and semantics rules, make necessary modifications to the lexer, parser, symbol table and AST structures to incorporate the addition of tuples and change the code generation module accordingly.    For now, assume that tuples cannot be passed as arguments to functions or be returned by functions.   However, you must permit local tuple declarations.  Note that you have considerable freedom in deciding on the grammar rules and data structures, and even the features permitted. <br>
                             <br>
-                            <b>Exercise 3</b>:  (Hard work, optional, but insightful.  Can be done only after Exercise 1 and Exercise 2 are completed).  
+                            <b>Exercise 3</b>:  (Hard work, optional, but insightful.  Can be done only after Exercise 1 and Exercise 2 are completed).<br><br>  
 
                             Allow tuples and pointers to tuples to be passed as arguments to functions.  (Allowing the whole tuple to be passed creates more work in parameter passing, though not difficult in principle).   Functions may be permitted to return tuples as return values.   Permit a function that takes an argument/returns a tuple or pointers to tuple type to be declared only after the declaration of the concerned tuples (this is to avoid the <a href="https://en.wikipedia.org/wiki/Forward_declaration" target="_blank">forward reference problem</a>).  Design syntax, semantics and code generation strategies appropriately. 
                         </p>
@@ -1183,13 +1183,14 @@
                             <ul>
                                 <li id="otis">1.  Read the <a href="expl.html" target="_blank">ExpL specification</a>.</li>
                                 <li id="otis">2.  Read about <a href="expl.html#nav-dynamic-memory-allocation" target="_blank">dynamic memory allocation</a>.</li>
-                            </ul>   
+                            </ul>
                         </p>
                         <p>
                             <b>Learning Objectives</b>:
                             <ul>
                                  <li id="otis">You will extend the language of Stage 5 by adding support for <b>user-defined types</b> and <b>dynamic memory allocation</b>.  Issues of <b>Heap management</b> will be encountered en route.</li>
                             </ul>
+                            <hr>   
                         </p>
                         <p>
                             This is the second major stage of the ExpL compiler project and will be implemented in two parts.  In the first part, we will see how user defined types can be added to the language syntax and how semantic analysis can be performed.  The ExpL specification demands storage for user-defined types dynamically.   We will discuss how dynamic memory allocation can be achieved in the second part.  <br>
@@ -1222,7 +1223,6 @@
                                 &emsp;int postOrder(bst h); <br>          
                                 enddecl<br>
                             </div>
-                            <br>
                             This type definition specifies the node structure for a binary search tree.  The member field a has type integer, whereas <i>left</i> and <i>right</i> have type bst.   Note the <b>recursive</b> nature of the type definition.   The declaration section shows functions which take as input a <i>bst</i> or returns a <i>bst</i> or both.    Here is another type definition: <br> 
                             <div class="syntax">
                                 type<br>
@@ -1281,11 +1281,12 @@
                             <br>
                             A plausible tree node structure and associated functions for AST construction are described <a href="data_structures/abstract-syntax-tree.html" target="_blank"> HERE</a>.  <br>
                             <br>
-                            Note:  ExpL specification demands a rigid type analysis by <a href="https://en.wikipedia.org/wiki/Nominal_type_system" target="_blank">name equivalence</a>. This differs from the more liberal <a href="https://en.wikipedia.org/wiki/Structural_type_system" target="_blank">structural equivalance</a> in the C programming language.  <br>
+                            <b>Note</b>:  ExpL specification demands a rigid type analysis by <a href="https://en.wikipedia.org/wiki/Nominal_type_system" target="_blank">name equivalence</a>. This differs from the more liberal <a href="https://en.wikipedia.org/wiki/Structural_type_system" target="_blank">structural equivalance</a> in the C programming language.  <br>
                             <br>
                             With this background, the front end of the ExpL compiler can be completed.<br>
-                            <br>
-                            <b>Task 1</b>:  Complete the syntax and semantic analysis and construct AST for ExpL language. (<a href="expl.html" target="_blank">Specification</a>, <a href="grammar-outline.html" target="_blank">Grammar Outline</a>)
+                            <div class="syntax">
+                            	<b>Task 1</b>:  Complete the syntax and semantic analysis and construct AST for ExpL language. (<a href="expl.html" target="_blank">Specification</a>, <a href="grammar-outline.html" target="_blank">Grammar Outline</a>)
+                            </div>
                         </p>
                         <p>
                             <b>Part II</b>:  <b>Back End</b><br>
@@ -1322,18 +1323,18 @@
 
                             However, there is a better way of doing things with OS support. The routines Alloc(), Free() and Initialize() will be used by every ExpL program (that uses user-defined types).   Thus, it would be profitable if these dynamic memory allocation routines are added into a shared library and loaded into the system memory once during OS bootstrap.   In this case, the OS loader must be designed link the library to each program at load-time.   This avoids the code for Alloc(), Free() and Initialize() to be built into the code of every ExpL program, saving both load-time and system memory.  <br><br>
 
-                            The ExpOS ABI[LINK] stipulates that calls to the dynamic memory functions shall be directed through the Library.   Thus, you must add Alloc(), Free() and Initialize() 
-                            as library functions.  As noted previously, the region of memory between address 1024 and 2047 must be used for heap memory allocation.  <br><br>
+                            The <a href="http://exposnitc.github.io/abi.html" target="_blank">ExpOS ABI</a> stipulates that calls to the dynamic memory functions shall be directed through the Library.   Thus, you must add Alloc(), Free() and Initialize() as library functions.  As noted previously, the region of memory between address 1024 and 2047 must be used for heap memory allocation.  <br><br>
 
-                            It is <b>absolutely necessary</b> to read and understand Dynamic memory allocation [LINK] (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in this [LINK:  Library documentation – that link is yet to be added in documentation- will discuss].    We are now ready to complete the back end.  <br><br>
-
-                            <b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 for memory allocation.  Hence, the compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. <br><br> 
+                            It is <b>absolutely necessary</b> to read and understand <a href="run_data_structures/heap.html" target="_blank">Dynamic memory allocation</a> (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in this [LINK:  Library documentation – that link is yet to be added in documentation- will discuss].    We are now ready to complete the back end.  <br>
+                            <div class="syntax">
+                            	<b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 for memory allocation.  Hence, the compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. <br>
+                            </div> 
 
                             <b>Exercise 1</b>:  Extend ExpL to permit arrays of user-defined type. <br><br> 
 
                             If you want to do <b>variable sized block allocation</b>, more complex allocation schemes like the <a href="nav-buddy-allocation" target="_blank"><b>Buddy System Algorithm</b></a> will be required.  One would also need to understand the issue of <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)" target="_blank"><b>memory fragmentation</b></a> that can arise when variable sized allocation is done.  
                             <br><br>
-                            <b>Exercise 2</b>:   (Nontrivial!)  Modify <i>Alloc()</i> and <i>Free()</i> library functions to implement the </b>Buddy memory allocator</p> described [HERE].  You will have to modify <i>Initialize()</i> appropriately.   The buddy system allocator is too complex to write in assembly language.  Hence write them in ExpL itself and modify your label translation scheme to generate target addresses correctly.<br>
+                            <b>Exercise 2</b>:   (Nontrivial!)  Modify <i>Alloc()</i> and <i>Free()</i> library functions to implement the </b>Buddy memory allocator</p> described <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">HERE</a>.  You will have to modify <i>Initialize()</i> appropriately.   The buddy system allocator is too complex to write in assembly language.  Hence write them in ExpL itself and modify your label translation scheme to generate target addresses correctly.<br>
                         </p>
                     </article>
                 </div>
