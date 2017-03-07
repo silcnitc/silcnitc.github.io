@@ -1197,7 +1197,7 @@
                             <br>
                             See the <a href="expl.html" target="_blank">ExpL language specification</a> for an informal description of the language.   It is suggested that you design your own grammar using the outline provided <a href="grammar-outline.html" target="_blank">HERE</a> as a reference.<br>  
                             <br>
-                            The following links provide examples of ExpL programs containing user defined types.  (LINK ___ Give links to programs with dynamic memory allocation in the Test programs section).  <br>
+                            The following <a href="testprograms.html#test8" target="_blank">link</a> provide examples of ExpL programs containing user defined types.<br>
                             <br>
                             We will now take up the front end - semantic analysis and AST representation before proceeding to code generation and dynamic memory allocation.    <br>
                              <br>
@@ -1224,14 +1224,14 @@
                                 enddecl<br>
                             </div>
                             This type definition specifies the node structure for a binary search tree.  The member field a has type integer, whereas <i>left</i> and <i>right</i> have type bst.   Note the <b>recursive</b> nature of the type definition.   The declaration section shows functions which take as input a <i>bst</i> or returns a <i>bst</i> or both.    Here is another type definition: <br> 
-                            <div class="syntax">
+                            <div class="syntax" id="nav-marklist">
                                 type<br>
                                 &emsp;linkedList {<br>
                                 &emsp;&emsp;int data; <br> 
                                 &emsp;&emsp;linkedList next;  <br>
                                   }<br>
                                   <br>
-                                &emsp;markeList{<br>
+                                &emsp;markList{<br>
                                 &emsp;&emsp;str name;  <br>
                                 &emsp;&emsp;linkedList marks; <br> 
                                   }<br>
@@ -1255,7 +1255,7 @@
                             <br>
                             We must now discuss how to use the symbol table and type table for completing semantic analysis of the input program.   Let us look at an example.  <br>
                             <br>
-                            Consider the declaration of the type <i>markList</i> in the example above [LINK].  The language now permits statements like:<br>
+                            Consider the declaration of the type <i>markList</i> in the example <a href="#nav-marklist">above</a>.  The language now permits statements like:<br>
 
                             <div class="syntax">
                             temp = mList.next; <br>
@@ -1334,7 +1334,7 @@
 
                             If you want to do <b>variable sized block allocation</b>, more complex allocation schemes like the <a href="nav-buddy-allocation" target="_blank"><b>Buddy System Algorithm</b></a> will be required.  One would also need to understand the issue of <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)" target="_blank"><b>memory fragmentation</b></a> that can arise when variable sized allocation is done.  
                             <br><br>
-                            <b>Exercise 2</b>:   (Nontrivial!)  Modify <i>Alloc()</i> and <i>Free()</i> library functions to implement the </b>Buddy memory allocator</p> described <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">HERE</a>.  You will have to modify <i>Initialize()</i> appropriately.   The buddy system allocator is too complex to write in assembly language.  Hence write them in ExpL itself and modify your label translation scheme to generate target addresses correctly.<br>
+                            <b>Exercise 2</b>:   (Nontrivial!)  Modify <i>Alloc()</i> and <i>Free()</i> library functions to implement the </b>Buddy memory allocator described <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">HERE</a>.  You will have to modify <i>Initialize()</i> appropriately.   The buddy system allocator is too complex to write in assembly language.  Hence write them in ExpL itself and modify your label translation scheme to generate target addresses correctly.<br>
                         </p>
                     </article>
                 </div>
