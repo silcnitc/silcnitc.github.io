@@ -1284,9 +1284,9 @@
                             <b>Note</b>:  ExpL specification demands a rigid type analysis by <a href="https://en.wikipedia.org/wiki/Nominal_type_system" target="_blank">name equivalence</a>. This differs from the more liberal <a href="https://en.wikipedia.org/wiki/Structural_type_system" target="_blank">structural equivalance</a> in the C programming language.  <br>
                             <br>
                             With this background, the front end of the ExpL compiler can be completed.<br>
-                            <div class="syntax">
+                            <br>
                             	<b>Task 1</b>:  Complete the syntax and semantic analysis and construct AST for ExpL language. (<a href="expl.html" target="_blank">Specification</a>, <a href="grammar-outline.html" target="_blank">Grammar Outline</a>)
-                            </div>
+                            <br>
                         </p>
                         <p>
                             <b>Part II</b>:  <b>Back End</b><br>
@@ -1326,9 +1326,9 @@
                             The <a href="http://exposnitc.github.io/abi.html" target="_blank">ExpOS ABI</a> stipulates that calls to the dynamic memory functions shall be directed through the Library.   Thus, you must add Alloc(), Free() and Initialize() as library functions.  As noted previously, the region of memory between address 1024 and 2047 must be used for heap memory allocation.  <br><br>
 
                             It is <b>absolutely necessary</b> to read and understand <a href="run_data_structures/heap.html" target="_blank">Dynamic memory allocation</a> (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in this [LINK:  Library documentation – that link is yet to be added in documentation- will discuss].    We are now ready to complete the back end.  <br>
-                            <div class="syntax">
+                            <br>
                             	<b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 for memory allocation.  Hence, the compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. <br>
-                            </div> 
+                            <br> 
 
                             <b>Exercise 1</b>:  Extend ExpL to permit arrays of user-defined type. <br><br> 
 
