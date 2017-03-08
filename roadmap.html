@@ -39,6 +39,9 @@
                         <li class="sec"><a href="#nav-stage2">2. Introduction to static storage allocation</a></li>
                         <li class="sec"><a href="#nav-stage3">3. Adding Flow Control Statements</a></li>
                         <li class="sec"><a href="#nav-stage4">4. User Defined Variables and arrays</a></li>
+                        <li class="sec"><a href="#nav-stage5">5. Adding Functions</a></li>
+                        <li class="sec"><a href="#nav-stage6">6. User defined types and Dynamic Memory Allocation</a></li>
+
                     </ul>
                 </menu>
             </aside>
@@ -1175,6 +1178,9 @@
 
                             Allow tuples and pointers to tuples to be passed as arguments to functions.  (Allowing the whole tuple to be passed creates more work in parameter passing, though not difficult in principle).   Functions may be permitted to return tuples as return values.   Permit a function that takes an argument/returns a tuple or pointers to tuple type to be declared only after the declaration of the concerned tuples (this is to avoid the <a href="https://en.wikipedia.org/wiki/Forward_declaration" target="_blank">forward reference problem</a>).  Design syntax, semantics and code generation strategies appropriately. 
                         </p>
+                            <div class="up column3 mright">
+    	                        <a href="#navtop">  &#x2191; </a>
+	                        </div>
                     </article>
                     <article class="grid col-full" id="nav-stage6">
                         <h2>Stage 6: User defined types and Dynamic Memory Allocation</h2>  
@@ -1317,25 +1323,34 @@
                              </ul>
                             </div>
 
-                            The <i>pragmatic</i> restriction imposed by such a simple implementation is that a user-defined type cannot have more than eight-member fields.  Of course, we could have increased the block size to – say 16 – in which case the number of member fields can be upto 16.  For now, we will be content with the simple fixed block size scheme.  <br><br>
-
-                            With this, we can design our compiler to generate code for <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions along with the target code.   Techniques of Stage 5 suffices to build an executable file.  <br><br>
-
-                            However, there is a better way of doing things with OS support. The routines Alloc(), Free() and Initialize() will be used by every ExpL program (that uses user-defined types).   Thus, it would be profitable if these dynamic memory allocation routines are added into a shared library and loaded into the system memory once during OS bootstrap.   In this case, the OS loader must be designed link the library to each program at load-time.   This avoids the code for Alloc(), Free() and Initialize() to be built into the code of every ExpL program, saving both load-time and system memory.  <br><br>
-
-                            The <a href="http://exposnitc.github.io/abi.html" target="_blank">ExpOS ABI</a> stipulates that calls to the dynamic memory functions shall be directed through the Library.   Thus, you must add Alloc(), Free() and Initialize() as library functions.  As noted previously, the region of memory between address 1024 and 2047 must be used for heap memory allocation.  <br><br>
-
-                            It is <b>absolutely necessary</b> to read and understand <a href="run_data_structures/heap.html" target="_blank">Dynamic memory allocation</a> (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in this [LINK:  Library documentation – that link is yet to be added in documentation- will discuss].    We are now ready to complete the back end.  <br>
-                            <br>
-                            	<b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 for memory allocation.  Hence, the compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. <br>
-                            <br> 
-
+                            The <i>pragmatic</i> restriction imposed by such a simple implementation is that a user-defined type cannot have more than eight-member fields.  Of course, we could have increased the block size to – say 16 – in which case the number of member fields can be upto 16.  For now, we will be content with the simple fixed block size scheme.
+                        </p>
+                        <p>
+                            With this, we can design our compiler to generate code for <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions along with the target code.   Techniques of Stage 5 suffices to build an executable file.
+                        </p>
+                        <p>
+                            However, there is a better way of doing things with OS support. The routines Alloc(), Free() and Initialize() will be used by every ExpL program (that uses user-defined types).   Thus, it would be profitable if these dynamic memory allocation routines are added into a shared library and loaded into the system memory once during OS bootstrap.   In this case, the OS loader must be designed link the library to each program at load-time.   This avoids the code for Alloc(), Free() and Initialize() to be built into the code of every ExpL program, saving both load-time and system memory.
+                        </p>
+                        <p>
+                            The <a href="http://exposnitc.github.io/abi.html" target="_blank">ExpOS ABI</a> stipulates that calls to the dynamic memory functions shall be directed through the Library.   Thus, you must add Alloc(), Free() and Initialize() as library functions.  As noted previously, the region of memory between address 1024 and 2047 must be used for heap memory allocation.
+                        </p>
+                        <p>
+                            It is <b>absolutely necessary</b> to read and understand <a href="run_data_structures/heap.html" target="_blank">Dynamic memory allocation</a> (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in this [LINK:  Library documentation – that link is yet to be added in documentation- will discuss].    We are now ready to complete the back end.
+                        </p>
+                        <p>
+                        	<b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 for memory allocation.  Hence, the compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. 
+                        </p>
+                        <p>
                             <b>Exercise 1</b>:  Extend ExpL to permit arrays of user-defined type. <br><br> 
 
                             If you want to do <b>variable sized block allocation</b>, more complex allocation schemes like the <a href="nav-buddy-allocation" target="_blank"><b>Buddy System Algorithm</b></a> will be required.  One would also need to understand the issue of <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)" target="_blank"><b>memory fragmentation</b></a> that can arise when variable sized allocation is done.  
-                            <br><br>
+                        </p>
+                        <p>    
                             <b>Exercise 2</b>:   (Nontrivial!)  Modify <i>Alloc()</i> and <i>Free()</i> library functions to implement the </b>Buddy memory allocator described <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">HERE</a>.  You will have to modify <i>Initialize()</i> appropriately.   The buddy system allocator is too complex to write in assembly language.  Hence write them in ExpL itself and modify your label translation scheme to generate target addresses correctly.<br>
                         </p>
+                        <div class="up column3 mright">
+                            <a href="#navtop">  &#x2191; </a>
+                        </div>
                     </article>
                 </div>
             </section>
