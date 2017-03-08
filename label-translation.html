@@ -102,23 +102,23 @@
                         <p>
                             In the machine code generated after codegen section, labels occur in two different ways.<br>
                             <ul>
-                                <li id="otis">1. Instructions in which labels are followed by semicolon (:).</li>
-                                <li id="otis"><b>Examples</b> : F0: at address 2066, L0: at address 2104, L1: at address 2166, MAIN: at address 2192 as in <a href="#fig1">figure1</a></li>.
+                                <li id="otis">1. Label declarations in which labels are followed by semicolon (:).</li>
+                                <li id="otis"><b>Examples</b> : F0: is a label for the instruction at address 2066, L0: for 2102, L1: for 2162 and MAIN: for 2186 as in <a href="#fig1">figure1</a></li>.
                                 <li id="otis">2. Instructions which contain labels in them are JMP, JZ, JNZ and CALL.</li>
-                                <li id="otis"><b>Examples</b> : JMP L1 at address 2102, JZ R0, L3 at address 2258, CALL MAIN at address 2062 etc., as in <a href="#fig1">figure1</a>.</li>
+                                <li id="otis"><b>Examples</b> : JMP L1 at address 2100, JZ R0,L3 at address 2248, CALL MAIN at address 2062 etc., as in <a href="#fig1">figure1</a>.</li>
                             </ul>
                         </p>
                         <p>
                             Now, we will understand the label translation procedure with the help of an example label F0 from the <a href="#fig1">figure1</a>.<br>
-                            First <b>F0:</b> need to be recognized and the memory address of the label occurance need to be stored. In this case the instruction F0: is occuring at memory address 2066. Now we need to parse the entire machine code to find the occurrences of labels in the instructions. In this parse we remove the instruction F0: at memory address 2066 <b>[Why?]</b>. In the <a href="#fig1">figure1</a>, there are two instructions that use this label <b> CALL F0 occuring at address 2140 </b> and <b>CALL F0 occuring at address 2312</b>. We will replace the labels in these instructions with the address of F0: (2066) we stored earlier. So, now the instructions will become <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
+                            First <b>F0:</b> need to be recognized and the memory address of the label occurance need to be stored in a table called Label-Address Table.  In this case, the address corresponding to <b>F0:</b> is 2066. We need to parse the entire machine code to identify all labels and store all (label, address) pairs in the Label-Address table. In this pass, we remove the label F0: as well as other labels from the program. The next task is to replace labels occuring in instructions with the addresses of the labels from the label-address table.  Refering to the <a href="#fig1">figure1</a>, there are two instructions that use the label F0: <b> CALL F0 occuring at address 2136 </b> and <b>CALL F0 occuring at address 2302</b>. We will replace the labels in these instructions with the address of F0 (2066) by looking up the label-address table.  Thus, after translation, both these instructions will translate to <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
                         </p>
                         <p>
-                            The label translater program need to parse the entire machine code two times. In the first parse we identify all the label instructions of first type and store the memory addresses of the occurrences of the labels along with the corresponding labels in a label-address table. The table constructed after the first parse of the above code is shown below.
+                            The label translater program need to parse the entire machine code two times. In the first parse we identify all the label declarations and the memory addresses in the label-address table.   The table constructed after the first parse of the above code is shown below.
                         <p>
                             <img src="img/label-table.png">
                         </p>
                         <p>
-                            In the second parse, we recognize the label occurrences of first type and remove them <b>[Why?]</b> and replace the labels with the corresponding memory address in the label occurrences of second type.
+                            In the second parse, we remove the label declarations and replace the labels in instructions like JUMP, CALL etc. with the corresponding memory address from the label-address table.  
                         </p>
                         <p>
                             The target code after the label translation is shown in the <a href="#fig2"> figure 2</a>.
@@ -126,9 +126,9 @@
                         <hr>
                     </div>
                     <div>
-                        <h3>How to implement the parser?</h3>
+                        <h3>Implementing Label Translation</h3>
                         <p>
-                            The above parser can be implemented using a single Lex program.The following functions provided by Lex can be useful while implementing the parser :
+                            The above two pass translation process can be implemented using a single Lex program.The following functions provided by Lex can be useful while implementing the parser :
                             <ul>
                                 <li id="otis">1. <b>yyless(k)</b> : Returns all but the first n characters of the current token back to the input stream, where they will be rescanned when the scanner looks for the next match. <b>yytext</b> and <b>yyleng</b> are adjusted appropriately (e.g., yyleng will now be equal to n ).<br>
                                 For example, on the input "foobar" the following will write out "foobarbar":<br>
@@ -137,8 +137,8 @@
                                     foobar    ECHO; yyless(3);<br>
                                     [a-z]+    ECHO;<br>
                                 </div>
-                                An argument of 0 to yyless will cause the entire current input string to be scanned again. Unless you've changed how the scanner will subsequently process its input (using BEGIN, for example), this will result in an endless loop. Note that yyless is a macro and can only be used in the flex input file, not from other source files.</li>
-                                <li id="otis">2. <b>yytext+k</b> : ignores the first k characters in yytext(lexeme).</li>
+                                An argument of 0 to yyless will cause the entire current input string to be scanned again. Unless you've changed how the scanner will subsequently process its input, this will result in an endless loop. Note that yyless is a macro and can only be used in the flex input file, not from other source files.</li>
+                                <li id="otis">2. <b>yytext+k</b> : ignores the first k characters in yytext.</li>
                             </ul>
                         </p>
                     </div>

@@ -312,13 +312,14 @@
                             <ul>
                                 <li id="otis">In this stage, you will extend the expression evaluator of the previous stage to support a set of pre-defined variables with Input/Output and assignment statements. You will get introduced to the notion of <b>static storage allocation</b> enroute. You will also learn to differentiate between statements and expressions and also construct an <i>abstract syntax tree representation</i> for a program.</li>
                             </ul>
+                            <hr>
                          </p>
                          <p>
                             Consider a simple programming language with the following syntax:
                             <div class="syntax">
                                 Program ::= BEGIN Slist END<br>
                                 <br>
-                                Slist ::=  Slist Stmt<br>
+                                Slist ::=  Slist Stmt | Stmt<br>
                                 <br>
                                 Stmt ::= InputStmt |  OuptputStmt | AsgStmt<br>
                                 <br>
@@ -328,7 +329,7 @@
                                 <br>
                                 AsgStmt ::==  ID = E;<br>
                             </div> 
-                            Apart from the <a href="lex.html" target="_blank">literal tokens</a>, BEGIN, END, READ, and WRITE are tokens corresponding to keywords “begin”, “end”, “read” and “write”.  ID is a token for variables.  We will permit only variables [a-z].
+                            Apart from the <a href="lex.html" target="_blank">literal tokens</a>, BEGIN, END, READ, and WRITE are tokens corresponding to keywords “begin”, “end”, “read” and “write”.  ID is a token for variables.  We will permit only variables [a-z] in this stage.
                          </p>
                          <p>
                             To support variables to appear in expressions, you must add the rule <b>E := ID</b> to the expression syntax used in Stage 1. The above syntax defines a small programming language that permits just straight line programs (programs without conditionals, loops, jumps or such control transfer constructs). There are only 26 pre-defined variables that are supported – a, b,c,..,z. A typical program would look like:
@@ -351,18 +352,18 @@
                             Another important conceptual point to note is that the introduction of variables also demand binding them to storage (memory) locations. The storage location associated with a variable must hold the value of the variable at each point of program execution. A statement (like the assignment statement or a read statement) that alters the value of a variable must result in a change the value stored in the corresponding storage location.
                         </p>
                         <p>
-                            In the present case, the compiler can fix the address for each variable in memory right at the time of program compilation. Since the ABI stipulate that storage allocation must be done in the stack region, we can pre-allocate the first 26 memory locations in the stack region of <a href="abi.html#nav-virtual-address-space-model" target="_blank">memory</a> for the variables a-z. Thus, variable a will refer to contents of address 4096, b to contents of address 4097 and so on. Any time the compiler encounters the variable – say a, the address to be looked at is fixed – in this case 4096. Such allocation policy is called <b>static allocation</b>. In later stages you will encounter situations where it will not be possible for the compiler to fix memory address of a variable at compile time. This leads to <b>run time</b> and <b>dynamic memory allocation</b> policies. For now, we will be content with static allocation.
+                            In the present case, the compiler can fix the address for each variable in memory right at the time of program compilation. Since the ABI stipulate that storage allocation must be done in the stack region, we can pre-allocate the first 26 memory locations in the stack region of <a href="abi.html#nav-virtual-address-space-model" target="_blank">memory</a> for the variables a-z. Thus, variable <i>a</i> will refer to contents of address 4096, <i>b</i> to contents of address 4097 and so on. Any time the compiler encounters the variable – say <i>a</i>, the address to be looked at is fixed – in this case 4096. Such allocation policy is called <b>static allocation</b>. In later stages you will encounter situations where it will not be possible for the compiler to fix memory address of a variable at compile time. This leads to <b>run time</b> and <b>dynamic memory allocation</b> policies. For now, we will be content with static allocation.
                         </p>
                         <p> 
                             To implement the above, your compiler must:
                             <ul>
-                                <li id="otis">1. Fix the storage location for each variable. As noted above, the first 26 locations of the stack region starting at address 4096 may be assigned for a to z. Note that the XSM machine can store an integer in a single memory location. Hence, for each variable we need to allocate only 1 memory word. Note that "allocation" here means that while generating code, the compiler assumes when it generates code that the variable a is stored in location 4096, b in location 4097 and so forth.</li>
+                                <li id="otis">1. Fix the storage location for each variable. As noted above, the first 26 locations of the stack region starting at address 4096 may be assigned for a to z. Note that the XSM machine can store an integer in a single memory location. Hence, for each variable we need to allocate only 1 memory word. Note that "allocation" here means that while generating code, the compiler assumes that the variable a is stored in location 4096, b in location 4097 and so forth.</li>
 
                                 <li id="otis"><b>Note</b> : Some programming languages stipulate that variables must be initialized to zero.  In that case, the compiler must generate code to MOV 0 to each of these locations before generating code for statements in the program. Some machines provide machine instructions that support initializing memory to zero.  Certain operating systems would have initialized all memory regions (except those to which code is loaded into) to zero at load time.  We will not pursue these issues here.</li>
 
                                 <li id="otis">2. To translate an assignment statement, the compiler must generate code to evaluate the expression and then MOV the contents of the register storing the result to the memory location allocated for the variable.</li>
 
-                                <li id="otis">3. To translate a Read statement, the compiler must generate code to invoke the <a href="abi.htmll#nav-lowlevel-syscall-interface" target="_blank">read system call</a> passing the address of the variable as argument. Write is implemented similarly.</li>
+                                <li id="otis">3. To translate a Read statement, the compiler must generate code to invoke the <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank">library</a> function for read, passing the address of the variable as argument. Write is implemented similarly.</li>
                             </ul>
                         </p>
                         <p>
@@ -374,9 +375,9 @@
                         <p>
                             Observe that each node now needs to store distinguishing information like:
                             <ul>
-                                <li id="otis">1. Whether it corresponds is a variable, constant, operator, assignment statement, write statement or read statement.</li>
-                                <li id="otis">2. In case of operators, the information on the operator must be present.</li>
-                                <li id="otis">3. There are also connector nodes which simply connects two statements together.</li>
+                                <li id="otis">1. Whether it corresponds to a variable, constant, operator, assignment statement, write statement or read statement. </li>
+                                <li id="otis">2. In case of operators, the information on the operator must be present. In the case of constants, the value must be stored in the node. In the case of variables, the node must contain the variable name.</li>
+                                <li id="otis">3. There are also connector nodes which simply join two subtrees of statements together.</li>
                             </ul>
                         </p>
                         <p>
@@ -396,10 +397,10 @@
                             In the next stage, we will see how program control instructions like if-then-else can be incorporated into the language.
                         </p>
                         <p>
-                            <b>Note</b> : An abstract syntax tree is an <a href="https://en.wikipedia.org/wiki/Intermediate_representation" target="_blank">intermediate representation</a> of the source program in a tree from suitable for code generation. There are several other forms of intermediate representations like the three address code form, the static single assignment form etc. This roadmap will be based on the abstract syntax tree representation.   
+                            <b>Note</b> : An abstract syntax tree is an <a href="https://en.wikipedia.org/wiki/Intermediate_representation" target="_blank">intermediate representation</a> of the source program in a tree form suitable for code generation. There are several other forms of intermediate representations like the three address code form, the static single assignment form etc. This roadmap will be based on the abstract syntax tree representation.   
                         </p>
                         <p>
-                            In commercial strength compilers, the source is first translated to intermediate forms like the three address form which is a bit more of a <b>low level representation</b> than the AST. Typically machine independent <a href="https://en.wikipedia.org/wiki/Optimizing_compiler" target="_blank">code optimizations</a> are performed on the intermediate code and only then the back-end code generation is run. This step is followed by another set of machine dependent code optimizations before the target file is finally generated. As these issues are beyond the scope of our project, we will not dwell into these matters further in this roadmap.
+                            In commercial strength compilers, the source is first translated to intermediate forms like the three address form which is a <b>lower level representation</b> (that is the intermediate form is closer to machine code) than the AST. Typically machine independent <a href="https://en.wikipedia.org/wiki/Optimizing_compiler" target="_blank">code optimizations</a> are performed on the intermediate code and only then the back-end code generation is run. This step is followed by another set of machine dependent code optimizations before the target file is finally generated. As these issues are beyond the scope of our project, we will not dwell into these matters further in this roadmap.
                         </p>
                         <p>
                             <b>Exercise 1</b> : Build an <b>evaluator</b> for the program. (Hint: Your front end does not change. But, instead of generating code from the AST, you can recursively "evaluate" it. For storage allocation of variables, you can simply declare an array that can store 26 integers and allocate one entry for each variable).
@@ -419,8 +420,9 @@
                         <p>
                             <b>Learning Objectives</b>:
                             <ul>
-                                 <li id="otis">In this stage, you will extend the straight line program compiler of Stage 2 to support control flow constructs like if-then-else, while-do, break and continue. You will encounter integer and boolean expressions and the notion <i>type</i> enroute. You will also learn the use of <i>labels</i> for handling control flow constructs.</li>
+                                 <li id="otis">In this stage, you will extend the straight-line-program compiler of Stage 2 to support control flow constructs like if-then-else, while-do, break and continue. You will encounter integer and boolean expressions and the notion of <i>type</i> enroute. You will also learn the use of <i>labels</i> for handling control flow constructs.</li>
                             </ul>
+                            <hr>
                         </p>
                         <p>
                             The if-then-else and the while-do constructs can be added to the source language of Stage 2 by adding the grammar rule:
@@ -432,11 +434,10 @@
                             </div>
                             To permit logical expressions, we need to add to the grammar the following productions:
                             <div class="syntax">
-                                E ::= E<E  |  E>E  |  E<=E  |  E>=E  |  E!=E  |  E == E;<br>
+                                E ::= E&lt;E  |  E&gt;E  |  E&lt;=E  |  E&gt;=E  |  E!=E  |  E == E;<br>
                             </div>    
-                            A simple program in this language to find the largerst among three numbers would look like the following:
+                            A simple program in this language to find the largest among three numbers would look like the following:
                             <div class="syntax">
-                                begin<br>
                                 &emsp;read(a);<br>
                                 &emsp;read(b);<br>
                                 &emsp;read(c);<br>
@@ -445,7 +446,6 @@
                                 &emsp;else<br>
                                 &emsp;&emsp;if (a &lt; c) then Write(c); else Write(a); endif; <br>
                                 &emsp;endif; <br>
-                                end <br>
                             </div>
                             Note that we continue to assume that variables hold only integer values. The first task in translation is to complete the front end.
                         </p>
@@ -461,7 +461,7 @@
                             </div>
                         </p>
                         <p>
-                            Your compiler must flag a "<i>type mismatch</i>" error if such constructs are encountered during the AST construction process. A program with type errors must not pass the compiler's type check scrutiny and the compiler must report error without generating code if the program has type errors. Type analysis is a part of the responsibilities of a compiler (normally classified under <a href="https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)" target="_blank">semantic analysis</a>).
+                            Your compiler must flag a "<i>type mismatch</i>" error if such constructs are encountered during the AST construction process. A program with type errors must not pass the compiler's type check scrutiny and the compiler must report error without generating code. Type analysis is a part of the responsibilities of a compiler (normally classified under <a href="https://en.wikipedia.org/wiki/Semantic_analysis_(compilers)" target="_blank">semantic analysis</a>).
                         </p>
                         <p>
                             A simple way to handle this issue is to <i>annotate each node in the AST with a <b>type attribute</b></i> that indicates what is the type of the expression (or subexpression) with this node as the root.
@@ -476,15 +476,15 @@
                             </p>
                         </p>
                         <p>
-                            Here, the root of AST is an assignment node which is <b>typeless</b>. (statements have no type, only expressions have a type associated with them). The left subtree of the root is a variable, and hence has type integer. The right subtree is a  <b>+</b>  node of type integer. Hence, at the root, there is no type mismatch. However, the right child of the right subtree has type boolean and does not match the operand type for the + operator. Hence the compiler must terminate compilation flagging error "type mismatch". Note that the compiler can stop processing when the first error is encountered without proceeding further with the tree construction.
+                            Here, the root of the AST is an assignment node which is <b>typeless</b>. (statements have no type, only expressions have a type associated with them). The left subtree of the root is a variable, and hence has type integer. The right subtree is a  <b>+</b>  node of type integer. Hence, at the root, there is no type mismatch. However, the right child of the right subtree has type boolean and does not match the operand type for the + operator. Hence the compiler must terminate compilation flagging error "type mismatch". Note that the compiler can stop processing when the first error is encountered without proceeding further with the tree construction.
                         </p>
                         <p>
-                            To implement type checking, add a nodetype field in the AST node structure.  
+                            To implement type checking, add a type field in the AST node structure.  
                             <script src="js/09129e56138b0207d595eaefbf2873cd.js"></script>
-							Now for leaf nodes of the tree, since you have either constants or variables, the type must be set to integer. Next, while constructing the tree for intermediate nodes, check whether the types of the children are compatible with the operator at the root. For instance, for the addition operation, the check could be as the following:
+							At the leaf nodes of the tree, since you have either constants or variables, the type must be set to integer. Next, while constructing the tree for intermediate nodes, check whether the types of the children are compatible with the operator at the root. For instance, for the addition operation, the check could be as the following:
 							<div class="syntax"> 
 							E :== E+E {<br>       
-							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;if (($1->nodetype != inttype) || ($2->nodetype !== intype)) {<br>
+							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;if (($1->type != inttype) || ($2->type != inttype)) {<br>
 							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;error("type mismatch"); <br>
 							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;exit();<br>
 							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;} else {<br>
@@ -493,7 +493,7 @@
 							</div>
 						</p>
 						<p>
-							If there is no mismatch, you must annotate root node ($$->nodetype) with the proper type (integer in the above case).
+							If there is no mismatch, you must annotate root node ($$->type) with the proper type (integer in the above case).
 						</p>
 						<p>
 							<li id="otis">
@@ -508,7 +508,7 @@
 							<ul>
 								<li id="otis">(1) add additional lexical tokens for the new constructs</li>  
 								<li id="otis">(2) make appropriate modifications in the tree node structure including provision for storing type attribute</li>
-								<li id="otis">(3) modify the TreeCreate() function ( ) to have three subtrees passed (for if-then-else) etc.</li>
+								<li id="otis">(3) modify the TreeCreate() function to have three subtrees passed (for if-then-else) etc.</li>
 							</ul>
 						</p>
 						<p>
@@ -567,12 +567,12 @@
 							<div class="syntax">
 								int label_1 = getLabel();<br>
 								int label_2 = getLabel();<br>
-								fprintf (target_file “L%d”, Label_1)  //  Place the first label here.  <br>
+								fprintf (target_file "L%d", Label_1)  //  Place the first label here.  <br>
 								Generate code for the guard expression.    <br>
 								Generate code to compare the result to zero and if so jump to label_2 // loop exit   <br>
 								Generate code for the body of the while loop.<br>
-								fprintf(target_file, “JMP L%d”, label_1);   // return to the beginning of the loop.  <br>
-								fprintf(target_file, “L%d”, label_2);    // Place the second label here<br>
+								fprintf(target_file, "JMP L%d", label_1);   // return to the beginning of the loop.  <br>
+								fprintf(target_file, "L%d", label_2);    // Place the second label here<br>
 							</div>
 						</p>
 						<p>
@@ -585,10 +585,10 @@
 							<b>Task 3</b>: Read the link specified above and complete the label translation for  if-then, if-then-else and the while-do statement.
 						</p>
 						<p>
-							<b>Exercise 2</b>: Write 
+							<b>Exercise 2</b>: Test your Task 3 code with the following programs:
 							<ul>
 								<li id="otis">(a) program to find the largest for a, b, c (values read from input)</li>
-								<li id="otis">(b) program to read numbers till 0 is input and output the sum and test your Task 3 code.</li>
+								<li id="otis">(b) program to read numbers till 0 is input and output the sum. </li>
 							</ul>
 						</p>
 						<p>
@@ -596,6 +596,9 @@
 						</p>
 						<p>
 							<b>Exercise</b> : Add <i>repeat-until</i> and <i>do-while</i> statements to the language with standard semantics.
+                        </p>
+                        <p>
+                        	<b>Note</b>:  Often in practice, programming languages allow a program to be split into different functions, written in different source files. In such cases, each file is separately compiled and the compiler generates target code with labels without translating them into addresses.  Even variable references will be symbolic and the actual addresses may not be determined.  Such target files are called <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank">object files</a>.  The compiler will include symbol table information in the object file for translation later.  A separate software called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> will collect the information in all the symbol tables and combine the object files into a single executable file replacing labels and symbolic variable references with actual addresses.  
                         </p>
                         <div class="up column3 mright">
                             <a href="#navtop">  &#x2191; </a>
@@ -606,11 +609,12 @@
                         <p>
                         	<b>Learning Objectives</b>:<br>
 							You will extend the language of Stage 3 to permit users to declare and use variables of <i>integer</i> and <i>string</i> types. You will learn <b>symbol table</b> management enroute. 
+							<hr>
                         </p>
                         <p>
                         	In this stage, we allow the program to contain variable declarations of the following syntax:
                         	<div class="syntax">
-                        		Declarations ::=  DECL  DeclList ENDDECL<br>
+                        		Declarations ::=  DECL  DeclList ENDDECL | DECL ENDDECL<br>
                         		<br>
 								DeclList ::=  DeclList Decl | Decl<br>
 								<br>
@@ -626,13 +630,28 @@
                         </p>
                         <p>
                         	A simple program in this language to find the sum of numbers entered from the console (until a zero is entered) would look like the following: 
-							<script src="js/5e020413591b367259f8592136ca8eaa.js"></script>
+                        	<div class="syntax">
+                           	decl<br>
+				            &emsp;&emsp;int num, sum;<br>  
+				            &emsp;&emsp;str mesg;<br>
+				        	enddecl<br><br>
+				            read(num);<br>
+				            sum = 0;<br>   
+				            while (num != 0) do<br>          
+				            &emsp;&emsp;sum = sum + num;<br>  
+				            &emsp;&emsp;read(num);<br>  
+				            endwhile;<br>  
+				            write("sum is:");<br>  
+				            write(sum);<br>  
+				            mesg = "good bye";<br>
+				            write(mesg);<br>  
+							</div>
 						</p>
 						<p>
 							It is the responsibility of the compiler to track for various <b>semantic errors</b> as:
 							<ul>
 								<li id="otis">1.  Flag error if any variable not declared is used.</li>
-								<li id="otis">2.  Flag error is a type mismatch involving any variable.</li>
+								<li id="otis">2.  Flag error if a type mismatch involving any variable is found.</li>
 							</ul>
 						</p>
 						<p>
@@ -641,7 +660,7 @@
 								<li id="otis">1.  Name of the variable (known at the time of declaration).</li>
 								<li id="otis">2.  Type (For the present stage, only integer/string).</li>
 								<li id="otis">3.  Size (For the time being, we will assume that all variables have size one).</li>
-								<li id="otis">4.  The memory <b>binding</b> of each variable – that is, static memory address determined by the compiler to which will be used to store the values of the variable at run time.</li>
+								<li id="otis">4.  The memory <b>binding</b> of each variable – that is, static memory address determined by the compiler for the variable.</li>
 							</ul>
 						</p>
 						<p>
@@ -710,7 +729,7 @@
 							</span>
 						</p>
 						<p>
-							While constructing the tree, if a variable is encountered, keep a pointer to the corresponding symbol table entry.  Set the type field as well to the correct type. The rest of type checking steps are exactly as in the previous stage.  Thus, the AST for the program above would look as the following:  
+							While constructing the tree, if a variable is encountered, keep a pointer to the corresponding symbol table entry.  Set the type field as well to the correct type. The rest of the type checking steps are exactly as in the previous stage.  
 							<span style="color: red">
 \figure
    add figure here.  
@@ -726,7 +745,6 @@
 						</p>
 						<p>
 							<h4>Adding arrays</h4>  
-							<br><br>
 							The next step is to allow declaration of arrays like:  
 							<div class="syntax">
 								decl<br>
@@ -750,7 +768,7 @@
 								&emsp;&emsp;int a[10], b;<br>  
 								enddecl
 							</div>
-							The binding field in the symbol table for the variable a  may be set to address 4096.  The size entry set to 10.  This means that we are allocating locations 4096-5105 for the array.  The next variable, b can be bound to the address 5106.  
+							The binding field in the symbol table for the variable a  may be set to address 4096.  The size entry set to 10.  This means that we are allocating locations 4096-5005 for the array.  The next variable, b can be bound to the address 5006.  
 							<span style="color: red">
 \add a table here.  
 							</span>
@@ -795,11 +813,11 @@
                             This is the first major stage in the ExpL project.   A skeletal outline of the syntax rules for defining the extension of the language of Stage 4 to support subroutines is as below.   You are required to fill in rules required to complete the grammar.   Note that variables may be only of type integer/string.
                             <div class="syntax">
                                 Program ::= GDeclBlock FdefBlock <a href="grammar-outline.html" target="_blank">MainBlock</a><br>
-                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|  GdeclBlock MainBlock  <br>
+                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|  GdeclBlock MainBlock  | MainBlock<br>
                                 <br>
-                                GdeclBlock  ::=  DECL GdeclList ENDDECL <br>
+                                GdeclBlock  ::=  DECL GdeclList ENDDECL | DECL ENDDECL<br>
                                 <br>
-                                GdeclList ::= GDeclList  GDecl
+                                GdeclList ::= GDeclList  GDecl | GDecl
                                 <br>
                                 GDecl ::=  Type GidList ; <br>
                                 <br>
@@ -820,9 +838,9 @@
                                 <br>
                                 Type ::= INT | STR  <br>
                                 -----------------------------------------------------------------------------------------
-                                LdeclBlock ::= DECL LDecList ENDDECL <br>
+                                LdeclBlock ::= DECL LDecList ENDDECL | DECL ENDDECL <br>
                                 <br>
-                                LDecList ::= LDecList LDecl <br>
+                                LDecList ::= LDecList LDecl | LDecl<br>
                                 <br>
                                 LDecl ::=  Type IdList ;  <br>
                                 <br>
@@ -904,7 +922,7 @@
                         <p>
                             To keep track of the local variable and scope information, our strategy is to keep global and local variables in different symbol tables.  We will have 
                             <ul>
-                                <li id="otis">1.  A single <b>global symbol table</b> storing the (name, type, size, binding) information of local variables as well as (name, type, parameters, binding) information for functions.  The following structure is suggested for storing a global symbol table entry.</li>
+                                <li id="otis">1.  A single <b>global symbol table</b> storing the (name, type, size, binding) information of global variables as well as (name, type, parameters, binding) information for functions.  The following structure is suggested for storing a global symbol table entry.</li>
                             </ul>
 
                             <div class="syntax">
