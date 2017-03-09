@@ -666,15 +666,7 @@
 						<p>
 							The first three entries are determined by the declaration of the variable. For the fourth, a simple strategy would be to allocate the first address (4096) for the variable declared first, 4097 for the next variable and so on. Note that here too we are fixing the address of each variable at compile time (<b>static allocation</b>). 
 						</p>
-<!-- 						<p>
-							Thus, for the program given above, the symbol table will be as below:
-							<span style="color: red">
-								\fig
-								   a table indicating entries
-								\end fig.  
-							</span>
-						</p>
- -->						<p>
+                        <p>
 							The following structure may be used for a symbol table entry:
 							<div class="syntax">
 								struct Gsymbol {<br>
@@ -689,11 +681,7 @@
 						</p>
 						<p>
 							The symbol table entries for the program above would look as below:  
-							<span style="color: red;">
-							\figure
-
-							\end figure 
-							</span>
+							<img src="img/gsymboltable1.png">
 						</p>
 						<p>
 							To implement the symbol table, you must write two functions.  For a simple implementation, a linear linked list suffices.  In modern compilers, hash tables are maintained to make search efficient. 
@@ -713,23 +701,19 @@
 						</p>
 						<p>
 							The next task is to make necessary modifications to the AST construction and code generation. These are straightforward. Add a an additional field to the tree node structure
-							<span style="color: red">
-							\fig
-							struct node {
-							...
-							..
-							...
-							struct gentry *  /*  pointer to symbol table entry for variables */
-
-							--
-							--
-
-							}  
-							\endfig  
-							</span>
+							<div class="syntax">
+                                typedef struct tnode{<br>
+                                &emsp;&emsp;int val;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;//value of the constant<br>
+                                &emsp;&emsp;char* varname;&emsp;&emsp;&emsp;//name of the variable<br>
+                                &emsp;&emsp;int type;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;//type of the variable<br>
+                                &emsp;&emsp;int nodetype;&emsp;&emsp;&emsp;&emsp;//node type information<br>
+                                &emsp;&emsp;struct Gsymbol *Gentry;&emsp;&emsp;//pointer to GST entry for global variables and functions<br>
+                                &emsp;&emsp;struct tnode *left,*right;&emsp;&emsp;//left and right branches<br>
+                                }tnode;
+                            </div>
 						</p>
 						<p>
-							While constructing the tree, if a variable is encountered, keep a pointer to the corresponding symbol table entry.  Set the type field as well to the correct type. The rest of the type checking steps are exactly as in the previous stage.  
+							While constructing the tree, if a variable is encountered, keep a pointer to the corresponding symbol table entry.  Set the type field as well to the correct type. The rest of the type checking steps are exactly as in the previous stage.  The AST of while loop present in the above code is as follows :
 							<span style="color: red">
 \figure
    add figure here.  
@@ -769,9 +753,7 @@
 								enddecl
 							</div>
 							The binding field in the symbol table for the variable a  may be set to address 4096.  The size entry set to 10.  This means that we are allocating locations 4096-5005 for the array.  The next variable, b can be bound to the address 5006.  
-							<span style="color: red">
-\add a table here.  
-							</span>
+                            <img src="img/gsymboltable2.png">
 						</p>
 						<p>
 							<b>Task 2</b>:  Complete the implementation of single dimensional arrays.  
@@ -955,13 +937,8 @@
                             Continuing with the above example, we need two local symbol tables – one for the main function and one for the factorial function.  The local symbol table holds the (name, type, binding) triple for each formal parameter as well as local variables of the function.  We will discuss the binding of local variables later.  The local symbol tables of mail and factorial would look as the following:
                         </p>
                         <p>
-                            \figure<br>
-
-                            local symbol table for main (leave the binding field empty) <br>
-
-                            local symbol table for factorial (leave the binding field empty)  <br>
-
-                            \endfigure 
+                            <img src="img/localsymboltable2.png"> 
+                            <img src="img/localsymboltable1.png"> 
                         </p>
                         <p>
                             See LINK for more details. <br> 
