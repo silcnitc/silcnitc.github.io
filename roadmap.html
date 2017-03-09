@@ -714,11 +714,9 @@
 						</p>
 						<p>
 							While constructing the tree, if a variable is encountered, keep a pointer to the corresponding symbol table entry.  Set the type field as well to the correct type. The rest of the type checking steps are exactly as in the previous stage.  The AST of while loop present in the above code is as follows :
-							<span style="color: red">
-\figure
-   add figure here.  
-\endfigure
-							</span>
+                        </p>
+                        <p>
+							<img src="img/ast_stage4.png">
 						</p>
 						<p>
 							There is no serious change to the code generation process, except that for variables, the binding address is obtained from the symbol table.<br><br>
@@ -929,9 +927,7 @@
                             With this, the global symbol table for the <a href="run_data_structures/run-time-stack.html#nav-illustration" target="_blank">program</a> would be as below.
                         </p>
                         <p>
-                            \figure <br>
-                              Have a figure showing the contents of the global symbol table in a table form.<br>
-                            \end figure.
+                            <img src="img/gsymboltable3.png">
                         </p>
                         <p>
                             Continuing with the above example, we need two local symbol tables – one for the main function and one for the factorial function.  The local symbol table holds the (name, type, binding) triple for each formal parameter as well as local variables of the function.  We will discuss the binding of local variables later.  The local symbol tables of mail and factorial would look as the following:
