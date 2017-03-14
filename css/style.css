@@ -234,6 +234,13 @@ body { width: 100%; min-width: 988px; overflow: hidden; }
 	display: block;
 	height: 100%;
 }
+.columnlogo
+{
+	width: 74.2331288%;
+	min-width: 726px;
+	overflow: hidden;
+	float: left;
+}
 .columnthird
 {
 	width: 74.2331288%;
@@ -255,7 +262,7 @@ body { width: 100%; min-width: 988px; overflow: hidden; }
 .fright { float: right }
 .fleft { float: left }
 /* HEADER */
-header#navtop { margin-bottom: 50px; /*background: url(../img/stripes.png) no-repeat 253px 0;*/ }
+header#navtop { /*margin-bottom: 50px; background: url(../img/stripes.png) no-repeat 253px 0;*/ }
 .logo { margin: 50px 0 }
 header nav { margin-top: 60px }
 header nav ul
