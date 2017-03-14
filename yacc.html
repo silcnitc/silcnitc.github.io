@@ -985,9 +985,9 @@ On finding that the '*' token has a greater precedence than '+', the parser choo
  greater precedence, and hence it decides to shift, resulting in the configuration:<br><br>
 <table class="tg">
  <tr>
-    <td class="tg-031e">$expr + expr<br></td>
-    <td class="tg-031e">* ( 4 + 5) $<br></td>
-    <td class="tg-031e">REDUCE</td>
+    <td class="tg-031e">$expr + expr * <br></td>
+    <td class="tg-031e">( 4 + 5) $<br></td>
+    <td class="tg-031e">SHIFT</td>
   </tr>
   </table><br>
 And the parser continues to iterate till it reaches accept configuration.
