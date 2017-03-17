@@ -60,9 +60,10 @@
                         </ul>
                     </p>
                     <p>
-                        <b><span style="color: red;">*</span>Note:</b> In real systems, the compiler generates an <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank"> object file</a> which contains labels for functions as well as variables.  The object file is processed by a separate software module called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> which converts the object file into an excutable file.  The advantage of this scheme is that a huge program could be divided into different stand alone source modules, each compiled seperately and finally linked together.  
-                        A change in one module does not require recompilation of other modules and only the linking phase needs to
-                        be run again. In this project, we keep the linking task as a part of the compilation itself as ExpL does not allow a program to be compiled into several object modules.       
+                        <b><span style="color: red;">*</span>Note:</b> In real systems, the compiler generates an <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank"> object file</a> which contains labels for functions as well as variables.  The object file is processed by a separate software module called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> which converts the object file into an excutable file.  The advantage of this scheme is that a huge program could be divided into different stand alone source modules, each compiled seperately and finally linked together. A change in one module does not require recompilation of other modules and only the linking phase needs to be run again. In this project, we keep the linking task as a part of the compilation itself as ExpL does not allow a program to be compiled into several object modules. 
+                    </p>
+                    <p>
+                        In the ExpL project, variable addresses are resolved before reaching the Label translation phase and only symbolic references to functions are left to be replaced with addresses in this phase.        
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-illustration">
