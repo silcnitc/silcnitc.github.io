@@ -28,7 +28,7 @@
         <div class="Services-page main grid-wrap">
             <header class="grid col-full">
                 <hr/>
-                <p class="fleft">Label Translation</p>
+                <p class="fleft">Label Translation (Linking<span style="color: red;">*</span>)</p>
                 <br>
                 <br>
             </header>
@@ -45,19 +45,6 @@
                 <div class="grid-wrap">
                 <article class="grid col-full" id="nav-introduction">
                     <h2>Introduction</h2>
-<!--                     <p>
-                        The code area of the memory where the function's code is not decided by the compiler during analysis phase. So to solve this issue, compiler generates psuedo addresses for all labels. All calls to the function will be translated to an assembly level call to this pseudo address. Label translation is done to assign the correct addresses.
-                    </p>
-                    <p>
-                        While converting the ExpL program to assembly level program, labels are generated for functions, jump statements in iterative and conditional statements ('if' and 'while'). The psuedo addresses generated for each function is stored in the binding field of each function\'s global symbol table entry.
-                    </p>
-                    <p>
-                        A two-pass of the file is done to replace the pseudo address with the correct addresses.
-                        <ol>
-                            <li>In the first pass, the correct adrress of each label is found out and store the mapping (say, in an array).</li>
-                            <li>In the second pass, all the call and jumps statements with pseudo addresses, i.e, labels are replaced by the correct addresses obtained from the mapping.</li>
-                        </ol>
-                    </p>-->
                     <p>
                         Labels are generated while translating the high level program constructs such as if-then-else, while-do and function calls into target machine code as an intermediate step in code generation. Labels are needed because the target address of a JUMP instruction may not be known at the time of generating code. However these labels must be replaced with target addresses in the final target code. Thus the compiler designer needs to write a program to replace all the labels in the program with the correct memory addresses eventually. This conversion is called Label translation.
                     </p>
@@ -71,6 +58,11 @@
 
                             <li id="otis">2. Parse the input again and replace all the labels with their corresponding addresses by looking into the table created above.</li>
                         </ul>
+                    </p>
+                    <p>
+                        <b><span style="color: red;">*</span>Note:</b> In real systems, the compiler generates an <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank"> object file</a> which contains labels for functions as well as variables.  The object file is processed by a separate software module called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> which converts the object file into an excutable file.  The advantage of this scheme is that a huge program could be divided into different stand alone source modules, each compiled seperately and finally linked together.  
+                        A change in one module does not require recompilation of other modules and only the linking phase needs to
+                        be run again. In this project, we keep the linking task as a part of the compilation itself as ExpL does not allow a program to be compiled into several object modules.       
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-illustration">
