@@ -914,17 +914,16 @@
                             </ul>
 
                             <div class="syntax">
-                                struct Gsymbol{<br>
-                                &emsp;&emsp;char *name;               //name of the variable or function<br>
-                                &emsp;&emsp;int type;                 //type of the variable:(Integer / String)<br>
-                                &emsp;&emsp;int size;          //size of an array or a user defined type. (The default types have size 1)<br> 
-                                &emsp;&emsp;int binding;              //stores the static memory address allocated to the variable <br>
-                                &emsp;&emsp;struct Paramstruct *paramlist;//pointer to the head of the formal parameter list<br>
+                                <b>struct Gsymbol{</b><br>
+                                &emsp;&emsp;<b>char *name;</b>   //name of the variable or function<br>
+                                &emsp;&emsp;<b>int type;</b>     //type of the variable:(Integer / String)<br>
+                                &emsp;&emsp;<b>int size;</b>     //size of an array<br> 
+                                &emsp;&emsp;<b>int binding;</b>  //stores the static memory address allocated to the variable <br>
+                                &emsp;&emsp;<b>struct Paramstruct *paramlist;</b>//pointer to the head of the formal parameter list<br>
                                   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; //in the case of functions<br>
-                                &emsp;&emsp;int flabel;              //a label for identifying the starting address of the function's code<br>
-                                &emsp;&emsp;struct Gsymbol *next;     //points to the next Global Symbol Table entry<br>
-                                };
-                              //structure for  global symbol table entry, just enough for the present stage
+                                &emsp;&emsp;<b>int flabel;</b>              //a label for identifying the starting address of the function's code<br>
+                                &emsp;&emsp;<b>struct Gsymbol *next;</b>     //points to the next Global Symbol Table entry<br>
+                                <b>};</b>
                             </div>
 
                             <ul>
@@ -932,7 +931,12 @@
                             </ul>
 
                             <div class="syntax">
-                              //structure for local symbol table entry. 
+                            <b>struct Lsymbol{</b>
+                            &emsp;&emsp;<b>char *name;</b>&emsp;&emsp;&emsp;&emsp; //name of the variable
+                            &emsp;&emsp;<b>struct Typetable *type;</b> &emsp;&emsp; //pointer to the Typetable entry of variable type
+                            &emsp;&emsp;<b>int binding;</b>&emsp;&emsp;&emsp;&emsp; //stores memory address allocated to the variable 
+                            &emsp;&emsp;<b>struct Lsymbol *next;</b>&emsp;&emsp; //points to the next Local Symbol Table entry
+                            <b>};</b>
                             </div>
                         </p>
                         <p>
