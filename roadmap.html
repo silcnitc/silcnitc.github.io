@@ -944,7 +944,7 @@
                             </ul> 
                             </p>
                         <p>
-                            What is the <b>stored in flable</b>?  When the compiler generates code for the function, a label is placed at the start of the function.  A call to the function is translated to a low-level CALL to the corresponding label.   Later, the label has to be replaced by the address  of the instruction during the <a href="label-translation.html" target="_blank">label translation phase</a>.
+                            What is the <b>stored in flabel</b>?  When the compiler generates code for the function, a label is placed at the start of the function.  A call to the function is translated to a low-level CALL to the corresponding label.   Later, the label has to be replaced by the address  of the instruction during the <a href="label-translation.html" target="_blank">label translation phase</a>.
                         </p>
                         <p>
                             The simple scheme we suggest here is to put the label F0 before the code of the first function declared in the program, F1 before the code of the second and so on.  Hence, in the binding field of the first function, store 0.  Similarly, store 1 in the binding field of the second and so on. A call to the first function must be translated to CALL F0 and so on.
