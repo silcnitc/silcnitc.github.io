@@ -102,6 +102,12 @@
                             In this algorithm, the chunk size allocated is fixed. Lets call the fixed size as HB_SIZE, say 8. The heap is considered here as a list of blocks of HB_SIZE.
                         </p>
                         <p>
+                            <b>Note :</b> Since the member fields of user-defined-type variables are allocated space in the heap,
+                            when fixed block size allocation is done, a user defined type variable must not be permitted to have 
+                            more than HB_SIZE member fields.  The compiler must flag error if a type definition with more than 
+                            HB_SIZE member fields is encountered.  
+                        </p>
+                        <p>
                             The first block in the list is reserved. Initially, the first index of reserved block stores the index of first free block. The first index of every free block stores the index of next available free block. The last block stores -1 in the first index. This is how it looks initially(after the call to initialize() function).
                         </p>
                         <img src="../img/data_structure_10.png" alt="Figure : Intial Heap diagram" />
