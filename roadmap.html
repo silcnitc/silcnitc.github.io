@@ -713,7 +713,19 @@
                             </div>
 						</p>
 						<p>
-							While constructing the tree, if a variable is encountered, keep a pointer to the corresponding symbol table entry. Set the type field as well to the correct type. The rest of the type checking steps are exactly as in the previous stage. The AST of while loop present in the above code is as follows :
+							While constructing the tree, if a variable is encountered, keep a pointer to the corresponding symbol table entry. Set the type field as well to the correct type. The rest of the type checking steps are exactly as in the previous stage. The AST of while loop present in the above code is as follows (the relevant part of the code is shown below for easy reference):
+                            <div class="syntax">
+                            .<br>
+                            .<br>
+                            .<br>
+                            while (num != 0) do<br>          
+                            &emsp;&emsp;sum = sum + num;<br>  
+                            &emsp;&emsp;read(num);<br>  
+                            endwhile;<br>  
+                            .<br>  
+                            .<br>  
+                            .<br>   
+                            </div>
                         </p>
                         <p>
 							<img src="img/ast_stage4.png">
