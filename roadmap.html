@@ -823,11 +823,11 @@
                                 <br>
                                 FDefBlock ::=  FdefBlock Fdef |  Fdef <br> 
                                 <br>
-                                Fdef ::=Type ID ( ArgList ) { LdeclBlock Body } <br>
+                                Fdef ::=Type ID ( ParamList ) { LdeclBlock Body } <br>
                                 <br>
-                                Arglist ::= Arglist , Arg | Arg <br>
+                                ParamList ::= ParamList , Param | Param <br>
                                 <br>
-                                Arg ::= Type ID <br>
+                                Param ::= Type ID <br>
                                 <br>
                                 Type ::= INT | STR  <br>
                                 -----------------------------------------------------------------------------------------
@@ -847,7 +847,7 @@
                             <div class="syntax">
                                 E ::= ID ()  |  ID(ArgList) <br>
                                 <br>
-                                ArgList ::=  Arglist, E  |  E <br>
+                                ArgList ::=  ArgList, E  |  E <br>
                             </div>
                         </p>
                         <p>
