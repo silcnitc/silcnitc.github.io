@@ -329,7 +329,7 @@
                                 <br>
                                 AsgStmt ::==  ID = E;<br>
                             </div> 
-                            Apart from the <a href="lex.html" target="_blank">literal tokens</a>, BEGIN, END, READ, and WRITE are tokens corresponding to keywords “begin”, “end”, “read” and “write”.  ID is a token for variables.  We will permit only variables [a-z] in this stage.
+                            Apart from the <a href="lex.html" target="_blank">literal tokens</a>, BEGIN, END, READ, and WRITE are tokens corresponding to keywords "begin", "end", "read" and "write".  ID is a token for variables.  We will permit only variables [a-z] in this stage.
                          </p>
                          <p>
                             To support variables to appear in expressions, you must add the rule <b>E := ID</b> to the expression syntax used in Stage 1. The above syntax defines a small programming language that permits just straight line programs (programs without conditionals, loops, jumps or such control transfer constructs). There are only 26 pre-defined variables that are supported – a, b,c,..,z. A typical program would look like:
