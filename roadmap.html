@@ -912,47 +912,39 @@
                             <ul>
                                 <li id="otis">
                                     1.  A single <b>global symbol table</b> storing the (name, type, size, binding) information of global variables as well as (name, type, parameters, binding) information for functions.  The following structure is suggested for storing a global symbol table entry.
+
+                                    <div class="syntax">
+                                        <b>struct Gsymbol{</b><br>
+                                        &emsp;&emsp;<b>char *name;</b>   //name of the variable or function<br>
+                                        &emsp;&emsp;<b>int type;</b>     //type of the variable:(Integer / String)<br>
+                                        &emsp;&emsp;<b>int size;</b>     //size of an array<br> 
+                                        &emsp;&emsp;<b>int binding;</b>  //stores the static memory address allocated to the variable <br>
+                                        &emsp;&emsp;<b>struct Paramstruct *paramlist;</b>//pointer to the head of the formal parameter list<br>
+                                          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; //in the case of functions<br>
+                                        &emsp;&emsp;<b>int flabel;</b>              //a label for identifying the starting address of the function's code<br>
+                                        &emsp;&emsp;<b>struct Gsymbol *next;</b>     //points to the next Global Symbol Table entry<br>
+                                        <b>};</b>
+                                    </div>
                                 </li>
-                            </ul>
 
-                            <div class="syntax">
-                                <b>struct Gsymbol{</b><br>
-                                &emsp;&emsp;<b>char *name;</b>   //name of the variable or function<br>
-                                &emsp;&emsp;<b>int type;</b>     //type of the variable:(Integer / String)<br>
-                                &emsp;&emsp;<b>int size;</b>     //size of an array<br> 
-                                &emsp;&emsp;<b>int binding;</b>  //stores the static memory address allocated to the variable <br>
-                                &emsp;&emsp;<b>struct Paramstruct *paramlist;</b>//pointer to the head of the formal parameter list<br>
-                                  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; //in the case of functions<br>
-                                &emsp;&emsp;<b>int flabel;</b>              //a label for identifying the starting address of the function's code<br>
-                                &emsp;&emsp;<b>struct Gsymbol *next;</b>     //points to the next Global Symbol Table entry<br>
-                                <b>};</b>
-                            </div>
-                        </p>
-                        <p>
-                            <b>Note:</b> While global variables are allocated static addresses, the start address of functions are not
-                            fixed when the global symbol table entry for a function is made.  Hence, we assign a unique number identifying
-                            the function, and store the value in <i>flabel</i>.  The actual memory addresses will be fixed later during
-                            label translation.  
-                        </p>
-                        <p>
-                            <ul>
-                                <li id="otis">2.  Several <b>local symbol tables</b> - one for each function containing the (name, type, binding) information for each local variable of the function.  (Note that since the language does not permit arrays to be defined within a function, the size value of local variables is always 1, hence the field is not required).   A local symbol table entry can be stored in the following structure:</li>
-                            </ul>
+                                <li id="otis">
+                                    2.  Several <b>local symbol tables</b> - one for each function containing the (name, type, binding) information for each local variable of the function.  (Note that since the language does not permit arrays to be defined within a function, the size value of local variables is always 1, hence the field is not required).   A local symbol table entry can be stored in the following structure:</li>
 
-                            <div class="syntax">
-                            <b>struct Lsymbol{</b><br>
-                            &emsp;&emsp;<b>char *name;</b>&emsp;&emsp;&emsp;&emsp; //name of the variable<br>
-                            &emsp;&emsp;<b>int  type;</b> &emsp;&emsp; //type of the variable:(Integer / String)    <br>
-                            &emsp;&emsp;<b>int binding;</b>&emsp;&emsp;&emsp;&emsp; //local binding of the variable<br>
-                            &emsp;&emsp;<b>struct Lsymbol *next;</b>&emsp;&emsp; //points to the next Local Symbol Table entry<br>
-                            <b>};</b>
-                            </div>
-                        </p>
+                                    <div class="syntax">
+                                    <b>struct Lsymbol{</b><br>
+                                    &emsp;&emsp;<b>char *name;</b>&emsp;&emsp;&emsp;&emsp; //name of the variable<br>
+                                    &emsp;&emsp;<b>int  type;</b> &emsp;&emsp; //type of the variable:(Integer / String)    <br>
+                                    &emsp;&emsp;<b>int binding;</b>&emsp;&emsp;&emsp;&emsp; //local binding of the variable<br>
+                                    &emsp;&emsp;<b>struct Lsymbol *next;</b>&emsp;&emsp; //points to the next Local Symbol Table entry<br>
+                                    <b>};</b>
+                                    </div>
+      
+                                    <b>Note:</b> As noted in the <a href="run-data-structures.html" target="_blank">run time storage allocation</a> documentation, local variables cannot be assigned static memory addresses.  Hence, the binding of a local variable is a relative address within the function's activation record.  We will discuss this matter in detail later.
+                                </li>
+                            </ul> 
+                            </p>
                         <p>
-                            <b>Note:</b> As noted in the <a href="run-data-structures.html" target="_blank">run time storage allocation</a> documentation, local variables cannot be assigned static memory addresses.  Hence, the binding of a local variable is a relative address within the function's activation record.  We will discuss this matter in detail later.  
-                        </p>
-                        <p>
-                            What is the <b>binding address of a function</b>?  When the compiler generates code for the function, a label is placed at the start of the function.  A call to the function is translated to a low-level CALL to the corresponding label.   Later, the label has to be replaced by the address  of the instruction during the <a href="label-translation.html" target="_blank">label translation phase</a>.
+                            What is the <b>stored in flable</b>?  When the compiler generates code for the function, a label is placed at the start of the function.  A call to the function is translated to a low-level CALL to the corresponding label.   Later, the label has to be replaced by the address  of the instruction during the <a href="label-translation.html" target="_blank">label translation phase</a>.
                         </p>
                         <p>
                             The simple scheme we suggest here is to put the label F0 before the code of the first function declared in the program, F1 before the code of the second and so on.  Hence, in the binding field of the first function, store 0.  Similarly, store 1 in the binding field of the second and so on. A call to the first function must be translated to CALL F0 and so on.
