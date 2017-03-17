@@ -855,7 +855,7 @@
                             Here is an <a href="run_data_structures/run-time-stack.html#nav-illustration" target="_blank">example</a> for a program with a function. We will take up semantic analysis and AST representation before proceeding to code generation.
                         </p>
                         <p>
-                            Each function requires a <b>declaration</b>. The declaration of functions must be made along with the global declarations. The declaration of a function must specify the types and names of the <b>formal parameters</b> and the <b>return type</b> of the function. The compiler must store the declaration information in the global symbol table. For example, the declarations
+                            Each function requires a <b>declaration</b>. The declaration of functions must be made along with the global declarations. The declaration of a function must specify the types and names of the <b>formal parameters</b> and the <b>return type</b> of the function. The compiler must store the declaration information in the global symbol table. For example, the declaration
                             <div class="syntax">
                                 decl<br>
                                 ..<br>
@@ -866,11 +866,11 @@
                                 enddecl<br>
                             </div>
 
-                            specifies that factorial is a function that takes as input one integer argument and returns an integer.  This is sometimes called the <b>signature</b> of the function.   Conceptually, to invoke the factorial function, the <b>caller</b> must know:
+                            specifies that <i>factorial</i> is a function that takes as input one integer argument and returns an integer.  This is sometimes called the <b>signature</b> of the function. Conceptually, to invoke the factorial function, the <b>caller</b> must know:
 
                             <ul>
                                 <li id="otis">1. The memory address to which the function call must be directed (<b>binding</b>).</li>
-                                <li id="otis">2. The <b>types and names of the formal parameters</b> to the function and the order in which the arguments must be input to the function.</li>
+                                <li id="otis">2. The <b>types and names of the formal parameters</b> to the function and the order in which the actual <b>arguments</b> must be given as input to the function.</li>
                                 <li id="otis">3. The <b>return type</b> of the function.</li>
                             </ul>
 
