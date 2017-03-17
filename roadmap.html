@@ -899,10 +899,10 @@
                                 &emsp;end<br>
                                 }<br>
                             </div>
-                            Local variables declared in a function are <i>visible only</i> within the function.  We say that the <b>scope</b> of a local declaration is limited to the function.   Moreover, if a global variable has a re-declaration inside a function, <i>the local declaration overrides the global declaration</i>.
+                            Local variables declared in a function are <i>visible only</i> within the function.  We say that the <b>scope</b> of a local declaration is limited to the function. Moreover, if a global variable has a re-declaration inside a function, <i>the local declaration overrides the global declaration</i>.
                         </p>
                         <p>
-                            Thus, we have two kinds of variables.  Global variables and functions that are visible "everywhere" (or having a <b>global scope</b>) and local variables that are visible only within the functions (or having a <b>local scope</b>) where they are declared.
+                            Thus, we have two kinds of variables. Global variables and functions that are visible "everywhere" (or having a <b>global scope</b>) and local variables that are visible only within the functions (or having a <b>local scope</b>) where they are declared.
                         </p>
                         <p>
                             The compiler needs to know the binding addresses and type of the local variables for translation of statements of the function to assembly code.  However, this information is irrelevant outside the function.
@@ -914,6 +914,16 @@
                             </ul>
 
                             <div class="syntax">
+                                struct Gsymbol{<br>
+                                &emsp;&emsp;char *name;               //name of the variable or function<br>
+                                &emsp;&emsp;int type;                 //type of the variable:(Integer / String)<br>
+                                &emsp;&emsp;int size;          //size of an array or a user defined type. (The default types have size 1)<br> 
+                                &emsp;&emsp;int binding;              //stores the static memory address allocated to the variable <br>
+                                &emsp;&emsp;struct Paramstruct *paramlist;//pointer to the head of the formal parameter list<br>
+                                  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; //in the case of functions<br>
+                                &emsp;&emsp;int flabel;              //a label for identifying the starting address of the function's code<br>
+                                &emsp;&emsp;struct Gsymbol *next;     //points to the next Global Symbol Table entry<br>
+                                };
                               //structure for  global symbol table entry, just enough for the present stage
                             </div>
 
