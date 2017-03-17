@@ -818,14 +818,15 @@
                                 <br>
                                 Gid ::= ID <br>
                                 &emsp;&emsp;&emsp;&emsp;&emsp;| ID[NUM] <br>
-                                &emsp;&emsp;&emsp;&emsp;&emsp;| ID(ParamList) | ID()<br>
+                                &emsp;&emsp;&emsp;&emsp;&emsp;| ID(ParamList) <br>
                                 --------------------------------------------------------------------------------------
                                 <br>
                                 FDefBlock ::=  FdefBlock Fdef |  Fdef <br> 
                                 <br>
                                 Fdef ::=Type ID ( ParamList ) { LdeclBlock Body } <br>
                                 <br>
-                                ParamList ::= ParamList , Param | Param | <br>
+                                ParamList ::= ParamList , Param | Param<br>
+                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| &emsp;&emsp;/*param can be empty*/<br>
                                 <br>
                                 Param ::= Type ID <br>
                                 <br>
