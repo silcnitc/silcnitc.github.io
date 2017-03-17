@@ -317,7 +317,7 @@
                          <p>
                             Consider a simple programming language with the following syntax:
                             <div class="syntax">
-                                Program ::= BEGIN Slist END<br>
+                                Program ::= BEGIN Slist END | BEGIN END<br>
                                 <br>
                                 Slist ::=  Slist Stmt | Stmt<br>
                                 <br>
@@ -434,7 +434,7 @@
                             </div>
                             To permit logical expressions, we need to add to the grammar the following productions:
                             <div class="syntax">
-                                E ::= E&lt;E  |  E&gt;E  |  E&lt;=E  |  E&gt;=E  |  E!=E  |  E == E;<br>
+                                E ::= E &lt; E  |  E &gt; E  |  E &lt; =E  |  E &gt;= E  |  E != E  |  E == E;<br>
                             </div>    
                             A simple program in this language to find the largest among three numbers would look like the following:
                             <div class="syntax">
@@ -802,10 +802,11 @@
                             <hr>
                         </p>
                         <p>
-                            This is the first major stage in the ExpL project.   A skeletal outline of the syntax rules for defining the extension of the language of Stage 4 to support subroutines is as below.   You are required to fill in rules required to complete the grammar.   Note that variables may be only of type integer/string.
+                            This is the first major stage in the ExpL project. A skeletal outline of the syntax rules for defining the extension of the language of Stage 4 to support subroutines is as below. You are required to fill in rules required to complete the grammar. Note that variables may be only of type integer/string.
                             <div class="syntax">
                                 Program ::= GDeclBlock FdefBlock <a href="grammar-outline.html" target="_blank">MainBlock</a><br>
-                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|  GdeclBlock MainBlock  | MainBlock<br>
+                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| GdeclBlock MainBlock<br>
+                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| MainBlock<br>
                                 <br>
                                 GdeclBlock  ::=  DECL GdeclList ENDDECL | DECL ENDDECL<br>
                                 <br>
