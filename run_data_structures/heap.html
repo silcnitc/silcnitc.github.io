@@ -85,7 +85,7 @@
                             The library has three functions relating to dynamic memory management. Initialise(), Allocate() and Free().  The Initialise() function sets up the heap data structures initially.  Each memory request is processed by Alloc() and Free() de-allocates a previously allocated memory block.
                         </p>
                         <p>
-                            In the following we discuss two sets of algorithms for implementing these functions.  First we will describe a <b>simple fixed size allocator</b> assuming that the Alloc() function always allocates a fixed sized memory block irrespective of the allocation size of the request.  Such allocation, however is possible only if the maximum size of a request is known in advance. Later we descibe the <b>buddy system allocator</b> which can handle requests of arbitrary size subject to a maximum limit.
+                            In the following we discuss two sets of algorithms for implementing these functions.  First we will describe a <b>simple fixed size allocator</b> assuming that the Alloc() function always allocates a fixed sized memory block irrespective of the allocation size of the request.  Such allocation, however is possible only if the maximum size of a request is known in advance. Later we describe the <b>buddy system allocator</b> which can handle requests of arbitrary size subject to a maximum limit.
                         </p>
                     </article>
                     <!--<article class="grid col-full" id="nav-associated-methods">
