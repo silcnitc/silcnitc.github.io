@@ -1009,7 +1009,12 @@
                             <img src="img/expression tree.png">
                         </p>
                         <p>
-                            A tree node for a function call contains a pointer to a list of expressions, one expression for each argument. <b>The compiler must type check each argument and match it with the type of the corresponding formal parameter of the called function.</b>  The expression tree structure given HERE[LINK] can be used (instead of the type table pointer, just store a variable indicating INT/STR type.  We will take up user defined types later.)   The details of implementation are left to you. 
+                            A tree node for a function call contains a pointer to a list of expressions, one expression for each argument. <b>The compiler must type check each argument and match it with the type of the corresponding formal parameter of the called function.</b>
+                        </p>
+                        <p>
+                            To get an overall picture of what is going on, you must read the documentation on <a href="data-structures.html" target="_blank"> compile time data structures</a> at this juncture. <b>Ignore type table entries for now</b> as we permit only integer/string variables in the present stage.   
+                        </p>
+                          The expression tree structure given <a href="data_structures/abstract-syntax-tree.html" target="_blank">HERE</a> can be used (again, ignore type table pointer) The details of implementation are left to you. 
                         </p>
                         <p>
                             With this information, the task of completing type checking and building expression tree for a function is straightforward.  
