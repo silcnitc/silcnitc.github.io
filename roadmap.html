@@ -1033,8 +1033,8 @@
                                     <ul>
                                         <li id="otis">a)  The caller must <b>save the registers</b> in use so that even if the callee changes the values later,  the original values can be recovered after return from the callee.</li>
                                         <li id="otis">b)  The caller must <b>evaluate the arguments to the callee and store it</b> somewhere in a way that the <b>callee can access those values</b>.</li>
-                                        <li id="otis"> c)  The caller must create some space for the callee to place the return value at the end of the call.</li>
-                                        <li id="otis"> d)  The caller must transfer control transfer to the binding address of the callee.</li>
+                                        <li id="otis"> c)  The caller must create some <b>space for the callee to place the return value</b> at the end of the call.</li>
+                                        <li id="otis"> d)  The caller must <b>transfer control to the binding address of the callee</b>.</li>
                                     </ul>
                                 </li>
                                 <li id="otis">
@@ -1043,7 +1043,7 @@
                                         <li id="otis">a)  The callee must <b>allocate space for its local variables</b>.</li>
                                         <li id="otis">b)  Execute the callee code.</li>
                                         <li id="otis">c)   When encountering a return instruction, the <b>return value must be computed and stored</b> in the appropriate place specified by the caller (step 1.c above).</li>
-                                        <li id="otis">d)  Return control to the caller.</li>
+                                        <li id="otis">d) <b> Return </b>control to the caller.</li>
                                     </ul>
                                 </li>
                                 <li id="otis">
