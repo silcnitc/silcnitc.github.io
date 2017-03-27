@@ -25,7 +25,6 @@
           <li><a href="index.html" class="navactive">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="#">Help</a></li>
-          <li><a href="#">Code</a></li>
           <li><a href="roadmap.html">Roadmap</a></li>
           <li><a href="documentation.html">Documentation</a></li>
         </ul>
@@ -62,13 +61,17 @@
          The platform is designed assuming that the student has a basic knowledge of Data structures, Computer organization and a working proficiency of the C programming language. Being instructional in nature, this project tries to give some insight into the working of LEX, YACC and the usage of these tools to develop a compiler for an instructional language custom designed for the project - called ExpL (Experimental language).   Brief theoretical explanations are provided on a <i>need-to-do</i> basis.
        </p>
        <p>
+         If you wish to get started with the project directly, proceed to the <a href="roadmap.html" target="_blank">roadmap</a>.  If you wish to get a high level overview of the project, a brief outline is given below.     
+         <hr>
+       </p>
+<!--        <p>
          The project is designed to be done concurrently with a theory course in Compiler Design, typically offered during the third year of an undergraduate CS curriculum.   It is by no means a replacement to the theory course, but is only designed to supplement it.    The project will help in solidifying the student's grasp of compiler design theory - about how the components of a compiler can be assembled together to form the whole.  The student will also experience the end-to-end process of translation from a source high level language to a target executable.
        </p>
        <p>
          The roadmap first guides the student to build a simple expression compiler.  Static variables are then introduced to this expression compiler and control flow constructs are added next.  Till this phase, only integer type is allowed.  In the next step, support for string type is added to the language and type checking issues are discussed.  Support for arrays are added next.   Subroutines and run time allocation comes next and finally support for user defined types and dynamic memory allocation is added.  (A final phase of providing support for classes and subtype polymorphism has been planned subsequently).  The road-map is designed in such a way that as far as practicable, only one new concept is introduced at a time.
        </p>
        <p>
-         Starting right from the first phase, the student has to generate code that can be loaded and executed by a simulator provided along with the platform.  The simulator is designed to load and run executable files satisfying a specified [<a href="abi.html" target="_blank"> application binary interface specification(ABI)</a>].
+         Starting right from the first phase, the student has to generate code that can be loaded and executed by a simulator provided along with the platform.  The simulator is designed to load and run executable files satisfying a specified <a href="abi.html" target="_blank"> application binary interface specification(ABI)</a>.
        </p>
        <p>
          It is our responsibility to explicitly state some central concepts that the project fail to teach.  Here are some among the key omissions:
@@ -90,7 +93,37 @@
        <p>
          In short, the project is designed to help the student to gain knowledge, appreciation and insight into the working of compilers, but does not try to train the student in professional compiler writing.  This particular pedagogical choice has been taken to spare the student from the technicalities of machine architecture, executable/object formats and the complexities of the ABI of real systems – something that in our experience seems to drive a lot of students away from systems projects.  Our hope is that once the basic material is assimilated, the student will be more confident to get involved with these details in professional life.
        </p>
-  	     <p>Proceed to <a href="http://silcnitc.github.io/roadmap.html">Roadmap</a> to get started. </p>
+ -->  	     
+    <h2>Overview the project</h2>
+    <p>
+        To design a compiler, one needs the following specifications: <br><br>
+
+        1. <i>The specification of the source programming language</i>:  The source language for this compiler is called the Experimental Language (ExpL),  which is designed solely for instructional purposes.  An informal specification of the source language is given <a href="expl.html" target="_blank"> here</a>. The specification for an extension of the basic ExpL language with support for object oriented programming is given <a href="oexpl.html" target="_blank">here</a>.
+    </p>
+    <p>
+        2.  <i>Application Binary Interface of the target platform</i>:  A compiler must generate a binary executable file that can be loaded and executed by an operating system running on a target machine.  Normally, an OS system installation comes with an interface specification, explaining how binary executable files must be formatted to run on the system.  This interface is called the Application Binary Interface (ABI).  The ABI is dependent on both the OS and the machine architecture.   The ABI for this project is that of the Experimental Operating System (ExpOS) running on the Experimental String Machine.  [XSM].   The ABI specification is given <a href="abi.html"> here</a>.  (The simulator allows the target program to contain machine instructions in mnemonic form, avoiding translation to binary format).
+    </p>
+    <p>
+        A compiler takes a source language program as input and produces an executable target file formatted according to the requirements laid down by the ABI.  Of course, the semantics of the program must be preserved by the translation process.
+    </p>
+    <p>
+        The main intellectual complexity in understanding a compiler is that its inputs and outputs are programs – that is, a compiler's input data is a (source language) program and its output is a (target language) program.  The task is to systematically map each construct in the source program to semantically equivalent constructs in the target language.
+    </p>
+    <p>
+        A text book approach to compilation logically divides the process into several parts.  The lexical elements of the input program are identified during a <i>lexical analysis phase</i>.  The software tool LEX is used in this phase.  The lexemes identified by the lexical analysis phase are passed to the next phase – called the <i>syntax analysis phase</i> - which checks the program against syntax errors.  If the program is free of syntax errors, the next conceptual stage called the <i>semantic analysis phase</i>, checks for type and scope errors in the program.  Once a program is found to be free of syntax and semantic errors, an intermediate representation of the source program called the <I>abstract syntax tree</i> representation is generated by the compiler.  (In practice, syntax analysis, semantic analysis and abstract syntax tree construction happens together.  The syntax directed translation scheme provided by the software tool YACC is used for completing these phases.)   The sequence of phases starting with the lexical analysis of the source program to generation of abstract syntax tree representation is called the <i>front end</i> of the compiler
+    </p>
+    <p>
+        <span style="color: red">Figure<br></span>
+    </p>
+    <p>
+        The abstract syntax tree produced by the front end is the input to the back end phase which generates an assembly language program.  Finally, a label translation phase is run to replace symbolic labels in the assembly language program with logical addresses (linking) and generate final target executable file.
+    </p>
+    <p>
+        The road-map takes you through a "spiral" model of program development. First, a simple expression compiler is built.  Static variables are then introduced to the expression compiler and control flow constructs are added.  In the next step, support for string type is added to the language and semantic issues are addressed. Subroutines and run time allocation are introduced subsequently and finally support for user defined types and dynamic memory allocation is added.  (A final phase of providing support for classes and subtype polymorphism is also planned).   In each of these steps, you will encounter lexical, syntax and semantic analysis, syntax tree construction and code generation.  The tasks will be very simple during the initial stages and the complexity will grow gradually as more and more features are added to the language.
+    </p>
+    <p>
+        Wish you good luck working through the <a href="http://silcnitc.github.io/roadmap.html" target="_blank">road-map</a>.
+    </p>
     </div>
          
   </section>

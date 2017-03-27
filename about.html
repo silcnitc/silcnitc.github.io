@@ -15,7 +15,6 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html" class="navactive">About</a></li>
                     <li><a href="#">Help</a></li>
-                    <li><a href="#">Code</a></li>
                     <li><a href="roadmap.html">Roadmap</a></li>
                     <li><a href="documentation.html">Documentation</a></li>
             </ul>
@@ -41,15 +40,41 @@
       <section class="columnthird content">  <h2 class="mright"> ABOUT THE PROJECT</h2>
         <article id="navphilo" class="detail">
           <h3>PHILOSOPHY</h3>
-        	<p>
-                This project aims to develop an online self-sufficient educational platform which can be used to tutor students in writing a compiler. The project will provide the students with a roadmap for the development process and guide them along the roadmap with supporting documentation. Using the step-by-step guidance offered by the roadmap, the students will be able to build the compiler under minimal expert supervision.
-            </p>
-            <p>
-                We have designed the platform assuming that a student before starting to follow the roadmap has a basic knowledge of Data structures, Computer organization and a working proficiency of the C programming language. Being instructional in nature, this project gives the learner an insight into the working of LEX, YACC and the usage of these tools to develop a compiler for ExpL (Experimental language). The theory involved would be learned on a <i>need-to-do</i> basis.
-            </p>
-            <p>
-                An <i>in-depth</i> explanation approach of the compiler design concepts and how these are interlinked with the back-end working of the compiler-generation tools has been used throughout the documentation. We believe that this would enable the students to have a better appreciation for theory. The primary focus of the project is to provide a platform that would help make the learner experience the process of implementing a functional compiler for a simple language and to provide a foundation for appreciating commercial compilers which the learner may choose to explore beyond this project.
-            </p>
+          	<p>
+            This project aims to develop an online self-sufficient educational platform to help undergraduate Computer Science students understand the functioning of a compiler for a simple procedural language by writing a small toy compiler themselves.  (An object oriented extension for the language has been proposed subsequently.) The project will provide students with a <a href="roadmap.html" target="_blank">roadmap</a> for the development process and guide them along the roadmap with supporting documentation. Using the step-by-step guidance offered by the roadmap, the students will be able to build the compiler under minimal expert supervision.
+         </p>
+         <p>
+           The platform is designed assuming that the student has a basic knowledge of Data structures, Computer organization and a working proficiency of the C programming language. Being instructional in nature, this project tries to give some insight into the working of LEX, YACC and the usage of these tools to develop a compiler for an instructional language custom designed for the project - called ExpL (Experimental language).   Brief theoretical explanations are provided on a <i>need-to-do</i> basis.
+         </p>
+          <p>
+           The project is designed to be done concurrently with a theory course in Compiler Design, typically offered during the third year of an undergraduate CS curriculum.   It is by no means a replacement to the theory course, but is only designed to supplement it.    The project will help in solidifying the student's grasp of compiler design theory - about how the components of a compiler can be assembled together to form the whole.  The student will also experience the end-to-end process of translation from a source high level language to a target executable.
+         </p>
+         <p>
+           The roadmap first guides the student to build a simple expression compiler.  Static variables are then introduced to this expression compiler and control flow constructs are added next.  Till this phase, only integer type is allowed.  In the next step, support for string type is added to the language and type checking issues are discussed.  Support for arrays are added next.   Subroutines and run time allocation comes next and finally support for user defined types and dynamic memory allocation is added.  (A final phase of providing support for classes and subtype polymorphism has been planned subsequently).  The road-map is designed in such a way that as far as practicable, only one new concept is introduced at a time.
+         </p>
+         <p>
+           Starting right from the first phase, the student has to generate code that can be loaded and executed by a simulator provided along with the platform.  The simulator is designed to load and run executable files satisfying a specified <a href="abi.html" target="_blank"> application binary interface specification(ABI)</a>.
+         </p>
+         <p>
+           It is our responsibility to explicitly state some central concepts that the project fails to teach.  Here are some among the key omissions:
+           <ul>
+             <li id="otis">
+               1.  The machine architecture, virtual memory model (and the target ABI in general) are unrealistically simple and custom made.  Consequently it is easy to generate code for the target platform, but the platform is far from any real system.  To illustrate the level of oversimplification,  a memory word of the target machine is assumed to be capable of storing an arbitrary integer or a string.  Floating point handling is omitted.  The executable file format is extremely simple to understand, but too restrictive for real use.  (There has been simplifications in the source language specification as well.  But those are less dramatic.)<br><br>
+             </li>
+             <li id = "otis">
+               2.  To avoid trouble with binary formatting, the executable file is allowed to contain mnemonic instructions rather than binary.  Students are still required to resolve symbolic references to actual logical addresses and only the replacement of symbolic instructions with actual binary instructions is avoided.<br><br>
+             </li>
+             <li id="otis">
+               3.  Code, register or memory optimizations are not attempted as these topics are beyond the scope of the project. The focus here is to get working target code generated.  The roadmap asks the students to directly traverse an intermediate abstract syntax tree representation of the program and directly generate assembly language code.  This is followed by a label translation pass to resolve labels in the target code.<br><br>
+             </li>
+             <li id="otis">
+               4.   Focus has not been placed on efficient data structuring or following software engineering practices.  The road-map suggests an implementation that can be built incrementally and is simple to comprehend.
+             </li>
+           </ul>
+         </p>
+         <p>
+           In short, the project is designed to help the student to gain knowledge, appreciation and insight into the working of compilers, but does not try to train the student in professional compiler writing.  This particular pedagogical choice has been taken to spare the student from the technicalities of machine architecture, executable/object formats and the complexities of the ABI of real systems – something that in our experience seems to drive a lot of students away from systems projects.  Our hope is that once the basic material is assimilated, the student will be more confident to get involved with these details in professional life.
+         </p>
         </article>
         <article id="navteam" class="detail">
           <h3>AUTHORS</h3>
@@ -76,7 +101,7 @@
           <br>
           	<h5>Technical Contributors</h5><br>
         	<a>Peeyush Singh</a><br>
-          contact : peeyushsrj@gmail.com
+          <!-- contact : peeyushsrj@gmail.com -->
         </article>
     	<article id="navlic" class="detail">
           <h3>LICENSE</h3>
@@ -91,11 +116,6 @@
     <footer class="center part clearfix">
     <ul class="social column3 mright">
         <li><a href="https://github.com/silcnitc">Github</a></li>
-         <!--   <li><a href="#">Facebook</a></li>
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">Google+</a></li>
-            <li><a href="#">Flickr</a></li>
-          -->
         </ul>
 
             <div class="up column3 mright"> <a href="#navtop" class="ir">Go up</a> </div>
