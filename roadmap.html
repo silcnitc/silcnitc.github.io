@@ -1293,7 +1293,7 @@
                             Stated formally, 
                             <div class="syntax">
                             Field :: = Field . ID  {  $$.type = $2. type; }   <br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;             | ID  { $$.type = $1.type; } <br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;             | ID  . ID { $$.type = $1.type; } <br>
                             </div>
 
                             While constructing the AST,  the type entry for any field may be recursively computed using the formal rule noted above.   This information can be used for effective semantic analysis.  Arguments to functions must also be type checked against formal parameters of their declaration.    <br>
