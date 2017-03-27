@@ -1160,7 +1160,7 @@
                             <b>IMPORTANT NOTE</b>:  In our calling convention, the caller was required to save the registers in use before the call.  What if instead, we design a  calling convention where the callee had to push the registers in use?  The problem here is that the callee does not know (and does not have to know) the caller and hence do not know at each call which were the registers in use.  Hence, the callee will have to save all machine registers, wasting time and space.  Hence, the convention of the caller storing registers in use is superior.  However, there are situations where this is not possible.  For instance, in hardware interrupt routines,  control is transferred to the callee without the caller executing a call.  In such cases, the callee will have to save (all) the machine registers for a successful return.  
                         </p>
                         <p>
-                            The final task of this stage can be completed. <br> 
+                            You have enough background now to complete the final task of this stage.<br> 
 
                             <div class="syntax">
                                 <b>Task 3</b>:  Complete code generation for functional calls.  <br>
@@ -1168,7 +1168,7 @@
 
                             <b>Exercise 1</b>:  Modify the function semantics to permit pointer type variables of <a href="#stage4_ex2" target="_blank">Stage 4 (Exercise 2)</a> to be passed as arguments to functions.  This will allow a function to pass the address of a local variable to another function as an argument so that the callee can modify the contents.   Modify the syntax and semantics rules appropriately.  This feature must allow you to write functions like:<br>
                             <br>
-                            int swap(int *p, int *q) <br>
+                            <i>int</i> swap<i>(int</i> *p, <i>int</i> *q<i>)</i> <br>
                             <br>
                             Note that functions need to be permitted to return pointer type variables.  (Returning a pointer to local variable from a function is not advisable – Why?).
                         </p>
