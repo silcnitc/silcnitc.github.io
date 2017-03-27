@@ -1120,7 +1120,8 @@
                         </p>
                         <p>
                             <br>
-                            /* Actions in the stack done by the caller*/ <br>
+                                Figure: Actions in the stack done by the caller before the call <br>
+                            Once the call is made, the next instruction in the caller will be executed only after the callee executes a return statement.  The caller must proceed from here assuming that the callee would have placed the return value in the location designated for it.   
                              <ul>
                                 <li id="otis">5. Allocate a new register and store the returned value.</li>
                                 <li id="otis">6. Pop out arguments from the stack.</li>
