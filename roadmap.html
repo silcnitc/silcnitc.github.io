@@ -1012,26 +1012,29 @@
                             A tree node for a function call contains a pointer to a list of expressions, one expression for each argument. <b>The compiler must type check each argument and match it with the type of the corresponding formal parameter of the called function.</b>
                         </p>
                         <p>
-                            To get an overall picture of what is going on, you must read the documentation on <a href="data-structures.html" target="_blank"> compile time data structures</a> at this juncture. <b>Ignore type table entries for now</b> as we permit only integer/string variables in the present stage.   
+                            To get an overall picture of what is going on, you may read the documentation on <a href="data-structures.html" target="_blank"> compile time data structures</a> at this juncture. <b>Ignore type table entries for now</b> as we permit only integer/string variables in the present stage.   
                         </p>
                           The expression tree structure given <a href="data_structures/abstract-syntax-tree.html" target="_blank">HERE</a> can be used (again, ignore type table pointer) The details of implementation are left to you. 
                         </p>
                         <p>
                             With this information, the task of completing type checking and building expression tree for a function is straightforward.  
                             <div class="syntax">
-                                <b>Task 2</b>:  Construct AST for each function after checking type and scope rules (semantic analysis).  Right now, we are concerned just with type checking and not code generation.  Note that a variable appearing in a function must first be searched for in the local symbol table of the function and then in the global symbol table if not found in the local symbol table.   Note that local declaration overrides global declaration.   The compiler must report an error if the types, names and number of arguments in each function declaration must matching with the function definition.  
+                                <b>Task 2</b>:  Construct AST for each function after checking type and scope rules (semantic analysis).  Right now, we are concerned just with type and scope analysis and not code generation. Note that a variable appearing in a function must first be searched for in the local symbol table of the function and then in the global symbol table, if not found in the local symbol table. Note that local declaration overrides global declaration. The compiler must report an error if the types, names and number of arguments in each function declaration are not matching with the function definition.  
                             </div>
                         </p>
                         <p>
-                            The dynamics of a function call can be understood easily be dividing the process into the following three stages.  
+                            Now we turn to the code generation step.
+                        </p>
+                        <p>
+                            The dynamics of a function call can be understood easily by dividing the process into the following three stages.  
                             <ul>
                                 <li id="otis">
-                                    Step 1.  <b>Code executed in the calling function (caller)  before the transfer of control</b> to the called function (callee):
+                                    Step 1.  <b>Code executed in the calling function (caller)  before the transfer of control</b> to the called function (<b>callee</b>):
                                     <ul>
                                         <li id="otis">a)  The caller must <b>save the registers</b> in use so that even if the callee changes the values later,  the original values can be recovered after return from the callee.</li>
-                                        <li id="otis">b)  The caller must <b>calculate the arguments to the callee and store it</b> somewhere in a way that the <b>callee can access those values</b>.</li>
-                                        <li id="otis"> c)  The caller must indicate create some space for the callee to place the return value at the end of the call.</li>
-                                        <li id="otis"> d)  Make the control transfer to the binding address of the callee.</li>
+                                        <li id="otis">b)  The caller must <b>evaluate the arguments to the callee and store it</b> somewhere in a way that the <b>callee can access those values</b>.</li>
+                                        <li id="otis"> c)  The caller must create some space for the callee to place the return value at the end of the call.</li>
+                                        <li id="otis"> d)  The caller must transfer control transfer to the binding address of the callee.</li>
                                     </ul>
                                 </li>
                                 <li id="otis">
@@ -1056,12 +1059,12 @@
                             The machine code for actions in Step 1 and Step 3 must be generated when the compiler encounters a function call in the caller's code.   The compiler generates code for Step 2 while generating code for the callee function.
                         </p>
                         <p>
-                            To implement the above plan, we need to create storage space whenever a function call is encountered.   We will be focusing on generating code with labels are used.  Translation of labels to actual addresses can be easily done at the end as was done in Stage 4 following the <a href="label-translation.html" target="_blank">Label Translation Documentation</a>.  <br>
-                            <br>
-                            
+                            To implement the above plan, we need to create storage space whenever a function call is encountered.   We will be focusing on generating code containing labels.  Translation of labels to actual addresses can be easily done at the end as was done in Stage 4 following the <a href="label-translation.html" target="_blank">Label Translation Documentation</a>.
+                        </p>
+                        <p>  
                             <b>Implementation Strategy</b>. <br>
                             <br>
-                            The fundamental strategy for space allocation is to create an <b>activation record</b> for the callee in the <b>stack</b> when a function call is encountered.  <b>The compiler must generate code for creating the activation record at run-time when the call is encountered</b>. Since the storage requirements for arguments, local variables and the return value of a function are known at compile time, the compiler knows exactly how much space must be allocated for each function.   We propose following general organization for activation records:  <br>
+                            The fundamental strategy for space allocation is to create an <b>activation record</b> for the callee in the <b>stack</b> when a function call is encountered.  <b>The compiler must generate code for creating the activation record at run-time when the call is encountered</b>. Since the storage requirements for arguments, local variables and the return value of a function are known at compile time, the compiler knows exactly how much space must be allocated for each function. We propose following general organization for activation records:  <br>
 
                             <ul>
                                 <li id="otis">
@@ -1071,10 +1074,10 @@
                                     2.  <b>Relative to the base, the address of each argument, each local variable, the address where the return value is stored etc are fixed by the compiler statically</b> (at compile time).
                                 </li>
                                 <li id="otis">
-                                    3.  Initially, the activation record for the Main function is created in the stack.  BP is initialized to the base of this activation record and the Main function starts execution.
+                                    3.  Initially, the activation record for the main function is created in the stack. BP is initialized to the base of this activation record and the main function starts execution.
                                 </li>
                                 <li id="otis">
-                                    4.  <b>If function A calls function B, a new activation record is created in the stack for function B above the activation record of function B</b>.  The BP is made to point to the base of activation record of B.  Upon return from B, the activation record of B is popped off the stack and BP is set back to the activation record of B.
+                                    4.  <b>If function A calls function B, a new activation record is created in the stack for function B above the activation record of function A</b>. The BP is made to point to the base of activation record of B.  Upon return from B, the activation record of B is popped off the stack and BP is set back to the activation record of A.
                                 </li>
                                 <li id="otis">
                                     5.  If function A calls function B, the address of the instruction in A to resume execution (<b>return address</b> – value of current-IP +2 in XSM machine- why?) upon return from B must be saved.  Similarly, the <b>base pointer of the caller</b> (BP value) of A <b>must be saved in the stack</b> before BP is changed to point to the base of B.  Both the return address and BP values will be stored in pre-defined locations of the activation record of B.
@@ -1084,8 +1087,9 @@
                                 </li>
                             </ul>
 
-
-                            A thorough reading of this <a href="run_data_structures/run-time-stack.html">page</a> is absolutely essential to proceed any further. Suppose  a function has n arguments (arg_1, arg_2,...,arg_n) and m local variables (loc_1, loc_2, ..., loc_m), its activation record in the stack may look as the following
+                        </p>
+                        <p>
+                            A thorough reading of this <a href="run_data_structures/run-time-stack.html" target="_blank">page</a> is <b>absolutely essential</b> to proceed any further. Suppose  a function has n arguments (arg_1, arg_2,...,arg_n) and m local variables (loc_1, loc_2, ..., loc_m), its activation record in the stack may look as the following
                         </p>
                         <p>
                             <img src="img/stack.png">  
