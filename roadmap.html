@@ -1100,7 +1100,7 @@
                                 <li id="otis">1.  Generate code to <b>push registers</b> in use into the stack.  After this, the callee's activation record begins.</li>
                                 <li id="otis">2.  Evaluate arg_n and push the value to the stack.  Now evaluate and push arg_n-1 and so on till arg_1.  The <b>arguments are pushed in reverse order</b>.  (You can do it in any order as long as the same convention is followed everywhere).</li>
                                 <li id="otis">3. <b>Push one empty space</b> in the stack for the callee to store the <b>return value</b>.</li>
-                                <li id="otis">4. Generate Call instruction to the binding (label) of the function. (The call instruction will push IP+2 into the stack and jump to label.)</li>
+                                <li id="otis">4. Generate <b>Call instruction</b> to the binding (label) of the function. (The call instruction will push IP+2 into the stack and jump to label.)</li>
                             </ul>
                         </p>
                         <p>
@@ -1121,11 +1121,11 @@
                         <p>
                             <br>
                                 Figure: Actions in the stack done by the caller before the call <br><br><br>
-                            Once the call is made, the next instruction in the caller will be executed only after the callee executes a return statement.  The caller must proceed from here assuming that the callee would have placed the return value in the location designated for it.   
+                            <b>Once the call is made, the next instruction in the caller will be executed only after the callee executes a return statement</b>.  The caller must proceed from here assuming that <b>the callee would have placed the return value</b> in the location in the stack designated for it. The caller must generate code to extract the return value and clean up the stack.     
                              <ul>
-                                <li id="otis">5. Allocate a new register and store the returned value.</li>
-                                <li id="otis">6. Pop out arguments from the stack.</li>
-                                <li id="otis">7. Pop out registers.</li>
+                                <li id="otis">5. Allocate a new register and <b>store the returned value</b> into the register.</li>
+                                <li id="otis">6. <b>Pop out arguments</b> from the stack. (The arguments may be discarded now.)</li>
+                                <li id="otis">7. <b>Restore registers</b> saved in the stack in step 1.</li>
                             </ul>
 
                             The above actions are sufficient to generate code for handling a function invocation.  Note that to generate code for a call, only the callee's declaration information (types and order of the arguments and call label) needs to be known.   Note that the callee call could have been generated even by a different compiler.  All that the caller needs to know is the callee's <b>interface</b>, and the <b>calling convention</b> (convention regarding in what order arguments must be pushed, where should the return value be stored etc.  See also <a href="https://en.wikipedia.org/wiki/Calling_convention" target="_blank">link</a>).
