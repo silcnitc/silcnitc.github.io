@@ -6,8 +6,8 @@
         <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
         <link rel="stylesheet" href="css/style_new.css">
         <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
-        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
-        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist"></div>
+        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist"></div>
     </head>
     <div class="container">
         <header id="navtop">
@@ -16,10 +16,10 @@
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Code</a></li>
-                        <li><a href="roadmap.html">Roadmap</a></li>
-                        <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">Code</a></li>
+                    <li><a href="roadmap.html">Roadmap</a></li>
+                    <li><a href="documentation.html" class="navactive">Documentation</a></li>
                 </ul>
             </nav>
         </header>
@@ -61,27 +61,27 @@
 						<hr>
 					</article>
                     <article class="grid col-full">
-                    <p>
-                    	This tutorial helps you to gain a basic understanding of the execution environment provided by the XSM simulator. The compiler you design for the ExpL language is supposed to generate target XSM machine code that runs on the XSM Simulator provided to you. However, the bare machine cannot directly run the target code. The operating system (OS)  that runs on top of the machine is the actual software that sets up an execution enviornment necessary for running the target code. Hence, the compiler's obligation is to generate target code that is understandable to the operating system.
-                    </p>
-                    <p>
-                    	Consequently, there must be a document provided by the OS implementation to the compiler designer that explains the interface to the operating system that the compiler must adhere to. This document is called the <b>Application Binary Interface</b> or <b>ABI</b>.
-                    </p>
-                    <p>
-                     	The XSM simulator given to you is actually much more than a bare XSM hardware simulator. It has the capacity to understand the ABI for the ExpOS operating System for the XSM machine. This ABI expects that the compiler generates the target file in a format called the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank">XEXE executable format</a>.
-                    </p>
-  					<p>
-  						Your compiler simply needs to generate an executable file following the XEXE executable format and store it on the local machine. When you use the XSM simulator to run the program, the following actions take place.<br>
-  						<ul>
-  							<li id="otis">1. The script that runs the simulator transfers the file from your local machine's disk to the XSM machine's (simulated) hard disk.</li>
-  							<li id="otis">2. It then boots up the operating system (the OS is already preloaded in the simulator's hard disk). The bootstrap loader starts in the kernel mode and sets up a user process in memory, allocating an address space.  Then, it transfers the executable file from the hard disk to the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> code region</a> of this memory. Page tables are also set up to run the process in user mode.</li>
-  							<li id="otis">3. Finally, the simulator sets the instruction pointer (IP) to the address specified in the <b>entry-point field</b> of the header of the executable file and control transfers to this instruction, resulting in execution of the loaded program starting with the instruction specified by the entry point. The machine also switches from the kernel mode to the user mode. (Technically, the OS code pushes the entry point address on to the program's stack and executes the <a href="http://exposnitc.github.io/arch_spec-files/instruction_set.html" target="_blank">IRET instruction</a> resulting in transfer of control in user mode to the specified memory address. These details are not relevant for your work and are noted just for the sake of information.)</li>
-  						</ul>
-  					</p>
-  					<p>
-  						We start now by generating a small XEXE executable file containing an XSM program to find the sum of two numbers and store the value in a register. The value of the register will have to be inspected in order to view the ouput. This is possible by executing the XSM simulator in <a href="xsmusagespec.html#nav-debug" target="_blank">debug mode</a>. Later we will see how console input and output are handled.
-  					</p>
-  					<hr>
+                        <p>
+                        	This tutorial helps you to gain a basic understanding of the execution environment provided by the XSM simulator. The compiler you design for the ExpL language is supposed to generate target XSM machine code that runs on the XSM Simulator provided to you. However, the bare machine cannot directly run the target code. The operating system (OS)  that runs on top of the machine is the actual software that sets up an execution enviornment necessary for running the target code. Hence, the compiler's obligation is to generate target code that is understandable to the operating system.
+                        </p>
+                        <p>
+                        	Consequently, there must be a document provided by the OS implementation to the compiler designer that explains the interface to the operating system that the compiler must adhere to. This document is called the <b>Application Binary Interface</b> or <b>ABI</b>.
+                        </p>
+                        <p>
+                         	The XSM simulator given to you is actually much more than a bare XSM hardware simulator. It has the capacity to understand the ABI for the ExpOS operating System for the XSM machine. This ABI expects that the compiler generates the target file in a format called the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank">XEXE executable format</a>.
+                        </p>
+      					<p>
+      						Your compiler simply needs to generate an executable file following the XEXE executable format and store it on the local machine. When you use the XSM simulator to run the program, the following actions take place.<br>
+      						<ul>
+      							<li id="otis">1. The script that runs the simulator transfers the file from your local machine's disk to the XSM machine's (simulated) hard disk.</li>
+      							<li id="otis">2. It then boots up the operating system (the OS is already preloaded in the simulator's hard disk). The bootstrap loader starts in the kernel mode and sets up a user process in memory, allocating an address space.  Then, it transfers the executable file from the hard disk to the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> code region</a> of this memory. Page tables are also set up to run the process in user mode.</li>
+      							<li id="otis">3. Finally, the simulator sets the instruction pointer (IP) to the address specified in the <b>entry-point field</b> of the header of the executable file and control transfers to this instruction, resulting in execution of the loaded program starting with the instruction specified by the entry point. The machine also switches from the kernel mode to the user mode. (Technically, the OS code pushes the entry point address on to the program's stack and executes the <a href="http://exposnitc.github.io/arch_spec-files/instruction_set.html" target="_blank">IRET instruction</a> resulting in transfer of control in user mode to the specified memory address. These details are not relevant for your work and are noted just for the sake of information.)</li>
+      						</ul>
+      					</p>
+      					<p>
+      						We start now by generating a small XEXE executable file containing an XSM program to find the sum of two numbers and store the value in a register. The value of the register will have to be inspected in order to view the ouput. This is possible by executing the XSM simulator in <a href="xsmusagespec.html#nav-debug" target="_blank">debug mode</a>. Later we will see how console input and output are handled.
+      					</p>
+      					<hr>
   				</article>
                 <article class="grid col-full">
 	                <p id="nav-experiment1">
@@ -125,12 +125,12 @@
   						To generate code for the above tasks and write it into a target_file, you must write code as:<br>
   						<div class="syntax">
 							fprintf(target_file, "BRKP");<br>
-              fprintf(target_file, "MOV R0, 3\n");<br>
-              fprintf(target_file, "MOV R1, 2\n");<br>
-              fprintf(target_file, "ADD R0, R1\n");
-  						</div>
+                            fprintf(target_file, "MOV R0, 3\n");<br>
+                            fprintf(target_file, "MOV R1, 2\n");<br>
+                            fprintf(target_file, "ADD R0, R1\n");
+              			</div>
   					</p>
-  					<p >
+  					<p>
   						The target_file will look as shown below.
 	  					<script src="js/edda61e70ba922a59f37b9680c420b53.js"></script>
   					</p>
@@ -185,10 +185,7 @@
                         </ul>
 						<img src="img/reg.png"> 
 						<br>This command displays the contents of all the machine registers namely IP, SP, BP, PTBR, PTLR, EIP, EC, EPN, EMA, R0-R19 in that order. We will not be concerned with PTBR, PTLR, EIP, EC, EPN and EMA registers which are accessible only to the OS kernel executing in previliged mode.  Note that the value of IP register is 2064.  IP was initialized to 2056 while loading (entry point value) and after executing four instructions, IP got incremented to 2064.  The OS kernel had set SP to point 4095 at load time (why?). 
-
 					</p>
-
-<!-- /*  Give usage instructions here – run the simulator in debug mode and  watch the contents of register R0 – spoon feed   - complete this part */  <br><br> -->
 					<p>
 						<b>Note</b>: You would have observed that if you try to continue to execute beyond the last instruction, the simulator flags abnormal program termination. This is because after executing the last instruction of the program, the simulator increments the instruction pointer and tries to execute the next instruction. However, since there is no valid instruction stored in the memory, the simulator will enconter an invalid instruction and generate an exception. This results in transfer of program control to the OS kernel code that will terminate execution and report error. We will see how graceful program termination is achieved in the next experiment.  
 					</p>
@@ -545,9 +542,6 @@
                         The library.lib file will look as shown below after adding the code to handle Write system call.
                         <script src="js/593f1d9b41ce0bc9ce6c6a173f96c68c.js"></script>
                     </p>
-<!-- 					<p style="color: red;">
-						/*  Complete this stage in the same lines at Experiment I and Experiment II */  
-					</p> -->
 					<p>
 						<b>Exercise 6</b> : Implement read() and exit() functions of the library.  
 					</p>
@@ -558,3 +552,31 @@
 						<b>Exercise 8</b> : Modify the program to read numbers until a zero is entered from the console and print their sum to perform I/O using the library interface.  
 					</p>
 				</article>
+            </div>
+        </section>
+    </body>
+</div>
+</div>
+ <div class="divide-top">
+        <footer class="">
+            <ul class="grid col-one-third social">
+                <li><a href="http://github.com/xosnitc">Github</a></li>
+            </ul>
+
+            <div class="up grid col-one-third ">
+                <a href="#navtop" title="Go back up">↑</a>
+                <p>
+                    Authors : <a href="http://athena.nitc.ac.in/~kmurali/" target="_blank">K Murali Krishnan</a> </p>
+            </div>
+
+            <nav class="grid col-one-third ">
+                <ul >
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="uc.html">Contact</a></li>
+                </ul>
+
+            </nav>
+        </footer>
+        </div>
+</html>
