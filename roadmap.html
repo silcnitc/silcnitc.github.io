@@ -1089,7 +1089,7 @@
 
                         </p>
                         <p>
-                            A thorough reading of this <a href="run_data_structures/run-time-stack.html" target="_blank">page</a> is <b>absolutely essential</b> to proceed any further. Suppose  a function has n arguments (arg_1, arg_2,...,arg_n) and m local variables (loc_1, loc_2, ..., loc_m), its activation record in the stack may look as the following
+                            A thorough reading of this <a href="run_data_structures/run-time-stack.html" target="_blank">page</a> is <b>absolutely essential</b> to proceed any further. Suppose  a function has n arguments (arg_1, arg_2,...,arg_n) and m local variables (loc_1, loc_2, ..., loc_m), its activation record in the stack may look as the following.(The stack is assumed to grow downwards.)
                         </p>
                         <p>
                             <img src="img/stack.png">  
@@ -1100,15 +1100,27 @@
                                 <li id="otis">1.  Generate code to push registers in use into the stack.  After this, the callee stack begins.</li>
                                 <li id="otis">2.  Evaluate arg_n and push the value to stack.  Now evaluate and push arg_n-1 and so on till arg_1.  The arguments are pushed in reverse order.  (You can do it in any order as long as the same convention is followed everywhere).</li>
                                 <li id="otis">3.  Push one empty space in the stack for the callee to store the return value.</li>
-                                <li id="otis">4.  Generate Call instruction to the binding (label) of the function.</li>
+                                <li id="otis">4.  Generate Call instruction to the binding (label) of the function. (The call instruction will push IP+2 into the stack and jump to label.)</li>
                             </ul>
-                            \figure <br>
-                            \picture before the call on left side – picture after return on the right side will discuss. <br> 
-                            \endfigure 
                         </p>
                         <p>
-
-                            /* Task pending is to generate code for actions after return from the call */<br>
+                            <div class="col-full">
+                                <div class="col-one-half fleft">
+                                    Stack before the call instruction :<br>
+                                    <img src="img/before call.png"><br><br>
+                                </div>
+                                <div class="col-one-half fright">
+                                    Stack after the call instruction :<br>
+                                    <img src="img/after call.png">
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                        </p>
+                        <p>
+                            <br>
+                            /* Actions in the stack done by the caller*/ <br>
                              <ul>
                                 <li id="otis">5. Allocate a new register and store the returned value.</li>
                                 <li id="otis">6. Pop out arguments from the stack.</li>
