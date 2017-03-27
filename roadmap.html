@@ -1138,25 +1138,25 @@
                                 <li id="otis">3. Push enough space in the stack for storing the local variables.</li>
                             </ul> 
 
-                            Relative to the BP value, [BP-2] is the address to which the return value must be stored.  [BP-3] stores arg_1, [BP-3] stores arg_2 and so on.  [BP+1] is for loc_1, [BP+2] for loc_2 and so on.    Thus,  after seeing the local variable declarations, the compiler can set the binding values for local variables relative to the base of activation record (BP) value as:
+                            Relative to the BP value set in step 2 above, [BP-2] is the address to which the return value must be stored. [BP-3] stores arg_1, [BP-4] stores arg_2 and so on.  [BP+1] is for loc_1, [BP+2] for loc_2 and so on. Thus, after seeing the local variable declarations, the compiler can set the binding values for local variables relative to the base of activation record (BP) value as:
                         </p>
                         <p>
                             <img src="img/var-bind table.png">
                         </p>
                         <p>
-                            With this convention, the code for each instruction inside the function can be generated following the rule:  <b>local variables/arguments are to be dereferenced a by adding the binding value to the contents of the BP register</b>.  Almost every modern architecture supports function calls by providing an explicit base pointer register.  <br>
+                            With this convention, the code for each instruction inside a function can be generated following the rule:  <b>local variables/arguments are to be dereferenced a by adding the binding value to the contents of the BP register</b>.  Almost every modern architecture supports function calls by providing an explicit base pointer register.  <br>
                             <br>
                             Finally, the code for a return statement must:<br>
                             <ul>
-                                <li id="otis">1.  Pop out the local variables from the stack.</li>
+                                <li id="otis">1.  <b>Pop out the local variables</b> from the stack.</li>
                                 <li id="otis">2.  Calculate the return expression and store the value in [BP-2].</li>
-                                <li id="otis">3.  set BP to the old value of BP in the stack.</li>
-                                <li id="otis">4.  Execute the RET instruction to pass control back to the caller.</li>
+                                <li id="otis">3.  <b>set BP to the old value</b> of BP in the stack.</li>
+                                <li id="otis">4.  <b>Execute the RET instruction</b> to pass control back to the caller.</li>
                             </ul>
                             <br>
-                            In the calling convention which we described above, the arguments were pushed in reverse order, space for the return value is allocated by the caller, BP of the caller had to be stored by the callee and so on.    Space created in the stack by either the callee or the caller must be restored by the respective function.  <br>
-                            <br>
-
+                            In the calling convention which we described above, the arguments were pushed in reverse order, space for the return value was allocated by the caller, BP of the caller was saved to the stack by the callee, and so on.   Space created in the stack by either the callee or the caller must be eventually reclaimed by the same party.
+                        </p>
+                        <p>
                             <b>IMPORTANT NOTE</b>:  In our calling convention, the caller was required to save the registers in use before the call.  What if instead, we design a  calling convention where the callee had to push the registers in use?  The problem here is that the callee does not know (and does not have to know) the caller and hence do not know at each call which were the registers in use.  Hence, the callee will have to save all machine registers, wasting time and space.  Hence, the convention of the caller storing registers in use is superior.  However, there are situations where this is not possible.  For instance, in hardware interrupt routines,  control is transferred to the callee without the caller executing a call.  In such cases, the callee will have to save (all) the machine registers for a successful return.  
                         </p>
                         <p>
