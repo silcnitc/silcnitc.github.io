@@ -1128,13 +1128,13 @@
                                 <li id="otis">7. <b>Restore registers</b> saved in the stack in step 1.</li>
                             </ul>
 
-                            The above actions are sufficient to generate code for handling a function invocation.  Note that to generate code for a call, only the callee's declaration information (types and order of the arguments and call label) needs to be known.   Note that the callee call could have been generated even by a different compiler.  All that the caller needs to know is the callee's <b>interface</b>, and the <b>calling convention</b> (convention regarding in what order arguments must be pushed, where should the return value be stored etc.  See also <a href="https://en.wikipedia.org/wiki/Calling_convention" target="_blank">link</a>).
+                            The above actions are sufficient to generate code for handling a function invocation.  Note that to generate code for a call, only the callee's declaration information (argument information and call label) needs to be known. All that the caller needs to know is the callee's <b>interface</b>, and the <b>calling convention</b> (convention regarding in what order arguments must be pushed, where should the return value be stored etc.  See also <a href="https://en.wikipedia.org/wiki/Calling_convention" target="_blank">link</a>).
                         </p>
                         <p>
-                            Now, while generating the callee code, the callee must generate the following code before proceeding to the remaining instructions: 
+                            Now, we turn to the actions to be done by the callee. The callee must generate the following code before proceeding to the remaining instructions: 
                             <ul>
-                                <li id="otis">1. Push the BP register into the stack.</li>
-                                <li id="otis">2. Set BP to the present value of SP register.</li>
+                                <li id="otis">1.<b>Save the BP of the caller</b> by pushing the BP register into the stack.</li>
+                                <li id="otis">2.<b>Set BP</b> to the present value of SP register.</li>
                                 <li id="otis">3. Push enough space in the stack for storing the local variables.</li>
                             </ul> 
 
