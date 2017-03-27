@@ -968,17 +968,17 @@
                         <p> 
 
                             <div class="syntax">
-                                <b>Task 1</b>:  Complete the program to build the global symbol table.  Test your program by printing out all global declarations in the program by displaying the contents of the symbol table.  You must not permit a two variables/functions (or a function and a variable) to have the same name.
+                                <b>Task 1</b>:  Complete the program to build the global symbol table.  Test your program by printing out all global declarations in the program by displaying the contents of the symbol table.  You must not permit two variables/functions (or a function and a variable) to have the same name.
                             </div> 
 
-                            Our next aim is to perform semantic analysis and build the AST and then generate code. The strategy will be the following:
+                            Our next aim is to perform semantic analysis, build the AST and then generate code. The strategy will be the following:
                             <ul>
-	                            <li id="otis">1.  First, create the global symbol table by processing global declarations (Task 1)</li>
+	                            <li id="otis">1.  First, parse global declarations and create the global symbol table entries for functions andglobal variables (Already completed as Task 1)</li>
 	                            <li id="otis">2.  For each function for which code is not yet generated
 	                                <ul>
 		                                <li id="otis">a)  Check for <b>name equivalence</b> of the formal parameters of the function definition with the declaration.  Name equivalence requires that the type and name of each formal parameter of the function in the declaration and the definition must agree.</li>
 		                                <li id="otis">b)  Create local symbol table containing local variables and parameters.</li>
-		                                <li id="otis">c)  Build AST for the function, doing type-checking when the tree is built,  as was done in the previous stages.</li>
+		                                <li id="otis">c)  Build AST for the function. (Do type-checking when the tree is being built, as was done in the previous stages.)</li>
 		                                <li id="otis">d)  Recursively traverse the tree and generate code for the function in the target file.</li>
 	                                </ul>
 	                            </li>
@@ -986,7 +986,7 @@
                             <b>After generating code for a function, the local symbol table and the abstract syntax tree for the function can be deallocated.</b> Proceed to step 2 for the next function.
                         </p>
                         <p>
-                            Note that local variables and the code of a function are not visible outside the function. Hence, the local symbol table and AST for a function are not required once the code is generated.  <b>To generate code for a function call, we need only the signature of the function and this information is available in the global symbol table.</b>  The global symbol table must be maintained throughout the compilation process.    Note that the main function is just like any other function except that it has no arguments, its name must be Main and return type must be <i>int</i>.
+                            Note that the code and the local variables of a function are not visible outside the function. Hence, the local symbol table and AST for a function are not required once the code is generated. <b>To generate code for a function call, we need only the signature of the function and this information is available in the global symbol table.</b> To generate code for calling one function within another function, only the global symbol table information of the callee is needed. This information is available in the global symbol table which is maintained throughout the compilation process. Note that the main function is just like any other function except that it has no arguments, its name must be Main and return type must be <i>int</i>.
                         </p>
                         <p>
                             The only non-trivial part about semantic analysis and AST construction pending discussion is how to build AST for a function call.

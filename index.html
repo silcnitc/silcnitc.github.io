@@ -64,36 +64,6 @@
          If you wish to get started with the project directly, proceed to the <a href="roadmap.html" target="_blank">roadmap</a>.  If you wish to get a high level overview of the project, a brief outline is given below.     
          <hr>
        </p>
-<!--        <p>
-         The project is designed to be done concurrently with a theory course in Compiler Design, typically offered during the third year of an undergraduate CS curriculum.   It is by no means a replacement to the theory course, but is only designed to supplement it.    The project will help in solidifying the student's grasp of compiler design theory - about how the components of a compiler can be assembled together to form the whole.  The student will also experience the end-to-end process of translation from a source high level language to a target executable.
-       </p>
-       <p>
-         The roadmap first guides the student to build a simple expression compiler.  Static variables are then introduced to this expression compiler and control flow constructs are added next.  Till this phase, only integer type is allowed.  In the next step, support for string type is added to the language and type checking issues are discussed.  Support for arrays are added next.   Subroutines and run time allocation comes next and finally support for user defined types and dynamic memory allocation is added.  (A final phase of providing support for classes and subtype polymorphism has been planned subsequently).  The road-map is designed in such a way that as far as practicable, only one new concept is introduced at a time.
-       </p>
-       <p>
-         Starting right from the first phase, the student has to generate code that can be loaded and executed by a simulator provided along with the platform.  The simulator is designed to load and run executable files satisfying a specified <a href="abi.html" target="_blank"> application binary interface specification(ABI)</a>.
-       </p>
-       <p>
-         It is our responsibility to explicitly state some central concepts that the project fail to teach.  Here are some among the key omissions:
-         <ul>
-           <li id="otis">
-             1.  The machine architecture, virtual memory model (and the target ABI in general) are unrealistically simple and custom made.  Consequently it is easy to generate code for the target platform, but the platform is far from any real system.  To illustrate the level of oversimplification,  a memory word of the target machine is assumed to be capable of storing an arbitrary integer or a string.  Floating point handling is omitted.  The executable file format is extremely simple to understand, but too restrictive for real use.  (There has been simplifications in the source language specification as well.  But those are less dramatic.)
-           </li>
-           <li id = "otis">
-             2.  To avoid trouble with binary formatting, the executable file is allowed to contain mnemonic instructions rather than binary.  Students are still required to resolve symbolic references to actual logical addresses and only the replacement of symbolic instructions with actual binary instructions is avoided.
-           </li>
-           <li id="otis">
-             3.  Code, register or memory optimizations are not attempted as these topics are beyond the scope of the project. The focus here is to get working target code generated.  The roadmap asks the students to directly traverse an intermediate abstract syntax tree representation of the program and directly generate assembly language code.  This is followed by a label translation pass to resolve labels in the target code.
-           </li>
-           <li id="otis">
-             4.   Focus has not been placed on efficient data structuring or following software engineering practices.  The road-map suggests an implementation that can be built incrementally and is simple to comprehend.
-           </li>
-         </ul>
-       </p>
-       <p>
-         In short, the project is designed to help the student to gain knowledge, appreciation and insight into the working of compilers, but does not try to train the student in professional compiler writing.  This particular pedagogical choice has been taken to spare the student from the technicalities of machine architecture, executable/object formats and the complexities of the ABI of real systems – something that in our experience seems to drive a lot of students away from systems projects.  Our hope is that once the basic material is assimilated, the student will be more confident to get involved with these details in professional life.
-       </p>
- -->  	     
     <h2>Overview the project</h2>
     <p>
         To design a compiler, one needs the following specifications: <br><br>
