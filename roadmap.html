@@ -899,44 +899,44 @@
                                 &emsp;end<br>
                                 }<br>
                             </div>
-                            Local variables declared in a function are <i>visible only</i> within the function.  We say that the <b>scope</b> of a local declaration is limited to the function. Moreover, if a global variable has a re-declaration inside a function, <i>the local declaration overrides the global declaration</i>.
+                            Local variables declared in a function are <i>visible only</i> within the function.  We say that the <b>scope</b> of a local declaration is limited to the function. Moreover, if a global variable is redeclared inside a function, <i>the local declaration overrides the global declaration</i>.
                         </p>
                         <p>
-                            Thus, we have two kinds of variables. Global variables and functions that are visible "everywhere" (or having a <b>global scope</b>) and local variables that are visible only within the functions (or having a <b>local scope</b>) where they are declared.
+                            Thus, we have two kinds of variables. Global variables that are visible "everywhere" (or having a <b>global scope</b>) and local variables that are visible only within the functions (or having a <b>local scope</b>) where they are declared.
                         </p>
                         <p>
-                            The compiler needs to know the binding addresses and type of the local variables for translation of statements of the function to assembly code.  However, this information is irrelevant outside the function.
+                            The compiler needs to know the binding addresses and types of the local variables for translation of statements of the function to assembly code.  However, this information is irrelevant outside the function.
                         </p>
                         <p>
                             To keep track of the local variable and scope information, our strategy is to keep global and local variables in different symbol tables.  We will have 
                             <ul>
                                 <li id="otis">
-                                    1.  A single <b>global symbol table</b> storing the (name, type, size, binding) information of global variables as well as (name, type, parameters, binding) information for functions.  The following structure is suggested for storing a global symbol table entry.
+                                    1.  A single <b>global symbol table</b> storing the <i>(name, type, size, binding)</i> information of global variables as well as <i>(name, type, parameters, binding)</i> information for functions.  The following structure is suggested for storing a global symbol table entry.
 
                                     <div class="syntax">
                                         <b>struct Gsymbol{</b><br>
                                         &emsp;&emsp;<b>char *name;</b>   //name of the variable or function<br>
                                         &emsp;&emsp;<b>int type;</b>     //type of the variable:(Integer / String)<br>
                                         &emsp;&emsp;<b>int size;</b>     //size of an array<br> 
-                                        &emsp;&emsp;<b>int binding;</b>  //stores the static memory address allocated to the variable <br>
+                                        &emsp;&emsp;<b>int binding;</b>  //static binding of global variables <br>
                                         &emsp;&emsp;<b>struct Paramstruct *paramlist;</b>//pointer to the head of the formal parameter list<br>
                                           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; //in the case of functions<br>
-                                        &emsp;&emsp;<b>int flabel;</b>              //a label for identifying the starting address of the function's code<br>
+                                        &emsp;&emsp;<b>int flabel;</b>              //a label for identifying the starting address of a function's code<br>
                                         &emsp;&emsp;<b>struct Gsymbol *next;</b>     //points to the next Global Symbol Table entry<br>
                                         <b>};</b>
                                     </div>
                                 </li>
 
                                 <li id="otis">
-                                    2.  Several <b>local symbol tables</b> - one for each function containing the (name, type, binding) information for each local variable of the function.  (Note that since the language does not permit arrays to be defined within a function, the size value of local variables is always 1, hence the field is not required).   A local symbol table entry can be stored in the following structure:</li>
+                                    2.  Several <b>local symbol tables</b> - one for each function containing the <i>(name, type, binding)</i> information for each local variable of the function.  (Note that since the language does not permit arrays to be defined within a function, the size value of local variables is always 1, hence the field is not required).   A local symbol table entry can be stored in the following structure:</li>
 
                                     <div class="syntax">
-                                    <b>struct Lsymbol{</b><br>
-                                    &emsp;&emsp;<b>char *name;</b>&emsp;&emsp;&emsp;&emsp; //name of the variable<br>
-                                    &emsp;&emsp;<b>int  type;</b> &emsp;&emsp; //type of the variable:(Integer / String)    <br>
-                                    &emsp;&emsp;<b>int binding;</b>&emsp;&emsp;&emsp;&emsp; //local binding of the variable<br>
-                                    &emsp;&emsp;<b>struct Lsymbol *next;</b>&emsp;&emsp; //points to the next Local Symbol Table entry<br>
-                                    <b>};</b>
+                                        <b>struct Lsymbol{</b><br>
+                                        &emsp;&emsp;<b>char *name;</b>&emsp;&emsp;&emsp;&emsp; //name of the variable<br>
+                                        &emsp;&emsp;<b>int  type;</b> &emsp;&emsp; //type of the variable:(Integer / String)    <br>
+                                        &emsp;&emsp;<b>int binding;</b>&emsp;&emsp;&emsp;&emsp; //local binding of the variable<br>
+                                        &emsp;&emsp;<b>struct Lsymbol *next;</b>&emsp;&emsp; //points to the next Local Symbol Table entry<br>
+                                        <b>};</b>
                                     </div>
       
                                     <b>Note:</b> As noted in the <a href="run-data-structures.html" target="_blank">run time storage allocation</a> documentation, local variables cannot be assigned static memory addresses.  Hence, the binding of a local variable is a relative address within the function's activation record.  We will discuss this matter in detail later.
@@ -947,7 +947,7 @@
                             What is the <b>stored in flabel</b>?  When the compiler generates code for the function, a label is placed at the start of the function.  A call to the function is translated to a low-level CALL to the corresponding label.   Later, the label has to be replaced by the address  of the instruction during the <a href="label-translation.html" target="_blank">label translation phase</a>.
                         </p>
                         <p>
-                            The simple scheme we suggest here is to put the label F0 before the code of the first function declared in the program, F1 before the code of the second and so on.  Hence, in the binding field of the first function, store 0.  Similarly, store 1 in the binding field of the second and so on. A call to the first function must be translated to CALL F0 and so on.
+                            The simple scheme we suggest here is to put the label F0 before the code of the first function declared in the program, F1 before the code of the second and so on.  Hence, in the flabel field of the first function, store 0.  Similarly, store 1 in the flabel field of the second function and so on. A call to the first function must be translated to CALL F0 and so on.
                         </p>
                         <p>
                             With this, the global symbol table for the <a href="run_data_structures/run-time-stack.html#nav-illustration" target="_blank">program</a> would be as below.
@@ -956,14 +956,16 @@
                             <img src="img/gsymboltable3.png">
                         </p>
                         <p>
-                            Continuing with the above example, we need two local symbol tables – one for the main function and one for the factorial function.  The local symbol table holds the (name, type, binding) triple for each formal parameter as well as local variables of the function.  We will discuss the binding of local variables later.  The local symbol tables of mail and factorial would look as the following:
+                            Continuing with the above example, we need two local symbol tables – one for the main function and one for the factorial function.  The local symbol table holds the (name, type, binding) triple for each <b>formal parameter</b> as well as <b>local variables</b> of the function.  We will discuss the binding of formal parameters and local variables later.  The local symbol tables of main and factorial would look as the following:
                         </p>
                         <p>
                             <img src="img/localsymboltable2.png"> 
                             <img src="img/localsymboltable1.png"> 
                         </p>
                         <p>
-                            See LINK for more details. <br> 
+                            See <a href="data_structures/local-symbol-table.html" target="_blank">LINK</a> for more details. For now, ignore the type table pointer in the structure given in the link.  This will be discussed in the next stage.  
+                        </p>
+                        <p> 
 
                             <div class="syntax">
                                 <b>Task 1</b>:  Complete the program to build the global symbol table.  Test your program by printing out all global declarations in the program by displaying the contents of the symbol table.  You must not permit a two variables/functions (or a function and a variable) to have the same name.
