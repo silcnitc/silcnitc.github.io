@@ -19,7 +19,6 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                         <li><a href="help.html">Help</a></li>
-                        <li><a href="#">Code</a></li>
                         <li><a href="roadmap.html">Roadmap</a></li>
                         <li><a href="documentation.html" class="navactive">Documentation</a></li>
                 </ul>
@@ -102,7 +101,9 @@
 
                 <article class="grid col-full" id="nav-library-implementation">
                     <h2>Library Implementation</h2>
-                    <p></p>
+                    <p>
+                        The ABI stipulates that the code for a <b>common shared library</b> must be linked to the address space of every program.  The library code must be linked to logical page 0 and logical page 1 of each program.  When an ExpL source program is compiled by an ExpL compiler, the compiler generates code containing calls to the library assuming the library functions will be "there" in the address space when the program is eventually loaded for execution.  It is the responsibility of the OS loader to ...<a href ="library-implementation.html" target="_blank">read more</a> 
+                    </p>
                     
                 </article>
                 <article class="grid col-full" id="nav-install">
@@ -145,7 +146,7 @@
     			<ul>
                     <li><a href="index.html">Home</a></li>
     				<li><a href="about.html">About</a></li>
-    				<li><a href="uc.html">Contact</a></li>
+    				<!-- <li><a href="uc.html">Contact</a></li> -->
                 </ul>
     		</nav>
     	</footer>

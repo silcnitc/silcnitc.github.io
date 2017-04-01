@@ -405,12 +405,12 @@ footer nav ul { float: right; overflow: hidden; }
 footer a {color: #999;}
 footer li { float: left; margin-right: 1em; padding-right: 1em; border-right: 1px solid #DDD; font-size: 0.8em; }
 footer li:last-child { margin-right: 0; padding-right: 0; border-right: none; }
-.up a { display: block; text-align: center; margin: 0 auto; }*/
 
 
 /* -- HOME-PAGE
 ------------------------------------------------------------- */
 /* Services */
+.up a { display: block; text-align: center; margin: 0 auto; }*/
 .services aside { color: #999; padding-top: 1em; border-top: 1px solid #DDD; }
 .services aside:after, .services h5:after { content: ""; display: block; height: 1px; width: 1em; background: #DDD; margin: 1em 0; }
 

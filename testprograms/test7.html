@@ -14,10 +14,10 @@ enddecl
 int fun(int x)
 {
  begin
-  if(x &gt;= 100) then
-   a = 100;
+  if(x &gt;= 91) then
+   a = 91;
   else
-   a = fun(100 + fun(x+100));
+   a = fun(fun(x+11));
   endif;
 
   return a;

@@ -5,10 +5,11 @@
         <meta charset="UTF-8">
         <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
         <link rel="stylesheet" href="css/style_new.css">
+        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist"></div>
+        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist"></div>
         <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
-        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
-        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
         <script src="js/bootstrap.min.js" charset="utf-8"></script>
+        <script src="js/sticky_sidebar.js" charset="utf-8"></script>
     </head>
     <div class="container">
         <header id="navtop">
@@ -29,7 +30,6 @@
                 <hr/>
                 <p class="fleft">Library Implementation</p>
                 <br>
-                <br>
             </header>
             <aside class="grid col-one-quarter mq2-col-full sticky_sidebar" style="position: static;">
               <menu>
@@ -38,7 +38,7 @@
                   <li><a class="sec" href="#nav-illustration">Illustration</a></li>
                 </ul>
               </menu>
-               <a class="button" href="">Download as PDF</a>
+               <!-- <a class="button" href="">Download as PDF</a> -->
             </aside>
             <section class="grid col-three-quarters mq2-col-full">
                 <div class="grid-wrap">
@@ -51,19 +51,19 @@
                         All calls to the library will be a CALL to logical address 0 of the address space.   The library code expects a function code and three arguments to have been pushed into the stack before the call by the application, as described <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank">here</a>.
                     </p>
                     <p>
-                        To implement the library, you must write code to implement the six library functions – read, write, exit, Initialize, Alloc and Free.  Among these, read write and exit just involves calling the corresponding system calls using the low-level system call interface described <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank">here</a>.  The code for the remaining three functions must be implemented in the library.
+                        To implement the library, you must write code to implement the six library functions – read, write, exit, Initialize, Alloc and Free.  Among these, read, write and exit just involves calling the corresponding system calls using the low-level system call interface described <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank">here</a>.  The code for the remaining three functions must be implemented in the library.
                     </p>
                     <p>
-                        Initialize, Alloc and Free are <i>heap management functions</i>.  Each application program has a heap memory region which is attached to logical pages 2 and 3 of the address space.  The heap management functions support allocation and de-allocation of dynamic memory.   Initialize function initializes the heap data structures.  The library must contain code to allocate and de-allocate memory when requested by the application.  In the case of an allocation request, the address of the first memory address of the allocated memory must be returned.
+                        Initialize, Alloc and Free are <i>heap management functions</i>.  Each application program has a heap memory region which is attached to logical pages 2 and 3 of the address space.  The heap management functions support allocation and de-allocation of dynamic memory.  The <i>Initialize</i> function initializes the heap data structures.  The library must contain code to allocate and de-allocate memory when requested by the application.  In the case of an allocation request, the address of the first memory address of the allocated memory must be returned.
                     </p>
                     <p>
-                        Various dynamic memory allocation algorithms exist.   A very simple allocation policy would be to always allocate fixed sized memory blocks.  The following document discussed this simple allocation scheme and a more complex variable block allocation scheme called <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">Buddy System Allocation</a>.  In the project, you will be primarily implementing a fixed size allocator.   One of the exercises in the roadmap asks you to implement the buddy system allocator. 
+                        Various dynamic memory allocation algorithms exist.   A very simple allocation policy would be to always allocate fixed sized memory blocks.  The following document discusses this simple allocation scheme and a more complex variable block allocation method called the <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">Buddy System Allocation</a> scheme.  In the project, you will be primarily implementing a fixed size allocator.   One of the exercises in the roadmap asks you to implement the buddy system allocator. 
                     </p>
                     <p>
                         The advantage of using a library for dynamic memory allocation is that this common code can be loaded by the OS during boot time at some memory and can be attached to the address space of every application, saving memory space.
                     </p>
                     <p>
-                        <b>Note</b>:  The library implementation outline given below assumes that the application code does not modify the contents of the heap except memory allocated by a call to Alloc.  If the application code accesses code in the heap that was not allocated to it, the data structures set up by the library functions may get corrupted and the library functions may fail to work properly.
+                        <b>Note</b>:  The library implementation outline given below assumes that the application code will modify only memory addresses acquired using <i>Alloc</i>.  If the application modifies heap region that was not allocated to it, the data structures set up by the library functions may get corrupted and the library functions may fail to work properly.
                     <p>
                         The following gives an outline of the library implementation.
                     </p>  
@@ -73,24 +73,22 @@
     </div>
     </body>
     <footer class="center part clearfix">
-            <ul class="social column3 fleft">
-                <li><a href="https://github.com/silcnitc">Github</a></li>
+        <ul class="grid col-one-third social">
+            <li><a href="http://github.com/silcnitc">Github</a></li>
+        </ul>
+        <div class="grid col-one-third" style="color:black;"> 
+            <p style="font-weight: bold;">Contributed By : <a href="https://www.linkedin.com/in/dattathallam">Thallam Sai Sree Datta</a>, <a href="https://www.linkedin.com/in/n-ruthviik-0a0539100">N Ruthvik</a>
+            </p>
+        </div>
+        <nav class="grid col-one-third ">
+            <ul >
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <!-- <li><a href="uc.html">Contact</a></li> -->
             </ul>
-          <div class="up column3 mright"> <a href="#navtop" class="ir">Go up</a> </div>
-          <div class="up column3 mright"><p> Authors : <a href="https://www.linkedin.com/in/dattathallam">Thallam Sai Sree Datta</a>, <a href="https://www.linkedin.com/in/n-ruthviik-0a0539100">N Ruthvik</a></p> </div>
-          <nav class="column3">
-            <ul>
-              <li><a href="index.html">Home</a></li>
-              <li><a href="about.html">About</a></li>
-              <li><a href="uc.html">Contact</a></li>
-            </ul>
-          </nav>
-      </footer>
-    <!-- Javascript - jQuery
-    <script src="http://code.jquery.com/jquery.min.js"></script>-->
+        </nav>
+        <br>
+    </footer>
     <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
-    <!--[if (gte IE 6)&(lte IE 8)]>
-    <script src="js/selectivizr.js"></script>
-    <![endif]-->
     <script src="js/scripts.js"></script>
 </html>
