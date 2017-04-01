@@ -64,9 +64,51 @@
                     </p>
                     <p>
                         <b>Note</b>:  The library implementation outline given below assumes that the application code will modify only memory addresses acquired using <i>Alloc</i>.  If the application modifies heap region that was not allocated to it, the data structures set up by the library functions may get corrupted and the library functions may fail to work properly.
+                    </p>
+                    </article>
+                    <article class="grid col-full" id="nav-illustration">
+                    <h2>Illustration</h2>
                     <p>
                         The following gives an outline of the library implementation.
-                    </p>  
+                    </p>
+                    <p>
+                        The ABI stipulates that all the library function calls are invoked using CALL 0 instruction. The library differentiates the calls using function code, pushed by the user program on to the stack, before the CALL 0 instruction. The library should read the function code from the stack and jump to the starting address of the corresponding function logic.
+                    </p> 
+                    <p>
+                        The following snippet gives the overview of the design of the library. 
+                        <div class="syntax">
+                            //get function code from stack<br>
+                            ....<br>
+                            <br>
+                            MOV R0, &lt;function code&gt;<br>
+                            MOV R1, R0<br>
+                            EQ R1, "Heapset"<br>
+                            JNZ R1, &lt;starting address of Initialize&gt;<br>
+                            MOV R1, R0<br>
+                            EQ R1, "Alloc"<br>
+                            JNZ R1, &lt;starting address of Alloc&gt;<br>
+                            ....<br>
+                            <br>
+                            // code for Initialize<br>
+                            ....<br>
+                            <br>
+                            RET<br>
+                            // code for Alloc<br>
+                            ....<br>
+                            <br>
+                            RET<br>
+                            ....<br>
+                        </div>                        
+                    </p>
+                    <p>
+                        As shown above, the function code that was pushed by the application program is used to direct the control of the program to the corresponding function logic. In case of Alloc(), Free() and  Initialize() calls, the library contains the logic whereas in case of Read() and Write() system calls the library should invoke the kernel using <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank"> low level system call interface</a>. The appropriate arguments required for the system call can be obtained from the user stack.
+                    </p>
+                    <p>
+                        A detailed explanation on the usage of library interface can be found <a href="xsm-environment-tut.html#nav-experiment3" target="_blank">here</a>.
+                    </p>
+                    <p>
+                        <b>Note:</b> As the library is directly loaded by the ExpOS loader, the code should be free of labels and all the jump instructions should have the target memory addresses.
+                    </p>
                 </article>
             </section>
         </div>
