@@ -102,7 +102,7 @@
                             <p>In this stage, you will:</p>  
                             <ul>
                                 <li id="otis">1.  Parse an input  arithmetic expression and create an expression tree using YACC and LEX.</li>
-                                <li id="otis">2.  Recursively traverse the tree and generate assembly language code.  You learn to solve the <i>register allocation problem</i> enroute.</li>
+                                <li id="otis">2.  Recursively traverse the tree and generate assembly language code.  The allocation of registers for storing results of intermediate computations will be handled enroute.</li>
                             </ul>
                             <hr>
                         </p>
@@ -208,10 +208,10 @@
                             Of course, we can “hand craft” this case also.  But the strategy will not generalize. The basic issue is that your compiler does not know the input expression before-hand.  Technically speaking, the issue is that the “expression is not available at <b>compile time</b>, but only known at <b>run time</b>”. Your code generation module must be more <i>"intelligent"</i> to handle <i>arbitrary expressions</i>.  
                         </p>
                         <p>
-                            The root of the problem with the above code is that R0 and R1 were picked by you and not by your compiler. Thus, we must have a <b>register allocation policy</b> (basically a function) that returns a free register whenever we require one. That is, you must design the following functions:
+                            The root of the problem with the above code is that R0 and R1 were picked by you and not by your compiler. Thus, we must have a <b>register assignment policy</b> (basically a function) that returns a free register whenever we require one. That is, you must design the following functions:
                         </p>
                         <div class="syntax">
-                            int getReg()   //  Allocate a free registers
+                            int getReg()   //  Allocate a free register
                         </div>
                         
                         <p>
