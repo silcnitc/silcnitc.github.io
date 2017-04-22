@@ -553,10 +553,9 @@
                         <script src="js/593f1d9b41ce0bc9ce6c6a173f96c68c.js"></script>
                     </p>
                     <p>
-                        <b>Important Note</b> : If your library code for read, write and exit may modify some of the registers R0, R1 etc.
-                        Hence, if you had stored some value into these registers before the call, those values will be lost while the 
-                        library code is executed.  
-                        To safely restore the values of the registers, the following procedure must be adopted.
+                        <b>Important Note</b> : Your library code for read, write and exit may modify some of the registers R0, R1 etc.
+                        Hence, if you had stored some values into these registers before the call, those values will be lost while the 
+                        library code is executed. To safely restore the values of the registers, the following procedure must be adopted.
                         <ul>
                             <li id="otis">1.  Push all registers in current use into the stack.  For example, if you wish to retain values of
                                R0, R1 and R2 after the call, push these three registers into the stack.</li>
