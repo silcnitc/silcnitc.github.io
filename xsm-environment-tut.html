@@ -338,6 +338,17 @@
 					<p>
 						The exit system call routine of the XSM simulator given to you will print a message indicating successful program execution and terminate the simulation.  
 					</p>
+                    <p>
+                        <b>Important Note</b> : The system call code for read, write and exit will modify some of the registers R0, R1 etc.
+                        Hence, if you had stored some value into these registers before the call, those values will be lost during the call.
+                        Hence, if you wish to restore the values of the registers, the following procedure must be adopted.
+                        <ul>
+                            <li id="otis">1.  Push all registers in current use into the stack.  For example, if you wish to retain values of
+                               R0, R1 and R2 after the call, push these three registers into the stack.</li>
+                            <li id="otis">2.  Now, follow procedure outlined earlier to make the system call.</li>
+                            <li id="otis">3.  After return POP out the registers saved in the stack.  (Note that you must pop the registers out in reverse order of push).</li>
+                        </ul>   
+                    </p>
 					<p>
 						<b>Exercise 3</b> : Follow the instructions in the low level system call interface of the ABI to invoke the <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank">exit system call</a> after the console output in your previous program.  
 					</p>
@@ -540,6 +551,18 @@
                     <p>
                         The library.lib file will look as shown below after adding the code to handle Write system call.
                         <script src="js/593f1d9b41ce0bc9ce6c6a173f96c68c.js"></script>
+                    </p>
+                    <p>
+                        <b>Important Note</b> : If your library code for read, write and exit may modify some of the registers R0, R1 etc.
+                        Hence, if you had stored some value into these registers before the call, those values will be lost while the 
+                        library code is executed.  
+                        To safely restore the values of the registers, the following procedure must be adopted.
+                        <ul>
+                            <li id="otis">1.  Push all registers in current use into the stack.  For example, if you wish to retain values of
+                               R0, R1 and R2 after the call, push these three registers into the stack.</li>
+                            <li id="otis">2.  Now, code the library call and return steps.</li>
+                            <li id="otis">3.  After return POP out the registers saved in the stack.  (Note that you must pop the registers out in reverse order of push).</li>
+                        </ul>   
                     </p>
 					<p>
 						<b>Exercise 6</b> : Implement read() and exit() functions of the library.  
