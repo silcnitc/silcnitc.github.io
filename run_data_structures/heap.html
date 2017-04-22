@@ -221,7 +221,7 @@
                             Following is the <b>deallocation algorithm</b> (argument : the starting address of the allocated block)
                         </p>
                         <ol>
-                            <li>Get the size, say 's' of the block from the first index of the block. Free the complete block with the help of size obtained by setting all the memstruct type to MEMSTRUCT_EMPTY.</li>
+                            <li>Get the size, say 's' of the block from the first index of the block. Free the complete block.</li>
                             <li>Check if the buddy of the block is free by checking the whether the buddy's starting address is present in the free list for blocks of size 's' .</li>
                             <li>If the buddy is not free, add the current freed block to its free list.</li>
                             <li>If the buddy is free, remove the buddy from the freelist and combine the two, and go back to step 2 to check for the buddy of merged block. Repeat this process until the upper limit is reached or buddy is not free.</li>
