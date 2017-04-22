@@ -1378,7 +1378,10 @@
                             It is <b>absolutely necessary</b> to read and understand <a href="run_data_structures/heap.html" target="_blank">Dynamic memory allocation</a> (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in the <a href="library-implementation.html" target="_blank">library implementation</a> documentation. We are now ready to complete the back end.
                         </p>
                         <p>
-                        	<b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 words for memory allocation.  The compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. 
+                        	<b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 words for memory allocation.  The compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. Read the note below before proceeding with the implementation.   
+                        </p>                    
+                        <p>
+                            <b>Important Note</b> : Your library functions will need to modify registers and hence before a library call,   ensure that registers in current use are saved in the stack (as was done with function calls in the previous stage).  
                         </p>
                         <p>
                             <b>Exercise 1</b>:  Extend ExpL to permit arrays of user-defined type.
