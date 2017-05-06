@@ -906,16 +906,17 @@ expr:	expr '+' expr
  <div class="syntax">
 yacc: 4 shift/reduce conflicts.
  </div>
-
+<p>
 The expressions 2+3+5, 2*3+5, 2+3*5 and 2*3*5 are examples that demonstrate
 the four different shift reduce conflict cases.   In the first example, after
 reading 2+3 the parser must do a reduce operation because + is left associative (why?).  
 In the third expression, the parser should not perform a reduce operation after reading 2+3 because * has
 higher precedence over +, whereas, in the second expression, the parser must indeed reduce after reading 2*3 (why?).  
-Thus, the parser must be told the precedence and associativity of operators to avoid
-such conflicts.  
+Thus, the parser must be told the precedence and associativity of operators to avoid such conflicts.  <br><br> 
 
-The precedence of these operators can be specified as shown below:
+	The precedence of these operators can be specified as shown below:
+</p>
+	
 <pre>
 %left '+'   /*    '+' is left associative */
 %left '*'   /*    '*' is left associative and has higher precedence over '+' */
