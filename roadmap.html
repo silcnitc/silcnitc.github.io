@@ -1538,14 +1538,78 @@
                             2.  The <b>local symbol table of a method must contain an entry for <i>self</i></b> along with the other arguments to the function.  The binding field of this entry must be the relative address (with respect to BP in the stack) where the address of self must be pushed by the caller.  For example, if this value is -3, then the compiler expects that the caller would have pushed to stack corresponding to  [BP-3] the address of the heap block holding the member fields of the variable.
                             </li>
                             </ul>
-                            <p>
+                        <p>
                             The task of completing code generation phase is now straightforward.  
-                            </p>
-                            <p>
+                        </p>
+                        <p>
                             <b>Task 2:</b> Complete code generation for this stage.                         
-                            </p>
+                        </p>
+                        <p>
+                           <b> Part III:  Building Source Code in Multiple Files</b> (optional).  
+                        </p>
+                        <p>
+                            In this section, we will see how to support the ExpL programmar to compile each class separately and link them together with the main program.  Since the contents of this section are tangential to our principal concerns, this part is marked optional.  However support for modularity is <i>absolutely essential</i> if large programs have to be written and maintained.  Since the section is optional, the description here is brief.  
+                        </p>
+                        <p>
+                            To avoid too large code files, it would be advisable to code the source program into multiple files and compile each one separately.  The following structure is proposed:
+                        <ul>
+                             <li id="otis">
+                            1. All type definitions may be collected together in the file <i>program_name.type</i> between the keywords <i>type</i> and <i>endtype.</i>  </li>
+                            <li id="otis">
+                            2.  Each class may be written into a separate class file (<i>class_name.class</i>).  
+                            </li>
+                            <li id="otis">
+                            3.  The main program (<i>progam_name.expl</i>) shall contain <b>no type definitions or class definitions</b>.   The main program contains global declarations, function definitions and the Main function.  
+                            </li>
+                        </ul>
+                        </p>
+                        <p>
+                            Your compiler must support two types of compilation options:
+                        <ul>
+                            <li id="otis">
+                            1.  <b>expl -obj</b> <i>class_name.class program_name.type</i>
+                            <br>
+                            This option must compile a single class file into an object file.  The code generated will contain unresolved labels.   The output file may be named <i>class_name.obj</i>.  The structure for object files will be discussed soon.  
 
-                            
+                            </li>
+                            <li id="otis">
+                            2.  <b>expl</b> <i>program_name.expl, program_name.type, class_name1.obj, class_name2.obj,class_namek.obj</i>
+                            <br>
+                            This option expects that the object files are created using the <b>-obj</b> option.  The main program is build by linking together all the object modules and the ouput file must be an ABI compatible <i>program_name.xsm</i>
+                            </li>
+                        </ul>
+                        </p>
+                        <p>
+                            The key observation here is that to <b>generate assembly code with labels for a particular class, one needs only the class definition and all the type defintions</b>. The main points to be careful here are:
+                        <ul>
+                            <li id="otis">
+
+                            a.  As each class is compiled separately, <b>the labels in each object file must not be conflicting</b>.  To solve this issue, each label in an object file may be annotated by the corresponding class name (Ex.  <i>class_name1_L0</i>, <i>class_name1_L1</i> etc.)  
+                            </li>
+                            <li id="otis">
+                            b.  Since the class definitions must be made available in the final building step, during the compilation of a class, the <b>class definition must be copied into the object file</b>. 
+                            </li>
+                        </ul>
+                        </p>
+                        <p>
+                            Thus, each object file will contain a class definition followed by the assembly code (with labels) for the methods of the class.  Finally, during the final compilation process, class definitions from each object file will be combined into the class table and the final code generation and label translation steps will be done. 
+                        </p>
+                        <p>
+                            You must look at the YACC/Bison manual to find out how parsing of multiple files can be done.  We leave out the technical details.    
+                        </p>
+                        <p>
+                            <b>Task 3:</b>  Implement support for separate compilation of object files as outlined above.  
+                        </p>
+                        <p>
+                            <b>Note:</b>  The ABI given to you do not support object file formats.  Hence we have suggested an object format specific to the ExpL project.  However, standard binary interfaces support object file formats – (For example see the <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank"> Unix ELF</a>.   These object files may be linked together by the operating system at load time – that is, when the program is loaded into the memory for execution.  A discussion of these matters is beyond the scope of this project.  
+                        </p>
+
+                        <p>
+                            <i>Exercise 1</i>:  What modifications must be done to allow class variables to be passed as arguments to functions?  
+                        </p>
+                        <p>
+                            <i>Exercise 2</i>:  What modifications must be done to allow functions to have locally declared class variables?  
+                        </p>
                                 
 
 
