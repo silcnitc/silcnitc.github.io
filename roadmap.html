@@ -1505,11 +1505,48 @@
                             <b>Task 1:</b>  lexical, syntax and semantic analysis for the extended language with classes.  
                         </p>
 
+                        <p>
+                            <b>Part II: Code Generation </b> 
+                        </p>
+                        <p>
+                            Code generation not hard, once the access semantics of <i>self</i> is understood. <b>The basic observation is that the code for any method can be generated immedietely after the definition of the method is processed</b>.  This is true because a method's access is limited to its member fields and previously defined (or the same) methods of the class.  This information would be already entered into the class table entry for the class.
+                        </p>
+                        <p>
+                            When a method definition is encountered,<b> a unique label must be generated for the method and the label must be entered into the class table entry of the method.</b>  Thus, the call address to any method can be determined from the class table entry of the corresponding class.  (In the next stage, we will see that a more sophisticated stratgey will be needed to support inheritance).  
+                        </p>
+                        <p>
+                            Storage allocation for class variables is equally simple.  Just as was done for user defined types, a call to new must allocate a block of 8 words in the heap for storing the member fields of the variable.  The start address of this block must be assigned to the variable.  
+                        </p>
+                        <p>
+                            Other matters being routine, the non-trivial point pending is the <b>deferencing of the self reference</b> – in <i>self.field_name</i>.    
+                        </p>
+                        <p>
+                             The following paragraphs summarize the key ideas:  
+                        </p>
 
+                        <ul>
+                                
+                            <li id="otis">
 
+                            1.  How to get the address of <i>self?</i>  First observe that a reference to <i>self</i> will occur only within a member function of a class variable.   Second, all variables of the same class share the code of all the methods of the class.  Thus, at run time, a method must be told which is the variable for which the current call is made.  In other words, <b>the address of self can be determined only at run-time (<i>why? - ensure that you digest this point clearly before proceeding further!</i>)</b>
+                            <br>
+                            The standard way to resolve this reference is to set the convention that <b>before a call to a method, the caller must push the address of self</b> (for the particular call) <b>as an argument into the stack.</b>  The convention we suggest is that the first argument to any call to a method will be the address of self.  Note that this is an <b>implicit argument</b>, not found either in the declaration or the definition of the method.  (With this extra argument, the relative (to BP) address of other arguments will be shifted one position).  
 
+                            </li>
+                            <br>
+                            <li id="otis">
+                            2.  The <b>local symbol table of a method must contain an entry for <i>self</i></b> along with the other arguments to the function.  The binding field of this entry must be the relative address (with respect to BP in the stack) where the address of self must be pushed by the caller.  For example, if this value is -3, then the compiler expects that the caller would have pushed to stack corresponding to  [BP-3] the address of the heap block holding the member fields of the variable.
+                            </li>
+                            </ul>
+                            <p>
+                            The task of completing code generation phase is now straightforward.  
+                            </p>
+                            <p>
+                            <b>Task 2:</b> Complete code generation for this stage.                         
+                            </p>
 
-
+                            
+                                
 
 
 
