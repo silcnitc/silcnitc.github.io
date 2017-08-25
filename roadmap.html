@@ -40,6 +40,9 @@
                         <li class="sec"><a href="#nav-stage4">4. User Defined Variables and arrays</a></li>
                         <li class="sec"><a href="#nav-stage5">5. Adding Functions</a></li>
                         <li class="sec"><a href="#nav-stage6">6. User defined types and Dynamic Memory Allocation</a></li>
+                        <li class="sec"><a href="#nav-stage7">7. Adding Objects – Data encapsulation</a></li>
+                        <li class="sec"><a href="#nav-stage8">8. Inheritance and Sub-type Polymorphism</a></li>
+
 
                     </ul>
                 </menu>
@@ -57,7 +60,7 @@
                         <h2>Stage 0 : Installation and Preparation</h2>
                         <p>
                             <b>Pre-requisites</b>: NIL<br>
-                        	In this stage, you will download and familiarize yourself with the simulation package and learn the compiler design software tools LEX and YACC.  Follow the instructions below.
+                            In this stage, you will download and familiarize yourself with the simulation package and learn the compiler design software tools LEX and YACC.  Follow the instructions below.
                         </p>
                         <p>
                             <ul>
@@ -480,124 +483,124 @@
                         <p>
                             To implement type checking, add a type field in the AST node structure.  
                             <script src="js/09129e56138b0207d595eaefbf2873cd.js"></script>
-							At the leaf nodes of the tree, since you have either constants or variables, the type must be set to integer. Next, while constructing the tree for intermediate nodes, check whether the types of the children are compatible with the operator at the root. For instance, for the addition operation, the check could be as the following:
-							<div class="syntax"> 
-							E :== E+E {<br>       
-							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;if (($1->type != inttype) || ($2->type != inttype)) {<br>
-							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;error("type mismatch"); <br>
-							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;exit();<br>
-							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;} else {<br>
-							&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$$->type = inttype); <br>  
-							&emsp;&emsp;&emsp;&emsp;}<br>
-							</div>
-						</p>
-						<p>
-							If there is no mismatch, you must annotate root node ($$->type) with the proper type (integer in the above case).
-						</p>
-						<p>
-							<li id="otis">
-								<b>Note</b>:  The above check is better done inside the TreeCreate() function so that the YACC file is not cluttered with C statements.
-							</li>
-						</p>  
-						<p>
-							The essential idea is that the type of each node can by synthesized from the types of the subtrees. At any stage, the compiler may terminate flagging error if a type error is found.  
-						</p>
-						<p>
-							<b>Task 1</b>:  Complete the front-end module (AST construction) for the programming language. You need to 
-							<ul>
-								<li id="otis">(1) add additional lexical tokens for the new constructs</li>  
-								<li id="otis">(2) make appropriate modifications in the tree node structure including provision for storing type attribute</li>
-								<li id="otis">(3) modify the TreeCreate() function to have three subtrees passed (for if-then-else) etc.</li>
-							</ul>
-						</p>
-						<p>
-							<b>Exercise 1</b>:  To test the implementation of Task 1, implement an <b>evaluator</b> for the expression tree.  Test with simple programs like those for finding the largest of 3 numbers, sum of n numbers (n read from input) etc.  
-						</p>
-						<p>
-							The next task is to complete the back-end code generation phase.  For better clarity, we will split the task into two steps.  
-						</p>
-						<p>
-							<ul>
-								<li id="otis"><b>Step 1</b>:  Generate code with <b>labels</b>.  At this stage labels will be placed at various control flow points of the target assembly code so that a JMP instruction will only indicate the label corresponding to the instruction to which transfer of program flow must happen.</li>
-								<li id="otis"><b>Step 2</b>:  Replace the labels with addresses.</li>
-							</ul>
-						</p>
-						<p>
-							<b>Important note</b>: You must have read the <a href="label-translation.html" target="_blank">label translation tutorial</a> before proceeding any further.
-						</p>
-						<p>
-							We will now look at Subtask 1. Consider the following statement:
-							<div class="syntax">
-								while (a < b) {<br>
-								&emsp;&emsp;a = a+1 ;<br>
-								}<br>
-							</div>
-						</p>
-						<p>
-							The expression tree for the above statement would look like:
+                            At the leaf nodes of the tree, since you have either constants or variables, the type must be set to integer. Next, while constructing the tree for intermediate nodes, check whether the types of the children are compatible with the operator at the root. For instance, for the addition operation, the check could be as the following:
+                            <div class="syntax"> 
+                            E :== E+E {<br>       
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;if (($1->type != inttype) || ($2->type != inttype)) {<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;error("type mismatch"); <br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;exit();<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;} else {<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$$->type = inttype); <br>  
+                            &emsp;&emsp;&emsp;&emsp;}<br>
+                            </div>
+                        </p>
+                        <p>
+                            If there is no mismatch, you must annotate root node ($$->type) with the proper type (integer in the above case).
+                        </p>
+                        <p>
+                            <li id="otis">
+                                <b>Note</b>:  The above check is better done inside the TreeCreate() function so that the YACC file is not cluttered with C statements.
+                            </li>
+                        </p>  
+                        <p>
+                            The essential idea is that the type of each node can by synthesized from the types of the subtrees. At any stage, the compiler may terminate flagging error if a type error is found.  
+                        </p>
+                        <p>
+                            <b>Task 1</b>:  Complete the front-end module (AST construction) for the programming language. You need to 
+                            <ul>
+                                <li id="otis">(1) add additional lexical tokens for the new constructs</li>  
+                                <li id="otis">(2) make appropriate modifications in the tree node structure including provision for storing type attribute</li>
+                                <li id="otis">(3) modify the TreeCreate() function to have three subtrees passed (for if-then-else) etc.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            <b>Exercise 1</b>:  To test the implementation of Task 1, implement an <b>evaluator</b> for the expression tree.  Test with simple programs like those for finding the largest of 3 numbers, sum of n numbers (n read from input) etc.  
+                        </p>
+                        <p>
+                            The next task is to complete the back-end code generation phase.  For better clarity, we will split the task into two steps.  
+                        </p>
+                        <p>
+                            <ul>
+                                <li id="otis"><b>Step 1</b>:  Generate code with <b>labels</b>.  At this stage labels will be placed at various control flow points of the target assembly code so that a JMP instruction will only indicate the label corresponding to the instruction to which transfer of program flow must happen.</li>
+                                <li id="otis"><b>Step 2</b>:  Replace the labels with addresses.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            <b>Important note</b>: You must have read the <a href="label-translation.html" target="_blank">label translation tutorial</a> before proceeding any further.
+                        </p>
+                        <p>
+                            We will now look at Subtask 1. Consider the following statement:
+                            <div class="syntax">
+                                while (a < b) {<br>
+                                &emsp;&emsp;a = a+1 ;<br>
+                                }<br>
+                            </div>
+                        </p>
+                        <p>
+                            The expression tree for the above statement would look like:
                         </p>
                         <p>
                             <img src="img/ast31.png">
-						</p>
-						<p>
-							Suppose variable a is bound to address 4096, b to address 4097, then our plan is to generate code that would look like the following:
-							<div class="syntax">
-							L1:  <br>
-							MOV R0, [4096]&nbsp;&nbsp;// transfer a to R0<br>
-							MOV R1, [4097]&nbsp;&nbsp;//  transfer b to R1<br>
-							LT R0, R1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  a&lt;b<br>
-							JNZ L2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  if (a&lt;b) is false goto L2  <br>
-							MOV R0, [4096]&nbsp;&nbsp;//  transfer a to R0<br>
-							ADD R0, 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  add 1  <br>
-							MOV [4096], R0&nbsp;&nbsp;// transfer sum back to a<br>
-							JMP L1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// goto next iteration. <br>
-							L2: <br>
-							... Next Instruction ..  <br>
-							</div>
-						</p>
-						<p>
-							Note the use of labels L1 and L2 indicating control flow points in the above code. A while statement involves two jumps and two labels. The labels are just symbols that are placed at the start of instructions to which jump instructions must branch to. Placing labels in the code relieves us from bothering about the exact memory address to which jump must be made. Of course, this is only a temporary measure. The final target code must not contain labels.
-						</p>
-						<p>
-							Our strategy here is to first generate code with labels and then replace the labels with addresses. To implement the plan, we may name labels in the program L0, L1,.... We must design an <i>int GetLabel()</i> function that returns the index of the next unused label.  Thus the first call to <i>GetLabel()</i> returns 0, next call returns 1 and so forth.
-						</p>
-						<p>
-							The code generation strategy for the while-do statement is illustrated by the following pseudo-code.  
-							<div class="syntax">
-								int label_1 = getLabel();<br>
-								int label_2 = getLabel();<br>
-								fprintf (target_file "L%d", Label_1)  //  Place the first label here.  <br>
-								Generate code for the guard expression.    <br>
-								Generate code to compare the result to zero and if so jump to label_2 // loop exit   <br>
-								Generate code for the body of the while loop.<br>
-								fprintf(target_file, "JMP L%d", label_1);   // return to the beginning of the loop.  <br>
-								fprintf(target_file, "L%d", label_2);    // Place the second label here<br>
-							</div>
-						</p>
-						<p>
-							<b>Task 2</b>:  Complete the code generation with labels for while-do, if-then and if-then-else constructs.
-						</p>
-						<p>
-							Now, we must complete Step 2 of replacing the labels with the correct addresses. This is explained in the <a href="label-translation.html" target="_blank">label translation documentation</a>.  
-						</p>
-						<p>
-							<b>Task 3</b>: Read the link specified above and complete the label translation for  if-then, if-then-else and the while-do statement.
-						</p>
-						<p>
-							<b>Exercise 2</b>: Test your Task 3 code with the following programs:
-							<ul>
-								<li id="otis">(a) program to find the largest for a, b, c (values read from input)</li>
-								<li id="otis">(b) program to read numbers till 0 is input and output the sum. </li>
-							</ul>
-						</p>
-						<p>
-							<b>Task 4</b>: Add <b>break</b> and <b>continue</b> statements.  Code for these statements need be generated only if they appear inside some while loop.  Otherwise, the compiler may simply ignore these statements, generating no code.  (The primary task is to keep track of which label to jump to when one of these statements is encountered).  
-						</p>
-						<p>
-							<b>Exercise</b> : Add <i>repeat-until</i> and <i>do-while</i> statements to the language with standard semantics.
                         </p>
                         <p>
-                        	<b>Note</b>:  Often in practice, programming languages allow a program to be split into different functions, written in different source files. In such cases, each file is separately compiled and the compiler generates target code with labels without translating them into addresses.  Even variable references will be symbolic and the actual addresses may not be determined.  Such target files are called <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank">object files</a>.  The compiler will include symbol table information in the object file for translation later.  A separate software called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> will collect the information in all the symbol tables and combine the object files into a single executable file replacing labels and symbolic variable references with actual addresses.  
+                            Suppose variable a is bound to address 4096, b to address 4097, then our plan is to generate code that would look like the following:
+                            <div class="syntax">
+                            L1:  <br>
+                            MOV R0, [4096]&nbsp;&nbsp;// transfer a to R0<br>
+                            MOV R1, [4097]&nbsp;&nbsp;//  transfer b to R1<br>
+                            LT R0, R1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  a&lt;b<br>
+                            JNZ L2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  if (a&lt;b) is false goto L2  <br>
+                            MOV R0, [4096]&nbsp;&nbsp;//  transfer a to R0<br>
+                            ADD R0, 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  add 1  <br>
+                            MOV [4096], R0&nbsp;&nbsp;// transfer sum back to a<br>
+                            JMP L1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// goto next iteration. <br>
+                            L2: <br>
+                            ... Next Instruction ..  <br>
+                            </div>
+                        </p>
+                        <p>
+                            Note the use of labels L1 and L2 indicating control flow points in the above code. A while statement involves two jumps and two labels. The labels are just symbols that are placed at the start of instructions to which jump instructions must branch to. Placing labels in the code relieves us from bothering about the exact memory address to which jump must be made. Of course, this is only a temporary measure. The final target code must not contain labels.
+                        </p>
+                        <p>
+                            Our strategy here is to first generate code with labels and then replace the labels with addresses. To implement the plan, we may name labels in the program L0, L1,.... We must design an <i>int GetLabel()</i> function that returns the index of the next unused label.  Thus the first call to <i>GetLabel()</i> returns 0, next call returns 1 and so forth.
+                        </p>
+                        <p>
+                            The code generation strategy for the while-do statement is illustrated by the following pseudo-code.  
+                            <div class="syntax">
+                                int label_1 = getLabel();<br>
+                                int label_2 = getLabel();<br>
+                                fprintf (target_file "L%d", Label_1)  //  Place the first label here.  <br>
+                                Generate code for the guard expression.    <br>
+                                Generate code to compare the result to zero and if so jump to label_2 // loop exit   <br>
+                                Generate code for the body of the while loop.<br>
+                                fprintf(target_file, "JMP L%d", label_1);   // return to the beginning of the loop.  <br>
+                                fprintf(target_file, "L%d", label_2);    // Place the second label here<br>
+                            </div>
+                        </p>
+                        <p>
+                            <b>Task 2</b>:  Complete the code generation with labels for while-do, if-then and if-then-else constructs.
+                        </p>
+                        <p>
+                            Now, we must complete Step 2 of replacing the labels with the correct addresses. This is explained in the <a href="label-translation.html" target="_blank">label translation documentation</a>.  
+                        </p>
+                        <p>
+                            <b>Task 3</b>: Read the link specified above and complete the label translation for  if-then, if-then-else and the while-do statement.
+                        </p>
+                        <p>
+                            <b>Exercise 2</b>: Test your Task 3 code with the following programs:
+                            <ul>
+                                <li id="otis">(a) program to find the largest for a, b, c (values read from input)</li>
+                                <li id="otis">(b) program to read numbers till 0 is input and output the sum. </li>
+                            </ul>
+                        </p>
+                        <p>
+                            <b>Task 4</b>: Add <b>break</b> and <b>continue</b> statements.  Code for these statements need be generated only if they appear inside some while loop.  Otherwise, the compiler may simply ignore these statements, generating no code.  (The primary task is to keep track of which label to jump to when one of these statements is encountered).  
+                        </p>
+                        <p>
+                            <b>Exercise</b> : Add <i>repeat-until</i> and <i>do-while</i> statements to the language with standard semantics.
+                        </p>
+                        <p>
+                            <b>Note</b>:  Often in practice, programming languages allow a program to be split into different functions, written in different source files. In such cases, each file is separately compiled and the compiler generates target code with labels without translating them into addresses.  Even variable references will be symbolic and the actual addresses may not be determined.  Such target files are called <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank">object files</a>.  The compiler will include symbol table information in the object file for translation later.  A separate software called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> will collect the information in all the symbol tables and combine the object files into a single executable file replacing labels and symbolic variable references with actual addresses.  
                         </p>
                         <div class="up column3 mright">
                             <a href="#navtop">  &#x2191; </a>
@@ -606,101 +609,101 @@
                     <article class="grid col-full" id="nav-stage4">
                         <h2>Stage 4:  User Defined Variables and arrays</h2>
                         <p>
-                        	<b>Learning Objectives</b>:<br>
-							You will extend the language of Stage 3 to permit users to declare and use variables of <i>integer</i> and <i>string</i> types. You will learn <b>symbol table</b> management enroute. 
-							<hr>
+                            <b>Learning Objectives</b>:<br>
+                            You will extend the language of Stage 3 to permit users to declare and use variables of <i>integer</i> and <i>string</i> types. You will learn <b>symbol table</b> management enroute. 
+                            <hr>
                         </p>
                         <p>
-                        	In this stage, we allow the program to contain variable declarations of the following syntax:
-                        	<div class="syntax">
-                        		Declarations ::=  DECL  DeclList ENDDECL | DECL ENDDECL<br>
-                        		<br>
-								DeclList ::=  DeclList Decl | Decl<br>
-								<br>
-								Decl  ::= Type VarList ;<br>
-								<br>
-								Type ::=  INT | STR<br>
-								<br>
-								VarList ::= Varlist , ID | ID<br>
-                        	</div>
+                            In this stage, we allow the program to contain variable declarations of the following syntax:
+                            <div class="syntax">
+                                Declarations ::=  DECL  DeclList ENDDECL | DECL ENDDECL<br>
+                                <br>
+                                DeclList ::=  DeclList Decl | Decl<br>
+                                <br>
+                                Decl  ::= Type VarList ;<br>
+                                <br>
+                                Type ::=  INT | STR<br>
+                                <br>
+                                VarList ::= Varlist , ID | ID<br>
+                            </div>
                         </p>
                         <p>
-                        	We will assume hereafter that all variables used in a program must be <b>declared</b> in the declaration section of the program (between the <i>decl</i> and <i>enddecl</i> keywords). Since string type variables are allowed, we will allow string constants as well.  (See <a href="expl.html#nav-constant">ExpL specification</a> for details). 
+                            We will assume hereafter that all variables used in a program must be <b>declared</b> in the declaration section of the program (between the <i>decl</i> and <i>enddecl</i> keywords). Since string type variables are allowed, we will allow string constants as well.  (See <a href="expl.html#nav-constant">ExpL specification</a> for details). 
                         </p>
                         <p>
-                        	A simple program in this language to find the sum of numbers entered from the console (until a zero is entered) would look like the following: 
-                        	<div class="syntax">
-                           	decl<br>
-				            &emsp;&emsp;int num, sum;<br>  
-				            &emsp;&emsp;str mesg;<br>
-				        	enddecl<br><br>
-				            read(num);<br>
-				            sum = 0;<br>   
-				            while (num != 0) do<br>          
-				            &emsp;&emsp;sum = sum + num;<br>  
-				            &emsp;&emsp;read(num);<br>  
-				            endwhile;<br>  
-				            write("sum is:");<br>  
-				            write(sum);<br>  
-				            mesg = "good bye";<br>
-				            write(mesg);<br>  
-							</div>
-						</p>
-						<p>
-							It is the responsibility of the compiler to track for various <b>semantic errors</b> as:
-							<ul>
-								<li id="otis">1.  Flag error if any variable not declared is used.</li>
-								<li id="otis">2.  Flag error if a type mismatch involving any variable is found.</li>
-							</ul>
-						</p>
-						<p>
-							To this end, while parsing declarations, the compiler transfers the information about variables in a compile time data structure called the <b>symbol table</b>. The symbol table stores the following information about each variable:
-							<ul>
-								<li id="otis">1.  Name of the variable (known at the time of declaration).</li>
-								<li id="otis">2.  Type (For the present stage, only integer/string).</li>
-								<li id="otis">3.  Size (For the time being, we will assume that all variables have size one).</li>
-								<li id="otis">4.  The memory <b>binding</b> of each variable – that is, static memory address determined by the compiler for the variable.</li>
-							</ul>
-						</p>
-						<p>
-							The first three entries are determined by the declaration of the variable. For the fourth, a simple strategy would be to allocate the first address (4096) for the variable declared first, 4097 for the next variable and so on. Note that here too we are fixing the address of each variable at compile time (<b>static allocation</b>). 
-						</p>
+                            A simple program in this language to find the sum of numbers entered from the console (until a zero is entered) would look like the following: 
+                            <div class="syntax">
+                            decl<br>
+                            &emsp;&emsp;int num, sum;<br>  
+                            &emsp;&emsp;str mesg;<br>
+                            enddecl<br><br>
+                            read(num);<br>
+                            sum = 0;<br>   
+                            while (num != 0) do<br>          
+                            &emsp;&emsp;sum = sum + num;<br>  
+                            &emsp;&emsp;read(num);<br>  
+                            endwhile;<br>  
+                            write("sum is:");<br>  
+                            write(sum);<br>  
+                            mesg = "good bye";<br>
+                            write(mesg);<br>  
+                            </div>
+                        </p>
                         <p>
-							The following structure may be used for a symbol table entry:
-							<div class="syntax">
-								struct Gsymbol {<br>
-								&emsp;&emsp;char* name;&emsp;&emsp;// name of the variable<br>
-								&emsp;&emsp;int type;&emsp;&emsp;&emsp;// type of the variable<br>     
-								&emsp;&emsp;int size;&emsp;&emsp;&emsp;// size of the type of the variable<br>
-								&emsp;&emsp;int binding;&emsp;// stores the static memory address allocated to the variable<br>
-								&emsp;&emsp;struct Gsymbol *next;<br> 
-								  <!-- ...  any other field for data structure maintainance .. -->
-								}
-							</div>
-						</p>
-						<p>
-							The symbol table entries for the program above would look as below:  
-							<img src="img/gsymboltable1.png">
-						</p>
-						<p>
-							To implement the symbol table, you must write two functions.  For a simple implementation, a linear linked list suffices.  In modern compilers, hash tables are maintained to make search efficient. 
-						</p>
-						<p>
-							<div class="syntax">
-								struct Gsymbol *<i>Lookup</i>(char * name);  //  Returns a pointer to the symbol table entry for the variable, returns NULL otherwise.<br>
-								<br>
-								void <i>Install</i>(char *name, int type, int size);  // Creates a symbol table entry.  
-							</div>
-						</p>
-						<p>
-							<b>Note</b>:  You must check before installing a variable whether the variable is already present.  If a variable is declared multiple times, the compiler must stop the compilation and flag error. 
-						</p>
-						<p>
-							<b>Task 1</b>: Complete the program to parse declarations and set up the symbol table entries and print out the contents of the symbol table.
-						</p>
-						<p>
-							The next task is to make necessary modifications to the AST construction and code generation. These are straightforward. Add a an additional field to the tree node structure
-							<div class="syntax">
+                            It is the responsibility of the compiler to track for various <b>semantic errors</b> as:
+                            <ul>
+                                <li id="otis">1.  Flag error if any variable not declared is used.</li>
+                                <li id="otis">2.  Flag error if a type mismatch involving any variable is found.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            To this end, while parsing declarations, the compiler transfers the information about variables in a compile time data structure called the <b>symbol table</b>. The symbol table stores the following information about each variable:
+                            <ul>
+                                <li id="otis">1.  Name of the variable (known at the time of declaration).</li>
+                                <li id="otis">2.  Type (For the present stage, only integer/string).</li>
+                                <li id="otis">3.  Size (For the time being, we will assume that all variables have size one).</li>
+                                <li id="otis">4.  The memory <b>binding</b> of each variable – that is, static memory address determined by the compiler for the variable.</li>
+                            </ul>
+                        </p>
+                        <p>
+                            The first three entries are determined by the declaration of the variable. For the fourth, a simple strategy would be to allocate the first address (4096) for the variable declared first, 4097 for the next variable and so on. Note that here too we are fixing the address of each variable at compile time (<b>static allocation</b>). 
+                        </p>
+                        <p>
+                            The following structure may be used for a symbol table entry:
+                            <div class="syntax">
+                                struct Gsymbol {<br>
+                                &emsp;&emsp;char* name;&emsp;&emsp;// name of the variable<br>
+                                &emsp;&emsp;int type;&emsp;&emsp;&emsp;// type of the variable<br>     
+                                &emsp;&emsp;int size;&emsp;&emsp;&emsp;// size of the type of the variable<br>
+                                &emsp;&emsp;int binding;&emsp;// stores the static memory address allocated to the variable<br>
+                                &emsp;&emsp;struct Gsymbol *next;<br> 
+                                  <!-- ...  any other field for data structure maintainance .. -->
+                                }
+                            </div>
+                        </p>
+                        <p>
+                            The symbol table entries for the program above would look as below:  
+                            <img src="img/gsymboltable1.png">
+                        </p>
+                        <p>
+                            To implement the symbol table, you must write two functions.  For a simple implementation, a linear linked list suffices.  In modern compilers, hash tables are maintained to make search efficient. 
+                        </p>
+                        <p>
+                            <div class="syntax">
+                                struct Gsymbol *<i>Lookup</i>(char * name);  //  Returns a pointer to the symbol table entry for the variable, returns NULL otherwise.<br>
+                                <br>
+                                void <i>Install</i>(char *name, int type, int size);  // Creates a symbol table entry.  
+                            </div>
+                        </p>
+                        <p>
+                            <b>Note</b>:  You must check before installing a variable whether the variable is already present.  If a variable is declared multiple times, the compiler must stop the compilation and flag error. 
+                        </p>
+                        <p>
+                            <b>Task 1</b>: Complete the program to parse declarations and set up the symbol table entries and print out the contents of the symbol table.
+                        </p>
+                        <p>
+                            The next task is to make necessary modifications to the AST construction and code generation. These are straightforward. Add a an additional field to the tree node structure
+                            <div class="syntax">
                                 typedef struct tnode{<br>
                                 &emsp;&emsp;int val;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;//value of the constant<br>
                                 &emsp;&emsp;char* varname;&emsp;&emsp;&emsp;//name of the variable<br>
@@ -710,9 +713,9 @@
                                 &emsp;&emsp;struct tnode *left,*right;&emsp;&emsp;//left and right branches<br>
                                 }tnode;
                             </div>
-						</p>
-						<p>
-							While constructing the tree, if a variable is encountered, keep a pointer to the corresponding symbol table entry. Set the type field as well to the correct type. The rest of the type checking steps are exactly as in the previous stage. The AST of while loop present in the above code is as follows (the relevant part of the code is shown below for easy reference):
+                        </p>
+                        <p>
+                            While constructing the tree, if a variable is encountered, keep a pointer to the corresponding symbol table entry. Set the type field as well to the correct type. The rest of the type checking steps are exactly as in the previous stage. The AST of while loop present in the above code is as follows (the relevant part of the code is shown below for easy reference):
                             <div class="syntax">
                             .<br>
                             .<br>
@@ -727,62 +730,62 @@
                             </div>
                         </p>
                         <p>
-							<img src="img/ast_stage4.png">
-						</p>
-						<p>
-							There is no serious change to the code generation process, except that for variables, the binding address is obtained from the symbol table.<br><br>
-							<b>Important Note</b>:  The XSM architecture is unrealistic in that allows a memory word to hold a string.  Normally, in a real system, a string would require storing the characters one after another in consecutive memory locations as in an array.   You will anyway learn array allocation immediately.  
-						</p>
-						<p>
-							<b>Task 2</b>:  Complete the AST construction and code generation steps.
-						</p>
-						<p>
-							<h4>Adding arrays</h4>  
-							The next step is to allow declaration of arrays like:  
-							<div class="syntax">
-								decl<br>
-								&emsp;---<br>
-								&emsp;int a[100];<br>  
-								&emsp;str names[20];<br> 
-								&emsp;---<br>
-								enddecl  
-							</div>
+                            <img src="img/ast_stage4.png">
+                        </p>
+                        <p>
+                            There is no serious change to the code generation process, except that for variables, the binding address is obtained from the symbol table.<br><br>
+                            <b>Important Note</b>:  The XSM architecture is unrealistic in that allows a memory word to hold a string.  Normally, in a real system, a string would require storing the characters one after another in consecutive memory locations as in an array.   You will anyway learn array allocation immediately.  
+                        </p>
+                        <p>
+                            <b>Task 2</b>:  Complete the AST construction and code generation steps.
+                        </p>
+                        <p>
+                            <h4>Adding arrays</h4>  
+                            The next step is to allow declaration of arrays like:  
+                            <div class="syntax">
+                                decl<br>
+                                &emsp;---<br>
+                                &emsp;int a[100];<br>  
+                                &emsp;str names[20];<br> 
+                                &emsp;---<br>
+                                enddecl  
+                            </div>
 
-							The declaration syntax must permit:
-							<div class="syntax">
-							Varlist ::= Varlist , ID[NUM] | ID[NUM]
-							</div>
-							To implement this, for each variable, you must reserve as much static space as specified by the declaration and set the size field in the symbol table to indicate the number of words allocated.  The next variable must be allocated space only below this space allocated. 
-						</p>
-						<p>
-							For instance, for the declaration,
-							<div class="syntax">
-								decl<br>
-								&emsp;&emsp;int a[10], b;<br>  
-								enddecl
-							</div>
-							The binding field in the symbol table for the variable a  may be set to address 4096.  The size entry set to 10.  This means that we are allocating locations 4096-5005 for the array.  The next variable, b can be bound to the address 5006.  
+                            The declaration syntax must permit:
+                            <div class="syntax">
+                            Varlist ::= Varlist , ID[NUM] | ID[NUM]
+                            </div>
+                            To implement this, for each variable, you must reserve as much static space as specified by the declaration and set the size field in the symbol table to indicate the number of words allocated.  The next variable must be allocated space only below this space allocated. 
+                        </p>
+                        <p>
+                            For instance, for the declaration,
+                            <div class="syntax">
+                                decl<br>
+                                &emsp;&emsp;int a[10], b;<br>  
+                                enddecl
+                            </div>
+                            The binding field in the symbol table for the variable a  may be set to address 4096.  The size entry set to 10.  This means that we are allocating locations 4096-5005 for the array.  The next variable, b can be bound to the address 5006.  
                             <img src="img/gsymboltable2.png">
-						</p>
-						<p>
-							<b>Task 2</b>:  Complete the implementation of single dimensional arrays.  
-							<br><br>
-							<b>Exercise 1</b>:  Permit two dimensional arrays like:  
-							<div class="syntax"> int a[10][10]; </div>    
-							Test your implementation with a program for multiplying two nxn matrices.
-							<br><br>
-							<b id="stage4_ex2">Exercise 2</b>:  Permit <i>pointer type</i> variables as in the following declaration as in the C programming language.
-							<div class="syntax">
-								decl<br>
-								&emsp;&emsp;int x, *p;<br>
-								&emsp;&emsp;str p, *q;<br>
-								enddecl
-							</div>
-							If you permit assignments like p=&amp;x; and q=&amp;p; , pointer variables may also be permitted in expressions like *p=*q+1; for referring to the data pointed to, as permitted in the C programming language. Semantic rules as in the C programming language may be assumed.
-						</p>
-						<p>
-							<b>Note</b>:  Right now, you are not equipped to do dynamic memory allocation for pointer variables (as done by the malloc() function of C).  Hence, a pointer type variable can be used as a pointer to another statically declared variable of the corresponding type.  Dynamic memory allocation will be discussed in later stages.
-						</p>
+                        </p>
+                        <p>
+                            <b>Task 2</b>:  Complete the implementation of single dimensional arrays.  
+                            <br><br>
+                            <b>Exercise 1</b>:  Permit two dimensional arrays like:  
+                            <div class="syntax"> int a[10][10]; </div>    
+                            Test your implementation with a program for multiplying two nxn matrices.
+                            <br><br>
+                            <b id="stage4_ex2">Exercise 2</b>:  Permit <i>pointer type</i> variables as in the following declaration as in the C programming language.
+                            <div class="syntax">
+                                decl<br>
+                                &emsp;&emsp;int x, *p;<br>
+                                &emsp;&emsp;str p, *q;<br>
+                                enddecl
+                            </div>
+                            If you permit assignments like p=&amp;x; and q=&amp;p; , pointer variables may also be permitted in expressions like *p=*q+1; for referring to the data pointed to, as permitted in the C programming language. Semantic rules as in the C programming language may be assumed.
+                        </p>
+                        <p>
+                            <b>Note</b>:  Right now, you are not equipped to do dynamic memory allocation for pointer variables (as done by the malloc() function of C).  Hence, a pointer type variable can be used as a pointer to another statically declared variable of the corresponding type.  Dynamic memory allocation will be discussed in later stages.
+                        </p>
                     </article>
                     <article class="grid col-full" id="nav-stage5">
                         <h2>Stage 5:  Adding Functions</h2>
@@ -972,15 +975,15 @@
 
                             Our next aim is to perform semantic analysis, build the AST and then generate code. The strategy will be the following:
                             <ul>
-	                            <li id="otis">1.  First, parse global declarations and create the global symbol table entries for functions andglobal variables (Already completed as Task 1)</li>
-	                            <li id="otis">2.  For each function for which code is not yet generated
-	                                <ul>
-		                                <li id="otis">a)  Check for <b>name equivalence</b> of the formal parameters of the function definition with the declaration.  Name equivalence requires that the type and name of each formal parameter of the function in the declaration and the definition must agree.</li>
-		                                <li id="otis">b)  Create local symbol table containing local variables and parameters.</li>
-		                                <li id="otis">c)  Build AST for the function. (Do type-checking when the tree is being built, as was done in the previous stages.)</li>
-		                                <li id="otis">d)  Recursively traverse the tree and generate code for the function in the target file.</li>
-	                                </ul>
-	                            </li>
+                                <li id="otis">1.  First, parse global declarations and create the global symbol table entries for functions andglobal variables (Already completed as Task 1)</li>
+                                <li id="otis">2.  For each function for which code is not yet generated
+                                    <ul>
+                                        <li id="otis">a)  Check for <b>name equivalence</b> of the formal parameters of the function definition with the declaration.  Name equivalence requires that the type and name of each formal parameter of the function in the declaration and the definition must agree.</li>
+                                        <li id="otis">b)  Create local symbol table containing local variables and parameters.</li>
+                                        <li id="otis">c)  Build AST for the function. (Do type-checking when the tree is being built, as was done in the previous stages.)</li>
+                                        <li id="otis">d)  Recursively traverse the tree and generate code for the function in the target file.</li>
+                                    </ul>
+                                </li>
                             </ul>
                             <b>After generating code for a function, the local symbol table and the abstract syntax tree for the function can be deallocated.</b> Proceed to step 2 for the next function.
                         </p>
@@ -999,7 +1002,7 @@
 
                             A call to the function would occur as in:
                             <div class="syntax">
-	                            t = Compute(a+b,find(a-b));
+                                t = Compute(a+b,find(a-b));
                             </div>
                             The statement is semantically valid provided a, b, and c  integer type variables.  Note that the call might occur in the code of <i>any function (including the same function – as in the case of a recursive call)</i>.
                         </p>
@@ -1213,8 +1216,8 @@
                             Allow tuples and pointers to tuples to be passed as arguments to functions.  (Allowing the whole tuple to be passed creates more work in parameter passing, though not difficult in principle).   Functions may be permitted to return tuples as return values.   Permit a function that takes an argument/returns a tuple or pointers to tuple type to be declared only after the declaration of the concerned tuples (this is to avoid the <a href="https://en.wikipedia.org/wiki/Forward_declaration" target="_blank">forward reference problem</a>).  Design syntax, semantics and code generation strategies appropriately. 
                         </p>
                             <div class="up column3 mright">
-    	                        <a href="#navtop">  &#x2191; </a>
-	                        </div>
+                                <a href="#navtop">  &#x2191; </a>
+                            </div>
                     </article>
                     <article class="grid col-full" id="nav-stage6">
                         <h2>Stage 6: User defined types and Dynamic Memory Allocation</h2>  
@@ -1225,6 +1228,8 @@
                                 <li id="otis">2.  Read about <a href="run_data_structures/heap.html" target="_blank">Dynamic memory allocation</a>.</li>
                             </ul>
                         </p>
+
+                            <!--done -->
                         <p>
                             <b>Learning Objectives</b>:
                             <ul>
@@ -1232,9 +1237,14 @@
                             </ul>
                             <hr>   
                         </p>
+
+                        <!--done-->
+
                         <p>
                             This is the second major stage of the ExpL compiler project and will be implemented in two parts.  In the first part, we will see how user defined types can be added to the language syntax and how semantic analysis can be performed.  The ExpL specification demands storage for user-defined types dynamically.   We will discuss how dynamic memory allocation can be achieved in the second part.
                         </p>
+
+                        <!--done-->
                         <p>
                             See the <a href="expl.html" target="_blank">ExpL language specification</a> for an informal description of the language.   It is suggested that you design your own grammar using the outline provided <a href="grammar-outline.html" target="_blank">here</a> as a reference. The following <a href="testprograms.html#test8" target="_blank">link</a> provide examples of ExpL programs containing user defined types.
                         </p>
@@ -1326,7 +1336,7 @@
                         <p>
                             With this background, the front end of the ExpL compiler can be completed.<br>
                             <br>
-                            	<b>Task 1</b>:  Complete the syntax and semantic analysis and construct AST for ExpL language. (<a href="expl.html" target="_blank">Specification</a>, <a href="grammar-outline.html" target="_blank">Grammar Outline</a>)
+                                <b>Task 1</b>:  Complete the syntax and semantic analysis and construct AST for ExpL language. (<a href="expl.html" target="_blank">Specification</a>, <a href="grammar-outline.html" target="_blank">Grammar Outline</a>)
                             <br>
                             <br>
                         </p>
@@ -1378,7 +1388,7 @@
                             It is <b>absolutely necessary</b> to read and understand <a href="run_data_structures/heap.html" target="_blank">Dynamic memory allocation</a> (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in the <a href="library-implementation.html" target="_blank">library implementation</a> documentation. We are now ready to complete the back end.
                         </p>
                         <p>
-                        	<b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 words for memory allocation.  The compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. Read the note below before proceeding with the implementation.   
+                            <b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 words for memory allocation.  The compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. Read the note below before proceeding with the implementation.   
                         </p>                    
                         <p>
                             <b>Important Note</b> : Your library functions will need to modify registers and hence before a library call,   ensure that registers in current use are saved in the stack (as was done with function calls in the previous stage).  
@@ -1396,6 +1406,48 @@
                             <a href="#navtop">&#x2191; </a>
                         </div>
                     </article>
+
+
+                        <article class="grid col-full" id="nav-stage7">
+                         <h2>Stage 7: Adding Objects – Data encapsulation</h2>  
+                        <p>
+                            <b>Prerequisite Reading</b>:
+                            <ul>
+                                <li id="otis">1.Read the <a href="expl.html" target="_blank"> OExpL specification (link) </a> (except for the section on inheritance, which may be read before the next stage).</li>
+                                
+                            </ul>
+                        </p>
+
+                        <p>
+                            <b>Learning Objectives</b>:
+                            <ul>
+                                 <li id="otis">You will extend the language of Stage 6 by adding support to classes (except for inheritance) to make ExpL an <i>object based</i>  language. You will also learn how to split a program code into multiple class files and one main program.</li>
+                            </ul>
+                            <hr>   
+                        </p>
+
+                         <p>
+                            In this stage, we will extend ExpL to provide support for <a href="https://en.wikipedia.org/wiki/Data_encapsulation" target="_blank">data encapsulation</a> by supporting classes. <a href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)" target="_blank">Inheritance</a> will be added in the next stage.
+                        </p>
+
+                         <p>
+                            From an implementation view-point, a class is similar to a user defined type that, apart from <i>member fields</i>, also contain <i>member functions</i> or <b>methods</b>. The access rules of class members and methods are more stringent.Read the (<a href="expl.html" target="_blank"> OExpL specification (link) </a> carefully for access semantics.) Here, we will focus on how support for classes can be added to the compiler.
+                        </p>
+
+
+                        </article>
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
             </section>
             </body>
