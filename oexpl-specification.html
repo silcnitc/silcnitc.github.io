@@ -70,38 +70,42 @@
                     <article class="grid col-full" id="nav-class-definitions">
                         <h2>Class Definitions</h2>
                         <p>
-                            Classes extend the notion of ExpL types.  A <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)" target="_blank">class encapsulates </a> <b><i>member fields</i></b> and <b><i>member functions</i></b> (called <b>methods</b> in OOP jargon).  The following is an example for a class definition.Standard syntax and semantics conventions followed in languages like Java and C++ are assumed.   
+                            Classes extend the notion of ExpL types.  A class <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)" target="_blank">encapsulates </a> <b><i>member fields</i></b> and <b><i>member functions</i></b> (called <b>methods</b> in OOP jargon).  The following is an example for a class definition.Standard syntax and semantics conventions followed in languages like Java and C++ are assumed.   
                         </p>  
 
 
                         <pre>
                             <i>Class</i>
-                            &nbsp;Person  {
+                            &nbsp;Person  
+                            {
                             &nbsp;&nbsp;<i>str</i> name;
                             &nbsp;&nbsp;<i>int</i> age;  
-                            &nbsp;&nbsp;<i>int</i> printDetailsdetails() {
+                            &nbsp;&nbsp;<i>int</i> printDetailsdetails() 
+                            &nbsp; {
                             &nbsp;&nbsp;     <i>decl</i>   /*  local variables, if any */ <i> enddecl </i>
                             &nbsp;&nbsp;     <i>begin</i>
                             &nbsp;&nbsp;&nbsp;&nbsp;          <i>write</i>(name);
                             &nbsp;&nbsp;&nbsp;&nbsp;          <i>write</i>(age);  
                             &nbsp;&nbsp;&nbsp;&nbsp;          <i>return</i> 1;  
                             &nbsp;&nbsp;     <i>end</i>
-                            &nbsp;&nbsp;&nbsp;  }
+                            &nbsp;  }
 
-                            &nbsp;str findName() {
+                            &nbsp;str findName() 
+                            &nbsp; {
                             &nbsp;    <i>decl   enddecl</i>
                             &nbsp;    <i>begin</i> 
                             &nbsp;&nbsp;&nbsp;       <i>return</i> (self.name); 
                             &nbsp;    <i>end</i>  
-                            &nbsp;&nbsp;&nbsp;  }
-                            &nbsp;<i>int</i> createPerson(str name, int age) { 
+                            &nbsp;  }
+                            &nbsp;<i>int</i> createPerson(str name, int age) 
+                            &nbsp; { 
                             &nbsp;       <i>decl           enddecl</i> 
                             &nbsp;       <i>begin</i>
                             &nbsp;&nbsp;&nbsp;               self.name = name;
                             &nbsp;&nbsp;&nbsp;               self.age = age;  
                             &nbsp;&nbsp;&nbsp;               <i>return</i> 1;  
                             &nbsp;       <i>end</i>
-                            &nbsp;&nbsp;&nbsp;  }      
+                            &nbsp;  }      
                             &nbsp;}   /*end of person definition */   
                             <i>endclass</i>  /* end of all class definitions */
                         </pre>
@@ -147,7 +151,7 @@
                         </p>
 
                         <p>
-                                 (These two restrictions not only aids single pass compilation,  but also avoid issues like the <a href="https://en.wikipedia.org/wiki/Fragile_base_class" target="_blank"> <i>fragile base class problem</i></a>).  
+                                 (These two restrictions not only aids single pass compilation,  but also avoid issues like the <a href="https://en.wikipedia.org/wiki/Fragile_base_class" target="_blank"> <i>fragile base class problem</i></a>.)  
                         </p>
 
                          <p>
@@ -338,7 +342,7 @@
                              In the above code, the value of the variable n read from the input at run-time determines whether the variable <i>arbitrary</i> refers to an object of the class - person or the class - student.   Consequently, at compile time, we cannot decide whether the call <i>arbitrary.printDetails()</i> must be translated to an invocation of the function in the parent class or the child class. 
                         </p>   
                         <p>
-                            To resolve such function invocations, the method of  <a href="https://en.wikipedia.org/wiki/Late_binding" target="_blank">dynamic binding</a> must be implemented using the  <a href="https://en.wikipedia.org/wiki/Virtual_method_table" target="_blank">The virtual function table method</a> .A tutorial explaining the implementation of virtual function tables is given [HERE:  LINK TO BE ADDED] here.     
+                            To resolve such function invocations, the method of  <a href="https://en.wikipedia.org/wiki/Late_binding" target="_blank">dynamic binding</a> must be implemented using the  <a href="https://en.wikipedia.org/wiki/Virtual_method_table" target="_blank">The virtual function table method</a> .A tutorial explaining the implementation of virtual function tables is given <a href="http://silcnitc.github.io/Virtual-method-table.html" target="_blank">The virtual function table Tutorial</a>  here.     
                         </p>
                         <p>
                             <b>Note:</b>  The project road-map permits a program to be split into multiple class files that can be compiled seprately into object files and build together.  In the present documentation, we ignore this feature. 
@@ -349,7 +353,7 @@
                      <article class="grid col-full" id="nav-sample-programs">
                      <h2>Sample Programs</h2>
                           <p>
-                            Example Programs.(To  be added by students)  
+                            Example Programs are <a href = "oexpl-testprograms.html" target="_blank">here</a>. 
                          </p>
                     </article>
                     
@@ -446,7 +450,7 @@
             <li><a href="http://github.com/silcnitc">Github</a></li>
         </ul>
         <div class="grid col-one-third" style="color:black;"> 
-            <p style="font-weight: bold;">Contributed By : <a>Ashwathy T Revi</a>, <a>Subisha V</a>,<br> <a href="https://www.linkedin.com/in/suryaharshanunnaguppala">Nunnaguppala Surya Harsha</a>, <a href="https://in.linkedin.com/in/vishnupriyamatha">Vishnu Priya Matha</a>
+            <p style="font-weight: bold;">Contributed By : <a> Dr. Murali Krishnan K. </a>
             </p>
         </div>
         <nav class="grid col-one-third ">
