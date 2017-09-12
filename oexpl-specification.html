@@ -118,30 +118,35 @@
 
                          <ol type="a">
                             <li> 
-                                <b>The member fields of a class may only be of type integer, string or user defined types (and not variables of other classes).</b>   Thus the language supports <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank"><i>Inheritance, but not Composition</i>.</a>
+                                <b>The member fields of a class may only be of type integer, string or user defined types (and not variables of other classes).</b>   Thus the language supports <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank"><i>Inheritance, but not Composition.</i></a>
                             </li> 
                             <li> 
                                 <b>Member fields of a class are private to the class</b> in the sense that they can be accessed only by the methods defined in the class.  The language does not permit <i>access modifiers</i> like <a href="https://en.wikipedia.org/wiki/Access_modifiers" target="_blank"><b>public</b> or <b>protected</b>.</a> 
                             </li>
                             <li> 
-                                <b>Class variables can be declared only globally.  Class variables cannot be arguments to functions; a function cannot have a class as its return type</b> and class variables cannot occur as local variables within functions.  (Exercises in the <a href="http://silcnitc.github.io/roadmap.html" target="_blank">roadmap</a> extends the language by dropping some of these restrictions).
+                                <b>Class variables can be declared only globally.  Class variables cannot be arguments to functions; a function cannot have a class as its return type</b> and class variables cannot occur as local variables within functions.  
+                                <!--(Exercises in the <a href="http://silcnitc.github.io/roadmap.html" target="_blank">roadmap</a> extends the language by dropping some of these restrictions).-->
                             </li>  
 
-                            <li>
+                           <!-- <li>
                                 In methods defined within a class, the special keyword <b>self</b> refers to the instance of the class through which the method was invoked.  (The  usage is similar in spirit  to  <a href="https://en.wikipedia.org/wiki/This_(computer_programming)" target="_blank"><b>this</b> in C++.</a>
-                            </li> 
+                            </li> -->
                             <li> 
                                 The methods defined in a class may have parameters as well as local variables.  The syntax and semantics rules are similar to other ExpL functions. 
                                  However, there are some important differences:
-                          <ol>
+                          <ol list-style-type="none">
 
                             <li> 
-                                <b>Methods</b> of a class, apart from its arguments and local variables,<b> have access only to the member fields of the corresponding class.</b>
+                                5a) <b>Methods</b> of a class, apart from its arguments and local variables,<b> have access only to the member fields of the corresponding class.</b>
                             </li>
 
                             <li>
-                                <b>A method can invoke only functions defined previously in the same class, or functions inherited from its parent class or methods of class variables occuring as member fields of the class.</b> However,<b> recursive calls to the same function are permitted.</b>
+                                5b) <b>A method can invoke only functions defined previously in the same class, or functions inherited from its parent class or methods of class variables occuring as member fields of the class.</b> However,<b> recursive calls to the same function are permitted.</b>
                             </li>
+
+                             <p>
+                                 (These two restrictions not only aids single pass compilation,  but also avoid issues like the <a href="https://en.wikipedia.org/wiki/Fragile_base_class" target="_blank"> <i>fragile base class problem</i></a>.)  
+                        </p>
                             </ol>
                             </li>
                          </ol>
@@ -151,9 +156,7 @@
 
                         </p>
 
-                        <p>
-                                 (These two restrictions not only aids single pass compilation,  but also avoid issues like the <a href="https://en.wikipedia.org/wiki/Fragile_base_class" target="_blank"> <i>fragile base class problem</i></a>.)  
-                        </p>
+                       
 
                          <p>
                                 To put in short 
