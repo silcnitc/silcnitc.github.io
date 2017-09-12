@@ -118,7 +118,7 @@
 
                          <ol type="a">
                             <li> 
-                                <b>The member fields of a class may only be of type integer, string or user defined types (and not variables of other classes).</b>   Thus the language supports <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank"><i>Inheritance but not Composition</i>.</a>
+                                <b>The member fields of a class may only be of type integer, string or user defined types (and not variables of other classes).</b>   Thus the language supports <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank"><i>Inheritance, but not Composition</i>.</a>
                             </li> 
                             <li> 
                                 <b>Member fields of a class are private to the class</b> in the sense that they can be accessed only by the methods defined in the class.  The language does not permit <i>access modifiers</i> like <a href="https://en.wikipedia.org/wiki/Access_modifiers" target="_blank"><b>public</b> or <b>protected</b>.</a> 
@@ -128,15 +128,11 @@
                             </li>  
 
                             <li>
-                                In methods defined within a class, the special keyword <b>self</b> refers to the instance of the class through which the the function was invoked.  (The  usage is similar in spirit  to  <a href="https://en.wikipedia.org/wiki/This_(computer_programming)" target="_blank"><b>this</b> in C++.</a>
+                                In methods defined within a class, the special keyword <b>self</b> refers to the instance of the class through which the method was invoked.  (The  usage is similar in spirit  to  <a href="https://en.wikipedia.org/wiki/This_(computer_programming)" target="_blank"><b>this</b> in C++.</a>
                             </li> 
                             <li> 
                                 The methods defined in a class may have parameters as well as local variables.  The syntax and semantics rules are similar to other ExpL functions. 
-                            </li>
-                         </ol>
-                        </p>
-                        <p>
-                            However, there are some important differences:
+                                 However, there are some important differences:
                           <ol>
 
                             <li> 
@@ -147,6 +143,11 @@
                                 <b>A method can invoke only functions defined previously in the same class, or functions inherited from its parent class or methods of class variables occuring as member fields of the class.</b> However,<b> recursive calls to the same function are permitted.</b>
                             </li>
                             </ol>
+                            </li>
+                         </ol>
+                        </p>
+                        <p>
+                           
 
                         </p>
 
