@@ -93,16 +93,16 @@
                     </article>
                     <article class="grid col-full" id="nav-stage1">
                         <h2>Stage 1 : Code generation for Arithmetic Expressions</h2>
-                        <p>                        
+                        <p>
                             <b>Prerequisites</b>:<br/>
                             <ul>
-                                <li id="otis">1.  You must be comfortable with LEX and YACC.  ( If you are not, you must first do <a href="lex.html" target="_blank">LEX</a> tutorial, <a href="yacc.html" target="_blank">YACC</a> Tutorial and <a href="ywl.html" target="_blank">Using Lex with Yacc</a> tutorials.)</li>   
+                                <li id="otis">1.  You must be comfortable with LEX and YACC.  ( If you are not, you must first do <a href="lex.html" target="_blank">LEX</a> tutorial, <a href="yacc.html" target="_blank">YACC</a> Tutorial and <a href="ywl.html" target="_blank">Using Lex with Yacc</a> tutorials.)</li>
                                 <li id="otis">2.  You must have completed the <a href="xsm-environment-tut.html" target="_blank">XSM environment tutorial</a> before staring this stage.</li>
                             </ul>
                         </p>
-                        <p>                        
+                        <p>
                             <b>Learning Objectives</b>:<br/>
-                            <p>In this stage, you will:</p>  
+                            <p>In this stage, you will:</p>
                             <ul>
                                 <li id="otis">1.  Parse an input  arithmetic expression and create an expression tree using YACC and LEX.</li>
                                 <li id="otis">2.  Recursively traverse the tree and generate assembly language code.  The allocation of registers for storing results of intermediate computations will be handled enroute.</li>
@@ -110,24 +110,24 @@
                             <hr>
                         </p>
                         <p>
-                            The strategy of the roadmap is to help you build the compiler in stages.  We start here by building a compiler for simple arithmetic expressions. In subsequent stages, we will add features of the language one by one, learning the relevant theoretical concepts along the way. 
+                            The strategy of the roadmap is to help you build the compiler in stages.  We start here by building a compiler for simple arithmetic expressions. In subsequent stages, we will add features of the language one by one, learning the relevant theoretical concepts along the way.
                         </p>
                         <p>
-                            In this stage, you will implement a very simple compiler that can take an arithmetic expression as input (from some input file)  and generate a target executable file containing XSM instructions to evaluate the expression and output the result.  
+                            In this stage, you will implement a very simple compiler that can take an arithmetic expression as input (from some input file)  and generate a target executable file containing XSM instructions to evaluate the expression and output the result.
                         </p>
                         <p>
-                            We assume that you have implemented the library routine for handling console output, which you were asked to do in the <a href="xsm-environment-tut.html" target="_blank">XSM execution environment tutorial</a>.  
+                            We assume that you have implemented the library routine for handling console output, which you were asked to do in the <a href="xsm-environment-tut.html" target="_blank">XSM execution environment tutorial</a>.
                         </p>
-                        <p>                            
+                        <p>
                             Consider arithmetic expressions with the following syntax.
                             <div class="syntax">
-                                E :  E + E | (E) | NUM  
+                                E :  E + E | (E) | NUM
                             </div>
-                            Where the <a href="lex.html#navyytext" target="_blank">lexeme</a> <b>NUM</b> correspond to integers.  Assume left <a href="yacc.html#associativity" target="_blank">associativity</a>  for '+'. Thus, the <a href="lex.html#token" target="_blank">tokens</a> relevant are NUM and +. The attribute value associated with a number is the number read.  Assume that the input file is passed as argument to the main() function in YACC.  
+                            Where the <a href="lex.html#navyytext" target="_blank">lexeme</a> <b>NUM</b> correspond to integers.  Assume left <a href="yacc.html#associativity" target="_blank">associativity</a>  for '+'. Thus, the <a href="lex.html#token" target="_blank">tokens</a> relevant are NUM and +. The attribute value associated with a number is the number read.  Assume that the input file is passed as argument to the main() function in YACC.
                         </p>
                         <p>
                             The lexer must pack the attribute into a tree node of the following structure:
-                           <div class="syntax">         
+                           <div class="syntax">
                             typedef struct tnode{<br>
                             &emsp;int val;
                             &emsp;char *op;           //indicates the name of the operator for a non leaf node<br>
@@ -143,7 +143,7 @@
                             <br/>
                             /*Make a tnode with operator, left and right branches set*/<br/>
                             struct tnode* makeOperatorNode(char op,struct tnode *l,struct tnode *r);
-                            </div>  
+                            </div>
                         </p>
                         <p>
                             <b>Task 1</b>:  Build the expression tree for the given input.<br>
@@ -153,7 +153,7 @@
                         <p>
                             (Note:  You would have already completed this task if you have done the <a href="ywl.html" target="_blank"> Using Yacc With Lex tutorial </a>).
                         </p>
-                        <p>    
+                        <p>
                             Now, comes the next task - to generate assembly language program equivalent for the expression and write it out into an executable file in the XEXE format.  Once this is done, you can use the simulator to load the XEXE file into the memory of the XSM machine and execute it as outlined in the <a href="xsm-environment-tut.html" target="_blank"> XSM run time environment tutorial</a>.
                         </p>
 
@@ -161,9 +161,9 @@
                             To do this, one needs to know the following:<br>
                             <ul>
                                 <li id="otis">1. The <a href="abi.html#nav-XSM-instruction-set" target="_blank">machine model and the instruction set</a> of the target machine.</li>
-                                
+
                                 <li id="otis">2. Format of the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> executable file</a>.</li>
-                                
+
                                 <li id="otis">3. You need to know the address in the memory (in the target machine) where each instruction you generate will be loaded (by the OS loader). This is because program control instructions like JMP, CALL etc.,  requires specification of the jump address.
                             </p>
                             <p>
@@ -171,11 +171,11 @@
 
                                 <li id="otis">4. You need to fix the memory addresses where variables and other data is stored. For example, for each variable in the program, the compiler will have to allocate storage space in memory. The ABI stipulates that the region for this is the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> stack region</a>. Thus each variable must be stored in some address between 4096 and 5119.</li>
 
-                                <li id="otis">5. Since XSM machine stipulates that arithmetic and logic instructions can be done only when operands are loaded into machine registers, we need to load the contents of variables/constants in the program into the machine registers before processing them. This brings in the problem of register allocation. The XSM machine makes available 20 registers (R0-R19) for the compiler.</li>   
+                                <li id="otis">5. Since XSM machine stipulates that arithmetic and logic instructions can be done only when operands are loaded into machine registers, we need to load the contents of variables/constants in the program into the machine registers before processing them. This brings in the problem of register allocation. The XSM machine makes available 20 registers (R0-R19) for the compiler.</li>
                             </ul>
                         </p>
                         <p>
-                            Of the above, the XSM execution environment tutorial has already explained (1) and (2). Evaluation of expressions do not involve either storage allocation or program control transfer (JMP). Hence, we will not take up (3) and (4) at this stage. However, we need to solve (5) now. 
+                            Of the above, the XSM execution environment tutorial has already explained (1) and (2). Evaluation of expressions do not involve either storage allocation or program control transfer (JMP). Hence, we will not take up (3) and (4) at this stage. However, we need to solve (5) now.
                         </p>
                         <p><h3>What must be the evaluation strategy?</h3></p>
                         <p>
@@ -193,8 +193,8 @@
                                 <li id="otis">3.  ADD R0, R1.</li>
                             </ul>
                         </p>
-                        <p>               
-                            The result will be stored in R0 and is sufficient for us. To generate code for the above tasks and write it into a target_file, you must write code as:  
+                        <p>
+                            The result will be stored in R0 and is sufficient for us. To generate code for the above tasks and write it into a target_file, you must write code as:
 
                         <div class="syntax">
                             fprintf(target_file, "MOV R0, 3");<br>
@@ -208,7 +208,7 @@
                             <img src="img/tree2.png">
                         </p>
                         <p>
-                            Of course, we can “hand craft” this case also.  But the strategy will not generalize. The basic issue is that your compiler does not know the input expression before-hand.  Technically speaking, the issue is that the “expression is not available at <b>compile time</b>, but only known at <b>run time</b>”. Your code generation module must be more <i>"intelligent"</i> to handle <i>arbitrary expressions</i>.  
+                            Of course, we can “hand craft” this case also.  But the strategy will not generalize. The basic issue is that your compiler does not know the input expression before-hand.  Technically speaking, the issue is that the “expression is not available at <b>compile time</b>, but only known at <b>run time</b>”. Your code generation module must be more <i>"intelligent"</i> to handle <i>arbitrary expressions</i>.
                         </p>
                         <p>
                             The root of the problem with the above code is that R0 and R1 were picked by you and not by your compiler. Thus, we must have a <b>register assignment policy</b> (basically a function) that returns a free register whenever we require one. That is, you must design the following functions:
@@ -216,33 +216,33 @@
                         <div class="syntax">
                             int getReg()   //  Allocate a free register
                         </div>
-                        
+
                         <p>
                             That returns the register number of an unallocated register, so that your code for adding 3 and 2 would look like:
                         </p>
 
                         <div class="syntax">
                             int p = getReg();<br>
-                            int q = getReg();<br>    
+                            int q = getReg();<br>
                             fprintf(target_file, “MOV R%d, 3”, p);<br>
                             fprintf(target_ file, “MOV R%d, 2”, q);<br>
                             fprintf(target_file, “ADD R%d, R%d,”, p,q);<br>
                         </div>
 
                         <p>
-                            In addition to allocating registers, you must also have mechanism to <b>release a register</b> back into the register pool. In the above example, after the ADD instruction is generated R1 can be released and send back to the register pool.    
+                            In addition to allocating registers, you must also have mechanism to <b>release a register</b> back into the register pool. In the above example, after the ADD instruction is generated R1 can be released and send back to the register pool.
                         </p>
 
                         <p>
                             For this purpose, you will write a function
                         </p>
-                        
+
                         <div class="syntax">
-                            freeReg() //  Releases a register.  
+                            freeReg() //  Releases a register.
                         </div>
-                        
+
                         <p>
-                            To make the allocation  strategy simple,  we suggest that you  generate target code in such a way that  <i>the result of a CPU instruction involving two registers will be always stored in the register with lower index</i>. In the code above the result of the computation is kept in R0 and not R1 so that the register with the higher index value can be released. As a consequence, the freeReg() function does not require any arguments. Instead, freeReg() and getReg() can be designed to keep track of the highest numbered register allocated so far and hence can keep track of the correct register that must be allocated or freed.   
+                            To make the allocation  strategy simple,  we suggest that you  generate target code in such a way that  <i>the result of a CPU instruction involving two registers will be always stored in the register with lower index</i>. In the code above the result of the computation is kept in R0 and not R1 so that the register with the higher index value can be released. As a consequence, the freeReg() function does not require any arguments. Instead, freeReg() and getReg() can be designed to keep track of the highest numbered register allocated so far and hence can keep track of the correct register that must be allocated or freed.
                         </p>
                         <p>
                             The following summarizes the register allocation strategy:
@@ -252,7 +252,7 @@
 
                             2.  Whenever we free a register, always release the highest used register that was allocated previously. (Thus, if R0, R1 and R2 were allocated, freeReg() must release R2).
                         </div>
-                        
+
                         <p>
                             Finally, we must design a code generation module.  The strategy here is to start with an expression tree and do the following:
                         </p>
@@ -267,34 +267,34 @@
                         </div>
 
                         <p>
-                            In the above box, as step 2.a and 2.b requires finding the index of the register which stores the result of expression evaluation. The simplest strategy is to <b>design a codeGen() function that can take as input an expression tree and generates code for the expression, returning the index of the register storing the result</b>:  
+                            In the above box, as step 2.a and 2.b requires finding the index of the register which stores the result of expression evaluation. The simplest strategy is to <b>design a codeGen() function that can take as input an expression tree and generates code for the expression, returning the index of the register storing the result</b>:
                         </p>
                         <div class="syntax">
-                            #define reg_index int;<br>  
+                            #define reg_index int;<br>
                             reg_index codeGen( struct node *t) {<br>
                             &emsp;..<br>
                             &emsp;..<br>
-                            &emsp;return register number storing result<br>   
+                            &emsp;return register number storing result<br>
                             }
                         </div>
                         <p>
                             The codeGen() function takes as input a pointer to the root of an expression tree and generates code for the subtree rooted at that node. After generating code, the function must return the index of the register storing the result. See this <a href="codegen.html" target="_blank">link</a> for furthur details.
                         </p>
                         <p>
-                            <b>Task 2</b>: Complete the simple compiler for expression evaluation and generate the executable file. The result of expression evaluation may be stored in the first location of the stack region – memory address 4096. This value may be printed out using the write system call. Note that the XEXE executable format must be adhered so that the XSM simulator can load and execute the file.   
+                            <b>Task 2</b>: Complete the simple compiler for expression evaluation and generate the executable file. The result of expression evaluation may be stored in the first location of the stack region – memory address 4096. This value may be printed out using the write system call. Note that the XEXE executable format must be adhered so that the XSM simulator can load and execute the file.
                         </p>
                         <p>
                             <b>Note</b>:  To run the simulator, you must prepare the library.lib together with the XEXE executable file.  Please follow instructions in the <a href="xsm-environment-tut.html" target="_blank">XSM environment tutorial</a>.
                         </p>
                         <p>
-                            <b>Exercise 2</b>:  Modify the grammar to 
-                            <div class="syntax">E :  E + E | E*E | E-E| E/E | (E) | NUM</div>  Assume standard rules of precedence and associativity. 
+                            <b>Exercise 2</b>:  Modify the grammar to
+                            <div class="syntax">E :  E + E | E*E | E-E| E/E | (E) | NUM</div>  Assume standard rules of precedence and associativity.
                         </p>
                         <p>
                             <b>Exercise 3</b>:  Redo Exercise 2 assuming that the input expression is given in prefix from.
                         </p>
                         <p>
-                            <b>Note:</b> Here we assumed that machine registers never get exhausted. XSM provides 20 general purpose registers and these registers are sufficient for all practial purposes.  However, if all registers are exhausted, then space will have to be allocated in memory.  We will not address this contingency in this roadmap. If register pool is exhausted, your compiler may stop compilation and flag "Out of registers"  error.  
+                            <b>Note:</b> Here we assumed that machine registers never get exhausted. XSM provides 20 general purpose registers and these registers are sufficient for all practial purposes.  However, if all registers are exhausted, then space will have to be allocated in memory.  We will not address this contingency in this roadmap. If register pool is exhausted, your compiler may stop compilation and flag "Out of registers"  error.
                         </p>
                         <div class="up column3 mright">
                             <a href="#navtop">  &#x2191; </a>
@@ -307,7 +307,7 @@
                             <ul>
                                 <li id="otis">1.  You must be comfortable with LEX and YACC.  (If you are not, you must first do <a href="lex.html" target="_blank"> LEX tutorial</a>, <a href="yacc.html" target="_blank">YACC Tutorial</a> and <a href="ywl.html" target="_blank"> YACC+LEX tutorial</a>.)</li>
                                 <li id="otis">2.  You must have completed the <a href="xsm-environment-tut.html" target="_blank">XSM environment tutorial</a> before starting this stage.</li>
-                            </ul>  
+                            </ul>
                         </p>
                         <p>
                             <b>Learning Objectives</b> :
@@ -330,24 +330,24 @@
                                 OutputStmt ::== WRITE(E);<br>
                                 <br>
                                 AsgStmt ::==  ID = E;<br>
-                            </div> 
+                            </div>
                             Apart from the <a href="lex.html" target="_blank">literal tokens</a>, BEGIN, END, READ, and WRITE are tokens corresponding to keywords "begin", "end", "read" and "write".  ID is a token for variables.  We will permit only variables [a-z] in this stage.
                          </p>
                          <p>
                             To support variables to appear in expressions, you must add the rule <b>E := ID</b> to the expression syntax used in Stage 1. The above syntax defines a small programming language that permits just straight line programs (programs without conditionals, loops, jumps or such control transfer constructs). There are only 26 pre-defined variables that are supported – a, b,c,..,z. A typical program would look like:
                             <div class="syntax">
                                 begin<br>
-                                &emsp;read (a);<br>  
+                                &emsp;read (a);<br>
                                 &emsp;read (b);<br>
                                 &emsp;d = a + 2 * b;<br>
                                 &emsp;write (a+d);<br>
-                                end;   
+                                end;
                             </div>
                          </p>
                          <p>
                             We will assume that variables can store only integers. Handling variables of multiple types will be taken up in subsequent stages.
                         </p>
-                        <p>  
+                        <p>
                             A conceptual point to note here is that apart from the addition of variables, the extended language now has two kinds of constructs – expressions and <b>statements</b>. While an expression evaluates to a value (in this case, we limit ourselves to integer expressions), a statement commands the execution of some action by the machine. For example, the statement <i>read(a);</i> instructs the action of reading a variable from the console into a variable a. <i>write(a+d);</i> instructs evaluation of the expression (a+d) and printing the result into the console output.
                         </p>
                         <p>
@@ -356,7 +356,7 @@
                         <p>
                             In the present case, the compiler can fix the address for each variable in memory right at the time of program compilation. Since the ABI stipulate that storage allocation must be done in the stack region, we can pre-allocate the first 26 memory locations in the stack region of <a href="abi.html#nav-virtual-address-space-model" target="_blank">memory</a> for the variables a-z. Thus, variable <i>a</i> will refer to contents of address 4096, <i>b</i> to contents of address 4097 and so on. Any time the compiler encounters the variable – say <i>a</i>, the address to be looked at is fixed – in this case 4096. Such allocation policy is called <b>static allocation</b>. In later stages you will encounter situations where it will not be possible for the compiler to fix memory address of a variable at compile time. This leads to <b>run time</b> and <b>dynamic memory allocation</b> policies. For now, we will be content with static allocation.
                         </p>
-                        <p> 
+                        <p>
                             To implement the above, your compiler must:
                             <ul>
                                 <li id="otis">1. Fix the storage location for each variable. As noted above, the first 26 locations of the stack region starting at address 4096 may be assigned for a to z. Note that the XSM machine can store an integer in a single memory location. Hence, for each variable we need to allocate only 1 memory word. Note that "allocation" here means that while generating code, the compiler assumes that the variable a is stored in location 4096, b in location 4097 and so forth.</li>
@@ -383,14 +383,14 @@
                             </ul>
                         </p>
                         <p>
-                            This leads to the definition of the following node structure:  
+                            This leads to the definition of the following node structure:
                             <script src="js/dd1979bba5d35250a0c9419520a6b5b8.js"></script>
                         </p>
                         <p>
                             <b>Task 1</b> : Use Yacc and Lex to generate abstract syntax tree representation of a program. A file containing the source program will be input to your program.
                         </p>
                         <p>
-                            Thus, after parsing, we use the syntax directed translation scheme of YACC to construct an intermediate representation – namely, the abstract syntax tree. This phase of compilation is sometimes called the <b>front end</b> of the compiler. The next step is to recursively traverse the expression tree to generate executable code.  This is typically called the <b>back end</b>. The output of the front end is generally a <b>machine independent intermediate representation</b> like the AST. The back end of course will be dependent on the target platform.  
+                            Thus, after parsing, we use the syntax directed translation scheme of YACC to construct an intermediate representation – namely, the abstract syntax tree. This phase of compilation is sometimes called the <b>front end</b> of the compiler. The next step is to recursively traverse the expression tree to generate executable code.  This is typically called the <b>back end</b>. The output of the front end is generally a <b>machine independent intermediate representation</b> like the AST. The back end of course will be dependent on the target platform.
                         </p>
                         <p>
                             <b>Task 2</b> : Modify CodeGen() function of Stage 1 to generate code for the abstract syntax tree generated as Task 1 above.
@@ -399,7 +399,7 @@
                             In the next stage, we will see how program control instructions like if-then-else can be incorporated into the language.
                         </p>
                         <p>
-                            <b>Note</b> : An abstract syntax tree is an <a href="https://en.wikipedia.org/wiki/Intermediate_representation" target="_blank">intermediate representation</a> of the source program in a tree form suitable for code generation. There are several other forms of intermediate representations like the three address code form, the static single assignment form etc. This roadmap will be based on the abstract syntax tree representation.   
+                            <b>Note</b> : An abstract syntax tree is an <a href="https://en.wikipedia.org/wiki/Intermediate_representation" target="_blank">intermediate representation</a> of the source program in a tree form suitable for code generation. There are several other forms of intermediate representations like the three address code form, the static single assignment form etc. This roadmap will be based on the abstract syntax tree representation.
                         </p>
                         <p>
                             In commercial strength compilers, the source is first translated to intermediate forms like the three address form which is a <b>lower level representation</b> (that is the intermediate form is closer to machine code) than the AST. Typically machine independent <a href="https://en.wikipedia.org/wiki/Optimizing_compiler" target="_blank">code optimizations</a> are performed on the intermediate code and only then the back-end code generation is run. This step is followed by another set of machine dependent code optimizations before the target file is finally generated. As these issues are beyond the scope of our project, we will not dwell into these matters further in this roadmap.
@@ -407,7 +407,7 @@
                         <p>
                             <b>Exercise 1</b> : Build an <b>evaluator</b> for the program. (Hint: Your front end does not change. But, instead of generating code from the AST, you can recursively "evaluate" it. For storage allocation of variables, you can simply declare an array that can store 26 integers and allocate one entry for each variable).
                         </p>
-                        <p>  
+                        <p>
                             <b>Note</b> : The compiler generates target code which must be executed by the target machine. In our case, the compiler you wrote as Task 2 actually is a <b>cross compiler</b>. This means that your compiler generated target code that is not for your host system, but on some other target platform – which in our case the simulated XSM machine. The evaluator done in Exercise 1 actually does not generate "code" for any machine. Instead, it executes the program in "then and there". Such a program could be classified as an <b>interpreter</b>. (Unfortunately, the standard terminology in literature associated with the term "interpreter" seems to be contradictory to this classification).
                         </p>
                         <div class="up column3 mright">
@@ -415,9 +415,9 @@
                         </div>
                     </article>
                     <article class="grid col-full" id="nav-stage3">
-                        <h2>Stage 3:  Adding Flow Control Statements</h2>  
+                        <h2>Stage 3:  Adding Flow Control Statements</h2>
                         <p>
-                            <b>Prerequisite</b>:  You must read the  <a href="label-translation.html" target="_blank">label translation tutorial</a> before proceeding with this stage.    
+                            <b>Prerequisite</b>:  You must read the  <a href="label-translation.html" target="_blank">label translation tutorial</a> before proceeding with this stage.
                         </p>
                         <p>
                             <b>Learning Objectives</b>:
@@ -430,21 +430,21 @@
                             The if-then-else and the while-do constructs can be added to the source language of Stage 2 by adding the grammar rule:
                             <div class="syntax">
                                 Ifstmt ::=  IF (E) then Slist Else Slist ENDIF<br>
-                                &emsp;&emsp;&emsp;&emsp;&emsp;| IF (E) then Slist ENDIF;  
+                                &emsp;&emsp;&emsp;&emsp;&emsp;| IF (E) then Slist ENDIF;
                                 <br>
                                 Whilestmt ::= WHILE (E) DO Slist ENDWHILE;<br>
                             </div>
                             To permit logical expressions, we need to add to the grammar the following productions:
                             <div class="syntax">
                                 E ::= E &lt; E  |  E &gt; E  |  E &lt; =E  |  E &gt;= E  |  E != E  |  E == E;<br>
-                            </div>    
+                            </div>
                             A simple program in this language to find the largest among three numbers would look like the following:
                             <div class="syntax">
                                 &emsp;read(a);<br>
                                 &emsp;read(b);<br>
                                 &emsp;read(c);<br>
-                                &emsp;if (a &lt; b) then<br> 
-                                &emsp;&emsp;if (b &lt; c) then Write(c);  else Write(b); endif; <br> 
+                                &emsp;if (a &lt; b) then<br>
+                                &emsp;&emsp;if (b &lt; c) then Write(c);  else Write(b); endif; <br>
                                 &emsp;else<br>
                                 &emsp;&emsp;if (a &lt; c) then Write(c); else Write(a); endif; <br>
                                 &emsp;endif; <br>
@@ -455,9 +455,9 @@
                             There is one important conceptual point to understand here before proceeding to the front end implementation.  With the introduction of logical expressions, there are two <b>types</b> of expressions in the language – <b>arithmetic expressions</b> and <b>logical expressions</b>. An arithmetic expression evaluates to an integer value whereas a logical expression evaluates to a <b>boolean value</b> – that is true/false.
                         </p>
                         <p>
-                            The guard of an if-else statement or a while-do statement must be a boolean expression.  On the other hand, the expression on the right side of an assignment statement must be of integer type as variables are assumed to hold integer values only. In other words, the statements given below are <b>invalid</b>. 
+                            The guard of an if-else statement or a while-do statement must be a boolean expression.  On the other hand, the expression on the right side of an assignment statement must be of integer type as variables are assumed to hold integer values only. In other words, the statements given below are <b>invalid</b>.
                             <div class="syntax">
-                                if (a+b) then Write(c);<br>  
+                                if (a+b) then Write(c);<br>
                                 &emsp;&emsp;OR<br>
                                 a = b &lt; c;<br>
                             </div>
@@ -472,7 +472,7 @@
                             For example, consider the AST for the following erratic expression.
                             <div class="syntax">
                                 d = ( a + b ) + ( c &lt; 3 )
-                            </div>  
+                            </div>
                             <p>
                                <img src="img/ast3.png">
                             </p>
@@ -481,16 +481,16 @@
                             Here, the root of the AST is an assignment node which is <b>typeless</b>. (statements have no type, only expressions have a type associated with them). The left subtree of the root is a variable, and hence has type integer. The right subtree is a  <b>+</b>  node of type integer. Hence, at the root, there is no type mismatch. However, the right child of the right subtree has type boolean and does not match the operand type for the + operator. Hence the compiler must terminate compilation flagging error "type mismatch". Note that the compiler can stop processing when the first error is encountered without proceeding further with the tree construction.
                         </p>
                         <p>
-                            To implement type checking, add a type field in the AST node structure.  
+                            To implement type checking, add a type field in the AST node structure.
                             <script src="js/09129e56138b0207d595eaefbf2873cd.js"></script>
                             At the leaf nodes of the tree, since you have either constants or variables, the type must be set to integer. Next, while constructing the tree for intermediate nodes, check whether the types of the children are compatible with the operator at the root. For instance, for the addition operation, the check could be as the following:
-                            <div class="syntax"> 
-                            E :== E+E {<br>       
+                            <div class="syntax">
+                            E :== E+E {<br>
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;if (($1->type != inttype) || ($2->type != inttype)) {<br>
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;error("type mismatch"); <br>
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;exit();<br>
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;} else {<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$$->type = inttype); <br>  
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;$$->type = inttype); <br>
                             &emsp;&emsp;&emsp;&emsp;}<br>
                             </div>
                         </p>
@@ -501,23 +501,23 @@
                             <li id="otis">
                                 <b>Note</b>:  The above check is better done inside the TreeCreate() function so that the YACC file is not cluttered with C statements.
                             </li>
-                        </p>  
-                        <p>
-                            The essential idea is that the type of each node can by synthesized from the types of the subtrees. At any stage, the compiler may terminate flagging error if a type error is found.  
                         </p>
                         <p>
-                            <b>Task 1</b>:  Complete the front-end module (AST construction) for the programming language. You need to 
+                            The essential idea is that the type of each node can by synthesized from the types of the subtrees. At any stage, the compiler may terminate flagging error if a type error is found.
+                        </p>
+                        <p>
+                            <b>Task 1</b>:  Complete the front-end module (AST construction) for the programming language. You need to
                             <ul>
-                                <li id="otis">(1) add additional lexical tokens for the new constructs</li>  
+                                <li id="otis">(1) add additional lexical tokens for the new constructs</li>
                                 <li id="otis">(2) make appropriate modifications in the tree node structure including provision for storing type attribute</li>
                                 <li id="otis">(3) modify the TreeCreate() function to have three subtrees passed (for if-then-else) etc.</li>
                             </ul>
                         </p>
                         <p>
-                            <b>Exercise 1</b>:  To test the implementation of Task 1, implement an <b>evaluator</b> for the expression tree.  Test with simple programs like those for finding the largest of 3 numbers, sum of n numbers (n read from input) etc.  
+                            <b>Exercise 1</b>:  To test the implementation of Task 1, implement an <b>evaluator</b> for the expression tree.  Test with simple programs like those for finding the largest of 3 numbers, sum of n numbers (n read from input) etc.
                         </p>
                         <p>
-                            The next task is to complete the back-end code generation phase.  For better clarity, we will split the task into two steps.  
+                            The next task is to complete the back-end code generation phase.  For better clarity, we will split the task into two steps.
                         </p>
                         <p>
                             <ul>
@@ -565,7 +565,7 @@
                             Our strategy here is to first generate code with labels and then replace the labels with addresses. To implement the plan, we may name labels in the program L0, L1,.... We must design an <i>int GetLabel()</i> function that returns the index of the next unused label.  Thus the first call to <i>GetLabel()</i> returns 0, next call returns 1 and so forth.
                         </p>
                         <p>
-                            The code generation strategy for the while-do statement is illustrated by the following pseudo-code.  
+                            The code generation strategy for the while-do statement is illustrated by the following pseudo-code.
                             <div class="syntax">
                                 int label_1 = getLabel();<br>
                                 int label_2 = getLabel();<br>
@@ -581,7 +581,7 @@
                             <b>Task 2</b>:  Complete the code generation with labels for while-do, if-then and if-then-else constructs.
                         </p>
                         <p>
-                            Now, we must complete Step 2 of replacing the labels with the correct addresses. This is explained in the <a href="label-translation.html" target="_blank">label translation documentation</a>.  
+                            Now, we must complete Step 2 of replacing the labels with the correct addresses. This is explained in the <a href="label-translation.html" target="_blank">label translation documentation</a>.
                         </p>
                         <p>
                             <b>Task 3</b>: Read the link specified above and complete the label translation for  if-then, if-then-else and the while-do statement.
@@ -594,13 +594,13 @@
                             </ul>
                         </p>
                         <p>
-                            <b>Task 4</b>: Add <b>break</b> and <b>continue</b> statements.  Code for these statements need be generated only if they appear inside some while loop.  Otherwise, the compiler may simply ignore these statements, generating no code.  (The primary task is to keep track of which label to jump to when one of these statements is encountered).  
+                            <b>Task 4</b>: Add <b>break</b> and <b>continue</b> statements.  Code for these statements need be generated only if they appear inside some while loop.  Otherwise, the compiler may simply ignore these statements, generating no code.  (The primary task is to keep track of which label to jump to when one of these statements is encountered).
                         </p>
                         <p>
                             <b>Exercise</b> : Add <i>repeat-until</i> and <i>do-while</i> statements to the language with standard semantics.
                         </p>
                         <p>
-                            <b>Note</b>:  Often in practice, programming languages allow a program to be split into different functions, written in different source files. In such cases, each file is separately compiled and the compiler generates target code with labels without translating them into addresses.  Even variable references will be symbolic and the actual addresses may not be determined.  Such target files are called <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank">object files</a>.  The compiler will include symbol table information in the object file for translation later.  A separate software called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> will collect the information in all the symbol tables and combine the object files into a single executable file replacing labels and symbolic variable references with actual addresses.  
+                            <b>Note</b>:  Often in practice, programming languages allow a program to be split into different functions, written in different source files. In such cases, each file is separately compiled and the compiler generates target code with labels without translating them into addresses.  Even variable references will be symbolic and the actual addresses may not be determined.  Such target files are called <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank">object files</a>.  The compiler will include symbol table information in the object file for translation later.  A separate software called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> will collect the information in all the symbol tables and combine the object files into a single executable file replacing labels and symbolic variable references with actual addresses.
                         </p>
                         <div class="up column3 mright">
                             <a href="#navtop">  &#x2191; </a>
@@ -610,7 +610,7 @@
                         <h2>Stage 4:  User Defined Variables and arrays</h2>
                         <p>
                             <b>Learning Objectives</b>:<br>
-                            You will extend the language of Stage 3 to permit users to declare and use variables of <i>integer</i> and <i>string</i> types. You will learn <b>symbol table</b> management enroute. 
+                            You will extend the language of Stage 3 to permit users to declare and use variables of <i>integer</i> and <i>string</i> types. You will learn <b>symbol table</b> management enroute.
                             <hr>
                         </p>
                         <p>
@@ -628,25 +628,25 @@
                             </div>
                         </p>
                         <p>
-                            We will assume hereafter that all variables used in a program must be <b>declared</b> in the declaration section of the program (between the <i>decl</i> and <i>enddecl</i> keywords). Since string type variables are allowed, we will allow string constants as well.  (See <a href="expl.html#nav-constant">ExpL specification</a> for details). 
+                            We will assume hereafter that all variables used in a program must be <b>declared</b> in the declaration section of the program (between the <i>decl</i> and <i>enddecl</i> keywords). Since string type variables are allowed, we will allow string constants as well.  (See <a href="expl.html#nav-constant">ExpL specification</a> for details).
                         </p>
                         <p>
-                            A simple program in this language to find the sum of numbers entered from the console (until a zero is entered) would look like the following: 
+                            A simple program in this language to find the sum of numbers entered from the console (until a zero is entered) would look like the following:
                             <div class="syntax">
                             decl<br>
-                            &emsp;&emsp;int num, sum;<br>  
+                            &emsp;&emsp;int num, sum;<br>
                             &emsp;&emsp;str mesg;<br>
                             enddecl<br><br>
                             read(num);<br>
-                            sum = 0;<br>   
-                            while (num != 0) do<br>          
-                            &emsp;&emsp;sum = sum + num;<br>  
-                            &emsp;&emsp;read(num);<br>  
-                            endwhile;<br>  
-                            write("sum is:");<br>  
-                            write(sum);<br>  
+                            sum = 0;<br>
+                            while (num != 0) do<br>
+                            &emsp;&emsp;sum = sum + num;<br>
+                            &emsp;&emsp;read(num);<br>
+                            endwhile;<br>
+                            write("sum is:");<br>
+                            write(sum);<br>
                             mesg = "good bye";<br>
-                            write(mesg);<br>  
+                            write(mesg);<br>
                             </div>
                         </p>
                         <p>
@@ -666,37 +666,37 @@
                             </ul>
                         </p>
                         <p>
-                            The first three entries are determined by the declaration of the variable. For the fourth, a simple strategy would be to allocate the first address (4096) for the variable declared first, 4097 for the next variable and so on. Note that here too we are fixing the address of each variable at compile time (<b>static allocation</b>). 
+                            The first three entries are determined by the declaration of the variable. For the fourth, a simple strategy would be to allocate the first address (4096) for the variable declared first, 4097 for the next variable and so on. Note that here too we are fixing the address of each variable at compile time (<b>static allocation</b>).
                         </p>
                         <p>
                             The following structure may be used for a symbol table entry:
                             <div class="syntax">
                                 struct Gsymbol {<br>
                                 &emsp;&emsp;char* name;&emsp;&emsp;// name of the variable<br>
-                                &emsp;&emsp;int type;&emsp;&emsp;&emsp;// type of the variable<br>     
+                                &emsp;&emsp;int type;&emsp;&emsp;&emsp;// type of the variable<br>
                                 &emsp;&emsp;int size;&emsp;&emsp;&emsp;// size of the type of the variable<br>
                                 &emsp;&emsp;int binding;&emsp;// stores the static memory address allocated to the variable<br>
-                                &emsp;&emsp;struct Gsymbol *next;<br> 
+                                &emsp;&emsp;struct Gsymbol *next;<br>
                                   <!-- ...  any other field for data structure maintainance .. -->
                                 }
                             </div>
                         </p>
                         <p>
-                            The symbol table entries for the program above would look as below:  
+                            The symbol table entries for the program above would look as below:
                             <img src="img/gsymboltable1.png">
                         </p>
                         <p>
-                            To implement the symbol table, you must write two functions.  For a simple implementation, a linear linked list suffices.  In modern compilers, hash tables are maintained to make search efficient. 
+                            To implement the symbol table, you must write two functions.  For a simple implementation, a linear linked list suffices.  In modern compilers, hash tables are maintained to make search efficient.
                         </p>
                         <p>
                             <div class="syntax">
                                 struct Gsymbol *<i>Lookup</i>(char * name);  //  Returns a pointer to the symbol table entry for the variable, returns NULL otherwise.<br>
                                 <br>
-                                void <i>Install</i>(char *name, int type, int size);  // Creates a symbol table entry.  
+                                void <i>Install</i>(char *name, int type, int size);  // Creates a symbol table entry.
                             </div>
                         </p>
                         <p>
-                            <b>Note</b>:  You must check before installing a variable whether the variable is already present.  If a variable is declared multiple times, the compiler must stop the compilation and flag error. 
+                            <b>Note</b>:  You must check before installing a variable whether the variable is already present.  If a variable is declared multiple times, the compiler must stop the compilation and flag error.
                         </p>
                         <p>
                             <b>Task 1</b>: Complete the program to parse declarations and set up the symbol table entries and print out the contents of the symbol table.
@@ -720,13 +720,13 @@
                             .<br>
                             .<br>
                             .<br>
-                            while (num != 0) do<br>          
-                            &emsp;&emsp;sum = sum + num;<br>  
-                            &emsp;&emsp;read(num);<br>  
-                            endwhile;<br>  
-                            .<br>  
-                            .<br>  
-                            .<br>   
+                            while (num != 0) do<br>
+                            &emsp;&emsp;sum = sum + num;<br>
+                            &emsp;&emsp;read(num);<br>
+                            endwhile;<br>
+                            .<br>
+                            .<br>
+                            .<br>
                             </div>
                         </p>
                         <p>
@@ -734,44 +734,44 @@
                         </p>
                         <p>
                             There is no serious change to the code generation process, except that for variables, the binding address is obtained from the symbol table.<br><br>
-                            <b>Important Note</b>:  The XSM architecture is unrealistic in that allows a memory word to hold a string.  Normally, in a real system, a string would require storing the characters one after another in consecutive memory locations as in an array.   You will anyway learn array allocation immediately.  
+                            <b>Important Note</b>:  The XSM architecture is unrealistic in that allows a memory word to hold a string.  Normally, in a real system, a string would require storing the characters one after another in consecutive memory locations as in an array.   You will anyway learn array allocation immediately.
                         </p>
                         <p>
                             <b>Task 2</b>:  Complete the AST construction and code generation steps.
                         </p>
                         <p>
-                            <h4>Adding arrays</h4>  
-                            The next step is to allow declaration of arrays like:  
+                            <h4>Adding arrays</h4>
+                            The next step is to allow declaration of arrays like:
                             <div class="syntax">
                                 decl<br>
                                 &emsp;---<br>
-                                &emsp;int a[100];<br>  
-                                &emsp;str names[20];<br> 
+                                &emsp;int a[100];<br>
+                                &emsp;str names[20];<br>
                                 &emsp;---<br>
-                                enddecl  
+                                enddecl
                             </div>
 
                             The declaration syntax must permit:
                             <div class="syntax">
                             Varlist ::= Varlist , ID[NUM] | ID[NUM]
                             </div>
-                            To implement this, for each variable, you must reserve as much static space as specified by the declaration and set the size field in the symbol table to indicate the number of words allocated.  The next variable must be allocated space only below this space allocated. 
+                            To implement this, for each variable, you must reserve as much static space as specified by the declaration and set the size field in the symbol table to indicate the number of words allocated.  The next variable must be allocated space only below this space allocated.
                         </p>
                         <p>
                             For instance, for the declaration,
                             <div class="syntax">
                                 decl<br>
-                                &emsp;&emsp;int a[10], b;<br>  
+                                &emsp;&emsp;int a[10], b;<br>
                                 enddecl
                             </div>
-                            The binding field in the symbol table for the variable a  may be set to address 4096.  The size entry set to 10.  This means that we are allocating locations 4096-5005 for the array.  The next variable, b can be bound to the address 5006.  
+                            The binding field in the symbol table for the variable a  may be set to address 4096.  The size entry set to 10.  This means that we are allocating locations 4096-5005 for the array.  The next variable, b can be bound to the address 5006.
                             <img src="img/gsymboltable2.png">
                         </p>
                         <p>
-                            <b>Task 2</b>:  Complete the implementation of single dimensional arrays.  
+                            <b>Task 2</b>:  Complete the implementation of single dimensional arrays.
                             <br><br>
-                            <b>Exercise 1</b>:  Permit two dimensional arrays like:  
-                            <div class="syntax"> int a[10][10]; </div>    
+                            <b>Exercise 1</b>:  Permit two dimensional arrays like:
+                            <div class="syntax"> int a[10][10]; </div>
                             Test your implementation with a program for multiplying two nxn matrices.
                             <br><br>
                             <b id="stage4_ex2">Exercise 2</b>:  Permit <i>pointer type</i> variables as in the following declaration as in the C programming language.
@@ -823,7 +823,7 @@
                                 &emsp;&emsp;&emsp;&emsp;&emsp;| ID(ParamList) <br>
                                 --------------------------------------------------------------------------------------
                                 <br>
-                                FDefBlock ::=  FdefBlock Fdef |  Fdef <br> 
+                                FDefBlock ::=  FdefBlock Fdef |  Fdef <br>
                                 <br>
                                 Fdef ::=Type ID ( ParamList ) { LdeclBlock Body } <br>
                                 <br>
@@ -862,7 +862,7 @@
                                 decl<br>
                                 ..<br>
                                 ..<br>
-                                &emsp;int factorial(int n);<br>  
+                                &emsp;int factorial(int n);<br>
                                 ..<br>
                                 ..<br>
                                 enddecl<br>
@@ -879,7 +879,7 @@
                             This precisely is the information that the symbol table stores.
                         </p>
                         <p>
-                            A function <b>definition</b> contains:  
+                            A function <b>definition</b> contains:
                             <ul>
                                 <li id="otis">a)  The function's signature.</li>
                                 <li id="otis">b)  The declaration of <b>local variables</b> of the function.</li>
@@ -910,7 +910,7 @@
                             The compiler needs to know the binding addresses and types of the local variables for translation of statements of the function to assembly code.  However, this information is irrelevant outside the function.
                         </p>
                         <p>
-                            To keep track of the local variable and scope information, our strategy is to keep global and local variables in different symbol tables.  We will have 
+                            To keep track of the local variable and scope information, our strategy is to keep global and local variables in different symbol tables.  We will have
                             <ul>
                                 <li id="otis">
                                     1.  A single <b>global symbol table</b> storing the <i>(name, type, size, binding)</i> information of global variables as well as <i>(name, type, parameters, binding)</i> information for functions.  The following structure is suggested for storing a global symbol table entry.
@@ -919,7 +919,7 @@
                                         <b>struct Gsymbol{</b><br>
                                         &emsp;&emsp;<b>char *name;</b>   //name of the variable or function<br>
                                         &emsp;&emsp;<b>int type;</b>     //type of the variable:(Integer / String)<br>
-                                        &emsp;&emsp;<b>int size;</b>     //size of an array<br> 
+                                        &emsp;&emsp;<b>int size;</b>     //size of an array<br>
                                         &emsp;&emsp;<b>int binding;</b>  //static binding of global variables <br>
                                         &emsp;&emsp;<b>struct Paramstruct *paramlist;</b>//pointer to the head of the formal parameter list<br>
                                           &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; //in the case of functions<br>
@@ -940,10 +940,10 @@
                                         &emsp;&emsp;<b>struct Lsymbol *next;</b>&emsp;&emsp; //points to the next Local Symbol Table entry<br>
                                         <b>};</b>
                                     </div>
-      
+
                                     <b>Note:</b> As noted in the <a href="run-data-structures.html" target="_blank">run time storage allocation</a> documentation, local variables cannot be assigned static memory addresses.  Hence, the binding of a local variable is a relative address within the function's activation record.  We will discuss this matter in detail later.
                                 </li>
-                            </ul> 
+                            </ul>
                             </p>
                         <p>
                             What is the <b>stored in flabel</b>?  When the compiler generates code for the function, a label is placed at the start of the function.  A call to the function is translated to a low-level CALL to the corresponding label.   Later, the label has to be replaced by the address  of the instruction during the <a href="label-translation.html" target="_blank">label translation phase</a>.
@@ -961,17 +961,17 @@
                             Continuing with the above example, we need two local symbol tables – one for the main function and one for the factorial function.  The local symbol table holds the (name, type, binding) triple for each <b>formal parameter</b> as well as <b>local variables</b> of the function.  We will discuss the binding of formal parameters and local variables later.  The local symbol tables of main and factorial would look as the following:
                         </p>
                         <p>
-                            <img src="img/localsymboltable2.png"> 
-                            <img src="img/localsymboltable1.png"> 
+                            <img src="img/localsymboltable2.png">
+                            <img src="img/localsymboltable1.png">
                         </p>
                         <p>
-                            See <a href="data_structures/local-symbol-table.html" target="_blank">LINK</a> for more details. For now, ignore the type table pointer in the structure given in the link.  This will be discussed in the next stage.  
+                            See <a href="data_structures/local-symbol-table.html" target="_blank">LINK</a> for more details. For now, ignore the type table pointer in the structure given in the link.  This will be discussed in the next stage.
                         </p>
-                        <p> 
+                        <p>
 
                             <div class="syntax">
                                 <b>Task 1</b>:  Complete the program to build the global symbol table.  Test your program by printing out all global declarations in the program by displaying the contents of the symbol table.  You must not permit two variables/functions (or a function and a variable) to have the same name.
-                            </div> 
+                            </div>
 
                             Our next aim is to perform semantic analysis, build the AST and then generate code. The strategy will be the following:
                             <ul>
@@ -994,9 +994,9 @@
                             The only non-trivial part about semantic analysis and AST construction pending discussion is how to build AST for a function call.
                         </p>
                         <p>
-                            We start with an example. Suppose we have the following declarations:  
+                            We start with an example. Suppose we have the following declarations:
                             <div class="syntax">
-                                int Compute(int p, int q);   <br> 
+                                int Compute(int p, int q);   <br>
                                 int find(int x);  <br>
                             </div>
 
@@ -1014,21 +1014,21 @@
                             A tree node for a function call contains a pointer to a list of expressions, one expression for each argument. <b>The compiler must type check each argument and match it with the type of the corresponding formal parameter of the called function.</b>
                         </p>
                         <p>
-                            To get an overall picture of what is going on, you may read the documentation on <a href="data-structures.html" target="_blank"> compile time data structures</a> at this juncture. <b>Ignore type table entries for now</b> as we permit only integer/string variables in the present stage.   
+                            To get an overall picture of what is going on, you may read the documentation on <a href="data-structures.html" target="_blank"> compile time data structures</a> at this juncture. <b>Ignore type table entries for now</b> as we permit only integer/string variables in the present stage.
                         </p>
-                          The expression tree structure given <a href="data_structures/abstract-syntax-tree.html" target="_blank">HERE</a> can be used (again, ignore type table pointer) The details of implementation are left to you. 
+                          The expression tree structure given <a href="data_structures/abstract-syntax-tree.html" target="_blank">HERE</a> can be used (again, ignore type table pointer) The details of implementation are left to you.
                         </p>
                         <p>
-                            With this information, the task of completing type checking and building expression tree for a function is straightforward.  
+                            With this information, the task of completing type checking and building expression tree for a function is straightforward.
                             <div class="syntax">
-                                <b>Task 2</b>:  Construct AST for each function after checking type and scope rules (semantic analysis).  Right now, we are concerned just with type and scope analysis and not code generation. Note that a variable appearing in a function must first be searched for in the local symbol table of the function and then in the global symbol table, if not found in the local symbol table. Note that local declaration overrides global declaration. The compiler must report an error if the types, names and number of arguments in each function declaration are not matching with the function definition.  
+                                <b>Task 2</b>:  Construct AST for each function after checking type and scope rules (semantic analysis).  Right now, we are concerned just with type and scope analysis and not code generation. Note that a variable appearing in a function must first be searched for in the local symbol table of the function and then in the global symbol table, if not found in the local symbol table. Note that local declaration overrides global declaration. The compiler must report an error if the types, names and number of arguments in each function declaration are not matching with the function definition.
                             </div>
                         </p>
                         <p>
                             Now we turn to the code generation step.
                         </p>
                         <p>
-                            The dynamics of a function call can be understood easily by dividing the process into the following three stages.  
+                            The dynamics of a function call can be understood easily by dividing the process into the following three stages.
                             <ul>
                                 <li id="otis">
                                     Step 1.  <b>Code executed in the calling function (caller)  before the transfer of control</b> to the called function (<b>callee</b>):
@@ -1054,7 +1054,7 @@
                                         <li id="otis">a)  <b>Recover the return value</b> stored by the callee.</li>
                                         <li id="otis">b)  <b>Deallocate space allocated for arguments</b> for the call in step 1(b).</li>
                                         <li id="otis">c)  <b>Recover the machine registers</b> stored before the call in step 1(a).</li>
-                                    </ul>   
+                                    </ul>
                                 </li>
                             </ul>
 
@@ -1063,7 +1063,7 @@
                         <p>
                             To implement the above plan, we need to create storage space whenever a function call is encountered.   We will be focusing on generating code containing labels.  Translation of labels to actual addresses can be easily done at the end as was done in Stage 4 following the <a href="label-translation.html" target="_blank">Label Translation Documentation</a>.
                         </p>
-                        <p>  
+                        <p>
                             <b>Implementation Strategy</b>. <br>
                             <br>
                             The fundamental strategy for space allocation is to create an <b>activation record</b> for the callee in the <b>stack</b> when a function call is encountered.  <b>The compiler must generate code for creating the activation record at run-time when the call is encountered</b>. Since the storage requirements for arguments, local variables and the return value of a function are known at compile time, the compiler knows exactly how much space must be allocated for each function. We propose following general organization for activation records:  <br>
@@ -1094,7 +1094,7 @@
                             A thorough reading of this <a href="run_data_structures/run-time-stack.html" target="_blank">page</a> is <b>absolutely essential</b> to proceed any further. Suppose  a function has n arguments (arg_1, arg_2,...,arg_n) and m local variables (loc_1, loc_2, ..., loc_m), its activation record in the stack may look as the following.(The stack is assumed to grow downwards.)
                         </p>
                         <p>
-                            <img src="img/stack.png">  
+                            <img src="img/stack.png">
                         </p>
                         <p>
                             In this scheme, the following code must be generated by the caller when a call to the above function is encountered:
@@ -1123,7 +1123,7 @@
                         <p>
                             <br>
                                 Figure: Actions in the stack done by the caller before the call <br><br><br>
-                            <b>Once the call is made, the next instruction in the caller will be executed only after the callee executes a return statement</b>.  The caller must proceed from here assuming that <b>the callee would have placed the return value</b> in the location in the stack designated for it. The caller must generate code to extract the return value and clean up the stack.     
+                            <b>Once the call is made, the next instruction in the caller will be executed only after the callee executes a return statement</b>.  The caller must proceed from here assuming that <b>the callee would have placed the return value</b> in the location in the stack designated for it. The caller must generate code to extract the return value and clean up the stack.
                              <ul>
                                 <li id="otis">5. Allocate a new register and <b>store the returned value</b> into the register.</li>
                                 <li id="otis">6. <b>Pop out arguments</b> from the stack. (The arguments may be discarded now.)</li>
@@ -1133,12 +1133,12 @@
                             The above actions are sufficient to generate code for handling a function invocation.  Note that to generate code for a call, only the callee's declaration information (argument information and call label) needs to be known. All that the caller needs to know is the callee's <b>interface</b>, and the <b>calling convention</b> (convention regarding in what order arguments must be pushed, where should the return value be stored etc.  See also <a href="https://en.wikipedia.org/wiki/Calling_convention" target="_blank">link</a>).
                         </p>
                         <p>
-                            Now, we turn to the actions to be done by the callee. The callee must generate the following code before proceeding to the remaining instructions: 
+                            Now, we turn to the actions to be done by the callee. The callee must generate the following code before proceeding to the remaining instructions:
                             <ul>
                                 <li id="otis">1.<b>Save the BP of the caller</b> by pushing the BP register into the stack.</li>
                                 <li id="otis">2.<b>Set BP</b> to the present value of SP register.</li>
                                 <li id="otis">3. Push enough space in the stack for storing the local variables.</li>
-                            </ul> 
+                            </ul>
 
                             Relative to the BP value set in step 2 above, [BP-2] is the address to which the return value must be stored. [BP-3] stores arg_1, [BP-4] stores arg_2 and so on.  [BP+1] is for loc_1, [BP+2] for loc_2 and so on. Thus, after seeing the local variable declarations, the compiler can set the binding values for local variables relative to the base of activation record (BP) value as:
                         </p>
@@ -1159,10 +1159,10 @@
                             In the calling convention which we described above, the arguments were pushed in reverse order, space for the return value was allocated by the caller, BP of the caller was saved to the stack by the callee, and so on.   Space created in the stack by either the callee or the caller must be eventually reclaimed by the same party.
                         </p>
                         <p>
-                            <b>IMPORTANT NOTE</b>:  In our calling convention, the caller was required to save the registers in use before the call.  What if instead, we design a  calling convention where the callee had to push the registers in use?  The problem here is that the callee does not know (and does not have to know) the caller and hence do not know at each call which were the registers in use.  Hence, the callee will have to save all machine registers, wasting time and space.  Hence, the convention of the caller storing registers in use is superior.  However, there are situations where this is not possible.  For instance, in hardware interrupt routines,  control is transferred to the callee without the caller executing a call.  In such cases, the callee will have to save (all) the machine registers for a successful return.  
+                            <b>IMPORTANT NOTE</b>:  In our calling convention, the caller was required to save the registers in use before the call.  What if instead, we design a  calling convention where the callee had to push the registers in use?  The problem here is that the callee does not know (and does not have to know) the caller and hence do not know at each call which were the registers in use.  Hence, the callee will have to save all machine registers, wasting time and space.  Hence, the convention of the caller storing registers in use is superior.  However, there are situations where this is not possible.  For instance, in hardware interrupt routines,  control is transferred to the callee without the caller executing a call.  In such cases, the callee will have to save (all) the machine registers for a successful return.
                         </p>
                         <p>
-                            You have enough background now to complete the final task of this stage.<br> 
+                            You have enough background now to complete the final task of this stage.<br>
 
                             <div class="syntax">
                                 <b>Task 3</b>:  Complete code generation for functional calls.  <br>
@@ -1176,7 +1176,7 @@
                         </p>
                         <p>
                             <b>Exercise 2</b> (Hard work, but insightful):  Suppose you want to extend the language with facility of <b>tuples</b>.  By a tuple, we mean an object declared as below:<br>
-                            
+
                             <div class="syntax">
                                 decl<br>
                                 ..<br>
@@ -1186,41 +1186,41 @@
                                 ..<br>
                                 enddecl<br>
                             </div>
-                            
+
                             Note that tuple is introduced as a new keyword.  For example, we could have:<br>
                             <div class="syntax">
                                 decl<br>
                                 <br>
-                                 &emsp;tuple student (str name, int roll_no, str branchname, int year_of_admission) a, b, c, *sptr; <br> 
+                                 &emsp;tuple student (str name, int roll_no, str branchname, int year_of_admission) a, b, c, *sptr; <br>
                                  &emsp;tuple faculty (str name, int employee_id, str dept) x, y, z, *fptr;  <br>
                                  <br>
                                 enddecl<br>
                             </div>
-                            
+
                             To access a tuple you must introduce the "." operator.  Here is an example:<br>
-                            
+
                             <div class="syntax">
                                 read(a.name);<br>
-                                read(x.name); <br> 
+                                read(x.name); <br>
                                 if (a.name == x.name) then <br>
                                 &emsp;write("They have same names"); <br>
-                                endif; <br> 
+                                endif; <br>
                             </div>
-                            
+
                             You must also permit assignment of a tuple type variable to another, provided the variables are of the same tuple type.  <br>
                             <br>
                             Design the syntax and semantics rules, make necessary modifications to the lexer, parser, symbol table and AST structures to incorporate the addition of tuples and change the code generation module accordingly.    For now, assume that tuples cannot be passed as arguments to functions or be returned by functions.   However, you must permit local tuple declarations.  Note that you have considerable freedom in deciding on the grammar rules and data structures, and even the features permitted. <br>
                             <br>
                             <b>Exercise 3</b>:  (Hard work, optional, but insightful.  Can be done only after Exercise 1 and Exercise 2 are completed).<br>
 
-                            Allow tuples and pointers to tuples to be passed as arguments to functions.  (Allowing the whole tuple to be passed creates more work in parameter passing, though not difficult in principle).   Functions may be permitted to return tuples as return values.   Permit a function that takes an argument/returns a tuple or pointers to tuple type to be declared only after the declaration of the concerned tuples (this is to avoid the <a href="https://en.wikipedia.org/wiki/Forward_declaration" target="_blank">forward reference problem</a>).  Design syntax, semantics and code generation strategies appropriately. 
+                            Allow tuples and pointers to tuples to be passed as arguments to functions.  (Allowing the whole tuple to be passed creates more work in parameter passing, though not difficult in principle).   Functions may be permitted to return tuples as return values.   Permit a function that takes an argument/returns a tuple or pointers to tuple type to be declared only after the declaration of the concerned tuples (this is to avoid the <a href="https://en.wikipedia.org/wiki/Forward_declaration" target="_blank">forward reference problem</a>).  Design syntax, semantics and code generation strategies appropriately.
                         </p>
                             <div class="up column3 mright">
                                 <a href="#navtop">  &#x2191; </a>
                             </div>
                     </article>
                     <article class="grid col-full" id="nav-stage6">
-                        <h2>Stage 6: User defined types and Dynamic Memory Allocation</h2>  
+                        <h2>Stage 6: User defined types and Dynamic Memory Allocation</h2>
                         <p>
                             <b>Prerequisite Reading</b>:
                             <ul>
@@ -1235,7 +1235,7 @@
                             <ul>
                                  <li id="otis">You will extend the language of Stage 5 by adding support for <b>user-defined types</b> and <b>dynamic memory allocation</b>.  Issues of <b>Heap management</b> will be encountered en route.</li>
                             </ul>
-                            <hr>   
+                            <hr>
                         </p>
 
                         <!--done-->
@@ -1251,9 +1251,9 @@
                         <p>
                             We will now take up the front end - semantic analysis and AST representation - before proceeding to code generation and dynamic memory allocation.    <br>
                              <br>
-                            <b>Part I</b>:  <b>Front End</b> <br> 
+                            <b>Part I</b>:  <b>Front End</b> <br>
                             <br>
-                            Every user defined type requires a <b>type definition</b>.  Type definitions are placed at the beginning of a program, ahead of global declarations.  A user-defined type in ExpL essentially defines an <b>aggregate type</b>.    The <b>member fields</b> of a user defined type may have arbitrary types (subject to certain constraints – to be discussed soon). <br> 
+                            Every user defined type requires a <b>type definition</b>.  Type definitions are placed at the beginning of a program, ahead of global declarations.  A user-defined type in ExpL essentially defines an <b>aggregate type</b>.    The <b>member fields</b> of a user defined type may have arbitrary types (subject to certain constraints – to be discussed soon). <br>
                             <br>
 
                             Consider the type definition:  <br>
@@ -1270,30 +1270,30 @@
                                 &emsp;bst insert(bst h, int key);<br>
                                 &emsp;int inOrder(bst h); <br>
                                 &emsp;int preOrder(bst h);<br>
-                                &emsp;int postOrder(bst h); <br>          
+                                &emsp;int postOrder(bst h); <br>
                                 enddecl<br>
                             </div>
-                            This type definition specifies the node structure for a binary search tree.  The member field a has type integer, whereas <i>left</i> and <i>right</i> have type bst.   Note the <b>recursive</b> nature of the type definition.   The declaration section shows functions which take as input a <i>bst</i> or returns a <i>bst</i>.    Here is another type definition: <br> 
+                            This type definition specifies the node structure for a binary search tree.  The member field a has type integer, whereas <i>left</i> and <i>right</i> have type bst.   Note the <b>recursive</b> nature of the type definition.   The declaration section shows functions which take as input a <i>bst</i> or returns a <i>bst</i>.    Here is another type definition: <br>
                             <div class="syntax" id="nav-marklist">
                                 type<br>
                                 &emsp;linkedList {<br>
-                                &emsp;&emsp;int data; <br> 
+                                &emsp;&emsp;int data; <br>
                                 &emsp;&emsp;linkedList next;  <br>
                                   }<br>
                                   <br>
                                 &emsp;markList{<br>
                                 &emsp;&emsp;str name;  <br>
-                                &emsp;&emsp;linkedList marks; <br> 
+                                &emsp;&emsp;linkedList marks; <br>
                                   }<br>
                                 endtype<br>
                                 decl<br>
-                                &emsp; markList mList,temp; <br> 
+                                &emsp; markList mList,temp; <br>
                                 enddecl<br>
                             </div>
 
                             Note here that in the type <i>markList</i>, the member field <i>marks</i> is of the type <i>linkedList</i>.  ExpL stipulates that the member fields of a user defined type, if not of type integer or string, can only be of the <b>same</b> type or one of a <b>previously defined</b> type.
                         </p>
-                        <p>     
+                        <p>
                             The compiler must keep track of the type definitions in some data structure.  For this purpose, we will maintain a <b>type table</b> storing the type definition information.  <b>Each user defined type will have a type table entry</b>.  In addition to user-defined types, the type table will also store "default" entries for <i>int</i>, <i>str</i>, <i>bool</i> and <i>void</i> type.   (Since logical expressions evaluate to a boolean value, they may be assigned boolean type.  The ExpL constant NULL can be assigned to a variable of any user-defined type.  Hence, having a NULL type is useful from a purely implementation perspective.  Note here that boolean is an <b>implicit type</b> in the language.  The language does not allow the programmer to declare a variable of type boolean).  <br>
                             <br>
                             <b>The type table entry for a user-defined type must provide information about the names and types of its member fields</b>.  For each member field, a pointer to its type table entry must be maintained.  This <a href="data_structures/type-table.html" target="_blank">link</a> gives you a simple type table implementation scheme.  (You have to fill in missing details).  <br>
@@ -1317,9 +1317,9 @@
                             <br>
                             In the following, we use the term <b>field</b> generically to refer to <i>any</i> member field of <i>any</i> variable (of any user-defined type).  <br>
                             <br>
-                            What must be the type of a field?  The type of <i>mList.next</i> in the above example must be the type of the member field <i>next</i> of the user defined type <i>markList</i>.  Once this information is extracted from the symbol table, the type of any statement, expression or variable can be determined correctly.   Thus, <b>an assignment statement is valid provided the types of the right side expression matches with that of the left side variable</b>.  <i>The only exception to this rule is that the constant NULL can be assigned to any variable of any user-defined type.</i> <br>  
+                            What must be the type of a field?  The type of <i>mList.next</i> in the above example must be the type of the member field <i>next</i> of the user defined type <i>markList</i>.  Once this information is extracted from the symbol table, the type of any statement, expression or variable can be determined correctly.   Thus, <b>an assignment statement is valid provided the types of the right side expression matches with that of the left side variable</b>.  <i>The only exception to this rule is that the constant NULL can be assigned to any variable of any user-defined type.</i> <br>
                             <br>
-                            Stated formally, 
+                            Stated formally,
                             <div class="syntax">
                             Field :: = Field '.' ID  {  $$.type = $3. type; }   <br>
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;             | ID  '.' ID { $$.type = $3.type; } <br>
@@ -1363,7 +1363,7 @@
                             The next problem is to design and implement the <i>Alloc()</i> function.   We will also take up the issue of designing the <i>Free()</i> function (to de-allocate some previously allocated memory).  This problem is known as the <b>dynamic memory allocation problem</b>.  (The <i>malloc()</i> and <i>free()</i> functions of the C library are <a href="https://en.wikipedia.org/wiki/C_dynamic_memory_allocation" target="_blank">dynamic memory allocation</a> routines of the C programming language.)
                         </p>
                         <p>
-                            The strategy of Alloc() is to maintain a <b>memory pool</b> called <b>heap memory</b>.    
+                            The strategy of Alloc() is to maintain a <b>memory pool</b> called <b>heap memory</b>.
                             Alloc() will need to manage a large run-time memory pool.  To make matters simple, we will assume that Alloc() divides the whole memory into fixed size blocks, each of size eight words.  In this case, the strategy is very simple:<br>
 
                             <div class="syntax">
@@ -1388,18 +1388,18 @@
                             It is <b>absolutely necessary</b> to read and understand <a href="run_data_structures/heap.html" target="_blank">Dynamic memory allocation</a> (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in the <a href="library-implementation.html" target="_blank">library implementation</a> documentation. We are now ready to complete the back end.
                         </p>
                         <p>
-                            <b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 words for memory allocation.  The compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. Read the note below before proceeding with the implementation.   
-                        </p>                    
+                            <b>Task 2</b>:  Complete the back-end adding <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions to the ExpOS library and complete the implementation of adding user defined types to ExpL.   Assume fixed block size of 8 words for memory allocation.  The compiler must flag an error "too many member fields" if a user-defined type definition has more than 8 member fields.  Note that the fixed block allocator is pretty simple to be written directly in assembly language. Read the note below before proceeding with the implementation.
+                        </p>
                         <p>
-                            <b>Important Note</b> : Your library functions will need to modify registers and hence before a library call,   ensure that registers in current use are saved in the stack (as was done with function calls in the previous stage).  
+                            <b>Important Note</b> : Your library functions will need to modify registers and hence before a library call,   ensure that registers in current use are saved in the stack (as was done with function calls in the previous stage).
                         </p>
                         <p>
                             <b>Exercise 1</b>:  Extend ExpL to permit arrays of user-defined type.
                         </p>
-                        <p> 
-                            If you want to do <b>variable sized block allocation</b>, more complex allocation schemes like the <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank"><b>Buddy System Algorithm</b></a> will be required.  One would also need to understand the issue of <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)" target="_blank"><b>memory fragmentation</b></a> that can arise when variable sized allocation is done.  
+                        <p>
+                            If you want to do <b>variable sized block allocation</b>, more complex allocation schemes like the <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank"><b>Buddy System Algorithm</b></a> will be required.  One would also need to understand the issue of <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)" target="_blank"><b>memory fragmentation</b></a> that can arise when variable sized allocation is done.
                         </p>
-                        <p>    
+                        <p>
                             <b>Exercise 2</b>:   (Nontrivial!)  Modify <i>Alloc()</i> and <i>Free()</i> library functions to implement the </b>Buddy memory allocator described <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">here</a>.  You will have to modify <i>Initialize()</i> appropriately.   The buddy system allocator is too complex to write in assembly language.  Hence write them in ExpL itself and modify your label translation scheme to generate target addresses correctly.<br>
                         </p>
                         <div class="up column3">
@@ -1407,17 +1407,27 @@
                         </div>
                     </article>
 
+                    <article class="grid col-full" id="nav-stage7">
+                      <h2>Register Allocation</h2>
+                      <p>
+                          <b>Learning Objectives</b>:
+                          <ul>
+                               <li id="otis">You will add a very primitive <a href="https://en.wikipedia.org/wiki/Register_allocation" target="_blank">register allocation</a>
+scheme to compiler to make the target code generated by Stage 6 more efficient.</li>
+                          </ul>
+                          <hr>
+                      </p>
+                    </article>
 
 
 
-
-                        <article class="grid col-full" id="nav-stage7">
-                         <h2>Stage 7: Adding Objects – Data encapsulation</h2>  
+                        <article class="grid col-full" id="nav-stage8">
+                         <h2>Stage 7: Adding Objects – Data encapsulation</h2>
                         <p>
                             <b>Prerequisite Reading</b>:
                             <ul>
                                 <li id="otis">1.Read the <a href="oexpl-specification.html" target="_blank"> OExpL specification</a> (except for the section on inheritance, which may be read before the next stage).</li>
-                                
+
                             </ul>
                         </p>
 
@@ -1426,7 +1436,7 @@
                             <ul>
                                  <li id="otis">You will extend the language of Stage 6 by adding support to classes (except for inheritance) to make ExpL an <a href= "https://en.wikipedia.org/wiki/Object-based_language" target="_blank">  <i>object based language</i></a>. You will also extend ExpL with support for splitting a source program into multiple class files and one main program.</li>
                             </ul>
-                            <hr>  
+                            <hr>
                         </p>
 
                          <p>
@@ -1438,7 +1448,7 @@
                         </p>
 
                              <br>
-                             <b>Part I</b>:  <b>Syntax and Semantic Analysis</b> <br> 
+                             <b>Part I</b>:  <b>Syntax and Semantic Analysis</b> <br>
                              <br>
 
                         <p>
@@ -1450,11 +1460,11 @@
                                 <br>
                                 oneClass ::= .... /* to be added */
                                 <br>
-                         
+
                             </div>
                         </p>
 
-                        <p> 
+                        <p>
                             The compiler must maintain a <b>class table</b> to store the information pertaining to each class defined in an OExpL program. Class definitions appear after type definitions. Each class definition specifies the member fields and methods of the class. <i>Member field declarations must precede method declarations</i>.
                         </p>
 
@@ -1470,13 +1480,13 @@
                             now, we will focus on syntax and semantics. Code generation will be taken up subsequently.
                         </p>
 
-                        <p> 
-                            Global variable declarations may contain declarations for class variables along with   other variable declarations. The following scope rules must be carefully checked to ensure correct semantic analysis: 
+                        <p>
+                            Global variable declarations may contain declarations for class variables along with   other variable declarations. The following scope rules must be carefully checked to ensure correct semantic analysis:
                         </p>
 
 
                          <ul>
-                                
+
                                 <li id="otis">
                                 1. Methods of a class variable are accessed as <i>self.method_name(..args..)</i>. (If a member is of a previously class, <i>self.field_name.method_name(..args..)</i> and so on).
                                 </li>
@@ -1491,46 +1501,46 @@
                                 4. There is <b>exactly one method carrying a name in a class</b>. Thus, function overloading is not permitted.
                                 </li>
 
-                                
+
                         </ul>
-                        
+
                         <p>
-                            These rules are not difficult to check once the class table is properly constructed from the class definitions. <b> All variable and function declarations visible to a method are contained in the class table entry of the relevant class</b>.  
+                            These rules are not difficult to check once the class table is properly constructed from the class definitions. <b> All variable and function declarations visible to a method are contained in the class table entry of the relevant class</b>.
                         </p>
                         <p>
-                            When <b>a variable of a class</b> is declared (in the global declaration section), <b>a pointer to the class table entry must be mainted in the symbol table entry</b> of the variable.   Hence, a new <i>class table pointer</i> field may be added to the global symbol table structure.  Note that the symbol table entry for a global variable will have either a class table pointer entry or a type table pointer entry, but not both.  
+                            When <b>a variable of a class</b> is declared (in the global declaration section), <b>a pointer to the class table entry must be mainted in the symbol table entry</b> of the variable.   Hence, a new <i>class table pointer</i> field may be added to the global symbol table structure.  Note that the symbol table entry for a global variable will have either a class table pointer entry or a type table pointer entry, but not both.
                         </p>
 
                         <p>
-                            <b>Task 1:</b>  lexical, syntax and semantic analysis for the extended language with classes.  
+                            <b>Task 1:</b>  lexical, syntax and semantic analysis for the extended language with classes.
                         </p>
 
                         <p>
-                            <b>Part II: Code Generation </b> 
+                            <b>Part II: Code Generation </b>
                         </p>
                         <p>
                             Code generation not hard, once the access semantics of <i>self</i> is understood. <b>The basic observation is that the code for any method can be generated immedietely after the definition of the method is processed</b>.  This is true because a method's access is limited to its member fields and previously defined (or the same) methods of the class.  This information would be already entered into the class table entry for the class.
                         </p>
                         <p>
-                            When a method definition is encountered,<b> a unique label must be generated for the method and the label must be entered into the class table entry of the method.</b>  Thus, the call address to any method can be determined from the class table entry of the corresponding class.  (In the next stage, we will see that a more sophisticated stratgey will be needed to support inheritance).  
+                            When a method definition is encountered,<b> a unique label must be generated for the method and the label must be entered into the class table entry of the method.</b>  Thus, the call address to any method can be determined from the class table entry of the corresponding class.  (In the next stage, we will see that a more sophisticated stratgey will be needed to support inheritance).
                         </p>
                         <p>
-                            Storage allocation for class variables is equally simple.  Just as was done for user defined types, a call to new must allocate a block of 8 words in the heap for storing the member fields of the variable.  The start address of this block must be assigned to the variable.  
+                            Storage allocation for class variables is equally simple.  Just as was done for user defined types, a call to new must allocate a block of 8 words in the heap for storing the member fields of the variable.  The start address of this block must be assigned to the variable.
                         </p>
                         <p>
-                            Other matters being routine, the non-trivial point pending is the <b>deferencing of the self reference</b> – in <i>self.field_name</i>.    
+                            Other matters being routine, the non-trivial point pending is the <b>deferencing of the self reference</b> – in <i>self.field_name</i>.
                         </p>
                         <p>
-                             The following paragraphs summarize the key ideas:  
+                             The following paragraphs summarize the key ideas:
                         </p>
 
                         <ul>
-                                
+
                             <li id="otis">
 
                             1.  How to get the address of <i>self?</i>  First observe that a reference to <i>self</i> will occur only within a member function of a class variable.   Second, all variables of the same class share the code of all the methods of the class.  Thus, at run time, a method must be told which is the variable for which the current call is made.  In other words, <b>the address of self can be determined only at run-time (<i>why? - ensure that you digest this point clearly before proceeding further!</i>)</b>
                             <br>
-                            The standard way to resolve this reference is to set the convention that <b>before a call to a method, the caller must push the address of self</b> (for the particular call) <b>as an argument into the stack.</b>  The convention we suggest is that the first argument to any call to a method will be the address of self.  Note that this is an <b>implicit argument</b>, not found either in the declaration or the definition of the method.  (With this extra argument, the relative (to BP) address of other arguments will be shifted one position).  
+                            The standard way to resolve this reference is to set the convention that <b>before a call to a method, the caller must push the address of self</b> (for the particular call) <b>as an argument into the stack.</b>  The convention we suggest is that the first argument to any call to a method will be the address of self.  Note that this is an <b>implicit argument</b>, not found either in the declaration or the definition of the method.  (With this extra argument, the relative (to BP) address of other arguments will be shifted one position).
 
                             </li>
                             <br>
@@ -1539,16 +1549,16 @@
                             </li>
                             </ul>
                         <p>
-                            The task of completing code generation phase is now straightforward.  
+                            The task of completing code generation phase is now straightforward.
                         </p>
                         <p>
-                            <b>Task 2:</b> Complete code generation for this stage.                         
+                            <b>Task 2:</b> Complete code generation for this stage.
                         </p>
                         <p>
-                           <b> Part III:  Building Source Code in Multiple Files</b> (optional).  
+                           <b> Part III:  Building Source Code in Multiple Files</b> (optional).
                         </p>
                         <p>
-                            In this section, we will see how to support the ExpL programmar to compile each class separately and link them together with the main program.  Since the contents of this section are tangential to our principal concerns, this part is marked optional.  However support for modularity is <i>absolutely essential</i> if large programs have to be written and maintained.  Since the section is optional, the description here is brief.  
+                            In this section, we will see how to support the ExpL programmar to compile each class separately and link them together with the main program.  Since the contents of this section are tangential to our principal concerns, this part is marked optional.  However support for modularity is <i>absolutely essential</i> if large programs have to be written and maintained.  Since the section is optional, the description here is brief.
                         </p>
                         <p>
                             To avoid too large code files, it would be advisable to code the source program into multiple files and compile each one separately.  The following structure is proposed:
@@ -1556,10 +1566,10 @@
                              <li id="otis">
                             1. All type definitions may be collected together in the file <i>program_name.type</i> between the keywords <i>type</i> and <i>endtype.</i>  </li>
                             <li id="otis">
-                            2.  Each class may be written into a separate class file (<i>class_name.class</i>).  
+                            2.  Each class may be written into a separate class file (<i>class_name.class</i>).
                             </li>
                             <li id="otis">
-                            3.  The main program (<i>progam_name.expl</i>) shall contain <b>no type definitions or class definitions</b>.   The main program contains global declarations, function definitions and the Main function.  
+                            3.  The main program (<i>progam_name.expl</i>) shall contain <b>no type definitions or class definitions</b>.   The main program contains global declarations, function definitions and the Main function.
                             </li>
                         </ul>
                         </p>
@@ -1569,7 +1579,7 @@
                             <li id="otis">
                             1.  <b>expl -obj</b> <i>class_name.class program_name.type</i>
                             <br>
-                            This option must compile a single class file into an object file.  The code generated will contain unresolved labels.   The output file may be named <i>class_name.obj</i>.  The structure for object files will be discussed soon.  
+                            This option must compile a single class file into an object file.  The code generated will contain unresolved labels.   The output file may be named <i>class_name.obj</i>.  The structure for object files will be discussed soon.
 
                             </li>
                             <li id="otis">
@@ -1584,43 +1594,43 @@
                         <ul>
                             <li id="otis">
 
-                            a.  As each class is compiled separately, <b>the labels in each object file must not be conflicting</b>.  To solve this issue, each label in an object file may be annotated by the corresponding class name (Ex.  <i>class_name1_L0</i>, <i>class_name1_L1</i> etc.)  
+                            a.  As each class is compiled separately, <b>the labels in each object file must not be conflicting</b>.  To solve this issue, each label in an object file may be annotated by the corresponding class name (Ex.  <i>class_name1_L0</i>, <i>class_name1_L1</i> etc.)
                             </li>
                             <li id="otis">
-                            b.  Since the class definitions must be made available in the final building step, during the compilation of a class, the <b>class definition must be copied into the object file</b>. 
+                            b.  Since the class definitions must be made available in the final building step, during the compilation of a class, the <b>class definition must be copied into the object file</b>.
                             </li>
                         </ul>
                         </p>
                         <p>
-                            Thus, each object file will contain a class definition followed by the assembly code (with labels) for the methods of the class.  Finally, during the final compilation process, class definitions from each object file will be combined into the class table and the final code generation and label translation steps will be done. 
+                            Thus, each object file will contain a class definition followed by the assembly code (with labels) for the methods of the class.  Finally, during the final compilation process, class definitions from each object file will be combined into the class table and the final code generation and label translation steps will be done.
                         </p>
                         <p>
-                            You must look at the YACC/Bison manual to find out how parsing of multiple files can be done.  We leave out the technical details.    
+                            You must look at the YACC/Bison manual to find out how parsing of multiple files can be done.  We leave out the technical details.
                         </p>
                         <p>
-                            <b>Task 3:</b>  Implement support for separate compilation of object files as outlined above.  
+                            <b>Task 3:</b>  Implement support for separate compilation of object files as outlined above.
                         </p>
                         <p>
-                            <b>Note:</b>  The ABI given to you do not support object file formats.  Hence we have suggested an object format specific to the ExpL project.  However, standard binary interfaces support object file formats – (For example see the <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank"> Unix ELF)</a>.   These object files may be linked together by the operating system at load time – that is, when the program is loaded into the memory for execution.  A discussion of these matters is beyond the scope of this project.  
+                            <b>Note:</b>  The ABI given to you do not support object file formats.  Hence we have suggested an object format specific to the ExpL project.  However, standard binary interfaces support object file formats – (For example see the <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format" target="_blank"> Unix ELF)</a>.   These object files may be linked together by the operating system at load time – that is, when the program is loaded into the memory for execution.  A discussion of these matters is beyond the scope of this project.
                         </p>
 
                         <p>
-                            <i>Exercise 1</i>:  What modifications must be done to allow class variables to be passed as arguments to functions?  
+                            <i>Exercise 1</i>:  What modifications must be done to allow class variables to be passed as arguments to functions?
                         </p>
                         <p>
-                            <i>Exercise 2</i>:  What modifications must be done to allow functions to have locally declared class variables?  
+                            <i>Exercise 2</i>:  What modifications must be done to allow functions to have locally declared class variables?
                         </p>
-                             
+
 
                         </article>
 
-                         <article class="grid col-full" id="nav-stage8">
-                         <h2>Stage 8:  Inheritance and Sub-type Polymorphism</h2>  
+                         <article class="grid col-full" id="nav-stage9">
+                         <h2>Stage 8:  Inheritance and Sub-type Polymorphism</h2>
                         <p>
                             <b>Prerequisite Reading</b>:
                             <ul>
                                 <li id="otis">1.  A rigorous reading of the <a href="oexpl-specification.html" target="_blank"> OExpL specification (link) </a></li>
-                                
+
                             </ul>
                         </p>
 
@@ -1629,17 +1639,17 @@
                             <ul>
                                  <li id="otis">You will extend the language of Stage 7 by adding support for single inheritance and subtype polymorphism to make OExpL an <i>object oriented</i> language.</li>
                             </ul>
-                            <hr>   
+                            <hr>
                         </p>
 
                         <p>
 
-                        In this stage, we will extend ExpL to provide support for <a href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)" target="_blank">single inheritance</a> and <a href="https://en.wikipedia.org/wiki/Subtyping" target="_blank">subtype polymorphism</a>.  These features qualifies OExpL to be called an object oriented language.  
+                        In this stage, we will extend ExpL to provide support for <a href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)" target="_blank">single inheritance</a> and <a href="https://en.wikipedia.org/wiki/Subtyping" target="_blank">subtype polymorphism</a>.  These features qualifies OExpL to be called an object oriented language.
 
                         </p>
                         <p>
 
-                        Addition of support for inheritance and polymorphism involves some intellectual complexity.  Fortunately, once the underlying conceptual issues are understood, the implementation is not difficult.  
+                        Addition of support for inheritance and polymorphism involves some intellectual complexity.  Fortunately, once the underlying conceptual issues are understood, the implementation is not difficult.
 
                         </p>
 
@@ -1649,23 +1659,23 @@
 
 
                         <p>
-                            The definition of a class could now be by extention of a previously defined class.  
+                            The definition of a class could now be by extention of a previously defined class.
                             <div class="syntax">
                                 oneClass ::= ID {  declList } <br>
                                 <br>
                                   | ID extends { declList }  <br>
-                                <br>    
+                                <br>
                             </div>
                         </p>
 
                         <p>
-                        An additional field called the <b>parent class pointer</b> must be added to each class table entry.   If the class is defined by extention of another class, the parent class pointer entry must point to the class table entry of the parent class.  If the class is not an extention of any other class, this entry must be NULL.  (<a href="#" target="_blank">See class table structure[LINK TO BE ADDED]</a>).  
+                        An additional field called the <b>parent class pointer</b> must be added to each class table entry.   If the class is defined by extention of another class, the parent class pointer entry must point to the class table entry of the parent class.  If the class is not an extention of any other class, this entry must be NULL.  (<a href="#" target="_blank">See class table structure[LINK TO BE ADDED]</a>).
                         </p>
 
 
                         <p>
-                            An extended class inherits all the member fields and methods of the parent class.  The descendent class is permitted to do additional definitions as specified below.  
-                        
+                            An extended class inherits all the member fields and methods of the parent class.  The descendent class is permitted to do additional definitions as specified below.
+
                         <ul>
                             <li id="otis">
                             1.  The only member field definitions in the descendent class shall be for the  new member fields that are not present in the parent.  (The descendent cannot re-define or remove any of the parent's member fields.)  Additionally, in our current implementation plan,  the number of member fields including the those inherited from the parent must not exceed 8 (because our memory allocation policy allocates only 8 words for storing a class object.).
@@ -1673,23 +1683,23 @@
                             From an implementation perspective, <b>whenever the definition of a class by extention of another class is encountered, the compiler must copy all the member field information of the parent to the descendent class.</b>  The member fields may be listed in the same order as they appear in the parent.  Additional entries must be be be created for new members specific to the descendent class.
                             </li>
                             <li id="otis">
-                            2.   The descendent class may <b>define new methods</b> or <b>over-ride</b> one or more of the <b>parent's methods</b>.  OExpL allows a class to contain only one definition for a function.  Once a method is over-ridden, the method of the parent class will no longer be visible inside the descendent class.  Moreover, the <b>signature of the over-ridden method must be identical with the signature of the method in the parent class </b>(in both the number and the types of arguments).  In  other words, function overloading is not permitted. (Exercise 1 at the end asks you to relax this condition).  
+                            2.   The descendent class may <b>define new methods</b> or <b>over-ride</b> one or more of the <b>parent's methods</b>.  OExpL allows a class to contain only one definition for a function.  Once a method is over-ridden, the method of the parent class will no longer be visible inside the descendent class.  Moreover, the <b>signature of the over-ridden method must be identical with the signature of the method in the parent class </b>(in both the number and the types of arguments).  In  other words, function overloading is not permitted. (Exercise 1 at the end asks you to relax this condition).
 
                             </li>
                         </ul>
-                        </p> 
-
-                        <p>
-                            From an implementation perspective, the compiler may <b>initially copy the signatures of all methods of the parent to the class table of the descendent</b>.   New entries will have to be created for methods that defined in the descendent, but not present in the parent.  Finally, the present implementation restricts the number of methods in a class to 8.  
                         </p>
 
                         <p>
-                            What about the labels of the methods of the descendent class?  If a method is over-ridden or defined new in a class,  the compiler must assign a new label for the method and store this label in the binding field of the method.  Otherwise, the class inherits the parent's method and the label of the method in the parent class must be copied into the binding field of the method in the descendent class.  
+                            From an implementation perspective, the compiler may <b>initially copy the signatures of all methods of the parent to the class table of the descendent</b>.   New entries will have to be created for methods that defined in the descendent, but not present in the parent.  Finally, the present implementation restricts the number of methods in a class to 8.
+                        </p>
+
+                        <p>
+                            What about the labels of the methods of the descendent class?  If a method is over-ridden or defined new in a class,  the compiler must assign a new label for the method and store this label in the binding field of the method.  Otherwise, the class inherits the parent's method and the label of the method in the parent class must be copied into the binding field of the method in the descendent class.
                         </p>
 
 
                         <p>
-                            Once the class table entries are created as described above, syntax and semantic analysis phases of compilation can be completed easily.  
+                            Once the class table entries are created as described above, syntax and semantic analysis phases of compilation can be completed easily.
                         </p>
 
 
@@ -1700,7 +1710,7 @@
 
 
                         <p>
-                            <b>Task 1:</b>  Complete syntax and Semantic analysis.    
+                            <b>Task 1:</b>  Complete syntax and Semantic analysis.
                         </p>
 
 
@@ -1719,7 +1729,7 @@
 
                         <p>
 
-                            Read the section on <a href="#" target="_blank"><i>run-time binding[LINK]</i></a>  in OExpL specification carefully before proceeding further. 
+                            Read the section on <a href="#" target="_blank"><i>run-time binding[LINK]</i></a>  in OExpL specification carefully before proceeding further.
 
                         <p>
                         <ul>
@@ -1727,52 +1737,52 @@
 
                         The key differences between the language of Stage 7 and the present stage are due to the following:
 
-                        <li id="otis"> 
-                            a).  A variable of a parent class may hold a reference to an object of any descendent class. 
+                        <li id="otis">
+                            a).  A variable of a parent class may hold a reference to an object of any descendent class.
                         </li>
 
-                        <li id="otis"> 
+                        <li id="otis">
                             b).  The class to which the referred object belongs to at run time cannot be determined at compile time (why?)
                         </li>
 
-                        <li id="otis"> 
+                        <li id="otis">
                             c).  When a method is invoked using the variable of the parent class, if the method is over-ridden by the child class, then the method of the child class must be invoked.
                         </li>
                         </ul>
                         </p>
                         <p>
 
-                        Assume that A, B, C are classes such that B extends A and C extends B.   Let x be a variable of class A.  Consider the program segment:  Let <i>fun()</i> be a function defined in class A.  Let us assume that the label for the function in the symbol table is L1.   Suppose that B does not over-ride <i>fun()</i>, but C over-rides <i>fun()</i>.  Let the label for the over-ridden function be L2.  
+                        Assume that A, B, C are classes such that B extends A and C extends B.   Let x be a variable of class A.  Consider the program segment:  Let <i>fun()</i> be a function defined in class A.  Let us assume that the label for the function in the symbol table is L1.   Suppose that B does not over-ride <i>fun()</i>, but C over-rides <i>fun()</i>.  Let the label for the over-ridden function be L2.
 
                        </p>
 
 
 <!-- CHECK THIS ONCE -->
 
-                       <p>  
-                              
+                       <p>
+
                             <div class="syntax">
                                 ...
-                                Read(n);  
-                                if (n>0) then 
+                                Read(n);
+                                if (n>0) then
                                     x = new(B);
                                 else
-                                    x = new(C);    
+                                    x = new(C);
                                 endif
                                    retval = x.fun();
-                                ...   
+                                ...
                             </div>
                         </p>
 
 
                         <P>
 
-                            The call <i>x.fun()</i>;   must translate to CALL L1 if (n>0) whereas <i>x.fun()</i> must translate to CALL L2 otherwise.  The value of n known only at run-time and the compiler can't hope to guess it.   What will the compiler do now?!  
+                            The call <i>x.fun()</i>;   must translate to CALL L1 if (n>0) whereas <i>x.fun()</i> must translate to CALL L2 otherwise.  The value of n known only at run-time and the compiler can't hope to guess it.   What will the compiler do now?!
 
                         </P>
 
                         <p>
-                            It turns out that there is a remarkably simple and elegant way to handle the issue by maintaining what are known as  <b>function tables</b> (called virtual function tables[LINK] in C++ jargon) at run time.  
+                            It turns out that there is a remarkably simple and elegant way to handle the issue by maintaining what are known as  <b>function tables</b> (called virtual function tables[LINK] in C++ jargon) at run time.
 
                         </p>
 
@@ -1784,7 +1794,7 @@
                         <p>
                         <ul>
 
-                            The implementation details are outlined below:  
+                            The implementation details are outlined below:
 
                         <li id="otis">
                             1. <b> For each class, we will maintain a table of size 8 in the memory, listing labels of the methods of the class. </b> (Recall that we permit a class to have at most 8 methods). <b>The labels may be listed in the order in which the methods are defined in the class.</b>  This table is called the <b>function table</b> for the class.  Since all the class definitions are known at compile time, the compiler can generate initial code to set up all the class tables in the stack region of the program.  (Typically, at the beginning of the stack, allocating space before global variables.)
@@ -1793,17 +1803,17 @@
 
 
                         <li id="otis">
-                            2.  <b>The label for method in the function table will be set to the function's label in the corresponding class table entry.</b>    Consequently, the label of a function in a descendent class will be the label of the function in the parent class if the function is not over-ridden.  Referring to the example above, the label for the function fun() in function tables of classes A and B will be L1, whereas, the label will be L2 in the function table of class C.   
+                            2.  <b>The label for method in the function table will be set to the function's label in the corresponding class table entry.</b>    Consequently, the label of a function in a descendent class will be the label of the function in the parent class if the function is not over-ridden.  Referring to the example above, the label for the function fun() in function tables of classes A and B will be L1, whereas, the label will be L2 in the function table of class C.
 
                         </li>
 
                         <li id="otis">
-                        3.  <b>The position of the label of a method in the function tables of the parent class and all the descendent classes in a class hierarchy must be the same.</b>  Referring to the above example,  if the label of the method fun() is listed third in the function table of A, then it must be listed third in the function tables of classes B and C.   Thus the index of a method's entry in the function table will be the same for every class in a class hierarchy.  The advantage of this convention is that while translating, <b>the address of a method's label relative to the base address of the function table is completely determined at compile time.</b>    Note that since the language does not permit function overloading, the entry for each method name in any function table will be unique.  
+                        3.  <b>The position of the label of a method in the function tables of the parent class and all the descendent classes in a class hierarchy must be the same.</b>  Referring to the above example,  if the label of the method fun() is listed third in the function table of A, then it must be listed third in the function tables of classes B and C.   Thus the index of a method's entry in the function table will be the same for every class in a class hierarchy.  The advantage of this convention is that while translating, <b>the address of a method's label relative to the base address of the function table is completely determined at compile time.</b>    Note that since the language does not permit function overloading, the entry for each method name in any function table will be unique.
                         </li>
 
 
                         <li id="otis">
-                            4.  In view of the above, to translate <i>x.fun()</i>, all that needs to be determined at run time is the base address of the correct function table.  To keep track of this information,<b> the compiler must allocate two memory locations for each class variable -  One for the usual pointer to the memory block allocated in the heap for storing the object's member fields .  The second, to store a pointer to the function table of the class to which the current object stored in the variable belongs to.</b>  
+                            4.  In view of the above, to translate <i>x.fun()</i>, all that needs to be determined at run time is the base address of the correct function table.  To keep track of this information,<b> the compiler must allocate two memory locations for each class variable -  One for the usual pointer to the memory block allocated in the heap for storing the object's member fields .  The second, to store a pointer to the function table of the class to which the current object stored in the variable belongs to.</b>
                         </li>
 
                         </ul>
@@ -1811,26 +1821,26 @@
 
                         <p>
 
-                            Conceptually, each class variable holds a pair <i>[data_ptr, ftable_ptr]</i>.  The statement <i>x=new(B)</i>;  in the example above should do the following:  1)  Allocate a block of 8 words in the heap and store the start address  in the data_ptr field of x.  2.  set the ftable_ptr field of x to the function table of class B.  An assignment of the form y=x, if valid semantically, will result in both the pointers of x being copied into the corresponding pointers of y. 
+                            Conceptually, each class variable holds a pair <i>[data_ptr, ftable_ptr]</i>.  The statement <i>x=new(B)</i>;  in the example above should do the following:  1)  Allocate a block of 8 words in the heap and store the start address  in the data_ptr field of x.  2.  set the ftable_ptr field of x to the function table of class B.  An assignment of the form y=x, if valid semantically, will result in both the pointers of x being copied into the corresponding pointers of y.
                         </p>
 
                         <p>
-                            Note that once the base of the correct function table is known, invoking the right function simply involves adding the offset of the function to the base and making a call to the address (label) stored in the function table entry.  
-
-                        </p>
-
-                        <p>
-                            Note that the labels will be automatically translated to actual addresses during the label translation phase.  
+                            Note that once the base of the correct function table is known, invoking the right function simply involves adding the offset of the function to the base and making a call to the address (label) stored in the function table entry.
 
                         </p>
 
                         <p>
-                            To implement function tables on the eXpOS ABI, the suggested method is to allocate space (8 words each) for storing the function tables of each class in the stack before allocating space for global variables.  Thus, the allocation scheme in the stack (starting at logical address 4096) will be as shown below: 
+                            Note that the labels will be automatically translated to actual addresses during the label translation phase.
 
                         </p>
 
                         <p>
-                            Figure here:  
+                            To implement function tables on the eXpOS ABI, the suggested method is to allocate space (8 words each) for storing the function tables of each class in the stack before allocating space for global variables.  Thus, the allocation scheme in the stack (starting at logical address 4096) will be as shown below:
+
+                        </p>
+
+                        <p>
+                            Figure here:
                         </p>
 
                         <p>
@@ -1838,15 +1848,15 @@
                         </p>
 
                         <p>
-                            <b>Task 2:</b>  Complete the OExpL compiler. 
+                            <b>Task 2:</b>  Complete the OExpL compiler.
                         </p>
 
                         <p>
-                        <i>Exercise 1</i>:  This exercise asks you to add a limited form of <b>function overloading</b> support to the language.  Here, when a descendent class overrides a method of a parent class, it can re-define the function with a signature that is possibly different from that of the parent class.  In this case, both the definitions will be active in the child class; with the compiler translating the call to the correct address (label) looking at the arguments.  Make necessary modifications to the language syntax to support this form of function overloading.  
+                        <i>Exercise 1</i>:  This exercise asks you to add a limited form of <b>function overloading</b> support to the language.  Here, when a descendent class overrides a method of a parent class, it can re-define the function with a signature that is possibly different from that of the parent class.  In this case, both the definitions will be active in the child class; with the compiler translating the call to the correct address (label) looking at the arguments.  Make necessary modifications to the language syntax to support this form of function overloading.
                         </p>
 
                         <p>
-                            Note:  Overloading and subtype polymorphism are two polymorphism types typiclly supported by most object oriented langauges.  A third important type of polymorphism called <i><a href="https://en.wikipedia.org/wiki/Parametric_polymorphism" target="_blank">parametric polymorphism</a></i> (templates in C++) has not been touched upon in this project.  
+                            Note:  Overloading and subtype polymorphism are two polymorphism types typiclly supported by most object oriented langauges.  A third important type of polymorphism called <i><a href="https://en.wikipedia.org/wiki/Parametric_polymorphism" target="_blank">parametric polymorphism</a></i> (templates in C++) has not been touched upon in this project.
 
 
                         </p>
@@ -1857,13 +1867,13 @@
 
 
 
- 
 
 
 
 
 
-                  
+
+
 
 
 
