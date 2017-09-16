@@ -1446,6 +1446,36 @@ leaves many registers unused, which could be utilized for storing variables.</p>
                                <br>
                                b) The field <i>reference_count</i> of a variable will indicate the number of future (static) references to that variable within a function.  This is a heuristic used to identify variables whose allotted temporary register is to be deallocated, in the event of a conflict for temporary space.  The use of this field will be explained later.
                              </li>
+                             <li>
+                               <i>Temporary Allocation and Release</i>:   Register allocation is performed by two functions – <i>freeTemp()</i> and <i>getTemp</i>().
+                               <br>
+                                a) The function <i>freeTemp(argument:  variable_name)</i> releases the temporary register associated with the variable varname  (if any) and adds the temporary register to the free pool. <b> The function must generate code to store the contents of the temporary to the memory address of the variable</b>.    The function must also record the release of the temporary by setting the <i>temp</i> field to 0 in the symbol table entry of the variable.    <b>The function returns the index of the temporary register that was released</b>.
+                                <br>
+                                b) The <i>getTemp(varname)</i> function checks whether a temporary has been already allocated for the variable passed as argument (inspecting the <i>temp</i> field in the symbol table entry for the variable).   If so, the function simply returns the index of the register.  Otherwise, the following steps must be done to allocate a temporary:
+                                <br>
+                                Check whether an un-allocated temporary is available in the temporary pool.
+                                <br>
+                                 If available,
+                                 <br>
+                                 {
+                                   <p>  Allocate an un-allocated temporary to the variable by setting the temp field in the   symbol table. Generate code to transfer the contents of the memory location storing the variable to the temporary and return the index of the temporary register.  </p>
+                                   <br>
+                                 }
+                                 <br>
+                                 else
+                                 <br>
+                                 {
+                                  <p>  Select a variable to be “<i>cached out</i>.”  A simple replacement policy is to <b>replace any variable with the lowest value of</b> <i>reference_count</i> and release its temporary by invoking the <i>freeTemp()</i> function.   (We will soon discuss how to assign reference count to variables).</p>
+                                   <br>
+                                   <p>  Allocate the released temporary register to the variable by setting the temp field in the symbol table.  <b> Generate code to load the contents of the variable from memory to the temporary register</b> (See also Exercise 1 below) and return the register index.
+                                   </p>
+                                 }
+                                 <br>
+                             </li>
+                             <li>
+                              <i>  Changes to the code generation Phase</i>:  Since <i>getTemp()</i> returns a register holding the variable, it is not longer required to transfer contents of the register to another register for accessing values.  Similar changes are required when a variable is assigned a value.
+                             </li>
+
                         </ol>
                         <hr>
                     </p>
