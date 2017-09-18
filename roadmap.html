@@ -1574,7 +1574,7 @@
 
                         <p>
                             For simplifying the implementation,<b> we will assume here that a class may contain at
-                            most 8 member fields and at most 8 methods</b>. Hence, fixed size allocation of dynamic memory will be sufficient, as in the previous stage.
+                            most 8 member fields and at most 8 methods</b>. Hence, fixed size allocation of dynamic memory will be sufficient, as in the 6th stage.
                         </p>
                         <p>
                             Each <b>class table entry stores information pertaining to a class</b>. The names and types of each member field along with its <i>position index </i> (In the class, 1<sup>st</sup> method will have position index as <b>0</b> and 2<sup>nd</sup> method will have position index as <b>1</b>) must be stored in the class table. For each method, the <i>signature</i> of the method (method name, return type, types and names or arguments) along with the binding (<i>label</i> of the method – a call to the method must be translated to a call to this label) needs to be stored. The type field for a variable/method must contain a pointer to the corresponding type table entry. <i>An exceptional case is when a member field is of a previously defined class. In this case, a pointer to the class table entry of the member field must be maintained</i>. Details of class table structure are given <a href="data_structures/class-table.html" target="_blank">Class Table </a>. In this stage, we will not support class extention. Hence, the parent class pointer entry for each class must be set to NULL.
@@ -1623,10 +1623,10 @@
                             <b>Part II: Code Generation </b>
                         </p>
                         <p>
-                            Code generation not hard, once the access semantics of <i>self</i> is understood. <b>The basic observation is that the code for any method can be generated immedietely after the definition of the method is processed</b>.  This is true because a method's access is limited to its member fields and previously defined (or the same) methods of the class.  This information would be already entered into the class table entry for the class.
+                            Code generation not hard, once the access semantics of <i>self</i> is understood. <b>The basic observation is that the code for any method can be generated immediately after the definition of the method is processed</b>.  This is true because a method's access is limited to its member fields and previously defined (or the same) methods of the class.  This information would be already entered into the class table entry for the class.
                         </p>
                         <p>
-                            When a method definition is encountered,<b> a unique label must be generated for the method and the label must be entered into the class table entry of the method.</b>  Thus, the call address to any method can be determined from the class table entry of the corresponding class.  (In the next stage, we will see that a more sophisticated stratgey will be needed to support inheritance).
+                            When a method definition is encountered,<b> a unique label must be generated for the method and the label must be entered into the class table entry of the method.</b>Thus, the call address to any method can be determined from the class table entry of the corresponding class.  (In the next stage, we will see that a more sophisticated stratgey will be needed to support inheritance).
                         </p>
                         <p>
                             Storage allocation for class variables is equally simple.  Just as was done for user defined types, a call to new must allocate a block of 8 words in the heap for storing the member fields of the variable.  The start address of this block must be assigned to the variable.
