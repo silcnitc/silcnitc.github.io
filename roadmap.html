@@ -1464,17 +1464,19 @@
                                  If available,
                                  <br>
                                  {
-                                   &nbsp;&nbsp;&nbsp;&nbsp; Allocate an un-allocated temporary to the variable by setting the temp field in the   symbol table. Generate code to transfer the contents of &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the memory location storing the variable to the temporary and return the index of the temporary register.<br>
-
+                                  <br>
+                                   &nbsp;&nbsp;&nbsp;&nbsp; Allocate an un-allocated temporary to the variable by setting the temp field in the   symbol table. Generate code to transfer the contents of &nbsp;&nbsp;&nbsp;&nbsp;the memory location storing the variable to the temporary and return the index of the temporary register.
+                                   <br>
                                  }
                                  <br>
                                  else
                                  
                                  {
                                   <br>
-                                  &nbsp;&nbsp;&nbsp;&nbsp;Select a variable to be “<i>cached out</i>.”  A simple replacement policy is to <b>replace any variable with the lowest value of</b> <i>reference_count</i> and &nbsp;&nbsp;&nbsp;&nbsp;release its temporary by invoking the <i>freeTemp()</i> function.   (We will soon discuss how to assign reference count to variables).<br>
+                                  &nbsp;&nbsp;&nbsp;&nbsp;1)Select a variable to be “<i>cached out</i>.”  A simple replacement policy is to <b>replace any variable with the lowest value of</b> <i>reference_count</i> and &nbsp;&nbsp;&nbsp;&nbsp;release its temporary by invoking the <i>freeTemp()</i> function.   (We will soon discuss how to assign reference count to variables).<br>
 
-                                  &nbsp;&nbsp;&nbsp;&nbsp;Allocate the released temporary register to the variable by setting the temp field in the symbol table.  <b> Generate code to load the contents of &nbsp;&nbsp;&nbsp;&nbsp;the variable from memory to the temporary register</b> (See also Exercise 1 below) and return the register index.<br>
+                                  &nbsp;&nbsp;&nbsp;&nbsp;2)Allocate the released temporary register to the variable by setting the temp field in the symbol table.  <b> Generate code to load the contents &nbsp;&nbsp;&nbsp;&nbsp;of the variable from memory to the temporary register</b> (See also Exercise 1 below) and return the register index.
+                                  <br>
                                  }
                                  
                                  </p>
@@ -1482,25 +1484,42 @@
                              <li>
                               <i>  Changes to the code generation Phase</i>:  Since <i>getTemp()</i> returns a register holding the variable, it is not longer required to transfer contents of the register to another register for accessing values.  Similar changes are required when a variable is assigned a value.
                              </li>
-                             <li> <i>Simplifying Assumptions</i>:   To simplify the implementation, we assume the following:
-                              <p>a) <b>Temporary allocation will be made afresh inside each function</b>. <i>Before a function call is made, all temporaries allocated by the caller must be pushed to the stack and popped back upon return</i>. Before a function returns, all temporary allocations made by the function are released.  (If a global variable is assigned a temporary register by the function, then code must be generated to store back the temporary to the memory location of the corresponding variable before return). </p>
-                              <p>b)<b>Temporary allocation will not be done for arrays</b>.</p>
+                             <li>
+                              <i>Simplifying Assumptions</i>:   To simplify the implementation, we assume the following:
+                              <p>
+                                 a)<b>Temporary allocation will be made afresh inside each function</b>. <i>Before a function call is made, all temporaries allocated by the caller must be pushed to the stack and popped back upon return</i>. Before a function returns, all temporary allocations made by the function are released.  (If a global variable is assigned a temporary register by the function, then code must be generated to store back the temporary to the memory location of the corresponding variable before return).
+                              </p>
+                              <p>
+                                 b)<b>Temporary allocation will not be done for arrays</b>.
+                              </p>
                              </li>
                              <li>
                                <i>Assigning reference_count</i>:  Reference count for each variable will be computed incrementaly during abstract synatax tree construction phase for the function and these values will be decremented during each access to the variable during the code generation phase.  The steps are detailed below.
-                               <p> a) While processing declarations in a function, reference_count for all variables visible to the function (global and local) is initalized to zero. </p>
-                               <p> b)  For each function in the program, during the Abstract Syntax Tree construction phase for a function, each time when a reference to a variable is encountered in the function (that is, for each symbol table serach to the variable), the reference count for the variable is incremented.    Hence, at the end of the AST construction phase, the reference count will indicate the total number of times the variable was accessed in the program.  </p>
-                               <p> c) During code generation, each time a variable is accessed, <i>reference_count</i> is decremented.  Hence, <i>reference_count</i> will indicate the number times the variable will be accessed subsequently during the function's compilation.   Hence, if <i>reference_count</i> reaches zero, there are no static (compile time) references for the variable to be encountered further in the function. </p>
+                               <p> 
+                               a) While processing declarations in a function, reference_count for all variables visible to the function (global and local) is initalized to zero.
+                                </p>
+                               <p>
+                                b)  For each function in the program, during the Abstract Syntax Tree construction phase for a function, each time when a reference to a variable is encountered in the function (that is, for each symbol table serach to the variable), the reference count for the variable is incremented.    Hence, at the end of the AST construction phase, the reference count will indicate the total number of times the variable was accessed in the program. 
+                                 </p>
+                               <p>
+                                c) During code generation, each time a variable is accessed, <i>reference_count</i> is decremented.  Hence, <i>reference_count</i> will indicate the number times the variable will be accessed subsequently during the function's compilation.   Hence, if <i>reference_count</i> reaches zero, there are no static (compile time) references for the variable to be encountered further in the function.
+                                 </p>
                              </li>
 
                         </ol>
                         <hr>
                     </p>
 
-                    <p> <b>Task 1</b>:  Implement the register allocation scheme as outline above.</p>
-                    <p> <b> Important Note: </b> The fact that the reference to a variable at a program point is the last encounted during compilation of a function <b>by no means ensure</b> that the variable will not be accessed during run time after execution of the particular statement within the function (figure out why?)  Hence, <i>reference_count</i> is only a very naive heuristic for predicting  the future use of a variable (see exercises below).   You are advised to read standard text books on compiler design to gain further insight into various register allocation techniques in the literature.  Going further into these details is beyond the scope of this project.  However, we just note that the problem of allocating registers optimally is computationally hard [REF] and hence any solution to the problem will necessarily rely on heuristics.</p>
+                    <p> 
+                        <b>Task 1</b>:  Implement the register allocation scheme as outline above.
+                    </p>
+                    <p> 
+                        <b> Important Note: </b> The fact that the reference to a variable at a program point is the last encounted during compilation of a function <b>by no means ensure</b> that the variable will not be accessed during run time after execution of the particular statement within the function (figure out why?)  Hence, <i>reference_count</i> is only a very naive heuristic for predicting  the future use of a variable (see exercises below).   You are advised to read standard text books on compiler design to gain further insight into various register allocation techniques in the literature.  Going further into these details is beyond the scope of this project.  However, we just note that the problem of allocating registers optimally is computationally hard [REF] and hence any solution to the problem will necessarily rely on heuristics.
+                    </p>
 
-                    <p> <i>Exercise 1</i>:  The present <i>getTemp()</i> function is inefficient during assignment of a new value to a variable because, it is wasteful to transfer its existing value from the memory to it's temporary register.  Modify the temporary allocator interface as:  <i> getTemp(variable_name, load_flag)</i>, where <i>load_flag=1</i> only if the variable's existing value must be loaded to the temporary, and  <i>load_flag=0</i> otherwise.  Modify the code generation phase to eliminate the inefficiency mentioned above.  </p>
+                    <p> 
+                        <i>Exercise 1</i>:  The present <i>getTemp()</i> function is inefficient during assignment of a new value to a variable because, it is wasteful to transfer its existing value from the memory to it's temporary register.  Modify the temporary allocator interface as:  <i> getTemp(variable_name, load_flag)</i>, where <i>load_flag=1</i> only if the variable's existing value must be loaded to the temporary, and  <i>load_flag=0</i> otherwise.  Modify the code generation phase to eliminate the inefficiency mentioned above. 
+                     </p>
 
                 </article>
 
