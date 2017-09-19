@@ -1441,7 +1441,7 @@
                              </b>.(Consequently, if an expression is too long requiring more than 6 registers for storing intermediate values, the compiler must flag an error indicating that it encountered an expression that was too long to handle). 
                              </li>
                              <li>
-                             <i>Temporary pool</i>:  Reserve registers  <b>R6-R19 as a separate register pool for temporary storage</b> of variables.  (We will refer to these registers as “temporaries”)  We will use this register pool as a “cache” where values of program variables (except for array type variables) will be stored for fast access.  We will design new functions <i>getTemp()</i> and
+                             <i>Temporary pool</i>:  Reserve registers  <b>R6-R19 as a separate register pool for temporary storage</b> of variables(We will refer to these registers as “temporaries”).  We will use this register pool as a “cache” where values of program variables (except for array type variables) will be stored for fast access.  We will design new functions <i>getTemp()</i> and
                               <i>freeTemp()</i> to allocate and de-allocate temporaries from this pool.  We will call this register pool the <b>temporary pool</b>.
                             </li>
                              <li>
