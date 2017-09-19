@@ -1494,15 +1494,15 @@
                                 <br>
                              </li>
                              <li>
-                               <i>Assigning reference_count</i>:  Reference count for each variable will be computed incrementaly during abstract synatax tree construction phase for the function and these values will be decremented during each access to the variable during the code generation phase.  The steps are detailed below.
+                               <i>Assigning reference_count</i>:  Reference count for each variable will be computed incrementally during abstract synatax tree construction phase for the function and these values will be decremented during each access to the variable during the code generation phase.  The steps are detailed below.
                                <p> 
                                a) While processing declarations in a function, reference_count for all variables visible to the function (global and local) is initalized to zero.
                                 </p>
                                <p>
-                                b)  For each function in the program, during the Abstract Syntax Tree construction phase for a function, each time when a reference to a variable is encountered in the function (that is, for each symbol table serach to the variable), the reference count for the variable is incremented.    Hence, at the end of the AST construction phase, the reference count will indicate the total number of times the variable was accessed in the program. 
+                                b)  For each function in the program, during the Abstract Syntax Tree construction phase for a function, each time when a reference to a variable is encountered in the function (that is, for each symbol table search to the variable), the reference count for the variable is incremented.    Hence, at the end of the AST construction phase, the reference count will indicate the total number of times the variable was accessed in the program. 
                                  </p>
                                <p>
-                                c) During code generation, each time a variable is accessed, <i>reference_count</i> is decremented.  Hence, <i>reference_count</i> will indicate the number times the variable will be accessed subsequently during the function's compilation.   Hence, if <i>reference_count</i> reaches zero, there are no static (compile time) references for the variable to be encountered further in the function.
+                                c) During code generation, each time a variable is accessed, <i>reference_count</i> is decremented.  Hence, <i>reference_count</i> will indicate the number of times the variable will be accessed subsequently during the function's compilation.   Hence, if <i>reference_count</i> reaches zero, there are no static (compile time) references for the variable to be encountered further in the function.
                                  </p>
                              </li>
 
@@ -1741,7 +1741,7 @@
                         <p>
                             <b>Learning Objectives</b>:
                             <ul>
-                                 <li id="otis">You will extend the language of Stage 7 by adding support for single inheritance and subtype polymorphism to make OExpL an <i>object oriented</i> language.</li>
+                                 <li id="otis">You will extend the language of Stage 8 by adding support for single inheritance and subtype polymorphism to make OExpL an <i>object oriented</i> language.</li>
                             </ul>
                             <hr>
                         </p>
