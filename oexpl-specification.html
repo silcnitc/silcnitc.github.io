@@ -63,114 +63,114 @@
                         <h2>Introduction</h2>
                         <p>
                             An informal specification for a minimal object oriented extension of the ExpL languge with support for
-                            <a href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)" target="_blank">Inheritance</a> and<a href="https://en.wikipedia.org/wiki/Polymorphism_(computer_science)" target="_blank"> subtype polymorphism </a> is outlined here.  
+                            <a href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)" target="_blank">Inheritance</a> and<a href="https://en.wikipedia.org/wiki/Polymorphism_(computer_science)" target="_blank"> subtype polymorphism </a> is outlined here.
                         </p>
                     </article>
 
                     <article class="grid col-full" id="nav-class-definitions">
                         <h2>Class Definitions</h2>
                         <p>
-                            Classes extend the notion of ExpL types.  A class <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)" target="_blank">encapsulates </a> <b><i>member fields</i></b> and <b><i>member functions</i></b> (called <b>methods</b> in OOP jargon).  The following is an example for a class definition.Standard syntax and semantics conventions followed in languages like Java and C++ are assumed.   
-                        </p>  
+                            Classes extend the notion of ExpL types.  A class <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)" target="_blank">encapsulates </a> <b><i>member fields</i></b> and <b><i>member functions</i></b> (called <b>methods</b> in OOP jargon).  The following is an example for a class definition.Standard syntax and semantics conventions followed in languages like Java and C++ are assumed.
+                        </p>
 
 
                         <pre>
                             <i>Class</i>
-                            &nbsp;Person  
+                            &nbsp;Person
                             {
                             &nbsp;&nbsp;<i>str</i> name;
-                            &nbsp;&nbsp;<i>int</i> age;  
-                            &nbsp;&nbsp;<i>int</i> printDetailsdetails() 
+                            &nbsp;&nbsp;<i>int</i> age;
+                            &nbsp;&nbsp;<i>int</i> printDetailsdetails()
                             &nbsp; {
                             &nbsp;&nbsp;     <i>decl</i>   /*  local variables, if any */ <i> enddecl </i>
                             &nbsp;&nbsp;     <i>begin</i>
                             &nbsp;&nbsp;&nbsp;&nbsp;          <i>write</i>(name);
-                            &nbsp;&nbsp;&nbsp;&nbsp;          <i>write</i>(age);  
-                            &nbsp;&nbsp;&nbsp;&nbsp;          <i>return</i> 1;  
+                            &nbsp;&nbsp;&nbsp;&nbsp;          <i>write</i>(age);
+                            &nbsp;&nbsp;&nbsp;&nbsp;          <i>return</i> 1;
                             &nbsp;&nbsp;     <i>end</i>
                             &nbsp;  }
 
-                            &nbsp;str findName() 
+                            &nbsp;str findName()
                             &nbsp; {
                             &nbsp;    <i>decl   enddecl</i>
-                            &nbsp;    <i>begin</i> 
-                            &nbsp;&nbsp;&nbsp;       <i>return</i> (self.name); 
-                            &nbsp;    <i>end</i>  
+                            &nbsp;    <i>begin</i>
+                            &nbsp;&nbsp;&nbsp;       <i>return</i> (self.name);
+                            &nbsp;    <i>end</i>
                             &nbsp;  }
-                            &nbsp;<i>int</i> createPerson(str name, int age) 
-                            &nbsp; { 
-                            &nbsp;       <i>decl           enddecl</i> 
+                            &nbsp;<i>int</i> createPerson(str name, int age)
+                            &nbsp; {
+                            &nbsp;       <i>decl           enddecl</i>
                             &nbsp;       <i>begin</i>
                             &nbsp;&nbsp;&nbsp;               self.name = name;
-                            &nbsp;&nbsp;&nbsp;               self.age = age;  
-                            &nbsp;&nbsp;&nbsp;               <i>return</i> 1;  
+                            &nbsp;&nbsp;&nbsp;               self.age = age;
+                            &nbsp;&nbsp;&nbsp;               <i>return</i> 1;
                             &nbsp;       <i>end</i>
-                            &nbsp;  }      
-                            &nbsp;}   /*end of person definition */   
+                            &nbsp;  }
+                            &nbsp;}   /*end of person definition */
                             <i>endclass</i>  /* end of all class definitions */
                         </pre>
 
                         <p>
-                            All the class definitions in a program must be placed together, between the keywords <i>class</i> and <i>endclass</i>.   Declaration of class variables follow exactly the same syntax as declaration of user defined type variables in ExpL. <b>The member fields of a class must be declared before member functions are defined.</b>   Class definitions must be placed after type definitions, but before global declarations.  (Further example programs are provided at the end).   Methods of a class are defined directly within the class definition and does not require a prior declaration.  
+                            All the class definitions in a program must be placed together, between the keywords <i>class</i> and <i>endclass</i>.   Declaration of class variables follow exactly the same syntax as declaration of user defined type variables in ExpL. <b>The member fields of a class must be declared before member functions are defined.</b>   Class definitions must be placed after type definitions, but before global declarations.  (Further example programs are provided at the end).   Methods of a class are defined directly within the class definition and does not require a prior declaration.
                         </p>
-                        <p>                        
-                             Since OExpL is designed for  pedegogical purposes, the following restrictions are imposed to simplify implementation.    
+                        <p>
+                             Since OExpL is designed for  pedegogical purposes, the following restrictions are imposed to simplify implementation.
 
                          <ol type="a">
-                            <li> 
-                                <b>The member fields of a class may only be of type integer, string or user defined types  (and not variables of classes ).</b> Thus the language supports <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank"><i>  Composition over Inheritance.</i></a>
-                            </li> 
-                            <li> 
-                                <b>Member fields of a class are private to the class</b> in the sense that they can be accessed only by the methods defined in the class.  The language does not permit <i>access modifiers</i> like <a href="https://en.wikipedia.org/wiki/Access_modifiers" target="_blank"><b>public</b> or <b>protected</b>.</a> 
+                            <li>
+                                <b>The member fields of a class may only be of type integer, string, user defined types, previously defined classes or of the same class.</b> Thus the language supports <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank"><i>  Composition over Inheritance.</i></a>
                             </li>
-                            <li> 
-                                <b>Class variables can be declared only globally.  Class variables cannot be arguments to functions; a function cannot have a class as its return type</b> and class variables cannot occur as local variables within functions.  
+                            <li>
+                                <b>Member fields of a class are private to the class</b> in the sense that they can be accessed only by the methods defined in the class.  The language does not permit <i>access modifiers</i> like <a href="https://en.wikipedia.org/wiki/Access_modifiers" target="_blank"><b>public</b> or <b>protected</b>.</a>
+                            </li>
+                            <li>
+                                <b>Class variables can be declared only globally.  Class variables cannot be arguments to functions; a function cannot have a class as its return type</b> and class variables cannot occur as local variables within functions.
                                 <!--(Exercises in the <a href="http://silcnitc.github.io/roadmap.html" target="_blank">roadmap</a> extends the language by dropping some of these restrictions).-->
-                            </li>  
+                            </li>
 
                            <li>
                                 In methods defined within a class, the special keyword <b>self</b> refers to the instance of the class through which the method was invoked.  (The  usage is similar in spirit  to  <a href="https://en.wikipedia.org/wiki/This_(computer_programming)" target="_blank"><b>this</b> in C++.</a>
-                            </li> 
-                            <li> 
-                                The methods defined in a class may have parameters as well as local variables.  The syntax and semantics rules are similar to other ExpL functions. 
+                            </li>
+                            <li>
+                                The methods defined in a class may have parameters as well as local variables.  The syntax and semantics rules are similar to other ExpL functions.
                                  However, there are some important differences:
                          	<p>
 
                                 a) <b>Methods</b> of a class, apart from its arguments and local variables,<b> have access only to the member fields of the corresponding class.</b>
                             	<br>
 
-                           
-                                b) <b>A method can invoke only functions defined previously in the same class or functions inherited from its parent class. </b> However,<b> recursive calls to the same function are permitted.</b>
-                         
 
-                             
-                                 (These restrictions not only aids single pass compilation,  but also avoid issues like the <a href="https://en.wikipedia.org/wiki/Fragile_base_class" target="_blank"> <i>fragile base class problem</i></a>). 
+                                b) <b>A method can invoke only functions defined previously in the same class or functions inherited from its parent class or methods of class variables occuring as member fields of the class. </b> However,<b> recursive calls to the same function are permitted.</b>
+
+
+
+                                 (These restrictions not only aids single pass compilation,  but also avoid issues like the <a href="https://en.wikipedia.org/wiki/Fragile_base_class" target="_blank"> <i>fragile base class problem</i></a>).
                              </p>
-                          
+
                             </li>
                          </ol>
                         </p>
                         <p>
-                           
+
 
                         </p>
 
-                       
+
 
                          <p>
-                                To put in short 
+                                To put in short
                             <ol type="a">
-                            <li> 
-                                class variables can only be global.  
+                            <li>
+                                class variables can only be global.
                             </li>
                             <li>
-                                Member functions of a class can access only its member fields,  previously defined methods, local variables and  arguments. 
+                                Member functions of a class can access only its member fields,  previously defined methods, local variables, arguments and methods of member fields.
                             </li>
                             <li>
-                                Member fields of a class can be accessed from outside only through member functions of the class.  
+                                Member fields of a class can be accessed from outside only through member functions of the class.
                             </li>
                             </ol>
-                        <p>  
+                        <p>
 
                     </article>
                     <article class="grid col-full" id="nav-inheritance">
@@ -180,43 +180,43 @@
                             The language supports class<b> extension</b>.  A class defined by extention of another is called a <i>derived class</i> (or <i>child class</i>) of the <i>parent class</i> (sometimes called the <i>base class</i>). The following example demonstrates the syntax of class extension.  The language does not support<a href="https://en.wikipedia.org/wiki/Multiple_inheritance" target="_blank"> multiple inheritance </a> .
                         </p>
                         <pre>
-                            <i>Class</i> {  
+                            <i>Class</i> {
 
                             &nbsp;      person  {
                             &nbsp;&nbsp;           <i> str</i> name;
-                            &nbsp;&nbsp;            <i>int</i> age;  
+                            &nbsp;&nbsp;            <i>int</i> age;
                             &nbsp;&nbsp;            <i>int</i> printDetails() {
-                            &nbsp;&nbsp;&nbsp;                 <i>decl</i>   /*  local variables, if any */<i>enddecl</i> 
+                            &nbsp;&nbsp;&nbsp;                 <i>decl</i>   /*  local variables, if any */<i>enddecl</i>
                             &nbsp;&nbsp;&nbsp;                 <i>begin</i>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.name);
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.age);  
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>return</i> 1;  
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.age);
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>return</i> 1;
                             &nbsp;&nbsp;&nbsp;                 <i>end</i>
                             &nbsp;&nbsp;            }
 
                             &nbsp;&nbsp;            <i>str</i> findName() {
                             &nbsp;&nbsp;&nbsp;                <i>decl   enddecl</i>
-                            &nbsp;&nbsp;&nbsp;                <i>begin</i> 
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                   <i>return</i> (self.name); 
-                            &nbsp;&nbsp;&nbsp;                <i>end</i>  
+                            &nbsp;&nbsp;&nbsp;                <i>begin</i>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                   <i>return</i> (self.name);
+                            &nbsp;&nbsp;&nbsp;                <i>end</i>
                             &nbsp;&nbsp;           }
 
-                            &nbsp;&nbsp;            <i>int</i> createPerson(str name, int age) { 
-                            &nbsp;&nbsp;&nbsp;                   <i>decl           enddecl</i> 
+                            &nbsp;&nbsp;            <i>int</i> createPerson(str name, int age) {
+                            &nbsp;&nbsp;&nbsp;                   <i>decl           enddecl</i>
                             &nbsp;&nbsp;&nbsp;                   <i>begin</i>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           self.name = name;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           self.age = age;  
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           <i>return</i> 1;  
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           self.age = age;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           <i>return</i> 1;
                             &nbsp;&nbsp;&nbsp;                   <i>end</i>
-                            &nbsp;&nbsp;            }      
-                            &nbsp;      }   /*end of person definition */   
+                            &nbsp;&nbsp;            }
+                            &nbsp;      }   /*end of person definition */
 
                             &nbsp;       Student <i>extends</i> Person {
-                            &nbsp;&nbsp;               /*  The members name and age are inherited from the parent class */  
+                            &nbsp;&nbsp;               /*  The members name and age are inherited from the parent class */
                             &nbsp;&nbsp;               <i>int</i> rollNo;
-                            &nbsp;&nbsp;               <i>str</i> dept;  
+                            &nbsp;&nbsp;               <i>str</i> dept;
                             &nbsp;&nbsp;               <i>int</i> createPerson(str name, int age, int rollNo, str dept)  {
-                            &nbsp;&nbsp;&nbsp;                /*  createPerson is overridden */  
+                            &nbsp;&nbsp;&nbsp;                /*  createPerson is overridden */
                             &nbsp;&nbsp;&nbsp;                    <i>decl   enddecl</i>
                             &nbsp;&nbsp;&nbsp;                    <i>begin</i>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        self.name =name;
@@ -225,29 +225,29 @@
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        self.dept = dept;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        <i>return</i> 1;
                             &nbsp;&nbsp;&nbsp;                     <i>end</i>
-                            &nbsp;&nbsp;               } 
+                            &nbsp;&nbsp;               }
                             &nbsp;&nbsp;               <i>int</i> printDetails() {
                             &nbsp;&nbsp;&nbsp;                   /** This function is also overridden in the derived class */
-                            &nbsp;&nbsp;&nbsp;                   <i>decl     enddecl</i> 
+                            &nbsp;&nbsp;&nbsp;                   <i>decl     enddecl</i>
                             &nbsp;&nbsp;&nbsp;                   <i>begin</i>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.name);
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.age);  
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.age);
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.rollNo);
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.dept);
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>return</i> 1;  
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>return</i> 1;
                             &nbsp;&nbsp;&nbsp;                   <i>end</i>
                             &nbsp;&nbsp;               }
                             &nbsp;&nbsp;               /**  The derived class inherits the printDetails() function from the parent **/
                             &nbsp;      }  /* end of student class */
 
-                            &nbsp;    <i>endclass</i>  /* end of all class definitions */ 
+                            &nbsp;    <i>endclass</i>  /* end of all class definitions */
 
                         </pre>
                         <p>
                             The semantics of class extension can be summarized as follows:
                          <ol>
-                            <li> 
-                            <b>The derived class inherits all member data fields of the parent class automatically. </b> If additional fields are defined, they will be specific to the derived class.<b>The derived class cannot re-declare a member field already declared in the parent class.</b>   
+                            <li>
+                            <b>The derived class inherits all member data fields of the parent class automatically. </b> If additional fields are defined, they will be specific to the derived class.<b>The derived class cannot re-declare a member field already declared in the parent class.</b>
                             </li>
 
                             <li>
@@ -264,7 +264,7 @@
                     <article class="grid col-full" id="nav-class-variables-and-instantiation">
                         <h2>Class variables and Instantiation</h2>
                         <p>
-                            Class variables are declared just like other variables in the global declaration section after type definitions and class definitions.  
+                            Class variables are declared just like other variables in the global declaration section after type definitions and class definitions.
                         </p>
                         <p>
                             Example:
@@ -274,17 +274,17 @@
 
                             &nbsp;decl
                             &nbsp;&nbsp;&nbsp;      <i>int</i> n,temp;
-                            &nbsp;&nbsp;&nbsp;      <i>string</i> name;    
+                            &nbsp;&nbsp;&nbsp;      <i>string</i> name;
                             &nbsp;&nbsp;&nbsp;      <i>person</i>  first;
-                            &nbsp;&nbsp;&nbsp;      <i>student</i>  second;  
-                            &nbsp;&nbsp;&nbsp;      <i>person</i> arbitrary;  
+                            &nbsp;&nbsp;&nbsp;      <i>student</i>  second;
+                            &nbsp;&nbsp;&nbsp;      <i>person</i> arbitrary;
                             &nbsp;<i>enddecl</i>
                             </pre>
                         </p>
 
 
                         <p>
-                            Object instance is created for a variable of a class with the built-in function <i>new</i>.  The language does not support <a href="https://en.wikipedia.org/wiki/Constructor_(object-oriented_programming" target="_blank">constructors  and destructors</a>.  Hence intitialization of objects has to be done explicitly.  An object can be deallocated using the built-in function <i>delete</i>.  The function <i>new</i> will create an object of a specified class at run time, and assigns a <i>reference</i> to the object into a variable.  A variable of a given class may be assigned a reference to an object of any desendent class using <i>new</i>.  Access semantics of class variables is similar to  ExpL user-defined-types,  except for the details associated with methods defined within classes.  These details are described below. 
+                            Object instance is created for a variable of a class with the built-in function <i>new</i>.  The language does not support <a href="https://en.wikipedia.org/wiki/Constructor_(object-oriented_programming" target="_blank">constructors  and destructors</a>.  Hence intitialization of objects has to be done explicitly.  An object can be deallocated using the built-in function <i>delete</i>.  The function <i>new</i> will create an object of a specified class at run time, and assigns a <i>reference</i> to the object into a variable.  A variable of a given class may be assigned a reference to an object of any desendent class using <i>new</i>.  Access semantics of class variables is similar to  ExpL user-defined-types,  except for the details associated with methods defined within classes.  These details are described below.
                         </p>
 
                     </article>
@@ -294,20 +294,20 @@
 
                         <h2>Subtype Polymorphism</h2>
                         <p>
-                        <b>A variable of a parent class can refer to any object in its inheritance hierarchy.</b>  That is, if class B extends class A and class C extends class B, then a variable of class A can refer to objects of classes A, B or C, whereas a variable of class B can refer to any object of class B or C.  (References are set using the ExpL <i>assignment statement</i> in the normal way, as with user defined types. The  function <i><b> new </b></i>  can also be used to set the reference for a variable).   When a method is invoked with a variable of class B or C,  if the method is inherited from an ancestor class, the ancestor's method is invoked.   This is illustrated by the following examples.  
+                        <b>A variable of a parent class can refer to any object in its inheritance hierarchy.</b>  That is, if class B extends class A and class C extends class B, then a variable of class A can refer to objects of classes A, B or C, whereas a variable of class B can refer to any object of class B or C.  (References are set using the ExpL <i>assignment statement</i> in the normal way, as with user defined types. The  function <i><b> new </b></i>  can also be used to set the reference for a variable).   When a method is invoked with a variable of class B or C,  if the method is inherited from an ancestor class, the ancestor's method is invoked.   This is illustrated by the following examples.
                         </p>
                         <p>
                         <pre>
-                        <i>begin</i> 
-                        &nbsp;&nbsp;&nbsp;       first=<i>new</i>(person);  
+                        <i>begin</i>
+                        &nbsp;&nbsp;&nbsp;       first=<i>new</i>(person);
                         &nbsp;&nbsp;&nbsp;       temp = first.createPerson(“Rogers”, 37)  /* invokes method in class person */
-                        &nbsp;&nbsp;&nbsp;       second=new(student);  
+                        &nbsp;&nbsp;&nbsp;       second=new(student);
                         &nbsp;&nbsp;&nbsp;       temp = second.createPerson(“Mathew”, 35, 999, “CS”);  /*invokes method in class student */
                         &nbsp;&nbsp;&nbsp;       name = first.findName(); /* invokes method in class person */
-                        &nbsp;&nbsp;&nbsp;       name = second.findName();  /* invokes <i>inherited</i> method in class person */  
+                        &nbsp;&nbsp;&nbsp;       name = second.findName();  /* invokes <i>inherited</i> method in class person */
                         &nbsp;&nbsp;&nbsp;       <i>delete</i>(first);
-                        &nbsp;&nbsp;&nbsp;       <i>delete</i>(second);  
-                        <i>end;</i>  
+                        &nbsp;&nbsp;&nbsp;       <i>delete</i>(second);
+                        <i>end;</i>
                         </pre>
                         </p>
                     </article>
@@ -316,50 +316,50 @@
 
                          <h2> Run time Binding</h2>
 
-                         <p>   
-                            Suppose that a variable declared to be of a parent class in an inheritance hierarchy holds the reference to an instance of a derived class.  On invocation of a method of the parent class variable, if the method is over-ridden by the derived class, the method of the derived class is invoked.   
+                         <p>
+                            Suppose that a variable declared to be of a parent class in an inheritance hierarchy holds the reference to an instance of a derived class.  On invocation of a method of the parent class variable, if the method is over-ridden by the derived class, the method of the derived class is invoked.
                          </p>
                          <p>
-                            This pivotal feature of object oriented programming compilcates the compiler implementation because<b> at the time of  generating code for a method invocation, the correct method to call may not be known,</b> as illustrated in the example below.  
+                            This pivotal feature of object oriented programming compilcates the compiler implementation because<b> at the time of  generating code for a method invocation, the correct method to call may not be known,</b> as illustrated in the example below.
                           </p>
-                          <p>  
+                          <p>
                           <pre>
-                            &nbsp;begin 
-                            &nbsp;&nbsp;&nbsp;   first=<i>new</i>(person);  
+                            &nbsp;begin
+                            &nbsp;&nbsp;&nbsp;   first=<i>new</i>(person);
                             &nbsp;&nbsp;&nbsp;   temp = first.createPerson(“Rogers”, 37)  /* invokes method in class person */
-                            &nbsp;&nbsp;&nbsp;   second=<i>new</i>(student);  
+                            &nbsp;&nbsp;&nbsp;   second=<i>new</i>(student);
                             &nbsp;&nbsp;&nbsp;   temp = second.createPerson(“Mathew”, 35, 999, “CS”);  /*invokes method in class student */
                             &nbsp;&nbsp;&nbsp;   <i>read</i>(n);  /*  The run time value of n is not known at compile time */
-                            &nbsp;&nbsp;&nbsp;   <i>if</i> (n>0) <i>then</i> 
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  arbitrary = first; 
+                            &nbsp;&nbsp;&nbsp;   <i>if</i> (n>0) <i>then</i>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  arbitrary = first;
                             &nbsp;&nbsp;&nbsp;   <i>else</i>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  arbitrary = second ;
                             &nbsp;&nbsp;&nbsp;<i>   endif;  </i>
-                            &nbsp;&nbsp;&nbsp;   n = arbitrary.printDetails();  /* Function not determined at compile time */   
+                            &nbsp;&nbsp;&nbsp;   n = arbitrary.printDetails();  /* Function not determined at compile time */
                             &nbsp;&nbsp;&nbsp;   <i>delete</i>(first);
-                            &nbsp;&nbsp;&nbsp;   <i>delete</i>(second);  
-                            &nbsp;<i>end;</i> 
-                        </pre> 
+                            &nbsp;&nbsp;&nbsp;   <i>delete</i>(second);
+                            &nbsp;<i>end;</i>
+                        </pre>
                         </p>
                         <p>
-                             In the above code, the value of the variable n read from the input at run-time determines whether the variable <i>arbitrary</i> refers to an object of the class - person or the class - student.   Consequently, at compile time, we cannot decide whether the call <i>arbitrary.printDetails()</i> must be translated to an invocation of the function in the parent class or the child class. 
-                        </p>   
-                        <p>
-                            To resolve such function invocations, the method of  <a href="https://en.wikipedia.org/wiki/Late_binding" target="_blank">dynamic binding</a> must be implemented using the  <a href="https://en.wikipedia.org/wiki/Virtual_method_table" target="_blank">The virtual function table method</a> .A tutorial explaining the implementation of virtual function tables is given <a href="http://silcnitc.github.io/Virtual-method-table.html" target="_blank">The virtual function table Tutorial</a>  here.     
+                             In the above code, the value of the variable n read from the input at run-time determines whether the variable <i>arbitrary</i> refers to an object of the class - person or the class - student.   Consequently, at compile time, we cannot decide whether the call <i>arbitrary.printDetails()</i> must be translated to an invocation of the function in the parent class or the child class.
                         </p>
                         <p>
-                            <b>Note:</b>  The project road-map permits a program to be split into multiple class files that can be compiled seprately into object files and build together.  In the present documentation, we ignore this feature. 
+                            To resolve such function invocations, the method of  <a href="https://en.wikipedia.org/wiki/Late_binding" target="_blank">dynamic binding</a> must be implemented using the  <a href="https://en.wikipedia.org/wiki/Virtual_method_table" target="_blank">The virtual function table method</a> .A tutorial explaining the implementation of virtual function tables is given <a href="http://silcnitc.github.io/Virtual-method-table.html" target="_blank">The virtual function table Tutorial</a>  here.
                         </p>
-                        
+                    <!---    <p>
+                            <b>Note:</b>  The project road-map permits a program to be split into multiple class files that can be compiled seprately into object files and build together.  In the present documentation, we ignore this feature.
+                        </p> -->
+
                     </article>
 
                      <article class="grid col-full" id="nav-sample-programs">
                      <h2>Sample Programs</h2>
                           <p>
-                            Example Programs are <a href = "oexpl-testprograms.html" target="_blank">here</a>. 
+                            Example Programs are <a href = "oexpl-testprograms.html" target="_blank">here</a>.
                          </p>
                     </article>
-                    
+
                     <article class="grid col-full" id="nav-appendix">
                         <h2>Appendix</h2>
                         <h4>Keywords</h4>
@@ -452,7 +452,7 @@
         <ul class="grid col-one-third social">
             <li><a href="http://github.com/silcnitc">Github</a></li>
         </ul>
-        <div class="grid col-one-third" style="color:black;"> 
+        <div class="grid col-one-third" style="color:black;">
             <p style="font-weight: bold;">Contributed By : <a> Dr. Murali Krishnan K. </a>
             </p>
         </div>
