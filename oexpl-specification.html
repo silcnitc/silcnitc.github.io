@@ -79,7 +79,7 @@
 
 
                         <p>
-                            All the class definitions in a program must be placed together, between the keywords <i>class</i> and <i>endclass</i>.   Declaration of class variables follow exactly the same syntax as declaration of user defined type variables in ExpL. <b>The member fields of a class must be declared before member functions are declared.</b>   Class definitions must be placed after type definitions, but before global declarations.  (Further example programs are provided at the end).  
+                            All the class definitions in a program must be placed together, between the keywords <i>class</i> and <i>endclass</i>.   Declaration of class variables follow exactly the same syntax as declaration of user defined type variables in ExpL. <b>The member fields of a class must be declared before member functions are declared.</b>   Class definitions must be placed after type definitions, but before global declarations.  (Further example programs are provided at the end).
                         </p>
                         <p>
                              Since OExpL is designed for  pedegogical purposes, the following restrictions are imposed to simplify implementation.
@@ -108,11 +108,11 @@
                             	<br>
 
 
-                                b) <b>A method can invoke only functions defined previously in the same class or functions inherited from its parent class or methods of class variables occuring as member fields of the class. </b> However,<b> recursive calls to the same function are permitted.</b>
+                                b) <b>A method can invoke only functions of the same class or functions inherited from its parent class or methods of class variables occuring as member fields of the class. </b> <!-- However, <b> recursive calls to the same function are permitted.</b>-->
 
 
 
-                                 (These restrictions not only aids single pass compilation,  but also avoid issues like the <a href="https://en.wikipedia.org/wiki/Fragile_base_class" target="_blank"> <i>fragile base class problem</i></a>).
+                                 (Be aware of <a href="https://en.wikipedia.org/wiki/Fragile_base_class" target="_blank"> <i>fragile base class problem</i></a>).
                              </p>
 
                             </li>
@@ -132,7 +132,7 @@
                                 class variables can only be global.
                             </li>
                             <li>
-                                Member functions of a class can access only its member fields,  previously defined methods, local variables, arguments and methods of member fields.
+                                Member functions of a class can access only its member fields, methods, local variables, arguments and methods of member fields.
                             </li>
                             <li>
                                 Member fields of a class can be accessed from outside only through member functions of the class.
