@@ -46,14 +46,72 @@
                 <div class="grid-wrap">
                   <article class="grid col-full" id="nav-introduction">
                       <h2>Introduction</h2>
+                      OExpL compilation requires only one additional data structure - the class table.
+The class table stores information pertaining to member fields and methods defined
+in a class.  The data in the table is set up during parsing of class definitions.
                     </article>
-                  <article class="grid col-one-half mq3-col-full">
+                  <!--<article class="grid col-one-half mq3-col-full">
                        <div class="sepmini"></div>
                        <h4>CLASS TABLE</h4>
                        <div class="sepmini"></div>
                        <p>The Class Table carries information about members and methods of the class in Object oriented extension of ExpL....</p>
                        <a href="oexpl_data_structures/class-table.html" target="_blank" class="arrow fright">Read more</a>
+                     </article> -->
+
+                     <article class="grid col-full" id="nav-structure">
+                         <h2>Structure</h2>
+                         <p>
+                             The structure of Class Table(CT) is as follows:
+                         </p>
+                         <script src="/js/930c933aa9c06c7effdacb5ba3fad13e.js"></script>
+                         <p>
+                             <span style="color:red;font-size:12px;">&#10011;</span><b>NOTE</b>:
+                         </p>
+                         <p>
+                           Memberfield list is used to store the information regarding the type, name, fieldindex and type of class of all the member fields
+                             of that class.
+
+                         </p>
+                         <script src="/js/1b636208fe1f6f61b3fd700053f185c6.js"></script>
+                         <p>
+                          Memberfunc list is used to store the information regarding the type, name of the function, argument list, it's flabel and it's position.
+                         </p>
+                         <script src="/js/5d19a615add340158d5f11cb07a8fa6c.js"></script>
                      </article>
+                     <article class="grid col-full" id="nav-associated-methods">
+                         <h2>Associated Methods</h2>
+                         <ul>
+
+                             <li>struct Classtable* <b>CInstall</b>(char *name,char *parent_class_name) : Creates a  class table entry of given 'name' and extends the fields and the methods of parent class. </li>
+                             <li>struct Classtable* <b>CLookup</b>(char *name) : Search for a class table entry with the given 'name', if exists, return pointer to class table entry else return NULL.</li>
+                             <li>
+                               void <b>Class_Finstall</b>(struct Classtable *cptr, char *typename, char *name) : Installs the field into the given class table entry which is given as an argument.
+                             </li>
+                             <li>
+                               void <b>Class_Minstall</b>(struct Classtable *cptr, char *name, struct Typetable *type, struct Paramstruct *arglist) : Installs the method into the given class table entry which is given as an argument.
+                             </li>
+                         </ul>
+                     </article>
+                     <article class="grid col-full" id="nav-illustration">
+                         <h2>Illustration</h2>
+                         <p>
+                             Here is an example illustrating it.
+                         </p>
+                       <script src="/js/6a973317f3e10937b42981b2147be063.js"></script>
+                         <ol>
+                             <li>As soon as the compiler encounters the class name , it installs the class name and the parent class name if present into the class table.
+                               Subsequently, If there is an extension to the parent class, all the member fields and methods of parent class are inherited. Following is how class table looks when <i>person</i> is installed.<br>
+                                 <a href="/img/class_table_1.png"> <img src="/img/class_table_1.png" style="height:90%"></img></a>
+                             </li>
+                             <li>
+                                 Following is how class table looks when <i>student</i> class is installed.<br>
+                                 <!--Similarly for <i>rollno,average,findaverage(linkedlist marks)</i>, symbol table entries are formed and installed.-->
+                                 <br><a href="/img/class_table_2.png">  <img src="/img/class_table_2.png"></img></a>
+                             </li>
+
+                         </ol>
+                     </article>
+
                  </div>
              </section>
            </div>
