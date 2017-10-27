@@ -155,11 +155,12 @@
                             The semantics of class extension can be summarized as follows:
                          <ol>
                             <li>
-                            <b>The derived class inherits all member data fields of the parent class automatically. </b> If additional fields are defined, they will be specific to the derived class.<b>The derived class cannot re-declare a member field already declared in the parent class.</b>
+                            <b>The derived class inherits all member data fields of the parent class automatically. </b> If additional fields are defined, they will be specific to the derived class. <b>The derived class cannot re-declare a member field already declared in the parent class.</b>
+
                             </li>
 
                             <li>
-                            <b>The derived class inherits only those methods of the parent class which are not re-defined (overridden).</b>  If a method is overridden, the new definition will be the only valid definition for the derived class.<b>The signature of the overridden method must match exactly in both number and types of arguments with the signature of the function in the parent class.
+                            <b>The derived class inherits only those methods of the parent class which are not re-defined (overridden).</b>  If a method is overridden, the new definition will be the only valid definition for the derived class. All the overridden methods must be declared again in the derived class. <b>The signature of the overridden method must match exactly in both number and types of arguments with the signature of the function in the parent class.
                             </b>  Only one function of the same name is permitted in a class.  Thus, the language does <b>not</b> permit <a  href=" https://en.wikipedia.org/wiki/Function_overloading" target="_blank">function overloading</a>.
                             </li>
                         </ol>
