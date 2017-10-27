@@ -73,44 +73,7 @@
                             Classes extend the notion of ExpL types.  A class <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)" target="_blank">encapsulates </a> <b><i>member fields</i></b> and <b><i>member functions</i></b> (called <b>methods</b> in OOP jargon).  The following is an example for a class definition.Standard syntax and semantics conventions followed in languages like Java and C++ are assumed.
                         </p>
 
-<!--
-                        <pre>
-                            <i>Class</i>
-                            &nbsp;Person
-                            {
-                            &nbsp;&nbsp;<i>str</i> name;
-                            &nbsp;&nbsp;<i>int</i> age;
-                            &nbsp;&nbsp;<i>int</i> printDetailsdetails()
-                            &nbsp; {
-                            &nbsp;&nbsp;     <i>decl</i>   /*  local variables, if any */ <i> enddecl </i>
-                            &nbsp;&nbsp;     <i>begin</i>
-                            &nbsp;&nbsp;&nbsp;&nbsp;          <i>write</i>(name);
-                            &nbsp;&nbsp;&nbsp;&nbsp;          <i>write</i>(age);
-                            &nbsp;&nbsp;&nbsp;&nbsp;          <i>return</i> 1;
-                            &nbsp;&nbsp;     <i>end</i>
-                            &nbsp;  }
 
-                            &nbsp;str findName()
-                            &nbsp; {
-                            &nbsp;    <i>decl   enddecl</i>
-                            &nbsp;    <i>begin</i>
-                            &nbsp;&nbsp;&nbsp;       <i>return</i> (self.name);
-                            &nbsp;    <i>end</i>
-                            &nbsp;  }
-                            &nbsp;<i>int</i> createPerson(str name, int age)
-                            &nbsp; {
-                            &nbsp;       <i>decl           enddecl</i>
-                            &nbsp;       <i>begin</i>
-                            &nbsp;&nbsp;&nbsp;               self.name = name;
-                            &nbsp;&nbsp;&nbsp;               self.age = age;
-                            &nbsp;&nbsp;&nbsp;               <i>return</i> 1;
-                            &nbsp;       <i>end</i>
-                            &nbsp;  }
-                            &nbsp;}   /*end of person definition */
-                            <i>endclass</i>  /* end of all class definitions */
-                        </pre>
-
-                      -->
 
                       <script src="../js/a5a21ac08e12e3a57e8a7136100e0a50.js"></script>
 
@@ -185,74 +148,6 @@
                             The language supports class<b> extension</b>.  A class defined by extention of another is called a <i>derived class</i> (or <i>child class</i>) of the <i>parent class</i> (sometimes called the <i>base class</i>). The following example demonstrates the syntax of class extension.  The language does not support<a href="https://en.wikipedia.org/wiki/Multiple_inheritance" target="_blank"> multiple inheritance </a> .
                         </p>
 
-                        <!--
-
-                        <pre>
-                            <i>Class</i> {
-
-                            &nbsp;      person  {
-                            &nbsp;&nbsp;           <i> str</i> name;
-                            &nbsp;&nbsp;            <i>int</i> age;
-                            &nbsp;&nbsp;            <i>int</i> printDetails() {
-                            &nbsp;&nbsp;&nbsp;                 <i>decl</i>   /*  local variables, if any */<i>enddecl</i>
-                            &nbsp;&nbsp;&nbsp;                 <i>begin</i>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.name);
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.age);
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>return</i> 1;
-                            &nbsp;&nbsp;&nbsp;                 <i>end</i>
-                            &nbsp;&nbsp;            }
-
-                            &nbsp;&nbsp;            <i>str</i> findName() {
-                            &nbsp;&nbsp;&nbsp;                <i>decl   enddecl</i>
-                            &nbsp;&nbsp;&nbsp;                <i>begin</i>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                   <i>return</i> (self.name);
-                            &nbsp;&nbsp;&nbsp;                <i>end</i>
-                            &nbsp;&nbsp;           }
-
-                            &nbsp;&nbsp;            <i>int</i> createPerson(str name, int age) {
-                            &nbsp;&nbsp;&nbsp;                   <i>decl           enddecl</i>
-                            &nbsp;&nbsp;&nbsp;                   <i>begin</i>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           self.name = name;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           self.age = age;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           <i>return</i> 1;
-                            &nbsp;&nbsp;&nbsp;                   <i>end</i>
-                            &nbsp;&nbsp;            }
-                            &nbsp;      }   /*end of person definition */
-
-                            &nbsp;       Student <i>extends</i> Person {
-                            &nbsp;&nbsp;               /*  The members name and age are inherited from the parent class */
-                            &nbsp;&nbsp;               <i>int</i> rollNo;
-                            &nbsp;&nbsp;               <i>str</i> dept;
-                            &nbsp;&nbsp;               <i>int</i> createPerson(str name, int age, int rollNo, str dept)  {
-                            &nbsp;&nbsp;&nbsp;                /*  createPerson is overridden */
-                            &nbsp;&nbsp;&nbsp;                    <i>decl   enddecl</i>
-                            &nbsp;&nbsp;&nbsp;                    <i>begin</i>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        self.name =name;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        self.age = age;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        self.rollNo = rollNo;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        self.dept = dept;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        <i>return</i> 1;
-                            &nbsp;&nbsp;&nbsp;                     <i>end</i>
-                            &nbsp;&nbsp;               }
-                            &nbsp;&nbsp;               <i>int</i> printDetails() {
-                            &nbsp;&nbsp;&nbsp;                   /** This function is also overridden in the derived class */
-                            &nbsp;&nbsp;&nbsp;                   <i>decl     enddecl</i>
-                            &nbsp;&nbsp;&nbsp;                   <i>begin</i>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.name);
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.age);
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.rollNo);
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>write</i>(self.dept);
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      <i>return</i> 1;
-                            &nbsp;&nbsp;&nbsp;                   <i>end</i>
-                            &nbsp;&nbsp;               }
-                            &nbsp;&nbsp;               /**  The derived class inherits the printDetails() function from the parent **/
-                            &nbsp;      }  /* end of student class */
-
-                            &nbsp;    <i>endclass</i>  /* end of all class definitions */
-
-                        </pre>
-
-                      -->
 
                     <script src="../js/6a973317f3e10937b42981b2147be063.js"></script>
 
@@ -281,20 +176,7 @@
                         </p>
                         <p>
                             Example:
-                            <!--
-                            <pre>
-                            /*  Type definitions */
-                            /*  Class definitions  */
 
-                            &nbsp;decl
-                            &nbsp;&nbsp;&nbsp;      <i>int</i> n,temp;
-                            &nbsp;&nbsp;&nbsp;      <i>string</i> name;
-                            &nbsp;&nbsp;&nbsp;      <i>person</i>  first;
-                            &nbsp;&nbsp;&nbsp;      <i>student</i>  second;
-                            &nbsp;&nbsp;&nbsp;      <i>person</i> arbitrary;
-                            &nbsp;<i>enddecl</i>
-                            </pre>
-                          -->
                           <script src="../js/406d14fb431de1b8d5cb3fb517a3c271.js"</script>
                         </p>
 
@@ -306,7 +188,18 @@
                     </article>
 
 
-                
+                    <article class="grid col-full" id="nav-subtype-polymorphism">
+
+                        <h2>Subtype Polymorphism</h2>
+                        <p>
+                        <b>A variable of a parent class can refer to any object in its inheritance hierarchy.</b>  That is, if class B extends class A and class C extends class B, then a variable of class A can refer to objects of classes A, B or C, whereas a variable of class B can refer to any object of class B or C.  (References are set using the ExpL <i>assignment statement</i> in the normal way, as with user defined types. The  function <i><b> new </b></i>  can also be used to set the reference for a variable).   When a method is invoked with a variable of class B or C,  if the method is inherited from an ancestor class, the ancestor's method is invoked.   This is illustrated by the following examples.
+                        </p>
+                        <p>
+
+
+                      <script src="../js/23c82bb7f80ddc45cbf8f968b53a2bf3.js"></script>
+                        </p>
+                    </article>
 
                      <article class="grid col-full" id="nav-run-time-binding">
 
@@ -319,25 +212,7 @@
                             This pivotal feature of object oriented programming compilcates the compiler implementation because<b> at the time of  generating code for a method invocation, the correct method to call may not be known,</b> as illustrated in the example below.
                           </p>
                           <p>
-                            <!--
-                          <pre>
-                            &nbsp;begin
-                            &nbsp;&nbsp;&nbsp;   first=<i>new</i>(person);
-                            &nbsp;&nbsp;&nbsp;   temp = first.createPerson(“Rogers”, 37)  /* invokes method in class person */
-                            &nbsp;&nbsp;&nbsp;   second=<i>new</i>(student);
-                            &nbsp;&nbsp;&nbsp;   temp = second.createPerson(“Mathew”, 35, 999, “CS”);  /*invokes method in class student */
-                            &nbsp;&nbsp;&nbsp;   <i>read</i>(n);  /*  The run time value of n is not known at compile time */
-                            &nbsp;&nbsp;&nbsp;   <i>if</i> (n>0) <i>then</i>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  arbitrary = first;
-                            &nbsp;&nbsp;&nbsp;   <i>else</i>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  arbitrary = second ;
-                            &nbsp;&nbsp;&nbsp;<i>   endif;  </i>
-                            &nbsp;&nbsp;&nbsp;   n = arbitrary.printDetails();  /* Function not determined at compile time */
-                            &nbsp;&nbsp;&nbsp;   <i>delete</i>(first);
-                            &nbsp;&nbsp;&nbsp;   <i>delete</i>(second);
-                            &nbsp;<i>end;</i>
-                        </pre>
-                      -->
+                          
                       <script src="../js/9271df4a7c12014d200ead3692452291.js"></script>
                         </p>
                         <p>
