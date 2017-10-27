@@ -77,16 +77,23 @@
                           <article class="grid col-full" id="nav-associated-methods">
                               <h2>Associated Methods</h2>
                               <ul>
-                                  <li>struct Gsymbol* <b>GInstall</b>(char *name,struct Typetable *type, int size, struct ParamStruct *paramlist) : Creates a  Global Symbol entry of given 'name', 'type', 'size' and 'parameter list' and assigns a static address('binding') to the variable (or label for the function).</li>
-                                  <li>struct Gsymbol* <b>GLookup</b>(char *name) : Search for a GST entry with the given 'name', if exists, return pointer to GST entry else return NULL.</li>
+
+                                  <li>struct Classtable* <b>CInstall</b>(char *name,char *parent_class_name) : Creates a  class table entry of given 'name' and extends the fields and the methods of parent class. </li>
+                                  <li>struct Classtable* <b>CLookup</b>(char *name) : Search for a class table entry with the given 'name', if exists, return pointer to class table entry else return NULL.</li>
+                                  <li>
+                                    void <b>Class_Finstall</b>(struct Classtable *cptr, char *typename, char *name) : Installs the field into the given class table entry which is given as an argument.
+                                  </li>
+                                  <li>
+                                    void <b>Class_Minstall</b>(struct Classtable *cptr, char *name, struct Typetable *type, struct Paramstruct *arglist) : Installs the method into the given class table entry which is given as an argument.
+                                  </li>
                               </ul>
                           </article>
                           <article class="grid col-full" id="nav-illustration">
                               <h2>Illustration</h2>
                               <p>
-                                  Continuing with earlier example, let us add Global declaration section to it.
+                                  Here is an example illustrating it.
                               </p>
-                              <script src="../js/f1d20b44ca4389ed1be6.js"></script>
+                            <script src="../js/6a973317f3e10937b42981b2147be063.js"></script>
                               <ol>
                                   <li>As soon as the compiler encounters the global declaration of a variable or funtion, it is installed into the Global Symbol Table. Subsequently, the parameters are attached to the entry in the case of functions. Following is how GST looks when <i>studentname</i> is installed.<br>
                                       <a href="../img/data_structure_5.png"> <img src="../img/data_structure_5.png" style="height:90%"></img></a>
