@@ -42,7 +42,9 @@
                   <li><a class="sec" href="#nav-oexpl-specification">OExpL Specification</a></li>
                   <li><a class="sec" href="#nav-oexpl-grammar-outline">OExpL Grammar Outline</a></li>
                   <li><a class="sec" href="#nav-compiletime-datastructures">Compile Time Data Structures</a></li>
+                  <li><a class="sec" href="#nav-compiletime-datastructures-OExpl">Compile Time Data Structures OExpl</a></li>
                   <li><a class="sec" href="#nav-runtime-datastructures">Run Time Data Structures</a></li>
+                  <li><a class="sec" href="#nav-runtime-datastructures-OExpl">Run Time Data Structures OExpl</a></li>
                   <li><a class="sec" href="#nav-codegen">Code Generation</a></li>
                   <li><a class="sec" href="#nav-label-translation">Label Translation</a></li>
                   <li><a class="sec" href="#nav-abi">Application Binary Interface</a></li>
@@ -101,10 +103,23 @@
                     <p>The compilation of an ExpL program involves two phases. In the first phase (called the analysis phase), the source ExpL program is analyzed (lexical, syntax and semantic analysis are completed in this phase) and if the program is free of syntax and semantic errors, an intermediate representation of ...
                     <a href ="data-structures.html" target="_blank">read more</a></p>
                 </article>
+
+                <article class="grid col-full" id="nav-compiletime-datastructures-OExpl">
+                    <h2>Compile Time Data Structures OExpl</h2>
+                    <p>The compilation of an ExpL program involves two phases. In the first phase (called the analysis phase), the source ExpL program is analyzed (lexical, syntax and semantic analysis are completed in this phase) and if the program is free of syntax and semantic errors, an intermediate representation of ...
+                    <a href ="oexpl-data-structures.html" target="_blank">read more</a></p>
+                </article>
+
                 <article class="grid col-full" id="nav-runtime-datastructures">
                     <h2>Run Time Data Structures</h2>
                     <p>Before explaining the data structures used for the execution phase, it is necessary to understand the requirements and the underlying theoretical concepts in some detail. <a href ="run-data-structures.html" target="_blank">read more</a></p>
                 </article>
+
+                <article class="grid col-full" id="nav-runtime-datastructures-OExpl">
+                    <h2>Run Time Data Structures OExpl</h2>
+                    <p>Before explaining the data structures used for the execution phase, it is necessary to understand the requirements and the underlying theoretical concepts in some detail. <a href ="oexpl-run-data-structures.html" target="_blank">read more</a></p>
+                </article>
+
                 <article class="grid col-full" id="nav-codegen">
                     <h2>Code Generation</h2>
                     <p>ExpL compiler converts the intermediate representation(the abstract syntax tree) of the ExpL program to a machine code that can be readily executed by the XSM machine. The codeGen() function takes as input a pointer to the root of an abstract syntax tree and a pointer to a file to which the target code has to be written. The codeGen() function generates assembly code corresponding to the program represented by the AST. The codeGen() function essentially invokes itself <b>recursively</b> to generate ... <a href ="codegen.html" target="_blank">read more</a></p>
@@ -121,9 +136,9 @@
                 <article class="grid col-full" id="nav-library-implementation">
                     <h2>Library Implementation</h2>
                     <p>
-                        The ABI stipulates that the code for a <b>common shared library</b> must be linked to the address space of every program.  The library code must be linked to logical page 0 and logical page 1 of each program.  When an ExpL source program is compiled by an ExpL compiler, the compiler generates code containing calls to the library assuming the library functions will be "there" in the address space when the program is eventually loaded for execution.  It is the responsibility of the OS loader to ...<a href ="library-implementation.html" target="_blank">read more</a> 
+                        The ABI stipulates that the code for a <b>common shared library</b> must be linked to the address space of every program.  The library code must be linked to logical page 0 and logical page 1 of each program.  When an ExpL source program is compiled by an ExpL compiler, the compiler generates code containing calls to the library assuming the library functions will be "there" in the address space when the program is eventually loaded for execution.  It is the responsibility of the OS loader to ...<a href ="library-implementation.html" target="_blank">read more</a>
                     </p>
-                    
+
                 </article>
                 <article class="grid col-full" id="nav-install">
                     <h2>XSM Simulator Installation</h2>
@@ -136,23 +151,23 @@
                     <p>
                         The XSM (eXperimental String Machine) Simulator is used to simulate the hardware and OS abstractions specified in the ExpOS Application Binary Interface. Within your XSM directory, use the following command to run the simulator ... <a href="xsmusagespec.html" target="_blank">read more</a>.
                     </p>
-                    
+
                 </article>
                 <article class="grid col-full" id="nav-xsm-env-tut">
                     <h2>XSM Execution Environment Tutorial</h2>
                     <p>
-                        This tutorial helps you to gain a basic understanding of the execution environment provided by the XSM simulator. The compiler you design for the ExpL language is supposed to generate target XSM machine code that runs on the XSM Simulator provided to you. However, the bare machine cannot directly run the target code. The operating system (OS) that runs on top of the machine is the actual software that sets up an execution enviornment necessary for ... <a href="xsm-environment-tut.html">read more</a>. 
+                        This tutorial helps you to gain a basic understanding of the execution environment provided by the XSM simulator. The compiler you design for the ExpL language is supposed to generate target XSM machine code that runs on the XSM Simulator provided to you. However, the bare machine cannot directly run the target code. The operating system (OS) that runs on top of the machine is the actual software that sets up an execution enviornment necessary for ... <a href="xsm-environment-tut.html">read more</a>.
                     </p>
                 </article>
 
                 <article class="grid col-full" id="nav-test-progs">
                     <h2>Test Programs</h2>
-                    <p>The programs can be found <a href="testprograms.html" target="_blank">here</a>.</p>                    
+                    <p>The programs can be found <a href="testprograms.html" target="_blank">here</a>.</p>
                 </article>
 
                 <article class="grid col-full" id="nav-oexpl-test-progs">
                     <h2>OExpl Test Programs</h2>
-                    <p>The programs can be found <a href="oexpl-testprograms.html" target="_blank">here</a>.</p>                    
+                    <p>The programs can be found <a href="oexpl-testprograms.html" target="_blank">here</a>.</p>
                 </article>
             </section>
         </div>
