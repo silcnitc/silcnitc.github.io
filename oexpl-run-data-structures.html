@@ -47,9 +47,9 @@
                   <article class="grid col-full" id="nav-virtual-function-table">
                       <h2>Virtual Function Table</h2>
                       <p>
-            
+
                         Virtual Function Table is a run time data structure that is used to resolve what method to be called when there is
-                        inheritance, Polymorphism and Method Overriding. For a virtual function table of a class, 8 blocks of memory is allocated.
+                        inheritance, Polymorphism and Method Overriding and the exact method to be called cannot be decided at the compile time. For a virtual function table of a class, 8 blocks of memory is allocated.
 
                       </p>
                     </article>
@@ -64,11 +64,11 @@
 
                              Virtual function table start at 4096 in the stack, and it grows with the increase in number of the classes.
                              <br />
-                             After creating the virtual function table, the we will allocate the space for global declarations.
+                             After creating the virtual function table, we will allocate the space for global declarations.
                              <br />
                              By using the class index, the starting address in virtual function table for that particular class is known.
                              <br />
-                             Starting at index 4096, the class index * 8 + 4096 is the address of the current class virtual function table. The class index starts from 0.
+                             Starting at index 4096, the <b>(class index * 8 + 4096)</b> is the address of the current class virtual function table. The class index starts from 0.
 
                              <br />
                              For every method declaration, a new label is alloted.
