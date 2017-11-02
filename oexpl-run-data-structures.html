@@ -70,7 +70,7 @@
                              <br />
                              Starting at index 4096, the <b>(class index * 8 + 4096)</b> is the address of the current class virtual function table. The class index starts from 0.
 
-                          
+                           </p>
 
                            </li>
 
@@ -80,19 +80,14 @@
 
                              For every method declaration, a new label is alloted.
                              <br />
-                             In class A, the function f1 gets an funcposition 0 and say flabel f1 and
-                              <br/>  the function f2 gets an funcposition 1 and say a flabel f2.
-                          </p>
+                             In the given example, the function f1 in class A gets a <b>funcposition 0</b> and say <b>flabel f1</b> and the function f2 in class A gets a <b>funcposition 1</b> and say <b>flabel f2</b>.
 
                           <p>
 
-
-                              Following is how virtual function table looks in the stack when class <i>A</i> is installed using the pointer to the member function list of class A.<br>
-
-                              So, the member function list of class A looks as shown in the below figure :
+                              The member function list of class A looks as shown in the below figure :
                                 <br><a href="#"> <img src="#"></img></a>
                               <br />
-                              So, the virtual function table of class A looks as shown in the below figure. It is constructed using member function list of class A as shown in the above figure :
+                              The virtual function table of class A looks as shown in the figure below. It is constructed using member function list of class A which is shown in the figure above.
                               <!--Similarly for <i>rollno,aerage,findaverage(linkedlist marks)</i>, symbol table entries are formed and installed.-->
 
                             <br><a href="../img/virtual_function_table_1.png">  <img src="../img/virtual_function_table_1.png"></img></a>
