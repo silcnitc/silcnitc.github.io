@@ -44,18 +44,98 @@
             </aside>
             <section class="grid col-three-quarters mq2-col-full">
                 <div class="grid-wrap">
-                  <article class="grid col-full" id="nav-introduction">
-                      <h2>Introduction</h2>
+                    <article class="grid col-full" id="nav-introduction">
+                        <h2>Introduction</h2>
+                        <p>
+                          This document explains how the control flow is happening from the calling object when there is inheritance,subtype
+                        polymorphism and method overriding. For a virtual function table of a class, 8 blocks of memory is allocated.
+
+                      </p>
                     </article>
-                  <article class="grid col-one-half mq3-col-full">
-                       <div class="sepmini"></div>
-                       <h4>VIRTUAL FUNCTION TABLE</h4>
-                       <div class="sepmini"></div>
-                       <p>The Virutal function table carries information about index and labels of methods of all the classes in Object oriented extension of ExpL....</p>
-                       <a href="oexpl_runtime_data_structures/virtual_function_table.html" target="_blank" class="arrow fright">Read more</a>
-                     </article>
-                 </div>
-             </section>
+                    <article class="grid col-full" id="nav-illustration">
+                        <h2>Illustration</h2>
+
+                          <script src="../js/71e1ad248ff055d56e110287d80d0b0a.js"></script>
+                            <ol>
+                            <li>
+
+                          <p>
+
+                             Virtual function table start at 4096 in the stack, and it grows with the increase in number of the classes.
+                             <br />
+                             After creating the virtual function table, the we will allocate the space for global declarations.
+                             <br />
+                             By using the class index, the starting address in virtual function table for that particular class is known.
+                             <br />
+                             Starting at index 4096, the class index * 8 + 4096 is the address of the current class virtual function table. The class index starts from 0.
+
+                             <br />
+                             For every method declaration, a new label is alloted.
+                             <br />
+                             In class A, the function f1 gets an funcposition 0 and say flabel f1 and
+                              <br/>  the function f2 gets an funcposition 1 and say a flabel f2.
+                          </p>
+
+                          <p>
+
+
+                              Following is how virtual function table looks in the stack when class <i>A</i> is installed using the pointer to the member function list of class A.<br>
+
+                              So, the member function list of class A looks as shown in the below figure :
+                                <br><a href="#"> <img src="#"></img></a>
+                              <br />
+                              So, the virtual function table of class A looks as shown in the below figure. It is constructed using member function list of class A as shown in the above figure :
+                              <!--Similarly for <i>rollno,aerage,findaverage(linkedlist marks)</i>, symbol table entries are formed and installed.-->
+
+                            <br><a href="../img/virtual_function_table_1.png">  <img src="../img/virtual_function_table_1.png"></img></a>
+                          </p>
+                          </li>
+
+                          <li>
+                            <!--
+                        <p>
+                           For every method declaration, a new label is alloted.
+                           In class A, the function f1 gets an index 0 an say label f1 and
+                            <br/>  the function f2 gets an index 1 and say a label f2.
+                        </p>
+
+
+                            Following is how virtual function table looks in the stack when <i>A</i> class is installed.<br>-->
+                            <!--Similarly for <i>rollno,average,findaverage(linkedlist marks)</i>, symbol table entries are formed and installed.-->
+                            In class B, there are two methods f1() and f3() and it is extending class A. When a class extends other class,
+                            all the member fields and methods of the parent class are inherited by the derived class. Suppose as in this example,
+                            if the method signatures of the parent class and the derived class match, then method overriding occurs.
+                            <br />
+                            <a href="https://en.wikipedia.org/wiki/Method_overriding">Method Overriding</a> means the definition of the method that belongs to
+                            parent class is replaced by the definition of the method which is already present in the derived class.
+
+                            Here, f1() method of class B overrides the f1() method of class A.
+
+                            Let us see how the process of method overriding occurrs, how the member function list is updated for the derived class.
+                            This is demonstrated using the classes B and A of this OExpL program.
+
+                            Here, class B is extending class A.
+                            So, all the member fields and methods of class A is inherited by class B.
+
+                            So, now the member function list looks as shown in the figure below.
+
+                            <img />
+
+                            Here method f1() derived from class A, will be overridden by the method f1() of class B.
+                            As stated above, a new label will be alloted, for the f1() method of class B.
+                            Now, we need to update the member func list entry of the f1() method in class B, by new flabel given to the method f1() of class B.
+
+                            Similarly, the member func list for class C will be constructed.
+
+                            <br><a href="../img/virtual_function_table_2.png">  <img src="../img/virtual_function_table_2.png"></img></a>
+                        </li>
+
+                        </ol>
+                    </article>
+
+                  </div>
+              </section>
+
            </div>
            </div>
            <footer class="center part clearfix">
