@@ -63,9 +63,9 @@
                       <p>
                         The OExpL compiler maintains a virtual function table of eight words for each class.  Hence, a class can have at most eight
                         member functions.  The i-th entry in the table holds the address of the i-th function of the class (identified by the
-                        field <b>Funcposition</b> in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table</a>).
+                        field <b>Funcposition</b> in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table</a> - see Memberfunclist).
                          While generating code, if there is a call to a function within a class, the compiler simply translates the call to "CALL [address]",
-                          where address is obtained from the corresponding class table.
+                          where address is obtained from the corresponding virtual function table.
                       </p>
                       <p>
                          A simple way to place the virtual function table is to use the initial part of the stack region (starting at memory
