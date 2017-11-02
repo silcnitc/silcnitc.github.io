@@ -39,7 +39,7 @@
                   <li><a class="sec" href="#nav-virtual-function-table">Virtual Function Table</a></li>
                   <li><a class="sec" href="#nav-illustration">Illustration</a></li>
                   <li><a class="sec" href="#nav-importance">Importance Of Virtual Function Table</a></li>
-                  <li><a class="sec" href="#nav-resolve"></a>Resolving Strategy using Virtual Function Table</li>
+                  <li><a class="sec" href="#nav-resolve">Resolving Strategy using Virtual Function Table</a></li>
               </ul>
               </menu>
               <!-- <a class="button" href="">Download as PDF</a> -->
@@ -159,13 +159,11 @@
                     <article class="grid col-full" id="nav-resolve">
                       <h2>Resolving Strategy</h2>
 
-                      For every class variable, generally one block of memory in stack is allocated.
+                      For every class variable, generally one block of memory in stack is allocated for storing the heap address.
                       But with the introduction of subtyping, we face the problem of resolution of which method to call as shown in the example
                       above.
                       So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
                       One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
-
-
 
                       <h4> During Compile Time</h4>
 
@@ -177,15 +175,23 @@
                       When it encounters the statement, <b> obj = new(A);</b>, the second block of object is set.
                       The second block of the object is to be set with the starting address of virtual function table of a class.
                       So, here,
-                      (4096 + class_index * 8) is the starting address of virtual function table of the required class.
+                      (4096 + class_index * 8) is the starting address of virtual function table of the required class. The class_index value
+                      will be decided at the run time and the complete address will be calculated.
 
-                      <h4>During Run Timw</h4>
+                      <h4>During Run Time</h4>
 
                       The class_index value is obtained during the run time.
+                      During run time, only one if will be executed. That means the class_index of that particular class is obtained.
                       With this, the object stores the virtual function table address of the required class in which the method to be called is present.
                       The funcposition in the virtual function table will be same for all the methods with same name, in different classes.
                       Let start_index be the starting index of the virtual function table of the required class.
                       Now, start_index + class_index gives the flabel of the exact function to be called.
+
+                      MOV r0,virtualfunctiontable starting address
+                      mov r1,class_index_of_required_class
+                      add r0,r1
+                      call r0
+
 
                     </article>
 
