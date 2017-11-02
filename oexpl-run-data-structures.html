@@ -99,14 +99,11 @@ point to the virtual function table of the class of the variable.  This is becau
 
                           <p>
 
-                             Virtual function table starts at 4096 in the stack, and it grows with the increase in number of the classes.
-                             <br />
-                             After creating the virtual function table, we will allocate the space for global declarations.
-                             <br />
-                             By using the class index, the starting address in virtual function table for that particular class is known.
-                             <br />
-                             Starting at index 4096, the <b>(class index * 8 + 4096)</b> is the address of the current class virtual function table. The class index starts from 0.
+                             Virtual function table starts at 4096 in the stack.  Eight words are allocated for each class defined in the program for storing the virtual function table in consecutive eight word blocks.  As noted earlier, we will allocate the space for global declarations after virtual function tables are allocated.
+                           </p>
 
+                           <p>
+                              By using the <i>class_index</i>, the starting address in virtual function table for that particular class can be computed using the formula  <b>4096 + (class index * 8)</b>.  The class defined first will have class index zero, the next will have one and so on.
                            </p>
 
                            </li>
@@ -117,15 +114,20 @@ point to the virtual function table of the class of the variable.  This is becau
 
                              <li>
 
+                               <p>
+
+                             When the declaration of each method is found (in a class) a new label is generated for the function and the label is stored in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table entry</a> for the function at compile time.   The compiler also must generate code to store these labels into the virtual function table entry of the function in the corresponding class.  The index of the function in the class table (funcposition) and the virtual function table is maintained to be the same.
+
+                           </p>
+
+                           <p> [Note:  It is sufficient to place labels, and not addresses in the virtual function table, as the <a href="http://silcnitc.github.io/label-translation.html">label translation phase</a> will take care of translating labels to addresses]. </p>
+
+                           <p>
+                             In the example given, the function f1 in class A has  funcposition 0 and say flabel f0 and the function f2 in class A gets a funcposition 1 and say flabel f1. The member function list of class A looks as shown in the below figure :
 
 
-                             For every method declaration, a new label is alloted.
-                             <br />
-                             In the given example, the function f1 in class A gets a <b>funcposition 0</b> and say <b>flabel f0</b> and the function f2 in class A gets a <b>funcposition 1</b> and say <b>flabel f1</b>.
 
-                          <p>
 
-                              The member function list of class A looks as shown in the below figure :
                                 <br><a href="../img/virtual_function_table_3.png"> <img src="../img/virtual_function_table_3.png"></img></a>
                               <br />
                               The virtual function table of class A looks as shown in the figure below. It is constructed using member function list of class A which is shown in the figure above.
@@ -178,7 +180,7 @@ point to the virtual function table of the class of the variable.  This is becau
                             <br />
                         </li>
 
-                        
+
                         </ol>
                     </article>
 
