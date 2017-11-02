@@ -178,23 +178,23 @@
                       (4096 + class_index * 8) is the starting address of virtual function table of the required class. The class_index is that of the class
                       that is present in new. So, for <b>obj = new(A);</b> 4096 is stored because class index of A is 0. Similarly, for class B, 5004 is stored.
                       For class C, 5012 is stored.
-
-                      if '( n < 0)'
-                      then the two words of obj is :
-                      <img />
-                      if '(n = 0)'
-                      then the two words of obj is :
-                      <img />
-                      if '(n > 0)'
-                      then the two words of obj is :
-                      <img />
-
                       When the compiler encounters a call statement, from the second block of A we get start address of virtual function table,
                       and funcposition is obtained from the member function table of class to which this object belongs to.
                       Both are added and the value present in that address(flabel) is stored in a register.
                       Then a call to the register is made.
 
                       <h4>During Run Time</h4>
+
+
+                      if '( n < 0)'
+                      then the two words of obj is :
+                      <a href="../img/virtual_function_table_5.png">  <img src="../img/virtual_function_table_5.png"></img>
+                      if '(n = 0)'
+                      then the two words of obj is :
+                      <a href="../img/virtual_function_table_6.png">  <img src="../img/virtual_function_table_6.png"></img>
+                      if '(n > 0)'
+                      then the two words of obj is :
+                      <a href="../img/virtual_function_table_7.png">  <img src="../img/virtual_function_table_7.png"></img>
 
                       During run time, only one if will be executed. That means by the completion of if,else block, required values are set,
                       and the call to the required function is made.
