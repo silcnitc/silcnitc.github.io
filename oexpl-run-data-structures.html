@@ -144,10 +144,22 @@ point to the virtual function table of the class of the variable.  This is becau
                            In class A, the function f1 gets an index 0 an say label f1 and
                             <br/>  the function f2 gets an index 1 and say a label f2.
                         </p>
+                        <p>
 
 
                             Following is how virtual function table looks in the stack when <i>A</i> class is installed.<br>-->
                             <!--Similarly for <i>rollno,average,findaverage(linkedlist marks)</i>, symbol table entries are formed and installed.-->
+
+                            <p>
+                              Class B extends class A and over-rides f1().  Class B further contains the newly defined function f3().   When a class extends other class, all the member fields and methods of the parent class are inherited by the derived class, unless over-ridden by a new definition.  Here, B over-rides the method f1() method of class A.  OExpL specification stipulates that the signatures of the over-ridden method in B must match exactly with the signature of the original definition in the parent class.
+                            </p>
+
+                            <p>
+                              To how the process of method overriding must be implemented,  we look at how the member function list is updated for the derived class.  This is demonstrated below using the classes B and A of this OExpL program. Here, class B is extending class A.  Hence all the member fields and methods of class A is inherited by class B initially.  However, since the method f1() is overridden by Class B, a new label will be alloted, for the f1() in class B.   Accordingly, we will update member func list entry of the f1() method in class B, by new flabel assigned to f1() of class B. Similarly,  <i>member func list</i> entries for class C will be constructed. The final class tables and corresponding member function lists are shown in the figure below.
+                            </p>
+
+
+<!--
                             In class B, there are two methods f1() and f3() and it is extending class A. When a class extends other class,
                             all the member fields and methods of the parent class are inherited by the derived class. Suppose as in this example,
                             if the method signatures of the parent class and the derived class match, then method overriding occurs.
@@ -161,18 +173,21 @@ point to the virtual function table of the class of the variable.  This is becau
                             Here, class B is extending class A.
                             So, all the member fields and methods of class A is inherited by class B.
 
-                          <!--  So, now the member function list looks as shown in the figure below.
+                           So, now the member function list looks as shown in the figure below.
 
-                            <img /> -->
+                            <img />
 
                             Here method f1() derived from class A, will be overridden by the method f1() of class B.
                             As stated above, a new label will be alloted, for the f1() method of class B.
                             Now, we need to update the member func list entry of the f1() method in class B, by new flabel given to the method f1() of class B.
                             Similarly, the member func list for class C will be constructed.
                             The final class tables and corresponding member function lists are shown in the figure below.
-                            <br /><br />
+                            <br /><br />-->
                             <br><a href="../img/virtual_function_table_4.png"> <img src="../img/virtual_function_table_4.png"></img></a>
-                          <br />  The virtual function tables of all the classes is shown in the figure below :
+                          <br />     <p>
+
+  The corresponding virtual function tables of all the classes are shown in the figure given below :
+  </p>
                             <br />
                             <br><a href="../img/virtual_function_table_2.png">  <img src="../img/virtual_function_table_2.png"></img></a>
                             <br />
