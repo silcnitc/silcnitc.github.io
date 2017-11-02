@@ -62,7 +62,7 @@
 
                           <p>
 
-                             Virtual function table start at 4096 in the stack, and it grows with the increase in number of the classes.
+                             Virtual function table starts at 4096 in the stack, and it grows with the increase in number of the classes.
                              <br />
                              After creating the virtual function table, we will allocate the space for global declarations.
                              <br />
@@ -70,7 +70,14 @@
                              <br />
                              Starting at index 4096, the <b>(class index * 8 + 4096)</b> is the address of the current class virtual function table. The class index starts from 0.
 
-                             <br />
+                          
+
+                           </li>
+
+                             <li>
+
+
+
                              For every method declaration, a new label is alloted.
                              <br />
                              In class A, the function f1 gets an funcposition 0 and say flabel f1 and
