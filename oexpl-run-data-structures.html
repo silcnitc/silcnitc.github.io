@@ -29,7 +29,7 @@
         <div class="Services-page main grid-wrap">
             <header class="grid col-full">
                 <hr/>
-                <p class="fleft">Runtime Data Structures for OExpl</p>
+                <p class="fleft">Runtime Data Structures for OExpL</p>
                 <br>
                 <br>
             </header>
@@ -50,8 +50,32 @@
                       <h2>Virtual Function Table</h2>
                       <p>
 
-                        Virtual Function Table is a run time data structure that is used to resolve what method to be called when there is
-                        inheritance, Polymorphism and Method Overriding and the exact method to be called cannot be decided at the compile time. For a virtual function table of a class, 8 blocks of memory is allocated.
+                        <b>Virtual Function Table</b> is a run time data structure that is used to resolve at run time the
+                        call addresses of methods in a class.  Such mechanism (or other table schemes) needs to be
+                        implemented by compilers for languages that supports inheritance, subtype Polymorphism and method over-riding.
+                        A run time virtual function table is maintained in the memory for each class.  The compiler generates code
+                        to initialze the table such that each function that can be invoked from the class has an entry
+                        in the table.  For each function defined or inherited by a class, the table will contain the call address of
+                        the function in the code region of memory. Thus, if a function is inherited by a class from its parent and is
+                        not over-ridden by the class, the call address stored will be that of the function defined in the parent class.
+
+                        The ExpL compiler maintains a virtual function table of eight words for each class.  Hence, a class can have at most eight
+                        member functions.  The i-th entry in the table holds the address of the i-th function of the class (identified by the
+                        field Func_pos in the class table). While generating code, if there is a call to a function within a class,
+                        the compiler simply translates the call to "CALL [address]", where address is obtained from the corresponding
+                        class table.
+
+                         A simple way to place the class table is to use the initial part of the stack region (starting at memory
+                         address 4096), ahead of global variables.  This is suggested because the compilation of classes will be
+                         finished before compiling the global declarations.  In this scheme, the class table of the class defined
+                         first in the program will be stored in the region 4096-4103, the second in 4104-4111 and so on.
+
+                         
+
+
+
+                         If a particular function that
+                        can be accessed in a class is defined in a parent or anscestoral class, then the table entry , 8 blocks of memory is allocated.
 
                       </p>
                     </article>
