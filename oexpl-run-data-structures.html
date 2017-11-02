@@ -184,7 +184,8 @@
                       The class_index value is obtained during the run time.
                       With this, the object stores the virtual function table address of the required class in which the method to be called is present.
                       The funcposition in the virtual function table will be same for all the methods with same name, in different classes.
-                      
+                      Let start_index be the starting index of the virtual function table of the required class.
+                      Now, start_index + class_index gives the flabel of the exact function to be called.
 
                     </article>
 
