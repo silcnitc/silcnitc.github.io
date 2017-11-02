@@ -143,8 +143,15 @@
 
                     <article class="grid col-full" id="nav-importance">
                       <h2>Importance</h2>
-                      
-
+                      <script src="../js/9fab0ed1079cbf0ebdae2916b4272929.js"></script>
+                      From the above code, the calling of the function depends on the input value a.
+                      If a < 0, the method in the class A is called.
+                      If a = 0, the method in the class B is called.
+                      If a > 0, the method in the class C is called.
+                      Even though the three methods which are overridden has the same name, the labels will be different.
+                      The statement CALL F_LABEL could not be generated, because at the compile time we cannot decide the flabel value.
+                      The label of the function cannot be decided.
+                      flabel should be determined according to the object the class variable gets.
                     </article>
 
                   </div>
