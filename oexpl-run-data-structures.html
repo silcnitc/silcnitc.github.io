@@ -169,28 +169,35 @@
 
                       In the above example, when compiler reaches the statement, <b>obj.f1()</b>, it checks the type of obj, which means
                       to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
-                      is any method with name <b>f1()</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
+                      is any method with name <b>f1</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
                       compilation error.
 
                       When it encounters the statement, <b> obj = new(A);</b>, the second block of object is set.
                       The second block of the object is to be set with the starting address of virtual function table of a class.
                       So, here,
-                      (4096 + class_index * 8) is the starting address of virtual function table of the required class. The class_index value
-                      will be decided at the run time and the complete address will be calculated.
+                      (4096 + class_index * 8) is the starting address of virtual function table of the required class. The class_index is that of the class
+                      that is present in new. So, for <b>obj = new(A);</b> 4096 is stored because class index of A is 0. Similarly, for class B, 5004 is stored.
+                      For class C, 5012 is stored.
+
+                      if '( n < 0)'
+                      then the two words of obj is :
+                      <img />
+                      if '(n = 0)'
+                      then the two words of obj is :
+                      <img />
+                      if '(n > 0)'
+                      then the two words of obj is :
+                      <img />
+
+                      When the compiler encounters a call statement, from the second block of A we get start address of virtual function table,
+                      and funcposition is obtained from the member function table of class to which this object belongs to.
+                      Both are added and the value present in that address(flabel) is stored in a register.
+                      Then a call to the register is made.
 
                       <h4>During Run Time</h4>
 
-                      The class_index value is obtained during the run time.
-                      During run time, only one if will be executed. That means the class_index of that particular class is obtained.
-                      With this, the object stores the virtual function table address of the required class in which the method to be called is present.
-                      The funcposition in the virtual function table will be same for all the methods with same name, in different classes.
-                      Let start_index be the starting index of the virtual function table of the required class.
-                      Now, start_index + class_index gives the flabel of the exact function to be called.
-
-                      MOV r0,virtualfunctiontable starting address
-                      mov r1,class_index_of_required_class
-                      add r0,r1
-                      call r0
+                      During run time, only one if will be executed. That means by the completion of if,else block, required values are set,
+                      and the call to the required function is made.
 
 
                     </article>
