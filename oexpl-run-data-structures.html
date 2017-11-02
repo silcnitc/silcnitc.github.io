@@ -75,9 +75,16 @@
                       </p>
 
                       <p>
+                        The compiler allocates two words for each variable of a class.  The first word is used to store the address of the memory area allocated in the heap for the class (eight words).   Space for member fields is allocated in the heap exactly as done with user defined types.  We will call this word the member field pointer.   The second word is used to store the address a virtual function table.  We will call this word the virtual function pointer.
                       </p>
 
                       <p>
+                        The key point to note here is that the virtual function pointer of a variable need not always
+point to the virtual function table of the class of the variable.  This is because a variable of a parent class can hold a reference to an object of any of its descendant classes.  In such cases, the virtual function pointer will hold the address of the descendant class.
+                      </p>
+
+                      <p>
+                        Hence, an assignment of a variable (of one class) to another variable (of the same class or an ancestor class) results in transfer of the contents of both the pointers of one variable to the corresponding pointers of the other.   The new function sets the virtual function pointer to the address of the virtual function table of the class specified as argument to the new function.  A little thought would reveal that this implementation will yield the correct execution semantics.
                       </p>
 
                     </article>
