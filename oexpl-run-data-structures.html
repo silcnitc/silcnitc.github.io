@@ -165,6 +165,25 @@
                       So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
                       One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
 
+
+
+                      <h4> During Compile Time</h4>
+
+                      In the above example, when compiler reaches the statement, <b>obj.f1()</b>, it checks the type of obj, which means
+                      to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
+                      is any method with name <b>f1()</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
+                      compilation error.
+
+                      When it encounters the statement, <b> obj = new(A);</b>, the second block of object is set.
+                      The second block of the object is to be set with the starting address of virtual function table of a class.
+                      So, here,
+                      (4096 + class_index * 8) is the starting address of virtual function table of the required class.
+
+                      <h4>During Run Timw</h4>
+
+                      The class_index value is obtained during the run time.
+                      With this, the object stores the virtual function table address of the required class in which the method to be called is present.
+                      The funcposition in the virtual function table will be same for all the methods with same name, in different classes.
                       
 
                     </article>
