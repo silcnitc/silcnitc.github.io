@@ -104,7 +104,7 @@ point to the virtual function table of the class of the variable.  This is becau
 
                           <p>
 
-                             Virtual function table starts at 4096 in the stack.  Eight words are allocated for each class defined in the program for storing the virtual function table in consecutive eight word blocks.  As noted earlier, we will allocate the space for global declarations after virtual function tables are allocated.
+                             Virtual function table starts at 4096 in the stack.  Eight words are allocated for storing the virtual function table of each class defined in the program for storing the virtual function table in consecutive eight word blocks. Thus, a class can contain atmost eight methods. As noted earlier, we will allocate the space for global declarations after virtual function tables are allocated.
                            </p>
 
                            <p>
