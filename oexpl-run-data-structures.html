@@ -215,11 +215,14 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
                       <h2>Run Time Binding</h2>
                       <script src="../js/9fab0ed1079cbf0ebdae2916b4272929.js"></script>
                     <!--  From the above code, the calling of the function depends on the input value n.-->
-                      To the above code, the value of n is read from the console and not known at the compile time.
+                    <p>  To the above code, the value of n is read from the console and not known at the compile time. </p>
 
-                      If (n < 0), the method f1() of the class A is invoked at run time. If (n = 0), the method f1() in the class B is invoked at run time and  If (n > 0), the method f1() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class.   Even though the three methods which are overridden has the same name f1(), the call addresses must be different in each case.  The information in the virtual function tables will be useful here.
+
+          <p>          If (n < 0), the method f1() of the class A is invoked at run time. If (n = 0), the method f1() in the class B is invoked at run time and  If (n > 0), the method f1() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class.   Even though the three methods which are overridden has the same name f1(), the call addresses must be different in each case.  The information in the virtual function tables will be useful here. </p>
+        <p>
     At run time, the variable obj is assigned not only a pointer to the data region of the object in the heap memory,  but also a pointer to the virtual function table of the corresponding class.  (Note that a class variable has two words of storage allocated to it.).  Hence, the correct method can
-    be identified at run time by looking up the label of the function f1() in the virtual function table to which the variable obj is bound to at run time. 
+    be identified at run time by looking up the label of the function f1() in the virtual function table to which the variable obj is bound to at run time.
+</p>
                   <!--  </article>
 
                     <article class="grid col-full" id="nav-resolve"> -->
