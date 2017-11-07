@@ -217,15 +217,19 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
                     <!--  From the above code, the calling of the function depends on the input value n.-->
                     <p>  To the above code, the value of n is read from the console and not known at the compile time. </p>
 
-
+<!--
           <p>          If (n < 0), the method f1() of the class A is invoked at run time. If (n = 0), the method f1() in the class B is invoked at run time and  If (n > 0), the method f1() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class.   Even though the three methods which are overridden has the same name f1(), the call addresses must be different in each case.  The information in the virtual function tables will be useful here. </p>
         <p>
     At run time, the variable obj is assigned not only a pointer to the data region of the object in the heap memory,  but also a pointer to the virtual function table of the corresponding class.  (Note that a class variable has two words of storage allocated to it.).  Hence, the correct method can
     be identified at run time by looking up the label of the function f1() in the virtual function table to which the variable obj is bound to at run time.
-</p>
+</p>-->
                   <!--  </article>
 
                     <article class="grid col-full" id="nav-resolve"> -->
+
+
+
+
                       <h2>Resolving Strategy</h2>
 
                       For every class variable, generally one block of memory in stack is allocated for storing the heap address.
@@ -245,8 +249,8 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
                       The second block of the object is to be set with the starting address of virtual function table of a class.
                       So, here,
                       (4096 + class_index * 8) is the starting address of virtual function table of the required class. The class_index is that of the class
-                      that is present in new. So, for <b>obj = new(A);</b> 4096 is stored because class index of A is 0. Similarly, for class B, 5004 is stored.
-                      For class C, 5012 is stored.
+                      that is present in new. So, for <b>obj = new(A);</b> 4096 is stored because class index of A is 0. Similarly, for class B, 4104 is stored.
+                      For class C, 4112 is stored.
                       When the compiler encounters a call statement, from the second block of A we get start address of virtual function table,
                       and funcposition is obtained from the member function table of class to which this object belongs to.
                       Both are added and the value present in that address(flabel) is stored in a register.
