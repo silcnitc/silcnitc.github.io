@@ -227,8 +227,55 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
 
                     <article class="grid col-full" id="nav-resolve"> -->
 
+                      <p> If (n < 0), the method f1() of the class A is invoked at run time. If (n = 0), the method f1() in the class B is invoked at run time and  If (n > 0), the method f1() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class.   Even though the three methods which are overridden has the same name f1(), the call addresses must be different in each case.  The information in the virtual function tables will be useful here.  </p>
 
+                      <p> We noted earlier that the variable obj has two words of memory assigned to it at compile time - one member field pointer and one virtual function table pointer.
+At run time, the member field pointer field of the variable obj is used to store a pointer to the space allocated in the heap as done in the previous stages.
+The virtual function table pointer is used to store the start address of the virtual function table of the class assigned to obj at run time.  </p>
 
+                    <p>
+                      For instance,  obj = new(A) must result in the member field pointer of obj to be set to a newly allocated heap block and the virtual function table pointer to
+be set to the start address of the virtual function table of class A.   Similarly, obj = new(B) must result in setting the virtual function table pointer of obj
+to the base address of the virtual function table of class B.   Consequently, the compiler can resolve the call obj.f1() by generating code to
+look up the label of the function f1() in the virtual function table pointed to by the virtual function table pointer field of obj.
+</p>
+
+    <h4> Actions during Compile Time </h4>
+
+    <p> Referring to the above example, when the compiler encounters the statement obj=new(B), code is generated for the following:
+a)  Call the library routine for Alloc to allocate heap memory.   The address returned is stored into the member field pointer of obj.
+b)  Set the virtual function table pointer of obj to the base address of the virtual function table of the class B (i.e,  4104).
+Note that before generating the code, compile time check whether B is a descendant class of the class of obj (in this case A) must be made.
+
+</p>
+
+<p> For the statement, obj.f1(), the compiler must do the following:
+a)  Find the index of f1() in the class table of the class to which obj belongs to (Here obj is declared to be of class A.  The funpos?? of f1() in the class table entry of A will be 0.)
+b)  Generate the code to get label of the function at index 0 from the virtual function table pointed to by the virtual function table pointer field of obj into a register (say R0).
+c)  Generate code to push the "self object" into the stack as argument (i.e., the member field pointer of obj and the virtual function table pointer of obj must be pushed as arguments to the call to f1() -
+See function call convention for methods.)
+d)  Generate code to call the function using the label obtained in step b.  (call R0).
+Note that compile time check whether f1() is a method in the class A to which obj is declared to must be done before proceeding to code generation.
+
+</p>
+
+<h4> Run time Stack Management for Method invocations </h4>
+
+<p>
+When generating the code for invoking a method of a class using an object of the class (for example, in the call obj.f1() above, f1() is invoked using the object obj  of class A)
+the member field pointer and virtual function table pointer of the object must be pushed to the stack in addition to normal arguments of the function.
+We will follow the convention that these two values will be pushed before other arguments are pushed.   For instance, in the above example, if the value read from the input
+is 0, the following figure shows the run time stack.
+
+</p>
+
+<p> Suppose the function f1 has the following definition.
+
+</p>
+
+<p>
+
+Then, a reference to . self.variable, self.method() </p>
 
                       <h2>Resolving Strategy</h2>
 
