@@ -126,7 +126,8 @@ point to the virtual function table of the class of the variable.  This is becau
 
                                <p>
 
-                             When the declaration of each method is found (in a class) a new label is generated for the function and the label is stored in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table entry</a> for the function at compile time.   The compiler also must generate code to store these labels into the virtual function table entry of the function in the corresponding class.  <b>The index of the function in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table</a> (funcposition) and the virtual function table is maintained to be the same.</b>
+                             When the declaration of each method is found (in a class) a new label is generated for the function and the label is stored in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table entry</a> for the function at compile time.   The compiler also must generate code to store these labels into the virtual function table entry of the function in the corresponding class. (Strictly speaking, an integer value called the  "psedudo-address" for the function is stored in the flabel field of the Memberfunclist  entry of the function. When code is generated, for functions with flabel
+values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc.)     <b>The index of the function in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table</a> (funcposition) and the virtual function table is maintained to be the same.</b>
 
                            </p>
 
