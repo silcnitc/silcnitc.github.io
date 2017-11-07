@@ -58,7 +58,7 @@
                         to initialize the table such that each function that can be invoked from the class has an entry
                         in the table.  For each function defined or inherited by a class, the table will contain the call address of
                         the function in the code region of memory. Thus, if a function is inherited by a class from its parent and is
-                        not over-ridden by the class, the call address stored will be that of the function defined in the parent class.
+                        not over-ridden by the class, the call address stored (will be same in the virtual function tables of both the classes) will be that of the function defined in the parent class.
                       </p>
                       <p>
                         The OExpL compiler maintains a virtual function table of eight words for each class.  Hence, a class can have at most eight
