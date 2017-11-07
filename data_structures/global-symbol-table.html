@@ -63,7 +63,7 @@
                         <p>
                             <span style="color:red;font-size:12px;">&#10011;</span><b>NOTE</b>: flabel is a placeholder for the starting address of the function's code in memory. Any call to the function must translate into an assembly level call to this address. When the compiler makes the symbol table entry for a function during <a href="../grammar-outline.html#TypeDefBlock">function declaration</a>, the actual starting address is not determined, and instead a <i>pseudo address</i> is assigned to flabel. A call to the function will be initially translated by the compiler to a call to this pseudo address. The actual memory address will be determined later (often in a separate pass) and the compiler will replace all pseudo labels with the correct addresses. Here, we assume that the compiler assigns for each function a unique integer in the <i>flabel</i> field
 of the global symbol table as its function identifier or "pseudo-address".  Thus, the pseudo-address can be used to identify the function during the <a href="http://silcnitc.github.io/label-translation.html">label translation phase</a>.
-When the compiler generates code, labels like F0, F1, F2, F3, ...   are assigned to functions whose flabel field is set to  pseudo-addresses 0, 1,2,3,...
+When the compiler generates code, more human readable labels like F0, F1, F2, F3, ...   are assigned to functions whose flabel field is set to  pseudo-addresses 0, 1,2,3,...
                         </p>
                         <p>
                             Paramlist is used to store information regarding the types and names of the parameters. ParamStruct has the following structure.
