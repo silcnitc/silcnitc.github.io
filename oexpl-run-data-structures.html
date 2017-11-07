@@ -217,9 +217,9 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
                     <!--  From the above code, the calling of the function depends on the input value n.-->
                       From the above code, the value of n is read from the console and not known at the compile time.
 
-                      If n < 0, the method in the class A is called.
-                      If n = 0, the method in the class B is called.
-                      If n > 0, the method in the class C is called.
+                      If n < 0, the method f1() in the class A is called.
+                      If n = 0, the method f1() in the class B is called.
+                      If n > 0, the method f1() in the class C is called.
                       So, Depending on the value of n, the obj gets the address.
                       Even though the three methods which are overridden has the same name f1(), the labels will be different.
                       The statement CALL F_LABEL could not be generated, because at the compile time we cannot decide the flabel value.
