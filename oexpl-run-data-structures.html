@@ -162,11 +162,11 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
                             <!--Similarly for <i>rollno,average,findaverage(linkedlist marks)</i>, symbol table entries are formed and installed.-->
 
                             <p>
-                              Class B extends class A and over-rides f1().  Class B further contains the newly defined function f3().   When a class extends other class, all the member fields and methods of the parent class are inherited by the derived class, unless over-ridden by a new definition.  Here, B over-rides the method f1() method of class A.  OExpL specification stipulates that the signatures of the over-ridden method in B must match exactly with the signature of the original definition in the parent class.
+                              Class B extends class A and over-rides f1().  Class B further contains the newly defined method f3().   When a class extends another class, all the member fields and methods of the parent class are inherited by the derived class, unless over-ridden by a new definition.  Here, B over-rides the method f1() of class A.  OExpL specification stipulates that the signatures of the over-ridden method in B must match exactly with the signature of the original definition in the parent class.
                             </p>
 
                             <p>
-                               Here, class B is extending class A.  Hence all the member fields and methods of class A are inherited by class B initially.  However, since the method f1() is overridden by Class B, a new label will be allocated, for the function f1() in class B.   Accordingly, we will update <i>Memberfunclist</i> entry of the method f1() in class B by a new <i>flabel</i> value. Similarly, the <i>Memberfunclist</i> entries for class C will be constructed. <br><br>The final class tables and corresponding member function lists are shown in the figure below.
+                               All the member fields and methods of class A are inherited by class B initially.  However, since the method f1() is overridden by Class B, a new label will be allocated, for the function f1() in class B.   Accordingly, we will update <i>Memberfunclist</i> entry of the method f1() in class B by a new <i>flabel</i> value. Similarly, the <i>Memberfunclist</i> entries for class C will be constructed. <br><br>The final class tables and corresponding member function lists are shown in the figure below.
                             </p>
 
 
