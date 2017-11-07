@@ -109,7 +109,7 @@ point to the virtual function table of the class of the variable.  This is becau
 
                           <p>
 
-                             Storage for virtual function tables start at 4096 in the stack.  Eight words are allocated for storing the virtual function table of each class for storing the virtual function table in consecutive eight word blocks. Thus, a class can contain atmost eight methods. Virtual function tables are stored in declared order of classes subsequently. As noted earlier, we will allocate the space for global declarations after virtual function tables are allocated.
+                             Storage for virtual function tables start at 4096 in the stack.  Eight consecutive words are allocated for storing the virtual function table of each class. Each word of virtual function table stores the call address of the corresponding function in the class. Thus, a class can contain atmost eight methods. Virtual function tables are stored in the order in which they are declared in the program. As noted earlier, we will allocate the space for global declarations after virtual function tables are allocated.
                            </p>
 
                            <p>
