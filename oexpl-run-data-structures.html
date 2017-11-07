@@ -126,7 +126,7 @@ point to the virtual function table of the class of the variable.  This is becau
 
                                <p>
 
-                             When the declaration of each method is found (in a class) a new label is generated for the function and the label is stored in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table entry</a> for the function at compile time.   The compiler also must generate code to store these labels into the virtual function table entry of the function in the corresponding class. (Strictly speaking, an integer value called the  "psedudo-address" for the function is stored in the flabel field of the Memberfunclist  entry of the function. When code is generated, for functions with flabel
+                             When the declaration of each method is found (in a class) a new label is generated for the function and the label is stored in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table entry</a> for the function at compile time.   The compiler also must generate code to store these labels into the virtual function table entry of the function in the corresponding class. (Strictly speaking, an integer value called the  "psedudo-address" for the function is stored in the <i>flabel</i> field of the <i>Memberfunclist</i>  entry of the function. When code is generated, for functions with <i>flabel</i>
 values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc.)     <b>The index of the function in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table</a> (funcposition) and the virtual function table is maintained to be the same.</b>
 
                            </p>
@@ -134,7 +134,7 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc.)     <b
                            <p> [Note:  It is sufficient to place labels, and not addresses in the virtual function table, as the <a href="http://silcnitc.github.io/label-translation.html">label translation phase</a> will take care of translating labels to addresses]. </p>
 
                            <p>
-                             In the example given, the function f1 in class A has  funcposition 0 and say flabel f0 and the function f2 in class A gets a funcposition 1 and say flabel f1. The member function list of class A looks as shown in the below figure :
+                             In the example given, the function f1 in class A has  funcposition 0 and say flabel F0(the actual pseudo address stored in flabel field is 0) and the function f2 in class A gets a funcposition 1 and say flabel F1(the actual pseudo address stored in flabel field is 1). The member function list of class A looks as shown in the below figure :
 
 
                                 <br><a href="../img/virtual_function_table_3.png"> <img src="../img/virtual_function_table_3.png" class="center"></img></a>
