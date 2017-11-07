@@ -38,8 +38,8 @@
                 <ul>
                   <li><a class="sec" href="#nav-virtual-function-table">Virtual Function Table</a></li>
                   <li><a class="sec" href="#nav-illustration">Illustration</a></li>
-                  <li><a class="sec" href="#nav-importance">Importance Of Virtual Function Table</a></li>
-                  <li><a class="sec" href="#nav-resolve">Resolving Strategy using Virtual Function Table</a></li>
+                  <li><a class="sec" href="#nav-importance">Run Time Binding</a></li>
+                <!--  <li><a class="sec" href="#nav-resolve">Resolving Strategy using Virtual Function Table</a></li> -->
               </ul>
               </menu>
               <!-- <a class="button" href="">Download as PDF</a> -->
@@ -203,6 +203,8 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
                             <br />
                             <br><a href="../img/virtual_function_table_2.png">  <img src="../img/virtual_function_table_2.png" class="center"></img></a>
                             <br />
+
+                            <p> * Overridden labels are marked in red </p>
                         </li>
 
 
@@ -210,7 +212,7 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
                     </article>
 
                     <article class="grid col-full" id="nav-importance">
-                      <h2>Importance</h2>
+                      <h2>Run Time Binding</h2>
                       <script src="../js/9fab0ed1079cbf0ebdae2916b4272929.js"></script>
                       From the above code, the calling of the function depends on the input value n.
                       If n < 0, the method in the class A is called.
@@ -221,9 +223,9 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
                       The statement CALL F_LABEL could not be generated, because at the compile time we cannot decide the flabel value.
                       The label of the function cannot be decided.
                       flabel should be determined according to the object the class variable gets.
-                    </article>
+                  <!--  </article>
 
-                    <article class="grid col-full" id="nav-resolve">
+                    <article class="grid col-full" id="nav-resolve"> -->
                       <h2>Resolving Strategy</h2>
 
                       For every class variable, generally one block of memory in stack is allocated for storing the heap address.
