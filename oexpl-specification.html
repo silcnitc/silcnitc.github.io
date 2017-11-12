@@ -70,7 +70,7 @@
                     <article class="grid col-full" id="nav-class-definitions">
                         <h2>Class Definitions</h2>
                         <p>
-                            Classes extend the notion of ExpL types.  A class <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)" target="_blank">encapsulates </a> <b><i>member fields</i></b> and <b><i>member functions</i></b> (called <b>methods</b> in OOP jargon).  The following is an example for a class definition.Standard syntax and semantics conventions followed in languages like Java and C++ are assumed.
+                            Classes extend the notion of ExpL types.  A class <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)" target="_blank">encapsulates </a> <b><i>member fields</i></b> and <b><i>member functions</i></b> (called <b>methods</b> in OOP jargon).  The following is an example for a class definition. Standard syntax and semantics conventions followed in languages like Java and C++ are assumed.
                         </p>
 
 
@@ -86,7 +86,7 @@
 
                          <ol type="a">
                             <li>
-                                <b>The member fields of a class may only be of type integer, string, user defined types, previously defined classes or of the same class.</b> Thus the language supports   both<a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank"><i> Composition and Inheritance.</i></a>
+                                <b>The member fields of a class may be of type integer, string, user defined types, previously defined classes or of the same class.</b> Thus the language supports   both<a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank"><i> Composition and Inheritance.</i></a>
                             </li>
                             <li>
                                 <b>Member fields of a class are private to the class</b> in the sense that they can be accessed only by the methods defined in the class.  The language does not permit <i>access modifiers</i> like <a href="https://en.wikipedia.org/wiki/Access_modifiers" target="_blank"><b>public</b> or <b>protected</b>.</a>
@@ -145,7 +145,7 @@
                         <h2>Inheritance</h2>
 
                         <p>
-                            The language supports class<b> extension</b>.  A class defined by extention of another is called a <i>derived class</i> (or <i>child class</i>) of the <i>parent class</i> (sometimes called the <i>base class</i>). The following example demonstrates the syntax of class extension.  The language does not support<a href="https://en.wikipedia.org/wiki/Multiple_inheritance" target="_blank"> multiple inheritance </a> .
+                            The language supports class<b> extension</b>.  A class defined by extension of another class is called a <i>derived class</i> (or <i>child class</i>) of the <i>parent class</i> (sometimes called the <i>base class</i>). The following example demonstrates the syntax of class extension.  The language does not support<a href="https://en.wikipedia.org/wiki/Multiple_inheritance" target="_blank"> multiple inheritance </a> .
                         </p>
 
 
@@ -155,7 +155,7 @@
                             The semantics of class extension can be summarized as follows:
                          <ol>
                             <li>
-                            <b>The derived class inherits all member data fields of the parent class automatically. </b> If additional fields are defined, they will be specific to the derived class. <b>The derived class cannot re-declare a member field already declared in the parent class.</b>
+                            <b>The derived class inherits all member fields of the parent class automatically. </b> If additional fields are defined, they will be specific to the derived class. <b>The derived class cannot re-declare a member field already declared in the parent class.</b>
 
                             </li>
 
@@ -220,7 +220,7 @@
                              In the above code, the value of the variable n read from the input at run-time determines whether the variable <i>arbitrary</i> refers to an object of the class - person or the class - student.   Consequently, at compile time, we cannot decide whether the call <i>arbitrary.printDetails()</i> must be translated to an invocation of the function in the parent class or the child class.
                         </p>
                         <p>
-                            To resolve such function invocations, the method of  <a href="https://en.wikipedia.org/wiki/Late_binding" target="_blank">dynamic binding</a> must be implemented using the  <a href="https://en.wikipedia.org/wiki/Virtual_method_table" target="_blank">The virtual function table method</a> .A tutorial explaining the implementation of virtual function tables is given <a href="http://silcnitc.github.io/Virtual-method-table.html" target="_blank">The virtual function table Tutorial</a>  here.
+                            To resolve such function invocations, the method of  <a href="https://en.wikipedia.org/wiki/Late_binding" target="_blank">dynamic binding</a> must be implemented using the  <a href="https://en.wikipedia.org/wiki/Virtual_method_table" target="_blank">The virtual function table method</a> .A tutorial explaining the implementation of virtual function tables is given <a href="http://silcnitc.github.io/oexpl-run-data-structures.html" target="_blank"> here </a>.
                         </p>
                     <!---    <p>
                             <b>Note:</b>  The project road-map permits a program to be split into multiple class files that can be compiled seprately into object files and build together.  In the present documentation, we ignore this feature.
@@ -240,7 +240,7 @@
                     <article class="grid col-full" id="nav-appendix">
                         <h2>Appendix</h2>
                         <h4>Keywords</h4>
-                        <p>The following are the reserved keywords in ExpL and it cannot be used as identifiers.</p>
+                        <p>The following are the reserved keywords in OExpL and it cannot be used as identifiers.</p>
                         <table style="width:80%;text-align:center;">
                           <tbody>
                             <tr>
