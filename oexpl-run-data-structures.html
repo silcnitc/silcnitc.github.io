@@ -316,7 +316,7 @@ Consider the following OExpL program,
 
 <p>
 
-  For <b>obj1</b>, the member field <b>height</b> must be set to 10.<br>
+  For <b>obj1</b>, the member field <b>height</b> must be set to 10.
 For <b>obj2</b>, the member field <b>height</b> must be set to 20.
 </p>
 
@@ -326,9 +326,6 @@ In the method definition for the method <b>setHeight</b>, the member field <b>he
 
  <b>self.height = a;</b>
 
-</p>
-
-<p>
 
 By this statement alone, we cannot say which object is <b>self</b> referring to.<br>
 
@@ -339,13 +336,9 @@ To identify which object is <b>self</b> referring to, we push the calling object
 <p>
 
 If <b>obj1</b> calls the method <b>setHeight</b>, the member field pointer and virtual function table pointer of <b>obj1</b> are pushed into the stack.
-<br>
-Now, we know that <b>obj1</b> is calling the method. (By looking at the runtime stack)
-
-<br>
+Now, we know that <b>obj1</b> is calling the method (By looking at the runtime stack).
 So, we set the <b>member field height of obj1</b> by using the <b>member field pointer</b> and the <b>field position of member field height</b>.
 
-<br>
 Member field pointer is the heap address given to the object for storing the member fields of the class it is assigned with.
 
 </p>
