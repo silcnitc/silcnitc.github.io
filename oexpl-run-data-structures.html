@@ -264,18 +264,82 @@ Note that compile time check whether f1() is a method in the class A to which ob
 <p>
 When generating the code for invoking a method of a class using an object of the class (for example, in the call obj.f1() above, f1() is invoked using the object obj  of class A)
 the member field pointer and virtual function table pointer of the object must be pushed to the stack in addition to normal arguments of the function.
-We will follow the convention that these two values will be pushed before other arguments are pushed.   For instance, in the above example, if the value read from the input
-is 0, the following figure shows the run time stack.
+We will follow the convention that these two values will be pushed before other arguments are pushed.
+
+This is how the runtime stack looks, when a method of a class is called.
+
+<br> <a href="../img/runtimestackoexpl.png">  <img src="../img/runtimestackoexpl.png" class="center"></img></a>
+
+
+
+ For instance, in the above example, if the value read from the input is 0, the following figure shows the run time stack.
+
+ <br> <a href="../img/runtimestackoexpl2.png">  <img src="../img/runtimestackoexpl2.png" class="center"></img></a>
 
 </p>
 
+<!--
 <p> Suppose the function f1 has the following definition.
 
 </p>
 
 <p>
 
-Then, a reference to . self.variable, self.method() </p>
+Then, a reference to . self.variable, self.method() </p>-->
+
+
+<h6>Need For Pushing The Object</h6>
+
+
+
+<p>
+
+According to OExpL Specification, a member field or method should be accessed using self.
+
+In order to find out which object we are talking about,when we say self, we need to push the object into the stack.
+
+</p>
+
+<p>
+
+Consider the following OExpL program,
+
+<br>
+
+  <script src="../js/55aeef67b003d48dd45db379b46a4631.js"></script>
+
+</p>
+
+<p>
+
+  For obj1, the member field height must be set to 10.
+For obj2, the member field height must be set to 20.
+
+
+In the method definition for setHeight method, the height member field is set by using the statement,
+
+ self.height = a;
+
+By this statement alone, we cannot say which object is self referring to.
+To identify which object is self referring to, we push the calling object to the stack.
+
+If obj1 calls the method setHeight. the member field pointer and virtual function table pointer of obj1 are pushed into the stack.
+
+Now, we now that obj1 is calling the method. (By looking at the runtime stack)
+
+So, we set the height member field of obj1 by using the member field pointer and the field position of height member field.
+
+Member field pointer is the heap address given to the object for storing the member fields of the class it is assigned with.
+
+The virtual function table pointer is used, when we invoke other methods using self.
+
+  p = self.setHeight(5);  //In the method defaultHeight()
+
+For this we need to generate a CALL instruction. The call address is obtained from virtual function table.
+
+</p>
+
+
 
                       <h2>Resolving Strategy</h2>
 
