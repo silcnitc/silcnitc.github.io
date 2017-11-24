@@ -312,30 +312,46 @@ Consider the following OExpL program,
 
 <p>
 
-  For obj1, the member field height must be set to 10.
-For obj2, the member field height must be set to 20.
+  For <b>obj1</b>, the member field <b>height</b> must be set to 10.
+For <b>obj2</b>, the member field <b>height</b> must be set to 20.
+</p>
+
+<p>
+
+In the method definition for the method <b>setHeight</b>, the member field <b>height</b> is set by using the statement,
+
+ <b>self.height = a;</b>
+
+</p>
+
+<p>
+
+By this statement alone, we cannot say which object is <b>self</b> referring to.
+
+To identify which object is <b>self</b> referring to, we push the calling object to the stack.
+
+</p>
+
+<p>
+
+If <b>obj1</b> calls the method <b>setHeight</b>, the member field pointer and virtual function table pointer of <b>obj1</b> are pushed into the stack.
+
+Now, we know that <b>obj1</b> is calling the method. (By looking at the runtime stack)
 
 
-In the method definition for setHeight method, the height member field is set by using the statement,
-
- self.height = a;
-
-By this statement alone, we cannot say which object is self referring to.
-To identify which object is self referring to, we push the calling object to the stack.
-
-If obj1 calls the method setHeight. the member field pointer and virtual function table pointer of obj1 are pushed into the stack.
-
-Now, we now that obj1 is calling the method. (By looking at the runtime stack)
-
-So, we set the height member field of obj1 by using the member field pointer and the field position of height member field.
+So, we set the <b>member field height of obj1</b> by using the <b>member field pointer</b> and the <b>field position of member field height</b>.
 
 Member field pointer is the heap address given to the object for storing the member fields of the class it is assigned with.
 
-The virtual function table pointer is used, when we invoke other methods using self.
+</p>
+<p>
+The virtual function table pointer is used, when we invoke other methods using <b>self</b>.
 
-  p = self.setHeight(5);  //In the method defaultHeight()
+  <b>p = self.setHeight(5); </b> //In the method defaultHeight()
 
 For this we need to generate a CALL instruction. The call address is obtained from virtual function table.
+
+</p>
 
 </p>
 
