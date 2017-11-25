@@ -70,7 +70,7 @@
                       <p>
                          A simple way to place the virtual function table is to use the initial part of the stack region (starting at memory
                          address 4096), ahead of global variables. This is suggested because the compilation of classes will be
-                         finished before compiling the global declarations.  In this scheme, the class table of the class defined
+                         finished before compiling the global declarations.  In this scheme, the virtual function table of the class defined
                          first in the program will be stored in the region 4096-4103, the second in 4104-4111 and so on.
                       </p>
 
@@ -126,7 +126,7 @@ point to the virtual function table of the class of the variable.  This is becau
 
                                <p>
 
-                             When the declaration of each method is found (in a class) a new label is generated for the function and the label is stored in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table entry</a> for the function at compile time.   The compiler also must generate code to store these labels into the virtual function table entry of the function in the corresponding class. (Strictly speaking, an integer value called the  "psedudo-address" for the function is stored in the <i>flabel</i> field of the <i>Memberfunclist</i>  entry of the function. When code is generated, for functions with <i>flabel</i>
+                             When the declaration of each method is found (in a class) a new label is generated for the function and the label is stored in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table entry</a> for the function at compile time.   The compiler also must generate code to store these labels into the virtual function table entry of the function in the corresponding class. (Strictly speaking, an integer value called the  "pseudo-address" for the function is stored in the <i>flabel</i> field of the <i>Memberfunclist</i>  entry of the function. When code is generated, for functions with <i>flabel</i>
 values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make them more human readable.)     <b>The index of the function in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table</a> (funcposition) and the virtual function table is maintained to be the same.</b>
 
                            </p>
@@ -242,15 +242,20 @@ look up the label of the function f1() in the virtual function table pointed to 
 
     <h4> Actions during Compile Time </h4>
 
+<ul>
+  <li>
+
     <p> Referring to the above example, when the compiler encounters the statement obj=new(B), code is generated for the following:
 a)  Call the library routine for Alloc to allocate heap memory.   The address returned is stored into the member field pointer of obj.
 b)  Set the virtual function table pointer of obj to the base address of the virtual function table of the class B (i.e,  4104).
 Note that before generating the code, compile time check whether B is a descendant class of the class of obj (in this case A) must be made.
 
 </p>
+</li>
+<li>
 
 <p> For the statement, obj.f1(), the compiler must do the following:
-a)  Find the index of f1() in the class table of the class to which obj belongs to (Here obj is declared to be of class A.  The funpos?? of f1() in the class table entry of A will be 0.)
+a)  Find the index of f1() in the class table of the class to which obj belongs to (Here obj is declared to be of class A.  The Funcposition of f1() in the class table entry of A will be 0.)
 b)  Generate the code to get label of the function at index 0 from the virtual function table pointed to by the virtual function table pointer field of obj into a register (say R0).
 c)  Generate code to push the "self object" into the stack as argument (i.e., the member field pointer of obj and the virtual function table pointer of obj must be pushed as arguments to the call to f1() -
 See function call convention for methods.)
@@ -258,6 +263,9 @@ d)  Generate code to call the function using the label obtained in step b.  (cal
 Note that compile time check whether f1() is a method in the class A to which obj is declared to must be done before proceeding to code generation.
 
 </p>
+</li>
+</ul>
+
 
 <h4> Run time Stack Management for Method invocations </h4>
 
@@ -365,7 +373,7 @@ The call address is obtained from virtual function table.
 
                       For every class variable, generally one block of memory in stack is allocated for storing the heap address.
                       But with the introduction of subtyping, we face the problem of resolution of which method to call as shown in the example
-                      above.
+                      <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-runtimebinding"> here </a>.
                       So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
                       One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
 
