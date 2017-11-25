@@ -373,13 +373,13 @@ The call address is obtained from virtual function table.
 
                       For every class variable, generally one block of memory in stack is allocated for storing the heap address.
                       But with the introduction of subtyping, we face the problem of resolution of which method to call as shown in the example
-                      <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-runtimebinding"> here </a>.
+                      <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-runtimebinding"> mainfunc.txt </a>.
                       So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
                       One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
 
                       <h4> During Compile Time</h4>
 
-                      In the above example, when compiler reaches the statement, <b>obj.f1()</b>, it checks the type of obj, which means
+                      In the example <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-runtimebinding"> mainfunc.txt </a>, when compiler reaches the statement, <b>obj.f1()</b>, it checks the type of obj, which means
                       to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
                       is any method with name <b>f1</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
                       compilation error.
