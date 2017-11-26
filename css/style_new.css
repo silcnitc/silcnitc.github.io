@@ -648,6 +648,18 @@ img.center {
     color: red;
 }
 
+.foo {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.blue {
+  background: #13b4ff;
+}
+
 
 /* -------------------------------------------------------------
 ======	IE Fix
