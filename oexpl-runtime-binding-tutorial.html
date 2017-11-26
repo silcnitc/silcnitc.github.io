@@ -55,9 +55,7 @@
 
                 <p>   In the above code, the value of n is read from the console and not known at the compile time.  </p>
 
-                <p>   Consider the call
-                      <div class="foo blue">write(obj.f1());</div>
-    in the above code.  </p>
+                <p>   Consider the call <div class="foo blue">write(obj.f1());</div> in the above code.  </p>
 
                <p> if (n < 0), the method f1() of the class A is invoked at run time. If (n = 0), the method f1() in the class B is invoked at run time and If (n > 0), the method f1() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class. <b>Note that the value of n is known only when the program is run (at run time) and not known statically determined (i.e.,  not known at compile time)</b>.  Even though the three methods which are overridden has the same name f1(), the call addresses must be different in each case. The information in the virtual function tables will be useful here.
                </p>
