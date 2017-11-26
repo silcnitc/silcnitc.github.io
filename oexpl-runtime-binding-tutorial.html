@@ -1,0 +1,287 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>OExpL Run Time Binding Tutorial</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/style_new.css">
+        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+        <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
+        <script src="js/bootstrap.min.js" charset="utf-8"></script>
+        <script src="js/sticky_sidebar.js" charset="utf-8"></script>
+
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+        			    <li><a href="help.html">Help</a></li>
+        			    <li><a href="roadmap.html">Roadmap</a></li>
+        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <body>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">OEXPL Run Time Binding Tutorial</p>
+                <br>
+                <br>
+            </header>
+        <!--    <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
+              <menu>
+                <ul>
+                  <li><a class="sec" href="#nav-virtual-function-table">Run Time Binding</a></li>
+                  <li><a class="sec" href="#nav-illustration">Illustration</a></li>
+                  <li><a class="sec" href="#nav-runtimebinding">Run Time Binding</a></li> -->
+                <!--  <li><a class="sec" href="#nav-resolve">Resolving Strategy using Virtual Function Table</a></li> -->
+            <!--  </ul>
+            </menu>-->
+              <!-- <a class="button" href="">Download as PDF</a> -->
+        <!--    </aside>-->
+
+        <section class="grid col-three-quarters mq2-col-full">
+            <div class="grid-wrap">
+              <article class="grid col-full" id="nav-Run Time Binding">
+
+              <p> Consider the ExpL code given below </p>
+
+                <script src="../js/9fab0ed1079cbf0ebdae2916b4272929.js"></script>
+
+                <p>   In the above code, the value of n is read from the console and not known at the compile time.  </p>
+
+                <p>   Consider the call
+                      <div class="foo blue">write(obj.f1());</div>
+    in the above code.  </p>
+
+               <p> if (n < 0), the method f1() of the class A is invoked at run time. If (n = 0), the method f1() in the class B is invoked at run time and If (n > 0), the method f1() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class. <b>Note that the value of n is known only when the program is run (at run time) and not known statically determined (i.e.,  not known at compile time)</b>.  Even though the three methods which are overridden has the same name f1(), the call addresses must be different in each case. The information in the virtual function tables will be useful here.
+               </p>
+
+               <p> We noted earlier that the variable <i>obj</i> has two words of memory assigned to it at compile time - one <b>member field pointer</b> and one <b>virtual function table pointer</b>.
+At run time, the member field pointer of <i>obj</i> is used to store a pointer to the space allocated in the heap as done for user defined type variables.
+<b>The virtual function table pointer is used to store the start address of the virtual function table of the class assigned to <i>obj</i> at run time.</b>  </p>
+
+<p>
+  For instance, the statement <i>obj = new(A);</i> must result in two actions:
+  <ol>
+    <li>The member field pointer of <i>obj</i> must be set to a newly allocated heap block.</li>
+    <li>The virtual function table pointer of <i>obj</i> must be set to the start address of the virtual function table of class A.</li>
+  </ol>
+  Similarly, <i>obj = new(B);</i> must result in setting the virtual function table pointer of obj to the base address of the virtual function table of class B.
+
+Consequently, the compiler can resolve the call  <i>obj.f1();</i> by generating code to:
+
+<ol>
+  <li>Use the virtual function table pointer field of <i>obj</i> to find the address of the virtual function table of the class.   </li>
+  <li>Look up the virtual function table to find the address (label)  of the function  f1(). </li>
+  <li>Call the function  (of course, after setting up the call stack).</li>
+</ol>
+
+</p>
+
+<!-- Verified till here -->
+
+
+
+<h4> Actions during Compile Time </h4>
+
+<ul>
+<li>
+
+<p> Referring to the above example, when the compiler encounters the statement obj=new(B), code is generated for the following:
+a)  Call the library routine for Alloc to allocate heap memory.   The address returned is stored into the member field pointer of obj.
+b)  Set the virtual function table pointer of obj to the base address of the virtual function table of the class B (i.e,  4104).
+Note that before generating the code, compile time check whether B is a descendant class of the class of obj (in this case A) must be made.
+
+</p>
+</li>
+<li>
+
+<p> For the statement, obj.f1(), the compiler must do the following:
+a)  Find the index of f1() in the class table of the class to which obj belongs to (Here obj is declared to be of class A.  The Funcposition of f1() in the class table entry of A will be 0.)
+b)  Generate the code to get label of the function at index 0 from the virtual function table pointed to by the virtual function table pointer field of obj into a register (say R0).
+c)  Generate code to push the "self object" into the stack as argument (i.e., the member field pointer of obj and the virtual function table pointer of obj must be pushed as arguments to the call to f1() -
+See function call convention for methods.)
+d)  Generate code to call the function using the label obtained in step b.  (call R0).
+Note that compile time check whether f1() is a method in the class A to which obj is declared to must be done before proceeding to code generation.
+
+</p>
+</li>
+</ul>
+
+
+<h4> Run time Stack Management for Method invocations </h4>
+
+<p>
+When generating the code for invoking a method of a class using an object of the class (for example, in the call obj.f1() above, f1() is invoked using the object obj  of class A)
+the member field pointer and virtual function table pointer of the object must be pushed to the stack in addition to normal arguments of the function.
+We will follow the convention that these two values will be pushed before other arguments are pushed.
+
+This is how the runtime stack looks, when a method of a class is called.
+<br>
+
+<br> <a href="../img/runtimestackoexpl.png">  <img src="../img/runtimestackoexpl.png" class="center"></img></a>
+
+<br>
+
+For instance, in the above example, if the value read from the input is 0, the following figure shows the run time stack.
+<br>
+
+<br> <a href="../img/runtimestackoexpl2_1.png">  <img src="../img/runtimestackoexpl2_1.png" class="center"></img></a>
+
+<br>
+
+</p>
+
+<!--
+<p> Suppose the function f1 has the following definition.
+
+</p>
+
+<p>
+
+Then, a reference to . self.variable, self.method() </p>-->
+
+
+<h6>Need For Pushing The Object : </h6>
+
+
+
+<p>
+
+According to OExpL Specification, a member field or method should be accessed using self.
+
+In order to find out which object we are talking about,when we say self, we need to push the object into the stack.
+
+</p>
+
+<p>
+
+Consider the following OExpL program,
+
+<br>
+
+<script src="../js/55aeef67b003d48dd45db379b46a4631.js"></script>
+
+</p>
+
+<p>
+
+For <b>obj1</b>, the member field <b>height</b> must be set to 10.
+For <b>obj2</b>, the member field <b>height</b> must be set to 20.
+</p>
+
+<p>
+
+In the method definition for the method <b>setHeight</b>, the member field <b>height</b> is set by using the statement,
+
+
+<b>self.height = a;</b>.
+
+<br>
+
+
+By this statement alone, we cannot say which object is <b>self</b> referring to.
+
+To identify which object is <b>self</b> referring to, we push the calling object to the stack.
+
+</p>
+
+<p>
+
+If <b>obj1</b> calls the method <b>setHeight</b>, the member field pointer and virtual function table pointer of <b>obj1</b> are pushed into the stack.
+Now, we know that <b>obj1</b> is calling the method (By looking at the runtime stack).
+So, we set the <b>member field height of obj1</b> by using the <b>member field pointer</b> and the <b>field position of member field height</b>.
+
+Member field pointer is the heap address given to the object for storing the member fields of the class it is assigned with.
+
+</p>
+<p>
+The virtual function table pointer is used, when we invoke other methods using <b>self</b>.
+
+<b>p = self.setHeight(5); </b> //In the method defaultHeight().
+
+<br>
+
+For this we need to generate a CALL instruction.
+The call address is obtained from virtual function table.
+
+</p>
+
+</p>
+
+
+
+                  <h2>Resolving Strategy</h2>
+
+                  For every class variable, generally one block of memory in stack is allocated for storing the heap address.
+                  But with the introduction of subtyping, we face the problem of resolution of which method to call as shown in the example
+                  <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-runtimebinding"> mainfunc.txt </a>.
+                  So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
+                  One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
+
+                  <h4> During Compile Time</h4>
+
+                  In the example <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-runtimebinding"> mainfunc.txt </a>, when compiler reaches the statement, <b>obj.f1()</b>, it checks the type of obj, which means
+                  to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
+                  is any method with name <b>f1</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
+                  compilation error.
+
+                  When it encounters the statement, <b> obj = new(A);</b>, the second block of object is set.
+                  The second block of the object is to be set with the starting address of virtual function table of a class.
+                  So, here,
+                  (4096 + class_index * 8) is the starting address of virtual function table of the required class. The class_index is that of the class
+                  that is present in new. So, for <b>obj = new(A);</b> 4096 is stored because class index of A is 0. Similarly, for class B, 4104 is stored.
+                  For class C, 4112 is stored.
+                  When the compiler encounters a call statement, from the second block of A we get start address of virtual function table,
+                  and funcposition is obtained from the member function table of class to which this object belongs to.
+                  Both are added and the value present in that address(flabel) is stored in a register.
+                  Then a call to the register is made.
+
+                  <h4>During Run Time</h4>
+
+                  if '( n < 0)' then the two words of obj is : <br />
+                  <a href="../img/virtual_function_table_5.png">  <img src="../img/virtual_function_table_5.png"></img></a><br />
+                  if '(n = 0)' then the two words of obj is : <br />
+                  <a href="../img/virtual_function_table_6.png">  <img src="../img/virtual_function_table_6.png"></img></a><br />
+                  if '(n > 0)' then the two words of obj is : <br />
+                  <a href="../img/virtual_function_table_7.png">  <img src="../img/virtual_function_table_7.png"></img></a><br />
+
+                  During run time, only one if will be executed. That means by the completion of if,else block, required values are set,
+                  and the call to the required function is made.
+
+
+                </article>
+
+
+              </div>
+          </section>
+
+       </div>
+       </div>
+       <footer class="center part clearfix">
+       <ul class="grid col-one-third social">
+           <li><a href="http://github.com/silcnitc">Github</a></li>
+       </ul>
+       <div class="grid col-one-third" style="color:black;">
+           <p style="font-weight: bold;">Contributed By : <a href="#">J.Ritesh</a> <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="#">J.Phani Koushik</a><br> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="#">M.Jaya Prakash</a>
+           </p>
+       </div>
+       <nav class="grid col-one-third ">
+           <ul >
+               <li><a href="index.html">Home</a></li>
+               <li><a href="about.html">About</a></li>
+               <!-- <li><a href="uc.html">Contact</a></li> -->
+           </ul>
+       </nav>
+       <br>
+       </footer>
+       <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
+       <script src="js/scripts.js"></script>
+       </body>
+       </html>
