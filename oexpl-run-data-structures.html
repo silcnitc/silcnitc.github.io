@@ -163,8 +163,8 @@ values 0,1,2,3, etc., the actual labels placed could be F0,F1,F2,F3 etc to make 
 
                             <p>
                               Class B extends class A and over-rides f1().  Further, class B contains the newly defined method f3().  When a class extends another, all the member fields and methods of the parent class are inherited by the derived class, unless over-ridden by a new definition.  Since  the method f1() is over-ridden by B, a  new label will have to be allocated for the function f1() in class B.  In the present example, we set the new label to F2.  Accordingly, the compiler must update <i>Memberfunclist</i> entry of the method f1() in class B with the new  <i>flabel</i> value. Correspondingly, in the virtual function table entry for class B, the entry for method f1() must be F2 (over-riding F0).  The entry  for method f2() (label F1) will be inherited from class A.    A new label (label F3 in the example) must be generated for the function f3() defined in class B.    The labels for each method in class B is shown in the table below for easy reference.
-
-
+                              <br><a href="../img/virtual_function_table_8.png">  <img src="../img/virtual_function_table_8.png" class="center"></img></a>
+                              		
                             </p>
 
                             <p>
@@ -430,9 +430,9 @@ The call address is obtained from virtual function table.
 
                     </article>
 -->
-
-<a href="oexpl-runtime-binding-tutorial.html" target="_blank">OEXPL Run Time Binding Tutorial</a>
-
+					<p>
+						<a href="oexpl-runtime-binding-tutorial.html" target="_blank">OEXPL Run Time Binding Tutorial</a>
+					</p>
                   </div>
               </section>
 
