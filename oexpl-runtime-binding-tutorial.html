@@ -85,8 +85,44 @@ Consequently, the compiler can resolve the call  <i>obj.f1();</i> by generating 
 <!-- Verified till here -->
 
 
-
+<!--
 <h4> Actions during Compile Time </h4>
+-->
+
+<ol>
+
+<p> In more detail,  when the compiler encounters the statement <i>obj=new(B);</i>  code is generated for the following:  </p>
+
+<li> Call the library routine for Alloc to allocate heap memory. The address returned is stored into the member field pointer of obj. </li>
+
+<li> Set the virtual function table pointer of obj to the base address of the virtual function table of the class B (i.e, 4104). </li>
+
+<p>
+Note that before generating code, compile time check whether B is a descendant class of the class of obj (in this case A) must be made.
+</p>
+
+</ol>
+
+<ol>
+
+<p>For the call  obj.f1(), the compiler must do the following: </p>
+
+<li>Find the index of <i>f1()</i> in the class table entry of <i>obj</i>.  Here <i>obj</i> is declared to be of class A and the index (look up Funcposition field in the member function list of class A) of <i>f1()</i> in class A will be 0.  </li>
+
+<li>Generate the code to move to a register (say R0) the  label of the function at index 0 from the virtual function table of <i>obj</i>.  The virtual function table pointer field of obj will point to the virtual function table.</li>
+
+<li> Generate code to push the "self object" into the stack as argument (i.e., the member field pointer of obj and the virtual function table pointer of obj must be pushed as arguments to the call to f1() - See function call convention for methods below .) </li>
+
+<li> Generate code to call the function using the label obtained in step 2. (call R0). </li>
+
+<li> Generate code to unwind the stack and extract return values upon return from the call.  </li>
+
+Note that compile time check whether f1() is a method in the class A to which obj is declared to must be done before proceeding to code generation.
+
+
+</ol>
+
+<!--
 
 <ul>
 <li>
@@ -112,6 +148,7 @@ Note that compile time check whether f1() is a method in the class A to which ob
 </li>
 </ul>
 
+-->
 
 <h4> Run time Stack Management for Method invocations </h4>
 
