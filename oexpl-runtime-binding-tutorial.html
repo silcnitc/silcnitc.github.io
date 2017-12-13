@@ -36,7 +36,7 @@
           <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
               <menu>
                 <ul>
-                  <li><a class="sec" href="#nav-virtual-function-table">Run Time Binding</a></li>
+                  <li><a class="sec" href="#nav-runtimebinding">Run Time Binding</a></li>
                   <!--<li><a class="sec" href="#nav-illustration"></a></li>
                   <li><a class="sec" href="#nav-runtimebinding">Run Time Binding</a></li> -->
                 <!--  <li><a class="sec" href="#nav-resolve">Resolving Strategy using Virtual Function Table</a></li> -->
@@ -47,22 +47,22 @@
 
         <section class="grid col-three-quarters mq2-col-full">
             <div class="grid-wrap">
-              <article class="grid col-full" id="nav-Run Time Binding">
+              <article class="grid col-full" id="nav-runtimebinding">
 
-              <p> Consider the OExpL code given below </p>
+              <p> Consider the OExpL code given below extending the classes <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-illustration">here</a></p>
 
                 <script src="../js/9fab0ed1079cbf0ebdae2916b4272929.js"></script>
 
                 <p>   In the above code, the value of n is read from the console and not known at the compile time.  </p>
 
-                <p>   Consider the call <span class="foo blue">write(obj.f1());</span> in the above code.  </p>
+                <p>   Consider the call <span class="foo blue">write(obj.f0());</span> in the above code.  </p>
 
-               <p> if (n < 0), the method f1() of the class A is invoked at run time. If (n = 0), the method f1() in the class B is invoked at run time and If (n > 0), the method f1() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class. <b>Note that the value of n is known only when the program is run (at run time) and not known statically determined (i.e.,  not known at compile time)</b>.  Even though the three methods which are overridden has the same name f1(), the call addresses must be different in each case. The information in the virtual function tables will be useful here.
+               <p> if (n < 0), the method f0() of the class A is invoked at run time. If (n = 0), the method f0() in the class B is invoked at run time and If (n > 0), the method f0() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class. <b>Note that the value of n is known only when the program is run (at run time) and not known statically determined (i.e.,  not known at compile time)</b>.  Even though the three methods which are overridden has the same name f0(), the call addresses must be different in each case. The information in the virtual function tables will be useful here.
                </p>
 
                <p> We noted earlier that the variable <i>obj</i> has two words of memory assigned to it at compile time - one <b>member field pointer</b> and one <b>virtual function table pointer</b>.
-At run time, the member field pointer of <i>obj</i> is used to store a pointer to the space allocated in the heap as done for user defined type variables.
-<b>The virtual function table pointer is used to store the start address of the virtual function table of the class assigned to <i>obj</i> at run time.</b>  </p>
+              At run time, the member field pointer of <i>obj</i> is used to store a pointer to the space allocated in the heap as done for user defined type variables.
+              <b>The virtual function table pointer is used to store the start address of the virtual function table of the class assigned to <i>obj</i> at run time.</b>  </p>
 
 <p>
   For instance, the statement <i>obj = new(A);</i> must result in two actions:
@@ -72,11 +72,11 @@ At run time, the member field pointer of <i>obj</i> is used to store a pointer t
   </ol>
   Similarly, <i>obj = new(B);</i> must result in setting the virtual function table pointer of obj to the base address of the virtual function table of class B.
 
-Consequently, the compiler can resolve the call  <i>obj.f1();</i> by generating code to:
+Consequently, the compiler can resolve the call  <i>obj.f0();</i> by generating code to:
 
 <ol>
   <li>Use the virtual function table pointer field of <i>obj</i> to find the address of the virtual function table of the class.   </li>
-  <li>Look up the virtual function table to find the address (label)  of the function  f1(). </li>
+  <li>Look up the virtual function table to find the address (label)  of the function  f0(). </li>
   <li>Call the function  (of course, after setting up the call stack).</li>
 </ol>
 
@@ -105,19 +105,19 @@ Note that before generating code, compile time check whether B is a descendant c
 
 <ol>
 
-<p>For the call  obj.f1(), the compiler must do the following: </p>
+<p>For the call  obj.f0(), the compiler must do the following: </p>
 
-<li>Find the index of <i>f1()</i> in the class table entry of <i>obj</i>.  Here <i>obj</i> is declared to be of class A and the index (look up Funcposition field in the member function list of class A) of <i>f1()</i> in class A will be 0.  </li>
+<li>Find the index of <i>f0()</i> in the class table entry of <i>obj</i>.  Here <i>obj</i> is declared to be of class A and the index (look up Funcposition field in the member function list of class A) of <i>f0()</i> in class A will be 0.  </li>
 
 <li>Generate the code to move to a register (say R0) the  label of the function at index 0 from the virtual function table of <i>obj</i>.  The virtual function table pointer field of obj will point to the virtual function table.</li>
 
-<li> Generate code to push the "self object" into the stack as argument (i.e., the member field pointer of obj and the virtual function table pointer of obj must be pushed as arguments to the call to f1() - See function call convention for methods below .) </li>
+<li> Generate code to push the "self object" into the stack as argument (i.e., the member field pointer of obj and the virtual function table pointer of obj must be pushed as arguments to the call to f0() - See function call convention for methods below .) </li>
 
 <li> Generate code to call the function using the label obtained in step 2. (call R0). </li>
 
 <li> Generate code to unwind the stack and extract return values upon return from the call.  </li>
 
-Note that compile time check whether f1() is a method in the class A to which obj is declared to must be done before proceeding to code generation.
+Note that compile time check whether f0() is a method in the class A to which obj is declared to must be done before proceeding to code generation.
 
 
 </ol>
@@ -153,7 +153,7 @@ Note that compile time check whether f1() is a method in the class A to which ob
 <h4> Run time Stack Management for Method invocations </h4>
 
 <p>
-While generating the code for invoking a method of a class using an object of the class (for example, in the call obj.f1() above, f1() is invoked using the object obj  of class A)
+While generating the code for invoking a method of a class using an object of the class (for example, in the call obj.f0() above, f0() is invoked using the object obj  of class A)
 <b>the member field pointer and virtual function table pointer of the object must be pushed to the stack in addition to normal arguments of the function.</b>
 We will follow the convention that these two values will be pushed before other arguments are pushed.
 
@@ -256,15 +256,15 @@ The call address is obtained from virtual function table.
 
                   For every class variable, generally one block of memory in stack is allocated for storing the heap address.
                   But with the introduction of subtyping, we face the problem of resolution of which method to call as shown in the example
-                  <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-runtimebinding"> mainfunc.txt </a>.
+                  <a href="http://silcnitc.github.io/oexpl-runtime-binding-tutorial.html#nav-runtimebinding"> mainfunc.txt </a>.
                   So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
                   One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
 
                   <h4> During Compile Time</h4>
 
-                  In the example <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-runtimebinding"> mainfunc.txt </a>, when compiler reaches the statement, <b>obj.f1()</b>, it checks the type of obj, which means
+                  In the example <a href="http://silcnitc.github.io/oexpl-runtime-binding-tutorial.html#nav-runtimebinding"> mainfunc.txt </a>, when compiler reaches the statement, <b>obj.f0()</b>, it checks the type of obj, which means
                   to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
-                  is any method with name <b>f1</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
+                  is any method with name <b>f0</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
                   compilation error.
 
                   When it encounters the statement, <b> obj = new(A);</b>, the second block of object is set.
