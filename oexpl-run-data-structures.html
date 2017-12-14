@@ -55,7 +55,7 @@
                         implemented by compilers for languages that support <a href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">
                         inheritance</a>, <a href="https://en.wikipedia.org/wiki/Subtyping">subtype Polymorphism</a> and <a href="https://en.wikipedia.org/wiki/Method_overriding">method over-riding</a>.
                         A run time virtual function table is maintained in the memory for each class.  <b>The compiler generates code
-                        to initialize the table such that each function that can be invoked from the class has an entry
+                        to initialize the table for each class such that each function that can be invoked from the class has an entry
                         in the table</b>.  For each function defined or inherited by a class, the table will contain the call address of
                         the function in the code region of memory. <b>If a function is inherited by a class from its parent and is
                         not over-ridden by the class, the call address stored
