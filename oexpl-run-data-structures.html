@@ -39,6 +39,7 @@
                   <li><a class="sec" href="#nav-virtual-function-table">Virtual Function Table</a></li>
                   <li><a class="sec" href="#nav-illustration">Illustration</a></li>
                   <li><a class="sec" href="#nav-runtimebinding">Run Time Binding</a></li>
+                  <li><a class="sec" href="#nav-resolvestrategy">Resolving Strategy</a></li>
                 <!--  <li><a class="sec" href="#nav-resolve">Resolving Strategy using Virtual Function Table</a></li> -->
               </ul>
               </menu>
@@ -438,7 +439,51 @@ The call address is obtained from virtual function table.
 
 
                     </article>
+
+
 -->
+
+  <article class="grid col-full" id="nav-resolvestrategy">
+    <h2>Resolving Strategy</h2>
+
+    For every class variable, generally one block of memory in stack is allocated for storing the heap address.
+    But with the introduction of subtyping, we face the problem of resolution of which method to call as shown in the example
+    <a href="http://silcnitc.github.io/oexpl-runtime-binding-tutorial.html#nav-runtimebinding"> mainfunc.txt </a>.
+    So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
+    One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
+
+    <h4> During Compile Time</h4>
+
+    In the example <a href="http://silcnitc.github.io/oexpl-runtime-binding-tutorial.html#nav-runtimebinding"> mainfunc.txt </a>, when compiler reaches the statement, <b>obj.f0()</b>, it checks the type of obj, which means
+    to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
+    is any method with name <b>f0</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
+    compilation error.
+
+    When it encounters the statement, <b> obj = new(A);</b>, the second block of object is set.
+    The second block of the object is to be set with the starting address of virtual function table of a class.
+    So, here,
+    (4096 + class_index * 8) is the starting address of virtual function table of the required class. The class_index is that of the class
+    that is present in new. So, for <b>obj = new(A);</b> 4096 is stored because class index of A is 0. Similarly, for class B, 4104 is stored.
+    For class C, 4112 is stored.
+    When the compiler encounters a call statement, from the second block of A we get start address of virtual function table,
+    and funcposition is obtained from the member function table of class to which this object belongs to.
+    Both are added and the value present in that address(flabel) is stored in a register.
+    Then a call to the register is made.
+
+    <h4>During Run Time</h4>
+
+    if '( n < 0)' then the two words of obj is : <br />
+    <a href="../img/virtual_function_table_5.png">  <img src="../img/virtual_function_table_5.png"></img></a><br />
+    if '(n = 0)' then the two words of obj is : <br />
+    <a href="../img/virtual_function_table_6.png">  <img src="../img/virtual_function_table_6.png"></img></a><br />
+    if '(n > 0)' then the two words of obj is : <br />
+    <a href="../img/virtual_function_table_7.png">  <img src="../img/virtual_function_table_7.png"></img></a><br />
+
+    During run time, only one if will be executed. That means by the completion of if,else block, required values are set,
+    and the call to the required function is made.
+
+  </article>
+
 					<article class="grid col-full" id="nav-runtimebinding">
 					<p>
 						<a href="oexpl-runtime-binding-tutorial.html" target="_blank">OEXPL Run Time Binding Tutorial</a>
