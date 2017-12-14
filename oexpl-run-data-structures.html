@@ -54,11 +54,13 @@
                         call addresses of methods in a class.  Such mechanism (or other table schemes) needs to be
                         implemented by compilers for languages that support <a href="https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)">
                         inheritance</a>, <a href="https://en.wikipedia.org/wiki/Subtyping">subtype Polymorphism</a> and <a href="https://en.wikipedia.org/wiki/Method_overriding">method over-riding</a>.
-                        A run time virtual function table is maintained in the memory for each class.  The compiler generates code
+                        A run time virtual function table is maintained in the memory for each class.  <b>The compiler generates code
                         to initialize the table such that each function that can be invoked from the class has an entry
-                        in the table.  For each function defined or inherited by a class, the table will contain the call address of
-                        the function in the code region of memory. Thus, if a function is inherited by a class from its parent and is
-                        not over-ridden by the class, the call address stored (will be same in the virtual function tables of both the classes) will be that of the function defined in the parent class.
+                        in the table</b>.  For each function defined or inherited by a class, the table will contain the call address of
+                        the function in the code region of memory. <b>If a function is inherited by a class from its parent and is
+                        not over-ridden by the class, the call address stored
+                         will be that of the function defined in the parent class</b>. The
+                         same address will be stored for the function in the virtual function table of the parent class as well.
                       </p>
                       <p>
                         The OExpL compiler maintains a virtual function table of eight words for each class.  Hence, a class can have at most eight
@@ -162,7 +164,7 @@
                             <p>
                               Class B extends class A and over-rides f0().  Further, class B contains the newly defined method f2().  When a class extends another, all the member fields and methods of the parent class are inherited by the derived class, unless over-ridden by a new definition.  Since  the method f0() is over-ridden by B, a  new label will have to be allocated for the function f0() in class B.  In the present example, we set the new label to F2.  Accordingly, the compiler must update <i>Memberfunclist</i> entry of the method f0() in class B with the new  <i>flabel</i> value. Correspondingly, in the virtual function table entry for class B, the entry for method f0() must be F2 (over-riding F0).  The entry  for method f1() (label F1) will be inherited from class A.    A new label (label F3 in the example) must be generated for the function f2() defined in class B. The labels for each method in class B is shown in the table below for easy reference.
                               <br><a href="../img/virtual_function_table_8.png">  <img src="../img/virtual_function_table_8.png" class="center"></img></a>
-                              		
+
                             </p>
 
                             <p>
@@ -199,8 +201,8 @@
                             <br /><br />-->
                             <br><a href="../img/virtual_function_table_4.png"> <img src="../img/virtual_function_table_4.png" class="center"></img></a>
                           <br /><br><br>
-                            <p> 
-                            	<span class="red-star-1">★</span> Overridden labels are marked in red 
+                            <p>
+                            	<span class="red-star-1">★</span> Overridden labels are marked in red
                             </p>
                           <p>
  						 The corresponding virtual function tables of all the classes are shown in the figure given below :
