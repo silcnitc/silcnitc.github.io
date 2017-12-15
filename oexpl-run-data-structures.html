@@ -531,6 +531,7 @@ and the call to the required function is made.-->
   value stored in the virtual function table pointer of obj during run-time cannot be predicted at compile time. Consequently,
 the actual function invoked by the call obj.f0() cannot be predicted at compile time.  This fact
 forces the compiler to generate code to maintain the virtual function tables at run time.</p>
+<br>
 <b>
 Note that an assignment statement would result in copying the values of both the pointers of the variable on the right side
 to the variable on the left side of the assignment statement.</b>
@@ -542,8 +543,9 @@ Hence, it generates code to invoke the function corresponding to index 0 in the 
 virtual function table pointer of obj.  Consequently, -->
 
 
+<br>
 
-
+<h4>Method Invocations</h4>
 
 
 <p>   Consider the call <span class="foo blue">write(obj.f0());</span> in the above code.  </p>
