@@ -489,14 +489,15 @@ class at run time.
 </p>
 
 <p>
-   We have already noted earlier that When compiler encounters the declaration of a variable of a class, it has to allocate <b>two words of storage</b>
+   We have already noted earlier that, when the compiler encounters the declaration of a variable of a class, it has
+   to allocate <b>two words of storage</b>
    for the variable (unlike other variables, where only one word of storage is allocated).
   The first word ( <b>member field pointer</b> ) is to store the address of the memory area allocated in the heap for the class (eight words).
     As noted earlier, the compiler must use the second word ( <b>virtual function table pointer</b> ) to store the address of
   virtual function table of the class to which the variable must be bound to at run time.
 </p>
 
-
+<!--
 <p>
     For every class variable, generally one block of memory in stack is allocated for storing the heap address.
     But with the introduction of subtyping, we face the problem of resolution of which method to call as shown in the example
@@ -504,7 +505,7 @@ class at run time.
     So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
     One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
 </p>
-
+-->
 
 
 
