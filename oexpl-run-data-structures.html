@@ -507,8 +507,29 @@ class at run time.
 </p>
 -->
 
-When the compiler encounters the statement <b> obj = new(A);</b>, <b>code must be generated to
-set the virtual function table pointer field of obj to the starting address of the virtual function table of class A</b>.
+<p>
+For instance, the statement <i>obj = new(A);</i> must result in two actions:
+<ol>
+<li>The member field pointer of <i>obj</i> must be set to a newly allocated heap block.</li>
+<li>The virtual function table pointer of <i>obj</i> must be set to the start address of the virtual function table of class A.</li>
+</ol>
+Similarly, <i>obj = new(B);</i> must result in setting the virtual function table pointer of obj to the base address of the virtual function table of class B.
+
+Consequently, the compiler can resolve the call  <i>obj.f0();</i> by generating code to:
+
+<ol>
+<li>Use the virtual function table pointer field of <i>obj</i> to find the address of the virtual function table of the class.   </li>
+<li>Look up the virtual function table to find the address (label)  of the function  f0(). </li>
+<li>Call the function  (of course, after setting up the call stack).</li>
+</ol>
+
+</p>
+
+
+<!--When the compiler encounters the statement <b> obj = new(A);</b>, <b>code must be generated to
+set the virtual function table pointer field of obj to the starting address of the virtual function table of class A</b>.-->
+
+
 (Recall that the start address of the virtual function table for a class can be computed as (4096 + <i>class_index</i> * 8)).
 In the above example, since the <i>class_index</i> of class A is zero, the above statement sets the virtual function table pointer
 value of obj to the value 4096.  Similarly the statement obj=new(B) results in the compiler generating code to store the
