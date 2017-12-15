@@ -138,15 +138,35 @@
                              (Strictly speaking, an integer value called the  "pseudo-address" for the function is stored in the <i>flabel</i> field of the <i>Memberfunclist</i>
                              entry of the function.  The pseudo addresses could  be 0,1,2,3 and so on. When code is generated, for functions with <i>flabel</i> values 0,1,2,3, etc., the actual
                              labels placed could be F0,F1,F2,F3 etc to make them more human readable.)
-                             <b>The index of the function in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table</a> (Funcposition) and the virtual function table are maintained to be the same.</b>
-                             Note that the class table is a static (compile time) data structure and will not be part of the
+
+                           </p>
+
+                         </li>
+
+                         <li>
+
+                           <p>
+
+                             <b>It is better to maintain the index of a method in the <a href="http://silcnitc.github.io/oexpl-data-structures.html">class table</a>
+                               (Funcposition) and the virtual function table to be the same. </b>  This makes code generation for method invocations
+                             easier.  When a method is invoked, the compiler can look up the index of the method from the appropriate class table and
+                             generate code to invoke the function whose call address (label) is stored in the virtual function table at the position
+                            determined by index.
+                          </p>
+
+
+                        </li>
+                        <p>
+                             Note 1: that the class table is a static (compile time) data structure and will not be part of the
                              target program.  The compiler uses the class table information to generate code that will create the virtual
-                             function table at execution (run) time.    
+                             function table at execution (run) time.
 
 
                            </p>
 
-                           <p> [Note:  It is sufficient to place labels, and not addresses in the virtual function table, as the <a href="http://silcnitc.github.io/label-translation.html">label translation phase</a> will take care of translating labels to addresses]. </p>
+                           <p> [Note 2:  It is sufficient to place labels, and not addresses in the virtual function table, as the
+                              <a href="http://silcnitc.github.io/label-translation.html">label translation phase</a> will take care of
+                               translating labels to addresses]. </p>
 
                            <p>
                              In the example given, the function f0 in class A has  funcposition 0 and say flabel F0 (we identify flabel 0 with F0) and the function f1 in class A gets a funcposition 1 and say flabel F1 (we identify flabel 1 with F1). The member function list of class A looks as shown in the below figure :
@@ -160,7 +180,7 @@
                             <br><a href="../img/virtual_function_table_1.png">  <img src="../img/virtual_function_table_1.png" class="center"></img></a>
                             <br />As mentioned earlier, all the labels of the functions will be replaced with addresses during <a href="http://silcnitc.github.io/label-translation.html">label translation phase</a>.
                           </p>
-                          </li>
+
 
                           <br>
                           <li>
