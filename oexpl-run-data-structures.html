@@ -629,12 +629,13 @@ Note that before generating code, compile time check whether B is a descendant c
 -->
 
 <p>
-  When compiler encounters the method invocation, <b>obj.f0()</b>, it first checks the type of obj i.e, to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
- is any method with name <b>f0</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
- compilation error.
+  When compiler encounters the method invocation, <b>obj.f0()</b>, it first checks the type of obj i.e, to which class the <b>obj</b> belongs to.
+  Then it gets the member function list of the class of that object and checks if there
+ is any method with name <b>f0</b>. If it finds a method, it proceeds with the compilation. Otherwise, a
+ compilation error is reported.
 </p>
 
-<p>In more detail, for the call  obj.f0(), the compiler must do the following: </p>
+<p>In more detail, the call <i>obj.f0()</i>, the compiler must do the following: </p>
 
 <ol>
 
