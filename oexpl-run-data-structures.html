@@ -481,17 +481,21 @@ The call address is obtained from virtual function table.
 
 <br>
 
+<p>
+The method invocation within the statement obj.f0() in the above code needs to be analysed carefully.  Depending on the
+run time value of n, the actual function to be invoked will be different.  This is because the variable obj will be bound
+to different classes depending on the value of n.  Here we describe what the compiler must do to bind obj to the correct
+class at run time.
+</p>
+
+<p>
     For every class variable, generally one block of memory in stack is allocated for storing the heap address.
     But with the introduction of subtyping, we face the problem of resolution of which method to call as shown in the example
     <a href="http://silcnitc.github.io/oexpl-runtime-binding-tutorial.html#nav-runtimebinding"> mainfunc.txt </a>.
     So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
     One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
+</p>
 
-
-    The method invocation within the statement obj.f0() in the above code needs to be analysed carefully.  Depending on the
-    run time value of n, the actual function to be invoked will be different.  This is because the variable obj will be bound
-    to different classes depending on the value of n.  Here we describe what the compiler must do to bind obj to the correct
-    class at run time.
 
 
 
