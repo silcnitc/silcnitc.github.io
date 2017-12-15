@@ -529,7 +529,10 @@ if '(n > 0)' then the two words of obj is : <br /> <br>
 
 <!--During run time, only one if will be executed. That means by the completion of if,else block, required values are set,
 and the call to the required function is made.-->
-<p>   In the above code, the value of n is read from the console and not known at the compile time.  </p>
+<p>   In the above code, the value of n is read from the console and is not known at the compile time.  Hence, the actual
+  value stored in the virtual function table pointer of obj during run-time cannot be predicted at compile time. Consequently,
+the actual function invoked by the call obj.f0() cannot be predicted at compile time.  This fact
+forces the compiler to generate code to maintain the virtual function tables at run time.</p>
 <b>
 Note that an assignment statement would result in copying the values of both the pointers of the variable on the right side
 to the variable on the left side of the assignment statement.</b>
