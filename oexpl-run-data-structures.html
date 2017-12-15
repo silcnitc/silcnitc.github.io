@@ -489,12 +489,11 @@ class at run time.
 </p>
 
 <p>
-  When the compiler encounters the declaration of a variable of a class, it allocates <b>two words of storage</b> for the variable
-  (unlike other variables, where only one word of storage is allocated).
-  The first word is used to store the address of the memory area allocated in the heap for the class (eight words).
-  Space for member fields is allocated in the heap exactly as done with user defined types.
-  We will call this word the <b>member field pointer</b>.   <b>The second word is used to store the address of virtual function table</b>.
-  We will call this word the <b>virtual function table pointer</b>.
+   We have already noted earlier that When compiler encounters the declaration of a variable of a class, it has to allocate <b>two words of storage</b>
+   for the variable (unlike other variables, where only one word of storage is allocated).
+  The first word (<b>member field pointer</b>) is to store the address of the memory area allocated in the heap for the class (eight words).
+    As noted earlier, the compiler must use the second word (<b>virtual function table pointer</b>) to store the address of
+  virtual function table of the class to which the variable must be bound to at run time.
 </p>
 
 
