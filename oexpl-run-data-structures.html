@@ -507,10 +507,10 @@ class at run time.
 </p>
 -->
 
-When the compiler encounters the statement <b> obj = new(A);</b>, code must be generated to
-set the virtual function table pointer field of obj to the starting address of the virtual function table of class A.
-(Recall that the start address of the virtual function table for a class can be computed as (4096 + class_index * 8)).
-In the above example, since the class_index of class A is zero, the above statement sets the virtual function table pointer
+When the compiler encounters the statement <b> obj = new(A);</b>, <b>code must be generated to
+set the virtual function table pointer field of obj to the starting address of the virtual function table of class A</b>.
+(Recall that the start address of the virtual function table for a class can be computed as (4096 + <i>class_index</i> * 8)).
+In the above example, since the <i>class_index</i> of class A is zero, the above statement sets the virtual function table pointer
 value of obj to the value 4096.  Similarly the statement obj=new(B) results in the compiler generating code to store the
 value 4104 to the virtual function table pointer of the variable obj.  obj=new(C) would result in storing the value
 4112 to the virtual function table pointer of obj.
