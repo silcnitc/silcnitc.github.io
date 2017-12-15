@@ -603,7 +603,7 @@ Similarly, <i>obj = new(B);</i> must result in setting the virtual function tabl
 The compiler can resolve the call  <i>obj.f0();</i> by generating code to:
 
 <ol>
-<li>Use the virtual function table pointer field of <i>obj</i> to find the address of the virtual function table of the class.   </li>
+<li>Use the virtual function table pointer field of <i>obj</i> to find the address of the virtual function table of the class to which obj is bound to.   </li>
 <li>Look up the virtual function table to find the address (label)  of the function  f0(). </li>
 <li>Call the function  (of course, after setting up the call stack).</li>
 </ol>
