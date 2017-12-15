@@ -515,6 +515,22 @@ value of obj to the value 4096.  Similarly the statement obj=new(B) results in t
 value 4104 to the virtual function table pointer of the variable obj.  obj=new(C) would result in storing the value
 4112 to the virtual function table pointer of obj.
 
+<br>
+<br>
+if '( n < 0)' then the two words of obj is : <br />
+<a href="../img/virtual_function_table_5.png">  <img src="../img/virtual_function_table_5.png"></img></a><br />
+if '(n = 0)' then the two words of obj is : <br />
+<a href="../img/virtual_function_table_6.png">  <img src="../img/virtual_function_table_6.png"></img></a><br />
+if '(n > 0)' then the two words of obj is : <br />
+<a href="../img/virtual_function_table_7.png">  <img src="../img/virtual_function_table_7.png"></img></a><br />
+
+<br>
+<br>
+
+During run time, only one if will be executed. That means by the completion of if,else block, required values are set,
+and the call to the required function is made.
+
+
 Note that an assignment statement would result in copying the values of both the pointers of the variable on the right side
 to the variable on the left side of the assignment statement.
 
@@ -625,17 +641,9 @@ Then a call to the register is made.
     compilation error.
 
 
-    <h4>During Run Time</h4>
+  
 
-    if '( n < 0)' then the two words of obj is : <br />
-    <a href="../img/virtual_function_table_5.png">  <img src="../img/virtual_function_table_5.png"></img></a><br />
-    if '(n = 0)' then the two words of obj is : <br />
-    <a href="../img/virtual_function_table_6.png">  <img src="../img/virtual_function_table_6.png"></img></a><br />
-    if '(n > 0)' then the two words of obj is : <br />
-    <a href="../img/virtual_function_table_7.png">  <img src="../img/virtual_function_table_7.png"></img></a><br />
 
-    During run time, only one if will be executed. That means by the completion of if,else block, required values are set,
-    and the call to the required function is made.
 
   </article>
 </b>
