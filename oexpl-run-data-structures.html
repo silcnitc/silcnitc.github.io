@@ -507,17 +507,113 @@ class at run time.
 </p>
 -->
 
-When it encounters the statement, <b> obj = new(A);</b>, the second block of object is set.
-The second block of the object is to be set with the starting address of virtual function table of a class.
-So, here,
-(4096 + class_index * 8) is the starting address of virtual function table of the required class. The class_index is that of the class
-that is present in new. So, for <b>obj = new(A);</b> 4096 is stored because class index of A is 0. Similarly, for class B, 4104 is stored.
-For class C, 4112 is stored.
-When the compiler encounters a call statement, from the second block of A we get start address of virtual function table,
+When the compiler encounters the statement <b> obj = new(A);</b>, code must be generated to
+set the virtual function table pointer field of obj to the starting address of the virtual function table of class A.
+(Recall that the start address of the virtual function table for a class can be computed as (4096 + class_index * 8)).
+In the above example, since the class_index of class A is zero, the above statement sets the virtual function table pointer
+value of obj to the value 4096.  Similarly the statement obj=new(B) results in the compiler generating code to store the
+value 4104 to the virtual function table pointer of the variable obj.  obj=new(C) would result in storing the value
+4112 to the virtual function table pointer of obj.
+
+Note that an assignment statement would result in copying the values of both the pointers of the variable on the right side
+to the variable on the left side of the assignment statement.
+
+<!--When the compiler encounters the method invocation obj.f0(); the value stored in the virtual function table pointer of
+obj will determine the correct class to which the variable obj is bound to at run time.  Since obj is declared as a variable
+of class A, The compiler simply looks up the func-pos of the function f0()  in class A - which is 0 in this case.
+Hence, it generates code to invoke the function corresponding to index 0 in the virtual function table pointed to by
+virtual function table pointer of obj.  Consequently, -->
+
+
+
+
+
+
+
+
+<p>   In the above code, the value of n is read from the console and not known at the compile time.  </p>
+
+<p>   Consider the call <span class="foo blue">write(obj.f0());</span> in the above code.  </p>
+
+<p> if (n < 0), the method f0() of the class A is invoked at run time. If (n = 0), the method f0() in the class B is invoked at run time and If (n > 0), the method f0() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class. <b>Note that the value of n is known only when the program is run (at run time) and not known statically determined (i.e.,  not known at compile time)</b>.  Even though the three methods which are overridden has the same name f0(), the call addresses must be different in each case. The information in the virtual function tables will be useful here.
+</p>
+
+<p> We noted earlier that the variable <i>obj</i> has two words of memory assigned to it at compile time - one <b>member field pointer</b> and one <b>virtual function table pointer</b>.
+At run time, the member field pointer of <i>obj</i> is used to store a pointer to the space allocated in the heap as done for user defined type variables.
+<b>The virtual function table pointer is used to store the start address of the virtual function table of the class assigned to <i>obj</i> at run time.</b>  </p>
+
+<p>
+For instance, the statement <i>obj = new(A);</i> must result in two actions:
+<ol>
+<li>The member field pointer of <i>obj</i> must be set to a newly allocated heap block.</li>
+<li>The virtual function table pointer of <i>obj</i> must be set to the start address of the virtual function table of class A.</li>
+</ol>
+Similarly, <i>obj = new(B);</i> must result in setting the virtual function table pointer of obj to the base address of the virtual function table of class B.
+
+Consequently, the compiler can resolve the call  <i>obj.f0();</i> by generating code to:
+
+<ol>
+<li>Use the virtual function table pointer field of <i>obj</i> to find the address of the virtual function table of the class.   </li>
+<li>Look up the virtual function table to find the address (label)  of the function  f0(). </li>
+<li>Call the function  (of course, after setting up the call stack).</li>
+</ol>
+
+</p>
+
+
+<ol>
+
+<p> In more detail,  when the compiler encounters the statement <i>obj=new(B);</i>  code is generated for the following:  </p>
+
+<li> Call the library routine for Alloc to allocate heap memory. The address returned is stored into the member field pointer of obj. </li>
+
+<li> Set the virtual function table pointer of obj to the base address of the virtual function table of the class B (i.e, 4104). </li>
+
+<p>
+Note that before generating code, compile time check whether B is a descendant class of the class of obj (in this case A) must be made.
+</p>
+
+</ol>
+
+<ol>
+
+<p>For the call  obj.f0(), the compiler must do the following: </p>
+
+<li>Find the index of <i>f0()</i> in the class table entry of <i>obj</i>.  Here <i>obj</i> is declared to be of class A and the index (look up Funcposition field in the member function list of class A) of <i>f0()</i> in class A will be 0.  </li>
+
+<li>Generate the code to move to a register (say R0) the  label of the function at index 0 from the virtual function table of <i>obj</i>.  The virtual function table pointer field of obj will point to the virtual function table.</li>
+
+<li> Generate code to push the "self object" into the stack as argument (i.e., the member field pointer of obj and the virtual function table pointer of obj must be pushed as arguments to the call to f0() - See function call convention for methods below .) </li>
+
+<li> Generate code to call the function using the label obtained in step 2. (call R0). </li>
+
+<li> Generate code to unwind the stack and extract return values upon return from the call.  </li>
+
+Note that compile time check whether f0() is a method in the class A to which obj is declared to must be done before proceeding to code generation.
+
+
+</ol>
+
+
+
+
+
+
+
+
+
+
+<!--
+
+the value of the virtual function table pointer determines
+the correct class to which
+
+
+, from the second block of A we get start address of virtual function table,
 and funcposition is obtained from the member function table of class to which this object belongs to.
 Both are added and the value present in that address(flabel) is stored in a register.
 Then a call to the register is made.
-
+-->
 <br>
 <br>
 
