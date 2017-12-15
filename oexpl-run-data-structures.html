@@ -580,6 +580,8 @@ virtual function table pointer of obj.  Consequently, -->
 
 <p>   Consider the call <span class="foo blue">write(obj.f0());</span> in the above code.  </p>
 
+<!--
+
 <p> if (n < 0), the method f0() of the class A is invoked at run time. If (n = 0), the method f0() in the class B is invoked at run time and If (n > 0), the method f0() in the class C is invoked at run time. So, Depending on the value of n, the variable obj must be bound to a different class. <b>Note that the value of n is known only when the program is run (at run time) and not known statically determined (i.e.,  not known at compile time)</b>.  Even though the three methods which are overridden has the same name f0(), the call addresses must be different in each case. The information in the virtual function tables will be useful here.
 </p>
 
@@ -596,6 +598,9 @@ For instance, the statement <i>obj = new(A);</i> must result in two actions:
 <li>The virtual function table pointer of <i>obj</i> must be set to the start address of the virtual function table of class A.</li>
 </ol>
 Similarly, <i>obj = new(B);</i> must result in setting the virtual function table pointer of obj to the base address of the virtual function table of class B.
+
+-->
+<p>
 
 Consequently, the compiler can resolve the call  <i>obj.f0();</i> by generating code to:
 
