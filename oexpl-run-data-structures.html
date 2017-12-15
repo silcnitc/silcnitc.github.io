@@ -527,12 +527,12 @@ if '(n > 0)' then the two words of obj is : <br /> <br>
 <br>
 <br>
 
-During run time, only one if will be executed. That means by the completion of if,else block, required values are set,
-and the call to the required function is made.
-
-
+<!--During run time, only one if will be executed. That means by the completion of if,else block, required values are set,
+and the call to the required function is made.-->
+<p>   In the above code, the value of n is read from the console and not known at the compile time.  </p>
+<b>
 Note that an assignment statement would result in copying the values of both the pointers of the variable on the right side
-to the variable on the left side of the assignment statement.
+to the variable on the left side of the assignment statement.</b>
 
 <!--When the compiler encounters the method invocation obj.f0(); the value stored in the virtual function table pointer of
 obj will determine the correct class to which the variable obj is bound to at run time.  Since obj is declared as a variable
@@ -544,10 +544,6 @@ virtual function table pointer of obj.  Consequently, -->
 
 
 
-
-
-
-<p>   In the above code, the value of n is read from the console and not known at the compile time.  </p>
 
 <p>   Consider the call <span class="foo blue">write(obj.f0());</span> in the above code.  </p>
 
