@@ -484,7 +484,13 @@ The call address is obtained from virtual function table.
 
       <script src="../js/9fab0ed1079cbf0ebdae2916b4272929.js"></script>
 
-    <h4> During Compile Time</h4>
+    The method invocation within the statement obj.f0() in the above code needs to be analysed carefully.  Depending on the
+    run time value of n, the actual function to be invoked will be different.  This is because the variable obj will be bound
+    to different classes depending on the value of n.  Here we describe what the compiler must do to bind obj to the correct
+    class at run time.
+
+
+  
 
     In the example <a href="http://silcnitc.github.io/oexpl-runtime-binding-tutorial.html#nav-runtimebinding"> mainfunc.txt </a>,
      when compiler reaches the statement, <b>obj.f0()</b>, it checks the type of obj, which means
