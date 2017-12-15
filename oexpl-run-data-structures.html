@@ -200,8 +200,9 @@
 
                             <p>
                               Class B extends class A and over-rides f0().  Further, class B contains the newly defined method f2().  When a class extends another, all the member fields and methods of the parent class are inherited by the derived class, unless over-ridden by a new definition.  Since  the method f0() is over-ridden by B, a  new label will have to be allocated for the function f0() in class B.  In the present example, we set the new label to F2.  Accordingly, the compiler must update <i>Memberfunclist</i> entry of the method f0() in class B with the new  <i>flabel</i> value. Correspondingly, in the virtual function table entry for class B, the entry for method f0() must be F2 (over-riding F0).  The entry  for method f1() (label F1) will be inherited from class A.    A new label (label F3 in the example) must be generated for the function f2() defined in class B. The labels for each method in class B is shown in the table below for easy reference.
+                              <br>
                               <br><a href="../img/virtual_function_table_8.png">  <img src="../img/virtual_function_table_8.png" class="center"></img></a>
-
+                              <br>
                             </p>
 
                             <p>
@@ -479,13 +480,14 @@ The call address is obtained from virtual function table.
     So, now to resolve this we use virtual function table and every class variable will be allocated two blocks of memory.
     One block is used to store the heap address and the other block is used to store the starting address of the virtual function table.
 
-    <p> Consider the OExpL code given below extending the classes <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-illustration">here</a></p>
+    <p> Consider the OExpL code given below extending the classes defined <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-illustration">above</a></p>
 
       <script src="../js/9fab0ed1079cbf0ebdae2916b4272929.js"></script>
 
     <h4> During Compile Time</h4>
 
-    In the example <a href="http://silcnitc.github.io/oexpl-runtime-binding-tutorial.html#nav-runtimebinding"> mainfunc.txt </a>, when compiler reaches the statement, <b>obj.f0()</b>, it checks the type of obj, which means
+    In the example <a href="http://silcnitc.github.io/oexpl-runtime-binding-tutorial.html#nav-runtimebinding"> mainfunc.txt </a>,
+     when compiler reaches the statement, <b>obj.f0()</b>, it checks the type of obj, which means
     to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
     is any method with name <b>f0</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
     compilation error.
