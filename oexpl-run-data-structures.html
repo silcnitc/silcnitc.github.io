@@ -578,7 +578,7 @@ virtual function table pointer of obj.  Consequently, -->
 <h2>Method Invocations</h2>
 
 
-<p>   Consider the call <b>write(obj.f0());</b> in the above code.  
+<p>   Consider the call <b>write(obj.f0());</b> in the above code.
 
 <!--
 
@@ -611,7 +611,7 @@ The compiler can resolve the call  <i>obj.f0();</i> by generating code to:
 </p>
 
 
-
+<!--
 <ol>
 
 <p> In more detail,  when the compiler encounters the statement <i>obj=new(B);</i>  code is generated for the following:  </p>
@@ -626,9 +626,11 @@ Note that before generating code, compile time check whether B is a descendant c
 
 </ol>
 
-<ol>
+-->
 
-<p>For the call  obj.f0(), the compiler must do the following: </p>
+<p>In more detail, for the call  obj.f0(), the compiler must do the following: </p>
+
+<ol>
 
 <li>Find the index of <i>f0()</i> in the class table entry of <i>obj</i>.  Here <i>obj</i> is declared to be of class A and the index (look up Funcposition field in the member function list of class A) of <i>f0()</i> in class A will be 0.  </li>
 
