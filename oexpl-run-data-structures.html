@@ -578,7 +578,7 @@ virtual function table pointer of obj.  Consequently, -->
 <h2>Method Invocations</h2>
 
 
-<p>   Consider the call <b>write(obj.f0());</b> in the above code.
+<p>   Consider the statement <b>write(obj.f0());</b> in the above code.
 
 <!--
 
@@ -629,8 +629,7 @@ Note that before generating code, compile time check whether B is a descendant c
 -->
 
 <p>
-  When compiler reaches the statement, <b>obj.f0()</b>, it checks the type of obj, which means
- to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
+  When compiler encounters the method invocation, <b>obj.f0()</b>, it first checks the type of obj i.e, to which class the <b>obj</b> belongs to. Then it gets the member function list of the class of that object and checks if there
  is any method with name <b>f0</b>. If it finds a method, it proceeds with the compilation. If it doesn't find, then it is a
  compilation error.
 </p>
