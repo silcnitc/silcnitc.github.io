@@ -636,14 +636,15 @@ Note that before generating code, compile time check whether B is a descendant c
 
 <li>Generate the code to move to a register (say R0) the  label of the function at index 0 from the virtual function table of <i>obj</i>.  The virtual function table pointer field of obj will point to the virtual function table.</li>
 
-<li> Generate code to push the "self object" into the stack as argument (i.e., the member field pointer of obj and the virtual function table pointer of obj must be pushed as arguments to the call to f0() - See function call convention for methods below .) </li>
+<li> Generate code to push the "self object" into the stack as argument (i.e., the member field pointer of obj and the virtual function table pointer of obj must be pushed as arguments to the call to f0() - See calling convention for methods below .) </li>
 
 <li> Generate code to call the function using the label obtained in step 2. (call R0). </li>
 
 <li> Generate code to unwind the stack and extract return values upon return from the call.  </li>
 
+<!--
 Note that compile time check whether f0() is a method in the class A to which obj is declared to must be done before proceeding to code generation.
-
+-->
 
 </ol>
 
@@ -667,7 +668,6 @@ and funcposition is obtained from the member function table of class to which th
 Both are added and the value present in that address(flabel) is stored in a register.
 Then a call to the register is made.
 -->
-<br>
 <br>
 
 
