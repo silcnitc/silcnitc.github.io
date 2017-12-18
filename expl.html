@@ -54,7 +54,7 @@
                     <article class="grid col-full" id="nav-intro">
                         <h2>Introduction</h2>
                         <p>
-                            ExpL (Experimental language) is the language for which we will build a compiler in this course. This document provides an informal specification for the language. 
+                            ExpL (Experimental language) is the language for which we will build a compiler in this course. This document provides an informal specification for the language.
                         </p>
                     </article>
                     <article class="grid col-full" id="nav-data-types">
@@ -127,7 +127,12 @@
                             All user-defined types in a program must be defined in the type definition section. The Type Definition section starts with the keyword <b>type</b> and ends with the keyword <b>endtype.</b>
                         </p>
                         <i>Example</i>
+
+
                         <script src="js/67898e19a3cb8f2dc010.js"></script>
+
+
+
                         <h4>Global Declarations</h4>
                         <p>
                             The global declaration part of an ExpL program begins with the keyword <b>decl</b> and ends with the keyword <b>enddecl</b>. All global variables, arrays and functions in a program must be declared in this section.
@@ -177,10 +182,10 @@
                         <p>
                             The syntax of local declarations and definitions are similar to those of global declarations except that arrays and functions cannot be declared inside a function. Local variables are visible only within the scope of the function where they are declared. The scope of a parameter is limited to the function. Static scope rules apply.
 
-                            A function can have a user defined type as its return type.  Similarly, parameters to a function can be of user defined types.   
+                            A function can have a user defined type as its return type.  Similarly, parameters to a function can be of user defined types.
                         </p>
                         <p>
-                            The <b>main()</b> function, by specification, must be a <b>zero argument</b> function of <b>return type integer</b>. It must be defined immediately after declaration section, before all other functions are defined. Program execution begins from the body of the main function. The main function must not be declared. The definition part of main should be given in the same format as any other function. 
+                            The <b>main()</b> function, by specification, must be a <b>zero argument</b> function of <b>return type integer</b>. It must be defined immediately after declaration section, before all other functions are defined. Program execution begins from the body of the main function. The main function must not be declared. The definition part of main should be given in the same format as any other function.
                         </p>
                         <p>
                             The Body of a function is a collection of statements embedded within the keywords <b>begin and end</b>.
@@ -236,7 +241,7 @@
 
                         <h3>Arithmetic and String Expressions</h3>
                         <p>
-                            Any integer(or string) constant/variable is a valid arithmetic (or string) expression, provided the scope rules  are not violated.  ExpL treats a function returning integer (or string) as an integer expression (or string expression) and the value of a function is its return value. 
+                            Any integer(or string) constant/variable is a valid arithmetic (or string) expression, provided the scope rules  are not violated.  ExpL treats a function returning integer (or string) as an integer expression (or string expression) and the value of a function is its return value.
                         </p>
                         <p>
                             ExpL provides five <b>arithmetic operators</b>, viz., +, -, *, / (Integer Division) and % (Modulo operator) through which arithmetic expressions may be combined. Expression syntax and semantics are similar to standard practice in programming languages and normal rules of precedence, associativity and paranthesization apply. ExpL is strongly typed and <b>any type mismatch or scope violation must be reported at compile time</b>.
@@ -246,9 +251,9 @@
                         </p>
 
                         <h3>Logical Expressions</h3>
-                            <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by ExpL are <, >, <=, >=, ==, and !=.  Again <b>standard syntax and semantic conventions apply</b>. Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.</p>  
+                            <p>Logical expressions may be formed by combining arithmetic expressions using <b>relational operators</b>. The relational operators supported by ExpL are <, >, <=, >=, ==, and !=.  Again <b>standard syntax and semantic conventions apply</b>. Logical expressions may be combined using logical operators <b>and</b>, <b>or</b> and <b>not</b>.</p>
                             <p>
-                                The relational operators <, >, <=, >=, ==, and != can be used between two variables of type string, two string constants or a string constant and a variable of type string.  Comparison will be performed for <b>lexicographic ordering</b>.  
+                                The relational operators <, >, <=, >=, ==, and != can be used between two variables of type string, two string constants or a string constant and a variable of type string.  Comparison will be performed for <b>lexicographic ordering</b>.
                             </p>
                             <p><i><b>Variables of user defined types can only be checked for equality/inequality using the ==/!= operator. </i></b></p>
                             <p><i>Example</i> : <i>((x==y)==a[3])</i> is <b>not valid</b> ExpL expression because (x==y) is a logical expression, while a[3] must be a variable of type integer/string.   The "==" operator can be applied only between expressions of the same type.  </p>
@@ -256,7 +261,7 @@
                             <p> <i>SetOne.name == "a", SetOne.total >= SetTwo.total</i> are valid only if SetOne is a user defined type with a field 'name' of type string and another field 'total' of type integer.</p>
 
                         <h3>Expressions of user defined types</h3>
-                            <p> Any variable of a user defined type or invocation of a function whose return type is a user defined type is considered as an expression of the corresponding user defined type.  
+                            <p> Any variable of a user defined type or invocation of a function whose return type is a user defined type is considered as an expression of the corresponding user defined type.
                             </p>
                         <h3>Assignment Statement</h3>
                             <p>The general syntax of the assignment statement is :</p>
@@ -265,7 +270,7 @@
                             </pre>
                             <p>The possible Lvalues are variables or indexed array variables.  If the Lvalue has type integer (or string) , the Rvalue must be an arithmetic (or string) expression. If the Lvalue is a user defined variable, then the Rvalue must either be an expression of the same type, or the special constant NULL, or an invocation of the function <i>alloc()</i> (to be explained later).</p>
                             <p><i>Example</i> : <i>q[3]= “hello” ; t= “world” ;</i> are both valid assignments to string variables provided q is declared as an array of type string and t is declared as a variable of type string.   <i>x=y</i>; is valid if x and y are of the same type and scope rules are not violated.   </p>
-                            <p>In an assignment <i>x=y</i> where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are variables of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>                            
+                            <p>In an assignment <i>x=y</i> where x  and  y are of a primitive type (integer or string), the value inside the location indicated by y is copied into the location indicated by x. On the other hand, if x and y are variables of a user defined type, the assignment only makes both x and y refer to the same memory object. This is because a variable of a user defined type stores a reference to its store allocated using alloc().   </p>
 
                         <h3>Conditional  Statement</h3>
                             <p>The ExpL conditional statement has the following syntax:</p>
@@ -291,7 +296,7 @@
                           <p>The body of each function (including main) should have <b>exactly one</b> return statement and it should be the <b>last statement</b> in the body. The syntax is:</p>
                           <pre>
                           return < Expression* > ; /* The type of the expression should match with the return type of the function*/
-                          Note* : As an exception to the rule above, the expression returned by a function whose return type is a user defined type can be the constant NULL.  
+                          Note* : As an exception to the rule above, the expression returned by a function whose return type is a user defined type can be the constant NULL.
                           </pre>
                           <p>If the return type of the function does not match the type of the expression/variable returned,  a compilation error should occur. The return type of a function can be of type <b>int</b> , <b>str</b> or <b>user-defined type</b>. The <b>return type of main is integer</b> by specification</p>.
                         <h3>Input/Output statements</h3>
@@ -313,9 +318,9 @@
                           <p>The next section briefly discusses the library functions for dynamic memory allocation.</p>
 
                         <h3>Breakpoint Statement</h3>
-                            <p>This statement results in the ExpL compiler setting a break point in the program.  This feature is useful for debugging.  
+                            <p>This statement results in the ExpL compiler setting a break point in the program.  This feature is useful for debugging.
                                 <pre>
-                                    breakpoint; 
+                                    breakpoint;
                                 </pre>
                             </p>
 
@@ -344,9 +349,15 @@
                         	However, if a variable is of a user defined type, after allocation using the Alloc() function, the variable stores the memory address of the actual data in heap memory where the data associated with the variable is stored. ExpL specification allows the data to be modified using the variable. If the data stored variable is changed with in a function, the change will be visible globally. This is because heap memory is globally visible.
                         </p>
                         <p>
-							The scope rules are illustrated by the following example. 
+							The scope rules are illustrated by the following example.
                         </p>
-                        <script src="js/fa8a319425f0dcb2e5096174652a4409.js"></script>
+
+
+
+                        <script src="js/5815668e4a64869ec651f87981b483d5.js"></script>
+
+
+
                     </article>
                     <!-- <article class="grid col-full" id="nav-sample-programs">
                         <h2>Sample Programs</h2>
@@ -449,7 +460,7 @@
         <ul class="grid col-one-third social">
             <li><a href="http://github.com/silcnitc">Github</a></li>
         </ul>
-        <div class="grid col-one-third" style="color:black;"> 
+        <div class="grid col-one-third" style="color:black;">
             <p style="font-weight: bold;">Contributed By : <a>Ashwathy T Revi</a>, <a>Subisha V</a>,<br> <a href="https://www.linkedin.com/in/suryaharshanunnaguppala">Nunnaguppala Surya Harsha</a>, <a href="https://in.linkedin.com/in/vishnupriyamatha">Vishnu Priya Matha</a>
             </p>
         </div>
