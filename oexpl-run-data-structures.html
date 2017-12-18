@@ -39,6 +39,8 @@
                   <li><a class="sec" href="#nav-virtual-function-table">Virtual Function Table</a></li>
                   <li><a class="sec" href="#nav-illustration">Illustration</a></li>
                   <li><a class="sec" href="#nav-runtimebinding">Run Time Binding</a></li>
+                  <li><a class="sec" href="#nav-methodinvocations">Method Invocations</a></li>
+                  <li><a class="sec" href="#nav-runtimestackmanagementformethodinvocations">Run time Stack Management for Method invocations</a></li>
                 <!--  <li><a class="sec" href="#nav-resolvestrategy">Resolving Strategy</a></li>-->
                 <!--  <li><a class="sec" href="#nav-resolve">Resolving Strategy using Virtual Function Table</a></li> -->
               </ul>
@@ -577,8 +579,9 @@ of class A, The compiler simply looks up the func-pos of the function f0()  in c
 Hence, it generates code to invoke the function corresponding to index 0 in the virtual function table pointed to by
 virtual function table pointer of obj.  Consequently, -->
 
-
+</article>
 <br>
+<article class="grid col-full" id="nav-methodinvocations">
 
 <h2>Method Invocations</h2>
 
@@ -668,9 +671,9 @@ in the virtual function tables of every class in a class hierarchy is unique.  I
 there would be multiple functions with the same name within a class, and the implementation would be slightly more involved.
 (Think what additional stuff needs to be done in that case!)
 
+</article>
 
-
-
+<article class="grid col-full" id="nav-runtimestackmanagementformethodinvocations">
 
 <h2> Run time Stack Management for Method invocations </h2>
 
