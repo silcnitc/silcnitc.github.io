@@ -474,7 +474,7 @@ The call address is obtained from virtual function table.
   <article class="grid col-full" id="nav-runtimebinding">
     <h2>Runtime Binding</h2>
      <p> Please go through the  <a href="http://silcnitc.github.io/oexpl-specification.html#nav-run-time-binding" target="_blank">OExpL Specification - Run time Binding </a> carefully before proceeding further. </p>
-    <p> Consider the OExpL code given below extending the classes defined <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-illustration">above</a></p>
+    <p> Consider the OExpL code given below assuming the classes defined <a href="http://silcnitc.github.io/oexpl-run-data-structures.html#nav-illustration">above</a></p>
 
 <br>
       <script src="../js/9fab0ed1079cbf0ebdae2916b4272929.js"></script>
@@ -493,7 +493,7 @@ class at run time.
    to allocate <b>two words of storage</b>
    for the variable (unlike other variables, where only one word of storage is allocated).
   The first word ( <b>member field pointer</b> ) is to store the address of the memory area allocated in the heap for the class (eight words).
-    As noted earlier, the compiler must use the second word ( <b>virtual function table pointer</b> ) to store the address of
+    The compiler must use the second word ( <b>virtual function table pointer</b> ) to store the address of the
   virtual function table of the class to which the variable is bound to at run time.
 </p>
 
