@@ -747,7 +747,7 @@ In the method definition for the method <b>setHeight</b>, the member field <b>he
 <br>
 
 
-By this statement alone, we cannot say which object is <b>self</b> referring to.
+By this statement alone, the compiler cannot say which object is <b>self</b> referring to.
 
 To identify which object is <b>self</b> referring to, we push the calling object to the stack.
 
@@ -756,8 +756,8 @@ To identify which object is <b>self</b> referring to, we push the calling object
 <p>
 
 If <b>obj1</b> calls the method <b>setHeight</b>, the member field pointer and virtual function table pointer of <b>obj1</b> are pushed into the stack.
-Now, we know that <b>obj1</b> is calling the method (By looking at the runtime stack).
-So, we set the <b>member field height of obj1</b> by using the <b>member field pointer</b> and the <b>field position of member field height</b>.
+Now, the compiler can find out that <b>obj1</b> is calling the method by looking at the stack.
+So, compiler can generate code to set the member field <i>height</i> of <b>obj1</b> by using the member field pointer of the <i>self</i> object.
 
 Member field pointer is the heap address given to the object for storing the member fields of the class it is assigned with.
 
