@@ -545,6 +545,11 @@ set the virtual function table pointer field of obj to the starting address of t
 value 4104 to the virtual function table pointer of the variable obj.  obj=new(C) would result in storing the value
 4112 to the virtual function table pointer of obj.
 
+  As an illustration, assume that the compiler has allocated memory address 4120 and 4121 for storing the member field pointer and virtual
+  function table pointer of obj.  Assume that a call to the new function results in allocation of 8 words in the heap starting with
+  the memory address 1024 (using the Alloc() library function).  The following figure shows how the values of memory locations 4120 and
+  4121 has to be set for various values of n.   
+
 <br>
 <br>
 if '( n < 0)' then the two words of obj is : <br /> <br>
