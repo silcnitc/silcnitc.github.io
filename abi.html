@@ -66,16 +66,16 @@
                 <article class="grid col-full" id="nav-XSM-instruction-set">
                     <h2> The XSM virtual machine model and instruction set</h2>
                     <p>
-                        The virtual machine model provided to user level programs by the ExpOS on the  machine is described here. The virtual machine model explains the "view" of the machine provided to the application by the operating system.  
+                        The virtual machine model provided to user level programs by the ExpOS on the  machine is described here. The virtual machine model explains the "view" of the machine provided to the application by the operating system.
                     </p>
                     <p>
                         The XSM virtual machine contains 20 general purpose registers (R0-R19) and three special registers - Stack pointer (SP), Base pointer (BP) and the Instruction pointer (IP).  The SP register is normally used to point to the top of the application program's stack.  The BP register is used to point to the base of the activation record of the currently executing function.  IP points to the next instruction in the user memory to be fetched and executed.  The memory address space available to the application is of 5120 words starting at (virtual) address 0 and ending at (virtual) address 5119.
                     </p>
-                    <p> 
+                    <p>
                         The OS stipulates that this virtual address space must be divided into various regions called library, code, heap and stack. These will be described in detail later. The virtual machine model also allows the application to invoke traps to the operating system kernel for read, write and program termination (using the INT instruction).  The details of the implementation of the kernel routines are hidden from the application and the application needs to know only the interface to invoke these routines.  These interfaces will also be described later in this documentation.
                     </p>
                     <p>
-                        The following figure gives a high level picture of the XSM virtual machine model.<br>   
+                        The following figure gives a high level picture of the XSM virtual machine model.<br>
                     </p>
                     <p>
                         <img src="img/architecturemodel.png">
@@ -248,7 +248,7 @@
                         The CALL instruction copies the address of the next instruction to be fetched(this value must be IP + 2 since each instruction is two memory words) on to location SP + 1. It also increments SP by one and transfers control to the instruction specified by the target_address. The RET instruction restores the IP value stored at location pointed by SP, decrements SP by one and continues execution fetching the next instruction pointed to by IP
                     </p>
 
-                    
+
                     <table class="doctable" style="text-align:left">
                         <tbody>
                             <tr>
@@ -279,7 +279,7 @@
                             <i>Syntax</i> : INT n<br>
                             <i>Semantics</i> : Generates an interrupt to the kernel with the interrupt number (n between 4 to 18) as an argument. The interrupt numbers relevant to the present project are given below.
                         </p>
-                        <p>               
+                        <p>
                             <table class="doctable">
                             <tr>
                                 <th>System Call</th>
@@ -311,13 +311,13 @@
                         The <b>Library</b> contains routines for implementing dynamic memory allocation functions Alloc(), Free() and Initialize() as well as the input output functions Read() and Write().  The eXpOS loader links the library routines at load time when a program is loaded into the memory for execution.  The compiler can therefore assume that the library code will be "there" at run-time and hence need not generate the code for implementing the library.  The compiler however must generate code to invoke the correct library routines with appropriate arguments while translating the high level functions Alloc(), Free(), Initialize(), Read() and Write(). The ABI specifies how this must be done.  Among these, Alloc(), Free() and Initialize() are implemented as part of the library itself.  The library will re-direct Read() and Write() to low level OS system calls. (One of the advanced stages of the ExpL project will ask you to implement the library itself.) The ABI stipulates that eXpOS will load the library between addresses 0 and 1023 of the address space.  Note that since each XSM instruction takes up two memory words, the library can be of size at most 512 instructions.
                     </p>
                     <p>
-                        <b>Heap</b> is the portion of the address space reserved as the memory pool from which dynamic memory allocation is done by the allocator routine (Alloc() function) of the library.  The memory region between addresses 1024 and 2047 is reserved for the heap.  The routine Initialize() will intialize the data structures associated with the memory allocator, Alloc() will allocate memory and Free() will de-allocate a previously allocated memory block.  A discussion on dynamic memory allocation and de-allocation can be found <a href="http://silcnitc.github.io/run_data_structures/heap.html" target="_blank">here</a>.  
+                        <b>Heap</b> is the portion of the address space reserved as the memory pool from which dynamic memory allocation is done by the allocator routine (Alloc() function) of the library.  The memory region between addresses 1024 and 2047 is reserved for the heap.  The routine Initialize() will intialize the data structures associated with the memory allocator, Alloc() will allocate memory and Free() will de-allocate a previously allocated memory block.  A discussion on dynamic memory allocation and de-allocation can be found <a href="http://silcnitc.github.io/run_data_structures/heap.html" target="_blank">here</a>.
                     </p>
                     <p>
-                        The <b>Code</b> region contains the target assembly language program generated by the compiler. The OS loader loads the contents of an <a href="#nav-XEXE-executable-file-format">XEXE executable file</a> into this region (between memory addresses 2048 and 4095) of the address space.  The loader expects that the first eight words of the XEXE executable file contains a <i>header</i>. The header contains instructions to the loader like the address of the first instruction to be executed (the loader will initalize the instruction pointer to this value before execution) and so on. The total size of the code section (including the 8 word header) cannot exceed 2048 words. Since each XSM instruction occupies two words in the memory, the maximum number of assembly instructions permitted in any target program generated by the compiler shall be 1020.  Given an ExpL program as input, the job of the compiler is to generate an XEXE executable file containing the header and the target assembly language program.     
+                        The <b>Code</b> region contains the target assembly language program generated by the compiler. The OS loader loads the contents of an <a href="#nav-XEXE-executable-file-format">XEXE executable file</a> into this region (between memory addresses 2048 and 4095) of the address space.  The loader expects that the first eight words of the XEXE executable file contains a <i>header</i>. The header contains instructions to the loader like the address of the first instruction to be executed (the loader will initalize the instruction pointer to this value before execution) and so on. The total size of the code section (including the 8 word header) cannot exceed 2048 words. Since each XSM instruction occupies two words in the memory, the maximum number of assembly instructions permitted in any target program generated by the compiler shall be 1020.  Given an ExpL program as input, the job of the compiler is to generate an XEXE executable file containing the header and the target assembly language program.
                     </p>
                     <p>
-                        <b>Stack</b> is the space reserved for the runtime stack of a program. Parameters and local variables associated with functions in a program are allocated in the stack. In the XSM architecture, the stack grows upwards.  The eXpOS ABI stipulates that the maximum stack size is 1024 words. Global variables must be allocated in the stack as the eXpOS ABI does not support a separate <a href="https://en.wikipedia.org/wiki/Data_segment" target="_blank">Data region</a>. The ABI stipulates that the compiler must allocate stack in the region between memory addresses 4095 and 5119 in the address space of the program.  A discussion on how the compiler must allocate variables in the stack can be found <a href="http://silcnitc.github.io/run_data_structures/run-time-stack.html" target="_blank">here</a>.  
+                        <b>Stack</b> is the space reserved for the runtime stack of a program. Parameters and local variables associated with functions in a program are allocated in the stack. In the XSM architecture, the stack grows upwards.  The eXpOS ABI stipulates that the maximum stack size is 1024 words. Global variables must be allocated in the stack as the eXpOS ABI does not support a separate <a href="https://en.wikipedia.org/wiki/Data_segment" target="_blank">Data region</a>. The ABI stipulates that the compiler must allocate stack in the region between memory addresses 4095 and 5119 in the address space of the program.  A discussion on how the compiler must allocate variables in the stack can be found <a href="http://silcnitc.github.io/run_data_structures/run-time-stack.html" target="_blank">here</a>.
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-XEXE-executable-file-format">
@@ -393,7 +393,7 @@
                 <article class="grid col-full" id="nav-eXpOS-system-library-interface">
                     <h2>The library interface</h2>
                     <p>
-                        The library provides a <b>uniform  interface</b> through which an application program can invoke dynamic memory allocation / de-allocation routines (Alloc(), Free() and Initialize()), input - output routines (Read() and Write()) and program exit (Exit()).  Thus, while translating a high level ExpL program containing calls to the above functions, a compiler needs to be concerned only about how to translate these high level function calls to the corresponding library function calls.   
+                        The library provides a <b>uniform  interface</b> through which an application program can invoke dynamic memory allocation / de-allocation routines (Alloc(), Free() and Initialize()), input - output routines (Read() and Write()) and program exit (Exit()).  Thus, while translating a high level ExpL program containing calls to the above functions, a compiler needs to be concerned only about how to translate these high level function calls to the corresponding library function calls.
                     </p>
 
                     <p>
@@ -437,7 +437,7 @@
                                   <td rowspan="2">Write</td>
                                   <td rowspan="2"> "Write"</td>
                                   <td rowspan="2">-2</td>
-                                  <td rowspan="2">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="2">Data<font color="red">+</font></td>
                                   <td rowspan="2">-</td>
                                   <td>0 - Success</tr>
                                   <td>-1 - File Descriptor given is invalid</tr>
@@ -479,7 +479,8 @@
                               </tr>
                         </table>
                         <sup>
-                            *Note:  The Read() and Write() library functions expect a memory address from (or to) which read or write is performed. 
+                            *Note:  The Read() library function expect a memory address from (or to) which read is performed.
+                            +Note:  The Write() library function expects Data(final value to be printed) as argument.
                         </sup>
                     </p>
 
@@ -489,77 +490,77 @@
                     </p>
                     <script src="js/7cab9602bc70ca74fefbc7956a53fe93.js"></script>
                     <p>
-                        The machine code shown above is executed upon return from the library call and pops out the values that were pushed before the call. The function code and arguments were inputs to the library module and hence they may be discarded now. The return value which is stored in the stack by the system call must be popped out and saved to some register.  This value will be the only relevant information after return from the call.  
-                    </p> 
+                        The machine code shown above is executed upon return from the library call and pops out the values that were pushed before the call. The function code and arguments were inputs to the library module and hence they may be discarded now. The return value which is stored in the stack by the system call must be popped out and saved to some register.  This value will be the only relevant information after return from the call.
+                    </p>
                     <p>
-                        Note:  The eXpOS library interface permits many more functions (interfaces to eXpOS system calls).  Since these functions are not relevant for the implementation of the ExpL specification here, those details are left out.  The full details of eXpOS library are given <a href="http://exposnitc.github.io/os_spec-files/dynamicmemoryroutines.html" target="_blank">here</a>.  
+                        Note:  The eXpOS library interface permits many more functions (interfaces to eXpOS system calls).  Since these functions are not relevant for the implementation of the ExpL specification here, those details are left out.  The full details of eXpOS library are given <a href="http://exposnitc.github.io/os_spec-files/dynamicmemoryroutines.html" target="_blank">here</a>.
                     </p>
                  </article>
-                
+
                 <article class="grid col-full" id="nav-lowlevel-syscall-interface">
                     <h2>Low Level System Call Interface</h2>
                     <p>
                         The ExpL library file <i>library.lib</i> contains assembly instructions to implement the library functions
-                        <i>Alloc(), Free() and Initialize()</i>.  For the input/output functions Read()/Write() as well as the program exit system call Exit(), the library code invokes the corresponding ExpOS system calls for console read/write/exit. Thus, the library simply converts the library call to a low level call to the operating system. This is because console input/ouput functions are implemented at the OS level.  
+                        <i>Alloc(), Free() and Initialize()</i>.  For the input/output functions Read()/Write() as well as the program exit system call Exit(), the library code invokes the corresponding ExpOS system calls for console read/write/exit. Thus, the library simply converts the library call to a low level call to the operating system. This is because console input/ouput functions are implemented at the OS level.
                     </p>
 
                     <p>
-                        In order to implement the library, one must know the low level system call interface to the operating 
-                        system so that the input/ouput calls to the library can be correctly translated to the corresponding 
-                        low level OS system calls.  This section specifices the low level OS interface provided by the ExpOS 
+                        In order to implement the library, one must know the low level system call interface to the operating
+                        system so that the input/ouput calls to the library can be correctly translated to the corresponding
+                        low level OS system calls.  This section specifices the low level OS interface provided by the ExpOS
                         Operating System running on the XSM machine architecture.  The interface describes the software interrupt instruction (trap) corresponding to the consolve input/output system calls and the calling conventions for passing arguments and extracting return values of the system call through the application program's stack. This part is architecture as well as operating system dependent.
                     </p>
 
                     <h3>System Calls</h3>
-                    
+
                     <p>
                         For an application program, there are two stages in executing a system call:
                     </p>
-                    
+
                     <ul id="otis">
                         <li>1. <b>Before the system call</b> :   The calling application must set up the arguments in the (user) stack before executing the trap instruction.  </li>
                         <li>2. <b>After the system call</b> :   The return value of the system call must be extracted from the stack.  </li>
-                        
+
                     </ul>
-                    
+
                     <h3>Invoking a system call</h3>
                       <p>
-                        A user program invokes a system call by first pushing the system call number and then the arguments into the stack and then invoking the <b>INT</b> machine instruction corresponding to the system call. The eXpOS ABI stipulates that the number of arguments pushed into the stack is fixed at three. 
+                        A user program invokes a system call by first pushing the system call number and then the arguments into the stack and then invoking the <b>INT</b> machine instruction corresponding to the system call. The eXpOS ABI stipulates that the number of arguments pushed into the stack is fixed at three.
                     </p>
                     <p>
                         <pre style = "float:right;width:600px">
-    PUSH System_Call_Number     // Push system call number 
+    PUSH System_Call_Number     // Push system call number
     PUSH Argument_1             // Push argument 1 to the stack
     PUSH Argument_2             // Push argument 2 to the stack
     PUSH Argument_3             // Push argument 3 to the stack
     <b>PUSH R0                     // Push an empty space for RETURN VALUE</b>
-    INT number                  // Invoke the corresponding INT instruction. 
-                                // The number can be any number between 4 and 18                              
+    INT number                  // Invoke the corresponding INT instruction.
+                                // The number can be any number between 4 and 18
                         </pre>
-                        The ExpL library must translate Read() and Write() calls to a set of machine instructions (see the instructions to the right). These are the stack operations that must be performed by the user program before the INT instruction is executed.  
+                        The ExpL library must translate Read() and Write() calls to a set of machine instructions (see the instructions to the right). These are the stack operations that must be performed by the user program before the INT instruction is executed.
                     </p>
                     <br/>
                     <div>
                         <p style="clear:right">
                             <img src="img/system_call_stack1.png" style="float:left;margin-right:3px;width:350px !important;height:350px !important">
                             <br/><br/>
-                            The arguments must be pushed into the stack in  such a way that the last argument comes on the top. An additional push instruction ('PUSH R0') is inserted to have an empty space in the stack for the return value. The system call implementation stores the return value in this space. The system call number must be pushed to the stack before the call because the interrupt routine needs this value to identify the system call. The figure to the left shows the data stored in stack just before an INT instruction. 
-                        </p>                           
+                            The arguments must be pushed into the stack in  such a way that the last argument comes on the top. An additional push instruction ('PUSH R0') is inserted to have an empty space in the stack for the return value. The system call implementation stores the return value in this space. The system call number must be pushed to the stack before the call because the interrupt routine needs this value to identify the system call. The figure to the left shows the data stored in stack just before an INT instruction.
+                        </p>
                      </div>
 
                     <div style="clear:left">
                         <p>
                             <img src="img/system_call_stack2.png" style="float:right;margin-left:3px;width:350px !important;height:350px !important">
-                            <br/>The INT instruction in XSM will push the value of IP + 2 on to the stack. This is the address of the instruction immediately following the INT instruction in the calling program. Each instruction is 2 words, hence IP is incremented by 2. Upon execution of the IRET instruction from the system call, execution resumes from this value of IP. The INT instruction changes mode from <b>User</b> mode to <b>Kernel</b> mode and passes control to the Interrupt Routine corresponding to the system call. The figure to the right shows the contents of the stack immediately after the execution of the INT instruction. 
+                            <br/>The INT instruction in XSM will push the value of IP + 2 on to the stack. This is the address of the instruction immediately following the INT instruction in the calling program. Each instruction is 2 words, hence IP is incremented by 2. Upon execution of the IRET instruction from the system call, execution resumes from this value of IP. The INT instruction changes mode from <b>User</b> mode to <b>Kernel</b> mode and passes control to the Interrupt Routine corresponding to the system call. The figure to the right shows the contents of the stack immediately after the execution of the INT instruction.
                         </p>
-                    </div>  
-                        
+                    </div>
+
                     <br/>
-                        
+
                     <h3 style="clear:right">After return from the system call</h3>
 
                     <p>
-                        The IRET instruction transfers control back to the instruction that immediately follows the INT instruction. The following machine instructions are present after the INT instruction in the ExpL compiled machine code given in the previous step. 
+                        The IRET instruction transfers control back to the instruction that immediately follows the INT instruction. The following machine instructions are present after the INT instruction in the ExpL compiled machine code given in the previous step.
                     </p>
 
                     <div>
@@ -570,17 +571,17 @@
     POP Rj           // Pop and discard argument 2
     POP Rj           // Pop and discard argument 1
     POP Rj           // Pop and discard the system call number
-                     // Now the stack is popped back to the state before call   
+                     // Now the stack is popped back to the state before call
                             </pre>
 
-                            The machine code to the left pops the values from the stack. The system call number and arguments were inputs to the system call and hence they may be discarded now. The return value which is stored in the stack by the system call is fetched and used by the user program by popping out to some register.   
+                            The machine code to the left pops the values from the stack. The system call number and arguments were inputs to the system call and hence they may be discarded now. The return value which is stored in the stack by the system call is fetched and used by the user program by popping out to some register.
                         </p>
 
                         <h3 style="clear:left">System calls and their translation</h3>
                         <p>
-                            Associated with each system call, there is a system call number and interrupt routine number. The system call number is used to identify a system call. The interrupt routine number denotes the number of the interrupt routine which  handles the system call.       
+                            Associated with each system call, there is a system call number and interrupt routine number. The system call number is used to identify a system call. The interrupt routine number denotes the number of the interrupt routine which  handles the system call.
                         </p>
-                        <p id="syscalltable">               
+                        <p id="syscalltable">
                             <table class="doctable">
                             <tr>
                                 <th>System Call</th>
@@ -607,7 +608,7 @@
                                   <td rowspan="2">5</td>
                                   <td rowspan="2">7</td>
                                   <td rowspan="2">-2</td>
-                                  <td rowspan="2">Buffer (int/str)<font color="red">*</font></td>
+                                  <td rowspan="2">Data<font color="red">+</font></td>
                                   <td rowspan="2">-</td>
                                   <td>0 - Success</tr>
                                   <td>-1 - File Descriptor given is invalid</tr>
@@ -623,7 +624,8 @@
                               </tr>
                             </table>
                             <sup>
-                                *Note:  The Read() and Write() library functions expect a memory address from (or to) which read or write is performed. 
+                                *Note:  The Read() library function expects a memory address from (or to) which read is performed.
+                                +Note:  The Write() library function expects Data(final value to be printed) as argument.
                             </sup>
                         </p>
                     </div>
@@ -637,7 +639,7 @@
         <ul class="grid col-one-third social">
             <li><a href="http://github.com/silcnitc">Github</a></li>
         </ul>
-        <div class="grid col-one-third" style="color:black;"> 
+        <div class="grid col-one-third" style="color:black;">
             <p style="font-weight: bold;">Contributed By : <a href="https://www.linkedin.com/in/dattathallam">Thallam Sai Sree Datta</a>, <a href="https://www.linkedin.com/in/n-ruthviik-0a0539100">N Ruthvik</a>
             </p>
         </div>
