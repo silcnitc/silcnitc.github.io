@@ -731,6 +731,8 @@ Consider the following OExpL program,
 
 </p>
 
+<!--
+
 <p>
 
 For <b>obj1</b>, the member field <b>height</b> must be set to 10.
@@ -758,11 +760,11 @@ To identify which object is <b>self</b> referring to, we push the calling object
 If <b>obj1</b> calls the method <b>setHeight</b>, the member field pointer and virtual function table pointer of <b>obj1</b> are pushed into the stack.
 Now, the compiler can find out that <b>obj1</b> is calling the method by looking up the stack.
 So, the compiler can generate code to set the member field <i>height</i> of <b>obj1</b> by using the member field pointer of the <i>self</i> object.
-
+-->
 <!--
 Recall that member field pointer is the heap address given to the object for storing the member fields of the class it is assigned with.
 -->
-
+<!--
 </p>
 <p>
 The virtual function table pointer is used, when we invoke other methods using <b>self</b>.
@@ -778,7 +780,26 @@ The call address is obtained from virtual function table.
 
 </p>
 
+-->
 
+<b>Use of self for member fields :</b>
+
+<p>
+Consider the statement self.i = 0 or self.i = 1 .  We need to store the value 0 or 1 for the member field i, of the object represented by the self(calling object). So, inorder to identify the object's heap address we need to push the object to the stack.
+</p>
+
+
+<b>Use of self for member functions :</b>
+
+<p>
+Suppose if n>0, the variable obj will get the object of type class A. <br>
+If n<=0, the variable obj will get the object of type class B. <br>
+So, by the statement obj.f0();  // Since f0() is not overridden, so B has the same definition of f0() defined in class A.<br>
+Then the compiler translates call to f0() by using the virtual function table pointer of obj.<br>
+In method f0(), there is a call to method f1().<br>
+The compiler doesn't know where to go because both the classes have method f1().<br>
+So, we need to get the virtual function table of the calling object which is done by pushing the object into the stack.<br>
+</p>
 
 
 
