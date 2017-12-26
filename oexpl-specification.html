@@ -88,6 +88,7 @@
                             <li>
                                 <b>The member fields of a class may be of type integer, string, user defined types, previously defined classes or of the same class.</b> Thus the language supports   both<a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank"><i> Composition and Inheritance.</i></a>
                             </li>
+
                             <li>
                                 <b>Member fields of a class are private to the class</b> in the sense that they can be accessed only by the methods defined in the class.  The language does not permit <i>access modifiers</i> like <a href="https://en.wikipedia.org/wiki/Access_modifiers" target="_blank"><b>public</b> or <b>protected</b>.</a>
                             </li>
@@ -95,6 +96,8 @@
                                 <b>Class variables can be declared only globally.  Class variables cannot be arguments to functions; a function cannot have a class as its return type</b> and class variables cannot occur as local variables within functions.
                                 <!--(Exercises in the <a href="http://silcnitc.github.io/roadmap.html" target="_blank">roadmap</a> extends the language by dropping some of these restrictions).-->
                             </li>
+
+                            <li> All the member fields and methods should be declared between <i>decl</i> and <i>enddecl</i>. </li>
 
                            <li>
                                 In methods defined within a class, the special keyword <b>self</b> refers to the instance of the class through which the method was invoked.  ( The  usage is similar in spirit  to  <a href="https://en.wikipedia.org/wiki/This_(computer_programming)" target="_blank"><b>this</b> in C++.</a> )
