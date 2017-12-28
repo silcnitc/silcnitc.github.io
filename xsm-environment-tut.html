@@ -312,7 +312,9 @@
 					<p>
 						The status of the stack after the INT instruction will look as shown below<br>
 						<img src="img/syscallstack1.png">
-					</p>
+            <br>
+            Note that in the above diagram argument 2 is 5 because the contents of the register R0 is 5.
+          </p>
 					<p>
 						The above sequence of instructions will invoke the write system call. Upon successful write operation, the value 0 will be returned to the calling program through the stack. We assume here that the call will be successful.
 					</p>
@@ -522,6 +524,8 @@
                     <p>
 						The status of the stack after the INT instruction will look as shown below<br>
 						<img src="img/libcallstack1.png">
+            <br>
+            Note that in the above diagram argument 2 is 5 because the contents of the register R0 is 5.
 					</p>
 
                     <p>
