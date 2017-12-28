@@ -311,7 +311,7 @@
 					</p>
 					<p>
 						The status of the stack after the INT instruction will look as shown below<br>
-						<img src="img/syscallstack.png">
+						<img src="img/syscallstack1.png">
 					</p>
 					<p>
 						The above sequence of instructions will invoke the write system call. Upon successful write operation, the value 0 will be returned to the calling program through the stack. We assume here that the call will be successful.
@@ -420,7 +420,7 @@
 						<b>Implementation</b> :<br><br>
 							In this experiment, we implement the program of Experiment II using the library.
 					</p>
-                    <p>
+                <!--    <p>
                         Recall that to print the contents of memory location 4096 into the console, we need to:
                         <ul>
                             <li id="otis">1. Push the address 4096 into the stack along with other arguments to the system call.</li>
@@ -428,6 +428,18 @@
                         </ul>
                         The step 1 will remain same as in the above experiment. We will implement step 2 using library interface.
                     </p>
+                  -->
+                    <p>
+          						Recall that to print the data into the console, we need to:
+          						<ul>
+          							<li id="otis">1. Push the data(using registers) into the stack along with other arguments to the system call.</li>
+          							<li id="otis">2. Invoke the write system call using the INT instruction specifying the appropriate interrupt number.</li>
+
+          						</ul>
+                          The step 1 will remain same as in the above experiment. We will implement step 2 using library interface.
+          					</p>
+
+                    <!--
                     <p>
                         The following example shows sample code that must be added to the program written in Experiment I to output the contents of the location 4096 using the library.
                     </p>
@@ -435,12 +447,33 @@
                         Store the value of the R0 in the memory location 4096.
                         <div class="syntax">MOV [4096], R0</div>
                     </p>
+                  -->
+
+                    <!--
                     <p>
                         The XSM machine increments SP immediately before a PUSH operation. Hence the first PUSH operation will be storing data to address 4097 (and thus will not destroy the data in address 4096).
                         <div class="syntax">MOV SP, 4096</div>
                     </p>
+                  -->
+
+                    <p>
+
+                    To use the stack we need to set the stack pointer(SP). Always SP should
+                    point the top value of the stack. The XSM machine increments SP immedietely before a PUSH operation
+                    by XSM machine and hence the first PUSH operation will be storing
+                    data to address 4096. So, we need to initialize SP to 4095.
+
+
+
+                    <div class="syntax">MOV SP, 4095</div>
+
+                      </p>
+
                     <p>
                         Now, the arguments to a write operation must be pushed on to the stack:
+                        <br>
+                        Note that the contents which are to be written to the console are present in the register R0.
+                        So, we are not using the register R0.
                         <b>Function Code</b> : "Write"
                         <div class="syntax">
                             MOV R2, "Write"<br>
@@ -454,12 +487,18 @@
                             PUSH R2
                         </div>
                     </p>
-                    <p>
+                <!--    <p>
                         <b>Argument 2</b> : Address of the memory word to be pushed  -  Here value is 4096.
                         <div class="syntax">
                             MOV R2, 4096<br>
                             PUSH R2
                         </div>
+                    </p> -->
+                    <p>
+                      <b>Argument 2</b> : Data to be written (For this example, data is present in R0. So, we are pushing R0)
+                      <div class="syntax">
+                        PUSH R0
+                      </div>
                     </p>
                     <p>
                         <b>Argument 3</b> : Blank /* Push any register */
@@ -482,7 +521,7 @@
 
                     <p>
 						The status of the stack after the INT instruction will look as shown below<br>
-						<img src="img/libcallstack.png">
+						<img src="img/libcallstack1.png">
 					</p>
 
                     <p>
@@ -508,7 +547,8 @@
                     </p>
                     <p>
                         The target_file will look as shown below after adding the Write system call.
-                        <script src="js/24948d2964c96f78c7dcd3b0f0d1e3fd.js"></script>
+                      <!--  <script src="js/24948d2964c96f78c7dcd3b0f0d1e3fd.js"></script> -->
+                          <script src="js/ee19d513fc3a85c4ae1c572d8bd2a656.js"></script>
                     </p>
                     <p>
                         Now we need to write logic in the library file to handle the request for Write system call. Earlier we have created the "library.lib" file with RET instruction alone. Now we will edit this file.
