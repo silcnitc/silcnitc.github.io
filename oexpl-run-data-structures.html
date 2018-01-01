@@ -667,7 +667,7 @@ Note that compile time check whether f0() is a method in the class A to which ob
 <b>Note:</b>  The OExpL specification requires that a class can have only a single method of a given name, and the signature of a method
 inherited from a parent class (over-ridden or otherwise) must be identical with the signature of the method in the parent class.
 These simplifications allow the above implementation of virtual function tables where, the index of a method
-in the virtual function tables of every class in a class hierarchy is unique.  If polymorphism was supported, then
+in the virtual function tables of every class in a class hierarchy is unique.  If method overloading was supported, then
 there would be multiple functions with the same name within a class, and the implementation would be slightly more involved.
 (Think what additional stuff needs to be done in that case!)
 
