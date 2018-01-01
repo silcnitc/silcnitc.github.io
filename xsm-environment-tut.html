@@ -388,7 +388,7 @@ the memory address received as the second argument.
 </p>
 <p>
 Suppose you need three variables to be read, then you may reserve the first three words of the stack (memory addresses
-4096, 4097 and 4098) for those variables.  Now, <b>since some portion of the stack has been reserved for variables,
+4096, 4097 and 4098) for those variables. <b>As some portion of the stack is now reserved for variables,
 the initial value of the stack pointer
 may be set such that the run time stack begins above the reserved region.</b> (SP may be set to 4098 here).
 This ensures that the reserved region is not over-written when the program
