@@ -379,9 +379,31 @@
 					<p>
 						<b>Exercise 3</b> : Follow the instructions in the low level system call interface of the ABI to invoke the <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank">exit system call</a> after the console output in your previous program.
 					</p>
-					<p>
+
+<p>
+So far, there was no need to allocate memory for storing variables as all the data involved were stored in registers.  The next
+exercise requires allocation of storage for variables.  Suppose you want <b>to read a number from the console</b>, then <b>the address of
+a memory location must be passed as the second argument to the read system call (INT 6).</b>  The system call will place the input data into
+the memory address given as the second argument.
+</p>
+<p>
+Suppose you need three variables to be read, then you may reserve the first three words of the stack (memory addresses
+4096, 4097 and 4098) for those variables.  Now, <b>since some portion of the stack has been reserved for variables,
+the initial value of the stack pointer
+may be set such that the run time stack begins above the reserved region.</b> (SP may be set to 4098 here).
+This ensures that the reserved region is not over-written when the program
+pushes data into the stack.  To read a variable from input, you simply need to push the address of the
+memory location reserved for the variable as
+the second argument  (4096 for the first, 4097 for the second etc.)
+and invoke the read system call.  With this strategy, the following exercise can be easily solved.
+</p>
+          <p>
 						<b>Exercise 4</b> : Write an XSM assembly language program to read three numbers from the console and print the largest. (Invoke the read system call for console input.) Caution : Ensure that you understand the <b>important note</b> written above before starting with the implementation.
 					</p>
+
+
+
+
 					<p>
 						<b>Exercise 5</b> : Write an XSM assembly language program to read numbers until a zero is entered and print their sum.
 					</p>
