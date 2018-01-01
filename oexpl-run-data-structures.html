@@ -824,12 +824,12 @@ However, inside the method f0(), there is a call to the method <i>self.f1()</i>.
  from the call address of f1() when <i>obj</i> holds an object of class B.
  However, the class corresponding to the object stored in <i>obj</i> is determined by the value of n which is not known at compile time.</b>
  Hence, to generate code for  the call <i>obj.f1()</i> inside f0(), the virtual function table of the class to which <i>self</i> is associated must
- be available as an argument.  When the compiler translates the call <i>self.f1()</i> inside f0() it needs to:
+ be available as an argument in the stack. Inside f0(), when the compiler translates the call <i>self.f1()</i>, it needs to do the following:
 </p>
 <p>
 <ol>
 <li>
-Look up the virtual function table field of <i>self</i> received as argument to find the address of the function f1().
+Generate code to look up the <b>virtual function table field</b> of <i>self</i> (received as argument) to find the call address of the function f1().
 </li>
 <li>
 Invoke f1() using the address obtained (of course, after setting up the call stack).
