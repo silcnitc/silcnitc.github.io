@@ -832,7 +832,7 @@ However, inside the method f0(), there is a call to the method <i>self.f1()</i>.
 Generate code to look up the <b>virtual function table field</b> of <i>self</i> (received as argument) to find the call address of the function f1().
 </li>
 <li>
-Invoke f1() using the address obtained (of course, after setting up the call stack).
+Generate code to invoke f1() using the address obtained (of course, after setting up the call stack).
 </li>
 </ol>
 </p>
