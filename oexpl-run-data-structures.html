@@ -791,8 +791,8 @@ The call address is obtained from virtual function table.
 <h4>Use of self for member field access :</h4>
 <p>
 Consider the statement self.i = 0 or self.i = 1 .
-We need to store the value 0 or 1 for the member field i, of the object represented by the <i>self</i>(calling object).
-In order to identify the object's heap address, the member field pointer of the obj must be available as an argument
+We need to store the value 0 or 1 for the member field i, of the object represented by the <i>self</i> (calling object).
+In order to identify the object's heap address, the member field pointer of the <i>obj</i> must be available as an argument
 in the stack.
 </p>
 
@@ -819,7 +819,7 @@ will store the same call address for f0().
 <br>
 However, inside the method f0(), there is a call to the method self.f1().
  Note that  f1() is over-ridden by class B.
- Hence, the <b>call address for the method f1() when obj holds an object of class A will be different
+ Hence, the <b>call address for the method f1() when <i>obj</i> holds an object of class A will be different
  from the call address of f1() when <i>obj</i> holds an object of class B.
  However, the class corresponding to the object stored in <i>obj</i> is determined by the value of n which is not known at compile time.</b>
  Hence, to generate code for  the call obj.f1() inside f0(), the virtual function table of the class to which self is associated must
