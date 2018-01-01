@@ -788,18 +788,21 @@ The call address is obtained from virtual function table.
 
 <br>
 
-<b>Use of self for member fields :</b>
+<b>Use of self for member field access :</b>
 
 <br>
 <p>
-Consider the statement self.i = 0 or self.i = 1 .  We need to store the value 0 or 1 for the member field i, of the object represented by the self(calling object). So, inorder to identify the object's heap address we need to push the object to the stack.
+Consider the statement self.i = 0 or self.i = 1 .
+We need to store the value 0 or 1 for the member field i, of the object represented by the self(calling object).
+So, inorder to identify the object's heap address we need to push the object to the stack.
 </p>
 
 <br>
 
-<b>Use of self for member functions :</b>
+<b>Use of self for method invocations :</b>
 <br>
 <p>
+  <!--
 Suppose if n>0, the variable obj will get the object of type class A. <br>
 If n<=0, the variable obj will get the object of type class B. <br>
 So, by the statement obj.f0();  // Since f0() is not overridden, so B has the same definition of f0() defined in class A.<br>
@@ -807,6 +810,31 @@ Then the compiler translates call to f0() by using the virtual function table po
 In method f0(), there is a call to method f1().<br>
 The compiler doesn't know where to go because both the classes have method f1().<br>
 So, we need to get the virtual function table of the calling object which is done by pushing the object into the stack.<br>
+-->
+
+Suppose n > 0, then variable <i>obj</i> will get the object of type class A.  If n<=0, the variable <i>obj</i> will get the object of type class B.
+<br>
+When the compiler encounters the method invocation obj.f0(), the virtual function table of obj will be
+looked up to find the call address of the method f0().
+Since f0() is defined in class A and not over-ridden by class B, the virtual function tables of both class A and class B
+will store the same call address for f0().
+<br>
+However, inside the method f0(), there is a call to the method self.f1().
+ Note that  f1() is over-ridden by class B.
+ Hence, the <b>call address for the method f1() when obj holds an object of class A will be different
+ from the call address of f1() when <i>obj</i> holds an object of class B.
+ However, the class corresponding to the object stored in <i>obj</i> is determined by the value of n which is not known at compile time.</b>
+ Hence, to generate code for  the call obj.f1() inside f0(), the virtual function table of the class to which self is associated must
+ be available as an argument.  When the compiler translates the call self.f1() inside f0() it needs to:
+
+<ol>
+<li>
+Look up the virtual function table field of self received as argument to find the address of the function f1().
+</li>
+<li>
+Invoke f1() using the address obtained (of course, after setting up the call stack).
+</li>
+</ol>
 </p>
 
 
