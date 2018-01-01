@@ -1589,14 +1589,16 @@
                         </p>
                         <p>
                             Each <b>class table entry stores information pertaining to a class</b>. The names and types of each member
-                            field along with its <i>position index </i> must be stored in the class table.
+                            field along with its <i>position index </i> must be stored in the class table
                             (In any class, the method defined first will be assigned position index as <b>0</b>, the method defined next will
-                            be assigned position index as <b>1</b> and so on)
+                            be assigned position index as <b>1</b> and so on).
                              For each method, the <i>signature</i> of the method (method name, return type,
                             types and names or arguments) along with the binding (<i>label</i> of the method – a call to the method must be translated to a
                             call to this label) needs to be stored. The type field for a variable/method must contain a pointer to the corresponding type table entry.
                             <i>An exceptional case is when a member field is of a previously defined class.
-                               In this case, a pointer to the class table entry of the member field must be maintained</i>. Details of class table structure are given <a href="http://silcnitc.github.io/oexpl-data-structures.html" target="_blank">Class Table </a>. In this stage, we will not support class extention. Hence, the parent class pointer entry for each class must be set to NULL.
+                               In this case, a pointer to the class table entry of the member field must be maintained</i>.
+                               Details of class table structure are given <a href="http://silcnitc.github.io/oexpl-data-structures.html" target="_blank">Class Table </a>.
+                               In this stage, we will not support class extension. Hence, the parent class pointer entry for each class must be set to NULL.
                         </p>
                         <p>
                           <!--  The program structure makes it possible to compile each class separately into a separate object file.-->
