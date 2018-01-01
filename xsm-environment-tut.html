@@ -392,9 +392,9 @@ Suppose you need three variables to be read, then you may reserve the first thre
 the initial value of the stack pointer
 may be set such that the run time stack begins above the reserved region.</b> (SP may be set to 4098 here).
 This ensures that the reserved region is not over-written when the program
-pushes data into the stack.  To read a variable from input, you simply need to push the address of the
+pushes data into the stack.  To read a variable from input, you need to push the address of the
 memory location reserved for the variable as
-the second argument  (4096 for the first, 4097 for the second etc.)
+the second argument  (4096 for the first, 4097 for the second, 4098 for the third.)
 and invoke the read system call.  With this strategy, the following exercise can be easily solved.
 </p>
           <p>
