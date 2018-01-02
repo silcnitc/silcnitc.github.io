@@ -1702,21 +1702,23 @@
                             In other words, <b>the address of self can be determined only at run-time
                               (<i>why? - ensure that you digest this point clearly before proceeding further!</i>)</b>
                             <br>
-                            The standard way to resolve this reference is to set the convention that <b>before a call to a method,
-                              the caller must push the address of self</b> (for the particular call) <b>as an argument into the stack.</b>
-                              The convention we suggest is that the first argument to any call to a method will be the address of self.
-                              Note that this is an <b>implicit argument</b>, not found either in the declaration or the definition of the method.
-                              With this extra argument, the ( relative address w.r.t BP ) of other arguments will be shifted one position.
-                              [In the next stage, we will need to push one more implicit argument.  It is instructive to have a quick look
-                              at the <a href="oexpl-run-data-structures.html#nav-runtimestackmanagementformethodinvocations" target="_blank">run-time-stack management documentation</a> for OExpL at this stage]
 
+                            <p>
+                            The standard way to resolve this reference is to set the convention that <b>before a call to a method,
+                              the caller must push the address of <i>self</i></b> (for the particular call) <b>as an argument into the stack.</b>
+                              The convention we suggest is to push the address of <i>self</i> before pushing the arguments during method invocations.
+                              Note that <i>self</i> is an <b>implicit argument</b>, not found either in the declaration or the definition of the method.
+
+                  In the next stage, we will need to push one more implicit argument for each method invocation.  It is instructive to have a quick look
+                              at the <a href="oexpl-run-data-structures.html#nav-runtimestackmanagementformethodinvocations" target="_blank">run-time-stack management documentation</a> for OExpL at this stage
+                            </p>
                             </li>
                             <br>
                             <li id="otis">
                             2.  The <b>local symbol table of a method must contain an entry for <i>self</i></b> along with the other arguments to the function.
                             The binding field of this entry must be the relative address (with respect to BP in the stack) where the address of self must
-                            be pushed by the caller.  For example, if this value is -3, then the compiler expects that the caller would have pushed to
-                            stack corresponding to  [BP-3] the address of the heap block holding the member fields of the variable.
+                            be pushed by the caller.  For example, if this value is -k, then the compiler expects that the caller would have pushed to
+                            stack corresponding to  [BP-k] the address of the heap block holding the member fields of the variable.
                             </li>
                             </ul>
                         <p>
@@ -1808,7 +1810,8 @@
                         <p>
                             <b>Learning Objectives</b>:
                             <ul>
-                                 <li id="otis">You will extend the language of Stage 7 by adding support for single inheritance and subtype polymorphism to make OExpL an <i>object oriented</i> language.</li>
+                                 <li id="otis">You will extend the language of Stage 7 by adding support for single inheritance
+                                   and subtype polymorphism to make OExpL an <i>object oriented</i> language.</li>
                             </ul>
                             <hr>
                         </p>
@@ -1820,7 +1823,8 @@
                         </p>
                         <p>
 
-                        Addition of support for inheritance and polymorphism involves some intellectual complexity.  Fortunately, once the underlying conceptual issues are understood, the implementation is not difficult.
+                        Addition of support for inheritance and polymorphism involves some intellectual complexity.
+                        Fortunately, once the underlying conceptual issues are understood, the implementation is not difficult.
 
                         </p>
 
