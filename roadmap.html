@@ -1670,14 +1670,14 @@
                             <b>Part II: Code Generation </b>
                         </p>
                         <p>
-                            Code generation not hard, once the access semantics of <i>self</i> is understood.
-                            <b>The basic observation is that the code for any method can be generated immediately after the definition of the method is processed</b>.
-                             This is true because a method's access is limited to its member fields and previously defined (or the same) methods of the class.
+                            Code generation is not hard, once the access semantics of <i>self</i> is understood.
+                            <b>The basic observation is that the code for any method can be generated immediately as the definition of the method is processed</b>.
+                             This is true because a method's access is limited to its member fields and previously declared methods of the class.
                              This information would be already entered into the class table entry for the class.
                         </p>
                         <p>
-                            When a method definition is encountered,<b> a unique label must be generated for the method and the label must be entered into the
-                              class table entry of the method.</b>Thus, the call address to any method can be determined from the class table entry of the
+                            <b> When a method declaration is encountered, a unique label must be generated for the method and the label must be entered into the
+                              class table entry of the method.</b> Thus, the call address to any method can be determined from the class table entry of the
                               corresponding class.  (In the next stage, we will see that a more sophisticated stratgey will be needed to support inheritance).
                         </p>
                         <p>
