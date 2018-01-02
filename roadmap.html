@@ -1563,16 +1563,25 @@
                           <!--  The structure of class definitions for this stage is outlined below:-->
 
                             The grammar outline for class definitions is given <a href="http://silcnitc.github.io/oexpl-grammar-outline.html" target="_blank">here</a>.
+                            The following grammar rule allowing class extension (in Class Definitions)
+                            will not be supported in this stage.
 
-                        <!--    <div class="syntax">
-                                ClassDefs ::= CLASS classDefList ENDCLASS <a href="oexpl-grammar-outline.html" target="_blank">LINK</a><br>
+                            <div class="syntax">
+                              <!--  ClassDefs ::= CLASS classDefList ENDCLASS <a href="oexpl-grammar-outline.html" target="_blank">LINK</a><br>
                                 <br>
                                 classDefList ::= oneClass | classDefList oneClass<br>
                                 <br>
-                                oneClass ::= .... /* to be added */
+                                oneClass ::= .... /* to be added */-->
+
+                                Cname         : ID Extends ID	{Cptr = Cinstall($1->Name,$3->Name);}
+
+
+
                                 <br>
 
-                            </div>-->
+                            </div>
+
+                            Support for class extension will be introduced in the next stage.
                         </p>
 
                         <p>
