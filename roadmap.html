@@ -1599,8 +1599,8 @@
                             In this case, a pointer to the class table entry of the member field must be maintained</i>.
                           </p>
                           <p>
-                               <b>A thorough reading of the details of <a href="oexpl-data-structures.html" target="_blank">class table implementation</a> is absolutely necessary before
-                               proceeding further</b>.
+                               <b>A thorough reading of the details of <a href="oexpl-data-structures.html" target="_blank">class table implementation</a> is absolutely necessary to
+                               proceed further</b>.
                                In this stage, we will not support class extension. Hence, the parent class pointer entry for each class must be set to NULL.
                         </p>
                         <p>
@@ -1612,12 +1612,12 @@
                         <p>
                             Global variable declarations may contain declarations for class variables along with other variable declarations.
                             Hence, the <a href="data_structures/global-symbol-table.html" target="_blank">global symbol table</a> must be able to maintain
-                            information about class variables.  For class variables, a pointer to the class table entry of the variable's class
-                            must be set in the the field <i>Ctype</i> of the <a href="data_structures/global-symbol-table.html" target="_blank">global symbol table entry</a>.
+                            information about class variables.  <b>For class variables, a pointer to the class table entry of the variable's class
+                            must be set in the the field <i>Ctype</i> of the <a href="data_structures/global-symbol-table.html" target="_blank">global symbol table entry</a></b>.
 
-                            to the corresponding class table entry.
+                            </p>
                             The following scope rules must be carefully checked to ensure correct semantic analysis:
-                        </p>
+
 
 
                          <ul>
