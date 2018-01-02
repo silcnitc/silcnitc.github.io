@@ -1868,24 +1868,25 @@
                         <ul>
                             <li id="otis">
                             1.  The only member field declarations in the descendent class shall be for the  new member
-                            fields that are not present in the parent.  (The descendent cannot re-declare or remove any of
-                            the parent's member fields.)  Additionally, in our current implementation plan,
-                            the number of member fields, including those inherited from the parent must not exceed 8
+                            fields that are not present in the parent.  (<b>The descendent cannot re-declare or remove any of
+                            the parent's member fields.</b>)  Additionally, in our current implementation plan,
+                            the number of member fields - including those inherited from the parent - must not exceed 8
                             (because our memory allocation policy allocates only 8 words for storing a class object).
                             <br>
-                            From an implementation perspective, <b>whenever the definition of a class by extention of
+                            From an implementation perspective, <b>whenever the definition of a class by extension of
                               another class is encountered, the compiler must copy all the member field information of the
                               parent to the descendent class.</b>  The member fields may be listed in the same order as they
-                              appear in the parent.  Additional entries must be be be created for new members specific to the
+                              appear in the parent.  Additional entries must be created for new members specific to the
                               descendent class.
                             </li><br>
                             <li id="otis">
                             2.   The descendent class may <b>define new methods</b> or <b><a href="https://en.wikipedia.org/wiki/Method_overriding" target="_blank">override</a></b> one or more
                             of the <b>parent's methods</b>.  OExpL allows a class to contain only one definition for a function.
-                             Once a method is over-ridden, the method of the parent class will no longer be visible inside the
-                             descendent class.  Moreover, the <b>signature of the overridden method must be identical with the
+                             <b>Once a method is over-ridden, the method of the parent class will no longer be visible inside the
+                             descendent class</b>.  Moreover, the <b>signature of the overridden method must be identical with the
                                signature of the method in the parent class </b>(in both the number and the types of arguments).
-                               In  other words, function overloading is not permitted. (Exercise 1 at the end asks you to relax this condition).
+                               In  other words, <a href="https://en.wikipedia.org/wiki/Function_overloading" target="_blank">function overloading</a>
+                                is not permitted. (Exercise 1 at the end asks you to relax this condition).
 
                             </li>
                         </ul>
@@ -1893,16 +1894,16 @@
 
                         <p>
                             From an implementation perspective, the compiler may <b>initially copy the signatures of all methods
-                              of the parent to the class table of the descendent</b>.   New entries will have to be created for methods
+                              of the parent to the class table entry of the descendent</b>. New entries will have to be created for methods
                               that defined in the descendent, but not present in the parent.  Finally, the present implementation restricts
-                              the number of methods in a class to 8.
+                              the number of methods in a class ( including inherited methods ) to 8.
                         </p>
 
                         <p>
-                            What about the labels of the methods of the descendent class?  If a method is over-ridden or defined new in a class,
-                            the compiler must assign a new label for the method and store this label in the binding field of the method.
-                            Otherwise, the class inherits the parent's method and the label of the method in the parent class must be copied
-                            into the binding field of the method in the descendent class.
+                            What about the labels of the methods of the descendent class? <b> If a method is over-ridden or defined new in a class,
+                            the compiler must assign a new label for the method and store this label in the <i>Flabel</i> field of the method in the <a href="oexpl-data-structures.html" target="_blank">class table entry</a>.
+                            Otherwise, the class inherits the parent's method and the label of the method in the parent class ( specified by the <i>Flabel</i> field of the parent class ) must be copied
+                            into the <i>Flabel</i> field of the method in the descendent class</b> ( See Memberfunclist in the class table ).
                         </p>
 
 
@@ -1913,27 +1914,27 @@
 
 
                         <p>
-                            An assignment of the form a=b; between class variables if is valid if either a and b are variables of the
-                            same class or b is a variable of a descendent class of the class of a.  Similarly a=new(class_name); is
-                            valid if the class identified by class_name is a descendent class of the class to which a belongs to.
-                            Thus, a variable of a certain class can hold a reference to any object of the same or descendent classes.
+                            An assignment of the form a = b; between class variables is valid if either <i>a</i> and <i>b</i> are variables of the
+                            same class or <i>b</i> is a variable of a descendent class of the class <i>a</i>.  Similarly a=new(class_name); is
+                            valid if the class identified by class_name is a descendent class of the class to which <i>a</i> belongs to.
+                            Thus, <b>a variable of a certain class can hold a reference to any object of the same or descendent classes</b>.
                             Since the class table contains adequate information to perform this check, syntax and sematic analysis can be completed now.
 
                         </p>
 
 
                         <p>
-                            <b>Task 1:</b>  Complete syntax and Semantic analysis.
+                            <b>Task 1:</b>  Complete the front end - lexical, syntax and Semantic analysis.
                         </p>
 
 
-                        <p>
+                    <!--    <p>
 
                         <b>Note:</b>  If classes are defined in separate files, the parent class and all the desecndent classes in an
                         inheritance hierarchy must be defined in a single file.   Thus, each object file will contain the complete class table
                         information pertaining to a class hierarchy.
 
-                        </p>
+                      </p>-->
 
 
 
