@@ -1867,23 +1867,23 @@
 
                         <ul>
                             <li id="otis">
-                            1.  The only member field definitions in the descendent class shall be for the  new member
-                            fields that are not present in the parent.  (The descendent cannot re-define or remove any of
+                            1.  The only member field declarations in the descendent class shall be for the  new member
+                            fields that are not present in the parent.  (The descendent cannot re-declare or remove any of
                             the parent's member fields.)  Additionally, in our current implementation plan,
-                            the number of member fields including the those inherited from the parent must not exceed 8
-                            (because our memory allocation policy allocates only 8 words for storing a class object.).
+                            the number of member fields, including those inherited from the parent must not exceed 8
+                            (because our memory allocation policy allocates only 8 words for storing a class object).
                             <br>
                             From an implementation perspective, <b>whenever the definition of a class by extention of
                               another class is encountered, the compiler must copy all the member field information of the
                               parent to the descendent class.</b>  The member fields may be listed in the same order as they
                               appear in the parent.  Additional entries must be be be created for new members specific to the
                               descendent class.
-                            </li>
+                            </li><br>
                             <li id="otis">
-                            2.   The descendent class may <b>define new methods</b> or <b>over-ride</b> one or more
+                            2.   The descendent class may <b>define new methods</b> or <b><a href="https://en.wikipedia.org/wiki/Method_overriding" target="_blank">override</a></b> one or more
                             of the <b>parent's methods</b>.  OExpL allows a class to contain only one definition for a function.
                              Once a method is over-ridden, the method of the parent class will no longer be visible inside the
-                             descendent class.  Moreover, the <b>signature of the over-ridden method must be identical with the
+                             descendent class.  Moreover, the <b>signature of the overridden method must be identical with the
                                signature of the method in the parent class </b>(in both the number and the types of arguments).
                                In  other words, function overloading is not permitted. (Exercise 1 at the end asks you to relax this condition).
 
