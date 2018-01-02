@@ -1848,17 +1848,15 @@
                         <p>
                             The definition of a class could now be by extention of a previously defined class.
                             <div class="syntax">
-                                oneClass ::= ID {  declList } <br>
-                                <br>
-                                  | ID extends { declList }  <br>
-                                <br>
+                              Cname         : ID       	{Cptr = Cinstall($1->Name,NULL);} <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ID Extends ID	{Cptr = Cinstall($1->Name,$3->Name);}
                             </div>
                         </p>
 
                         <p>
                         An additional field called the <b>parent class pointer</b> must be added to each class table entry.
                         If the class is defined by extention of another class, the parent class pointer entry must point to the
-                        class table entry of the parent class.  If the class is not an extention of any other class, this entry must be NULL.  (<a href="#" target="_blank">See class table structure[LINK TO BE ADDED]</a>).
+                        class table entry of the parent class.  If the class is not an extention of any other class, this entry must be NULL.  (<a href="oexpl-data-structures.html" target="_blank">See class table structure</a>).
                         </p>
 
 
