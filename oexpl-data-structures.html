@@ -102,7 +102,10 @@
                          <h2>Associated Methods</h2>
                          <ul>
 
-                             <li>struct Classtable* <b>CInstall</b>(char *name,char *parent_class_name) : Creates a  class table entry of given 'name' and extends the fields and the methods of parent class. </li>
+                             <li>struct Classtable* <b>CInstall</b>(char *name,char *parent_class_name) : Creates a  class table entry of given 'name' and extends the fields and the methods of parent class and
+                              returns a pointer to the newly created class entry.
+
+                             </li>
                              <li>struct Classtable* <b>CLookup</b>(char *name) : Search for a class table entry with the given 'name', if exists, return pointer to class table entry else return NULL.</li>
                              <li>
                                void <b>Class_Finstall</b>(struct Classtable *cptr, char *typename, char *name) : Installs the field into the given class table entry which is given as an argument.
