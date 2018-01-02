@@ -1706,7 +1706,9 @@
                               the caller must push the address of self</b> (for the particular call) <b>as an argument into the stack.</b>
                               The convention we suggest is that the first argument to any call to a method will be the address of self.
                               Note that this is an <b>implicit argument</b>, not found either in the declaration or the definition of the method.
-                              (With this extra argument, the ( relative address w.r.t BP ) of other arguments will be shifted one position).
+                              With this extra argument, the ( relative address w.r.t BP ) of other arguments will be shifted one position.
+                              [In the next stage, we will need to push one more implicit argument.  It is instructive to have a quick look
+                              at the <a href="oexpl-run-data-structures.html#nav-runtimestackmanagementformethodinvocations" target="_blank">run-time-stack management documentation</a> for OExpL at this stage]
 
                             </li>
                             <br>
