@@ -1678,11 +1678,11 @@
                         <p>
                             <b> When a method declaration is encountered, a unique label must be generated for the method and the label must be entered into the
                               class table entry of the method.</b> Thus, the call address to any method can be determined from the class table entry of the
-                              corresponding class.  (In the next stage, we will see that a more sophisticated stratgey will be needed to support inheritance).
+                              corresponding class.  (In the next stage, we will see that a more sophisticated strategy will be needed to support inheritance).
                         </p>
                         <p>
                             Storage allocation for class variables is equally simple.  Just as was done for user defined types,
-                            a call to new must allocate a block of 8 words in the heap for storing the member fields of the variable.
+                            a call to <i>'new'</i> must allocate a block of 8 words in the heap for storing the member fields of the variable.
                             The start address of this block must be assigned to the variable.
                         </p>
                         <p>
@@ -1706,7 +1706,7 @@
                               the caller must push the address of self</b> (for the particular call) <b>as an argument into the stack.</b>
                               The convention we suggest is that the first argument to any call to a method will be the address of self.
                               Note that this is an <b>implicit argument</b>, not found either in the declaration or the definition of the method.
-                              (With this extra argument, the relative (to BP) address of other arguments will be shifted one position).
+                              (With this extra argument, the ( relative address w.r.t BP ) of other arguments will be shifted one position).
 
                             </li>
                             <br>
