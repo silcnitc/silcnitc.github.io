@@ -2067,12 +2067,12 @@
 
                         <p>
 
-                            Conceptually, each class variable holds a pair <i>[data_ptr, ftable_ptr]</i>.  The statement <i>x=new(B)</i>;  in the
+                            Conceptually, each class variable holds a pair <i>[MemberFieldPointer, VirtualFunctionTablePointer]</i>.  The statement <i>x=new(B)</i>;  in the
                             example above should do the following:
                             <ul>
                              <li>  Allocate a block of 8 words in the heap and store the start address
-                            in the data_ptr field of x. <br> </li>
-                              <li>  set the ftable_ptr field of x to the function table of class B.</li>
+                            in the <i>MemberFieldPointer</i> field of x. <br> </li>
+                              <li>  set the <i>VirtualFunctionTablePointer</i> field of x to the base address of the virtual function table of class B.</li>
                             </ul>
                             An assignment of the form y=x, if valid semantically, will result in both the pointers of x being copied
                             into the corresponding pointers of y.
@@ -2085,7 +2085,7 @@
                         </p>
 
                         <p>
-                            Note that the labels will be automatically translated to actual addresses during the label translation phase.
+                            Note that the labels will be automatically translated to actual addresses during the <a href="label-translation.html" target="_blank">label translation phase</a>.
 
                         </p>
 
