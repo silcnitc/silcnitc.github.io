@@ -1608,7 +1608,7 @@
                             In this case, a pointer to the class table entry of the member field must be maintained</i>.
                           </p>
                           <p>
-                               <b>A thorough reading of the details of <a href="oexpl-data-structures.html" target="_blank">class table implementation</a> is absolutely necessary to
+                               <b>A thorough reading of the details of <a href="oexpl-data-structures.html" target="_blank">class table implementation</a> is necessary to
                                proceed further</b>.
                                In this stage, we will not support class extension. Hence, the parent class pointer entry for each class must be set to NULL.
                         </p>
@@ -1943,17 +1943,12 @@
                            <b>Part II:  Code Generation</b>
                         </p>
 
-                        <p>
-
-                            It is absolutely necessary to read the <a href="oexpl-run-data-structures.html" target="_blank">OExpL run time data structures documentation</a>
-                            before proceeding further.
-                          </p>
 
                         <p>
                         <ul>
 
 
-                        The key differences between the language of Stage 7 and the present stage are due to the following:
+                        The key differences between the language of Stage 7 and the present stage are the following:
 
                         <li id="otis">
                             a).  A variable of a parent class may hold a reference to an object of any descendent class.
@@ -1972,10 +1967,7 @@
                         <p>
 
                         Assume that A, B, C are classes such that B extends A and C extends B.   Let x be a variable of class A.
-                        Consider the program segment:  Let <i>fun()</i> be a function defined in class A.
-                        Let us assume that the label for the function in the symbol table is L1.
-                         Suppose that B does not over-ride <i>fun()</i>, but C over-rides <i>fun()</i>.
-                          Let the label for the over-ridden function be L2.
+                        Consider the program segment:
 
                        </p>
 
@@ -1986,28 +1978,35 @@
 
                             <div class="syntax">
                                 ...
+                                <br>
                                 Read(n);
+                                <br>
                                 if (n>0) then
-                                    x = new(B);
-                                else
-                                    x = new(C);
-                                endif
-                                   retval = x.fun();
-                                ...
+                                <br>
+                                &nbsp;&nbsp;x = new(B); <br>
+                                else  <br>
+                                &nbsp;&nbsp;x = new(C); <br>
+                                endif <br>
+                                &nbsp;&nbsp;retval = x.fun(); <br>
+                                ... <br>
                             </div>
                         </p>
-
-
+                        <p>
+                        Let <i>fun()</i> be a function defined in class A.
+                        Let us assume that the label for the function in the class table is L1.
+                         Suppose that B does not over-ride <i>fun()</i>, but C over-rides <i>fun()</i>.
+                          Let the label for the over-ridden function be L2.
+                        </p>
                         <P>
 
                             The call <i>x.fun()</i>;   must translate to CALL L1 if (n>0) whereas <i>x.fun()</i> must translate to CALL L2 otherwise.
-                             The value of n known only at run-time and the compiler can't hope to guess it.   What will the compiler do now?!
+                             The value of n is known only at run-time and the compiler can't hope to guess it.   What will the compiler do now?!
 
                         </P>
 
                         <p>
                             It turns out that there is a remarkably simple and elegant way to handle the issue by maintaining what are known
-                             as  <b>function tables</b> (called virtual function tables[LINK] in C++ jargon) at run time.
+                             as  <b>function tables</b> (called <a href="https://en.wikipedia.org/wiki/Virtual_method_table" target="_blank">virtual function tables</a> in OOP jargon) at run time.
 
                         </p>
 
@@ -2020,46 +2019,47 @@
                         <p>
                         <ul>
 
-                            The implementation details are outlined below:
+                            The implementation details are outlined below: <br>
 
                         <li id="otis">
+                          <br>
                             1. <b> For each class, we will maintain a table of size 8 in the memory, listing labels of the
                               methods of the class. </b> (Recall that we permit a class to have at most 8 methods).
                               <b>The labels may be listed in the order in which the methods are defined in the class.</b>
-                              This table is called the <b>function table</b> for the class.
+                              This table is called the <b>virtual function table</b> for the class.
                               Since all the class definitions are known at compile time, the compiler can generate initial code to set
                               up all the class tables in the stack region of the program.
                               (Typically, at the beginning of the stack, allocating space before global variables.)
 
                         </li>
-
+                          <br>
 
                         <li id="otis">
-                            2.  <b>The label for method in the function table will be set to the function's label in the corresponding
-                              class table entry.</b>    Consequently, the label of a function in a descendent class will be the
-                              label of the function in the parent class if the function is not over-ridden.  Referring to the
-                              example above, the label for the function fun() in function tables of classes A and B will be L1, whereas, the
-                              label will be L2 in the function table of class C.
+                            2.  <b>The label for a method in the virtual function table will be set to the method's label in the corresponding
+                              class table entry.</b>    Consequently, the label of a method in a descendent class will be the
+                              label of the method in the parent class if the method is not over-ridden.  Referring to the
+                              example above, the label for the method fun() in the virtual function tables of classes A and B will be L1, whereas, the
+                              label will be L2 in the virtual function table of class C.
 
                         </li>
-
+                          <br>
                         <li id="otis">
-                        3.  <b>The position of the label of a method in the function tables of the parent class and all the descendent
+                        3.  <b>The position of the label of a method in the virtual function tables of the parent class and all the descendent
                           classes in a class hierarchy must be the same.</b>  Referring to the above example,  if the label of the method fun()
-                          is listed third in the function table of A, then it must be listed third in the function tables of classes B and C.
-                          Thus the index of a method's entry in the function table will be the same for every class in a class hierarchy.
-                          The advantage of this convention is that while translating, <b>the address of a method's label relative to the base
-                            address of the function table is completely determined at compile time.</b>    Note that since the language does not
-                           permit function overloading, the entry for each method name in any function table will be unique.
+                          is listed third in the virtual function table of A, then it must be listed third in the virtual function tables of classes B and C.
+                          Thus the index of a method's entry in the virtual function table will be the same for every class in a class hierarchy.
+                          The advantage of this convention is that while translating, <b>the position of a method's label relative to the base
+                            address of the virtual function table is completely determined at compile time.</b> Note that since the language does not
+                           permit function overloading, the entry for a given method name in a virtual function table will be unique.
                         </li>
-
+                          <br>
 
                         <li id="otis">
                             4.  In view of the above, to translate <i>x.fun()</i>, all that needs to be determined at run time is the
-                            base address of the correct function table.  To keep track of this information,<b> the compiler
+                            base address of the correct virtual function table.  To keep track of this information,<b> the compiler
                               must allocate two memory locations for each class variable -  One for the usual pointer to the
                               memory block allocated in the heap for storing the object's member fields .  The second, to store
-                              a pointer to the function table of the class to which the current object stored in the variable belongs to.</b>
+                              a pointer to the virtual function table of the class to which the current object stored in the variable belongs to.</b>
                         </li>
 
                         </ul>
@@ -2068,15 +2068,19 @@
                         <p>
 
                             Conceptually, each class variable holds a pair <i>[data_ptr, ftable_ptr]</i>.  The statement <i>x=new(B)</i>;  in the
-                            example above should do the following:  1)  Allocate a block of 8 words in the heap and store the start address
-                            in the data_ptr field of x.  2.  set the ftable_ptr field of x to the function table of class B.
+                            example above should do the following:
+                            <ul>
+                             <li>  Allocate a block of 8 words in the heap and store the start address
+                            in the data_ptr field of x. <br> </li>
+                              <li>  set the ftable_ptr field of x to the function table of class B.</li>
+                            </ul>
                             An assignment of the form y=x, if valid semantically, will result in both the pointers of x being copied
                             into the corresponding pointers of y.
                         </p>
 
                         <p>
-                            Note that once the base of the correct function table is known, invoking the right function simply involves
-                            adding the offset of the function to the base and making a call to the address (label) stored in the function table entry.
+                            Note that once the base of the correct virtual function table is known, invoking the right function simply involves
+                            adding the offset of the function to the base and making a call to the address (label) stored in the virtual function table entry.
 
                         </p>
 
@@ -2086,19 +2090,24 @@
                         </p>
 
                         <p>
-                            To implement function tables on the eXpOS ABI, the suggested method is to allocate space (8 words each)
-                            for storing the function tables of each class in the stack before allocating space for global variables.
-                            Thus, the allocation scheme in the stack (starting at logical address 4096) will be as shown below:
+                            To implement virtual function tables on the eXpOS ABI, the suggested method is to allocate space (8 words each)
+                            for storing the virtual function tables of each class in the stack before allocating space for global variables.
+
 
                         </p>
 
-                        <p>
-                            Figure here:
-                        </p>
-
+                        <!--
                         <p>
                             A detailed tutorial on the implementation of function tables is given <a href="#" target="_blank">here [LINK]</a>.
                         </p>
+                      -->
+
+                        <p>
+
+                            <b>Read the <a href="oexpl-run-data-structures.html" target="_blank">OExpL run time data structures documentation</a>
+                            before proceeding further.</b>
+                          </p>
+
 
                         <p>
                             <b>Task 2:</b>  Complete the OExpL compiler.
