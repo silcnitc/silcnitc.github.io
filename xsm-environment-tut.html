@@ -614,9 +614,9 @@ and invoke the read system call.  With this strategy, the following exercise can
                                 /* pushing arguments and space for return value for system call */<br>
                                 MOV R5, 5       //System call number 5 for Write<br>
                                 PUSH R5<br>
-                                PUSH R4         //R4 contains [SP - 4] = -2<br>
-                                PUSH R2         //R2 contains [SP - 3] = 5 // Contains Value <br>
-                                PUSH R3         //R3 contains [SP - 2] = blank<br>
+                                PUSH R2         //R2 contains [SP - 4] = -2<br>
+                                PUSH R3         //R3 contains [SP - 3] = 5 // Contains Value <br>
+                                PUSH R4         //R4 contains [SP - 2] = blank<br>
                                 PUSH R5         // space for return value<br>
                                 <br>
                                 /* trap instruction */<br>
