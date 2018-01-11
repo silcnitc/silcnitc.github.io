@@ -37,7 +37,7 @@
                 <ul>
                   <li><a class="sec" href="#nav-introduction">Introduction</a></li>
                   <li><a class="sec" href="#nav-memory-model">The memory model</a></li>
-                  <li><a class="sec" href="#nav-register-allocation">Register Allocation</a></li>
+                  <li><a class="sec" href="#nav-register-allocation">Temporary Allocation</a></li>
                   <li><a class="sec" href="#nav-static-allocation">Static Allocation</a></li>
                   <li><a class="sec" href="#nav-run-time-stack-allocation">Run Time Stack Allocation</a></li>
                   <li><a class="sec" href="#nav-heap-allocation">Heap Allocation</a></li>
@@ -126,14 +126,14 @@
                             The target code must be prepared in the <a href="http://exposnitc.github.io/abi.html#collapse3">XEXE executable file format</a>.  The XEXE format is simple, the target code is preceded with an 8 word header.  Important fields are the entry point and the library flag.  The entry point stipulates the initial value to which the OS will set the instruction pointer while loading the executable into memory.  The library flag must be set if the target program uses dynamic memory allocation routines - viz. Initialise(), Alloc() and Free().
                         </p>-->
                         <p>
-                            Since  the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> XEXE executable format </a> stipulated in the eXpOS ABI does not provide separate memory areas for static and run time data, the compiler must allocate both static variables and run time stack between memory addresses 4096 and 5119. The recommended convention is to allocate global variables in the initial portion of this memory and then the run time stack may be initialized to the top of this data so that it can grow upward during run time.  Note that the target program must contain instructions to initialize the run time stack. This is because eXpOS does not initialize the stack pointer when the program is loaded for execution. The OS instead  expects the loaded executable to contain instructions to set up the stack. 
+                            Since  the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> XEXE executable format </a> stipulated in the eXpOS ABI does not provide separate memory areas for static and run time data, the compiler must allocate both static variables and run time stack between memory addresses 4096 and 5119. The recommended convention is to allocate global variables in the initial portion of this memory and then the run time stack may be initialized to the top of this data so that it can grow upward during run time.  Note that the target program must contain instructions to initialize the run time stack. This is because eXpOS does not initialize the stack pointer when the program is loaded for execution. The OS instead  expects the loaded executable to contain instructions to set up the stack.
                         </p>
                         <p>
-                            When an XEXE executable file is loaded by the OS into the memory, the OS loader will link a collection of pre-loaded routines in memory (called the <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank" >library </a> to the address space of the newly loaded program.  These routines include the dynamic memory routines - alloc(), free(), Initialize() and input-output routines read() and write().  This makes compiler design easy because the compiler just has to translate any high level invocation of the above functions to low level calls to the corresponding library routines.  The details of how to generate code to invoke library routines is specified in the <a href="abi.html#nav-eXpOS-system-library-interface">library interface</a>.  
+                            When an XEXE executable file is loaded by the OS into the memory, the OS loader will link a collection of pre-loaded routines in memory (called the <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank" >library </a> to the address space of the newly loaded program.  These routines include the dynamic memory routines - alloc(), free(), Initialize() and input-output routines read() and write().  This makes compiler design easy because the compiler just has to translate any high level invocation of the above functions to low level calls to the corresponding library routines.  The details of how to generate code to invoke library routines is specified in the <a href="abi.html#nav-eXpOS-system-library-interface">library interface</a>.
 
-                            [Note 1:  You can design and implement the library routines yourself in ExpL and install your library routines into the OS so that OS uses your routines as its library.]  
+                            [Note 1:  You can design and implement the library routines yourself in ExpL and install your library routines into the OS so that OS uses your routines as its library.]
 
-                            [Note 2:  The first eight words of an XEXE executable contains a header.  One of the fields in the header is a library flag.  While preparing the executable file, the  compiler must set this flag bit to tell the OS loader that the library must be linked to the address space at the time of loading the program]  
+                            [Note 2:  The first eight words of an XEXE executable contains a header.  One of the fields in the header is a library flag.  While preparing the executable file, the  compiler must set this flag bit to tell the OS loader that the library must be linked to the address space at the time of loading the program]
 
                             The library routines for alloc(), free() and initialize() as implemented in eXpOS library uses the heap region in the address space for managing dynamic memory.  Hence, the compiler must <b>not</b> allocate its own variables in this space.  The static and runtime memory allocation by the compiler can instead use the stack region, as described previously.
                         </p>
@@ -147,9 +147,10 @@
                     </article>
                     <article class="grid col-one-half mq3-col-full" id="nav-register-allocation">
                       <div class="sepmini"></div>
-                      <h4>Register allocation</h4>
+                      <h4>Temporary Allocation</h4>
                       <div class="sepmini"></div>
                       <p>Register allocation is performed through two simple functions. int get_register()...</p>
+
                 	<a href="run_data_structures/register.html" class="arrow fright">Read more</a>
                     </article>
                     <article class="grid col-one-half mq3-col-full" id="nav-static-allocation">
@@ -181,7 +182,7 @@
         <ul class="grid col-one-third social">
             <li><a href="http://github.com/silcnitc">Github</a></li>
         </ul>
-        <div class="grid col-one-third" style="color:black;"> 
+        <div class="grid col-one-third" style="color:black;">
             <p style="font-weight: bold;">Contributed By : <a href="https://www.linkedin.com/in/suryaharshanunnaguppala">Nunnaguppala Surya Harsha</a>, <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="https://in.linkedin.com/in/vishnupriyamatha">Vishnu Priya Matha</a>
             </p>
         </div>
