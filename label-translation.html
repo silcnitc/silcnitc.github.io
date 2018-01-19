@@ -59,10 +59,10 @@
                         </ul>
                     </p>
                     <p>
-                        <b><span style="color: red;">*</span>Note:</b> In real systems, the compiler generates an <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank"> object file</a> which contains labels for functions as well as variables.  The object file is processed by a separate software module called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> which converts the object file into an excutable file.  The advantage of this scheme is that a huge program could be divided into different stand alone source modules, each compiled seperately and finally linked together. A change in one module does not require recompilation of other modules and only the linking phase needs to be run again. In this project, we keep the linking task as a part of the compilation itself as ExpL does not allow a program to be compiled into several object modules. 
+                        <b><span style="color: red;">*</span>Note:</b> In real systems, the compiler generates an <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank"> object file</a> which contains labels for functions as well as variables.  The object file is processed by a separate software module called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> which converts the object file into an excutable file.  The advantage of this scheme is that a huge program could be divided into different stand alone source modules, each compiled seperately and finally linked together. A change in one module does not require recompilation of other modules and only the linking phase needs to be run again. In this project, we keep the linking task as a part of the compilation itself as ExpL does not allow a program to be compiled into several object modules.
                     </p>
                     <p>
-                        In the ExpL project, variable addresses are resolved before reaching the Label translation phase and only symbolic references to functions are left to be replaced with addresses in this phase.        
+                        In the ExpL project, variable addresses are resolved before reaching the Label translation phase and only symbolic references to functions are left to be replaced with addresses in this phase.
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-illustration">
@@ -102,7 +102,7 @@
                         </p>
                         <p>
                             Now, we will understand the label translation procedure with the help of an example label F0 from the <a href="#fig1">figure1</a>.<br>
-                            First <b>F0:</b> need to be recognized and the memory address of the label occurance need to be stored in a table called Label-Address Table.  In this case, the address corresponding to <b>F0:</b> is 2066. We need to parse the entire machine code to identify all labels and store all (label, address) pairs in the Label-Address table. In this pass, we remove the label F0: as well as other labels from the program. The next task is to replace labels occuring in instructions with the addresses of the labels from the label-address table.  Refering to the <a href="#fig1">figure1</a>, there are two instructions that use the label F0: <b> CALL F0 occuring at address 2136 </b> and <b>CALL F0 occuring at address 2302</b>. We will replace the labels in these instructions with the address of F0 (2066) by looking up the label-address table.  Thus, after translation, both these instructions will translate to <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
+                            First <b>F0:</b> need to be recognized and the memory address of the label occurance need to be stored in a table called <b>Label-Address Table</b>.  In this case, the address corresponding to <b>F0:</b> is 2066. We need to parse the entire machine code to identify all labels and store all (label, address) pairs in the Label-Address table. In this pass, we remove the label F0: as well as other labels from the program. The next task is to replace labels occuring in instructions with the addresses of the labels from the label-address table.  Refering to the <a href="#fig1">figure1</a>, there are two instructions that use the label F0: <b> CALL F0 occuring at address 2136 </b> and <b>CALL F0 occuring at address 2302</b>. We will replace the labels in these instructions with the address of F0 (2066) by looking up the label-address table.  Thus, after translation, both these instructions will translate to <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
                         </p>
                         <p>
                             The label translater program need to parse the entire machine code two times. In the first parse we identify all the label declarations and the memory addresses in the label-address table.   The table constructed after the first parse of the above code is shown below.
@@ -110,13 +110,15 @@
                             <img src="img/label-table.png">
                         </p>
                         <p>
-                            In the second parse, we remove the label declarations and replace the labels in instructions like JUMP, CALL etc. with the corresponding memory address from the label-address table.  
+                            In the second parse, we remove the label declarations and replace the labels in instructions like JUMP, CALL etc. with the corresponding memory address from the label-address table.
                         </p>
                         <p>
                             The target code after the label translation is shown in the <a href="#fig2"> figure 2</a>.
                         </p>
                         <hr>
                     </div>
+
+                    <!--
                     <div>
                         <h3>Implementing Label Translation</h3>
                         <p>
@@ -124,7 +126,7 @@
                             <ul>
                                 <li id="otis">1. <b>yyless(k)</b> : Returns all but the first n characters of the current token back to the input stream, where they will be rescanned when the scanner looks for the next match. <b>yytext</b> and <b>yyleng</b> are adjusted appropriately (e.g., yyleng will now be equal to n ).<br>
                                 For example, on the input "foobar" the following will write out "foobarbar":<br>
-                                <div class="syntax">                                    
+                                <div class="syntax">
                                     %%<br>
                                     foobar    ECHO; yyless(3);<br>
                                     [a-z]+    ECHO;<br>
@@ -134,12 +136,13 @@
                             </ul>
                         </p>
                     </div>
+                  -->
                     <!-- <script src="https://gist.github.com/vishnupriyam/6cde145e400e15cfda5f1a65366a264f.js"></script> -->
                     <!-- <script src="js/6ce685d686f903d3e976dd8b20b11763.js"></script> -->
                     <!-- <p>
                         The XSM instructions for the above while code (lines 11-12) will be as follows:
                     </p> -->
-                    
+
                     <!-- <script src="js/330a763b31980649846c3a2cbb103113.js"></script> -->
 
                 </article>
@@ -151,7 +154,7 @@
         <ul class="grid col-one-third social">
             <li><a href="http://github.com/silcnitc">Github</a></li>
         </ul>
-        <div class="grid col-one-third" style="color:black;"> 
+        <div class="grid col-one-third" style="color:black;">
             <p style="font-weight: bold;">Contributed By : <a href="https://www.linkedin.com/in/dattathallam">Thallam Sai Sree Datta</a>, <a href="https://www.linkedin.com/in/n-ruthviik-0a0539100">N Ruthvik</a>
             </p>
         </div>
