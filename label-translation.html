@@ -75,7 +75,18 @@
                          ExpL does not allow a program to be compiled into several object modules.
                     </p>
                     <p>
-                        In the ExpL project, variable addresses are resolved before reaching the Label translation phase and only symbolic references to functions are left to be replaced with addresses in this phase.
+                        In the ExpL project, variable addresses are resolved before reaching the Label translation phase by the compiler itself.
+                        Hence the labels remaining will correspond to
+                        <br>
+                        a) The label of the first instruction to be executed (MAIN:),
+                         <br>
+                         b) Labels placed at the beginning of assembly instructions to which
+                        there is some JMP/JZ/JNZ from somewhere.
+                         <br>
+                         c) Labels placed at the beginning of functions. (The compiler
+                        translates a call to the function with a CALL instruction with this label).
+
+
                     </p>
                 </article>
                 <article class="grid col-full" id="nav-illustration">
@@ -109,16 +120,23 @@
                             <ul>
                                 <li id="otis">1. Label declarations in which labels are followed by semicolon (:).</li>
                                 <li id="otis"><b>Examples</b> : F0: is a label for the instruction at address 2066, L0: for 2102, L1: for 2162 and MAIN: for 2186 as in <a href="#fig1">figure1</a></li>.
-                                <li id="otis">2. Instructions which contain labels in them are JMP, JZ, JNZ and CALL.</li>
+                                <li id="otis">2. Instructions which contain labels in them namely, JMP, JZ, JNZ and CALL.</li>
                                 <li id="otis"><b>Examples</b> : JMP L1 at address 2100, JZ R0,L3 at address 2248, CALL MAIN at address 2062 etc., as in <a href="#fig1">figure1</a>.</li>
                             </ul>
                         </p>
                         <p>
                             Now, we will understand the label translation procedure with the help of an example label F0 from the <a href="#fig1">figure1</a>.<br>
-                            First <b>F0:</b> need to be recognized and the memory address of the label occurance need to be stored in a table called <b>Label-Address Table</b>.  In this case, the address corresponding to <b>F0:</b> is 2066. We need to parse the entire machine code to identify all labels and store all (label, address) pairs in the Label-Address table. In this pass, we remove the label F0: as well as other labels from the program. The next task is to replace labels occuring in instructions with the addresses of the labels from the label-address table.  Refering to the <a href="#fig1">figure1</a>, there are two instructions that use the label F0: <b> CALL F0 occuring at address 2136 </b> and <b>CALL F0 occuring at address 2302</b>. We will replace the labels in these instructions with the address of F0 (2066) by looking up the label-address table.  Thus, after translation, both these instructions will translate to <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
+                            <br>
+                            First <b>"F0:"</b> needs to be recognized as a label and the memory address of the label occurence need to be stored in a table called the <b>Label-Address Table</b>.  In the above example, the address corresponding to <b>F0:</b> is 2066.
+                            We need to parse the entire machine code to identify all the labels in the program and store all the (label, address) pairs in the Label-Address table.
+                          </p>
+                            <p>
+                             In this pass, we remove the label F0: as well as other labels from the program. The next task is to replace labels occuring in instructions with the addresses of the labels from the label-address table.  Refering to the <a href="#fig1">figure1</a>, there are two instructions that use the label F0: <b> CALL F0 occuring at address 2136 </b> and <b>CALL F0 occuring at address 2302</b>. We will replace the labels in these instructions with the address of F0 (2066) by looking up the label-address table.  Thus, after translation, both these instructions will translate to <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
+
                         </p>
                         <p>
-                            The label translater program need to parse the entire machine code two times. In the first parse we identify all the label declarations and the memory addresses in the label-address table.   The table constructed after the first parse of the above code is shown below.
+                            The label translator program needs to parse the entire machine code two times. In the first parse we identify all the label declarations and the memory addresses in the label-address table.
+                            The table constructed after the first parse of the above code is shown below.
                         <p>
                             <img src="img/label-table.png">
                         </p>
