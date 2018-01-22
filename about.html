@@ -87,18 +87,21 @@
          Any pedagogical compiler implementation project offered as part of an undergraduate junior level
 compiler design course needs to satisfy two fundamental requirements:
 
+<br>
+
      <li>
-       The student must be given as much depth and detail as possible about the central concepts. That
+      1. The student must be given as much depth and detail as possible about the central concepts. That
 is, the project must be sufficiently non-trivial to be instructive.
      </li>
 
      <li>
-       The quantity of work involved must not exceed what a student is able to complete in about four
+      2. The quantity of work involved must not exceed what a student is able to complete in about four
        months, taking also into consideration the fact that she/he would be crediting several other courses
        concurrently. Thus, the project must be sufficiently simple to be do-able.
      </li>
 
       </ol>
+      <br>
 
       <p>
 
@@ -110,7 +113,7 @@ is, the project must be sufficiently non-trivial to be instructive.
       <p>
 
         There are two aspects associated with the design and implementation of each major functional unit of a
-compiler. – 1) A Policy and 2) An implementation Mechanism. As an illustration, consider dynamic
+compiler. – 1) A <i>Policy</i> and 2) An implementation <i>Mechanism</i>. As an illustration, consider dynamic
 memory allocation. Fixed size allocation is a policy. The most common implementation mechanism is
 to have a run time library that manages allocation from the the heap. As another example, consider
 passing of parameters to functions. Call by value/call by reference are a policies. Passing
@@ -125,7 +128,7 @@ functions of a compiler are given in the project documentation.
 
       <p>
 
-        The pedagogical strategy is to specify a programming language that has a very simple policy associated
+        The pedagogical strategy is to specify a programming language that has a <i>very simple policy</li> associated
 with functional unit of the compiler. This allows the student to implement the policy easily, once the
 implementation mechanism is understood. For instance, fixed-size allocation policy is specified for
 dynamic memory allocation. We provide detailed tutorials for various implementation mechanisms
@@ -155,8 +158,10 @@ only one new concept is introduced at a time.
           It is our responsiblity to explicitly state some central concepts that the project fails to teach. Here are
 some key omissions:
 
+<br>
+
       <li>
-        The machine architecture, virtual memory model (and the the target ABI in general) are unrealisitically
+      1.  The machine architecture, virtual memory model (and the the target ABI in general) are unrealisitically
 simple and custom made. Consequently it is easy to generate code for the target platfform, but the
 platform is far from any real system. To illustrate the level of oversimplification, a memory word of the
 target machine is assumed to be capable of storing an arbitrary interger or a string. Floating point
@@ -164,10 +169,10 @@ handling is ommitted. The executable file format is extremely simple to understa
 real use. (There are simplifications in the source language specification as well, but those are less
 dramatic.)
       </li>
-
+<br>
       <li>
 
-        The project is front-end intensive, but has a thin back-end. Code, register or memory optimizations are
+      2.  The project is front-end intensive, but has a thin back-end. Code, register or memory optimizations are
   not attempted. The focus here is to get working target code generated as easily as possible. The roadmap
   asks the students to directly traverse an intermediete abstract syntax tree representation of the program
 
@@ -180,15 +185,19 @@ dramatic.)
 
       </li>
 
+      <br>
+
       <li>
 
-        Focus has not been placed on efficient data structuring or following software engineering practices
+        3. Focus has not been placed on efficient data structuring or following software engineering practices
   religiously. The road-map suggests a simple implementation that can be built incrementally.
 
 
       </li>
 
         </ol>
+
+        <br>
 
 
         <p>
