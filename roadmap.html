@@ -1382,8 +1382,32 @@
                             With this, we can design our compiler to generate code for <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> functions along with the target code.   Techniques of Stage 5 suffices to build an executable file.
                         </p>
                         <p>
-                            However, there is a better way of doing things with OS support. The routines Alloc(), Free() and Initialize() will be used by <b>every</b> ExpL program (that uses user-defined types).   Thus, it would be profitable if these dynamic memory allocation routines are added into a shared library and loaded into the system memory once during OS bootstrap.   In this case, the OS loader must be designed to <b>link</b> the library at load-time.  This avoids the code for Alloc(), Free() and Initialize() to be built into the code of every ExpL program, saving both load-time and system memory.
+                            However, there is a better way of doing things when OS support for shared library is available.
+                            Note that we have been using the shared library for console input, output etc.
+                            Since the routines Alloc(), Free() and Initialize() will be used by <b>every</b> ExpL program
+                            (that uses user-defined types), it would be profitable to write these routines once
+                            and add them as part of the library.  Since the OS loader loads the
+                            shared library to the memory region 0-1023 of the address space of each program loaded for execution,
+                            the code for Alloc(), Free() and Initialize() too will be available to the program.
+                            The library interface must be defined so that the calling conventions for invoking each of the above
+                            functions are clearly specified.
+                          </p>
+                          <p>
+                            With this strategy, when an ExpL program
+                            is compiled, the compiler will not generate code to implement Alloc(), Free() or Initialize().
+                            Instead, the compiler will generate a CALL to the library (using the
+                            library interface) with appropriate arguments so that the corresponding library routine
+                            is invoked.  You need to modify the library code so that the assembly code for Alloc(), Free()
+                            and Initialize() are added to the library.  The advantage of this method is that
+                               the code implementing Alloc(), Free() and Initialize() need not be part of the the code of every
+                               executable program, saving both load-time and system memory.  The technical jargon calls
+                               such a library a run time loading library.
                         </p>
+
+
+
+
+
                         <p>
                             The <a href="abi.html" target="_blank">ABI</a> stipulates that calls to the dynamic memory functions shall be directed through the Library.   Thus, you must add Alloc(), Free() and Initialize() as library functions.  As noted previously, the region of memory between address 1024 and 2047 must be used for heap memory allocation.
                         </p>
