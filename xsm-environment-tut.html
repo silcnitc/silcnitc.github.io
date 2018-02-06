@@ -429,7 +429,7 @@ and invoke the read system call.  With this strategy, the following exercise can
 						If we consider C programs, almost every program uses the routines in the library <i>stdio.h</i>. Since in a computer system, several application programs will be running concurrently, it is a good idea to have the code for <i>stdio.h</i> loaded once at bootstrap time into some region of the physical memory and link this memory to the address space of each program's standard library region at load time. This code will be designed once and shared between all applications.
 					</p>
 					<p>
-						The ABI specifies that the ExpOS library for the XSM machine must be linked to address 0 to 1024. The XSM simulator given to you will load the contents of the file <i>library.lib</i> to the addresses 0 - 1024 of your program. The ABI stipulates that the library must support functions for read, write and exit. (The library also must contain functions Alloc, Free and Initialize which will not be discussed here.)
+						The ABI specifies that the ExpOS library for the XSM machine must be linked to address 0 to 1023. The XSM simulator given to you will load the contents of the file <i>library.lib</i> to the addresses 0 - 1023 of your program. The ABI stipulates that the library must support functions for read, write and exit. (The library also must contain functions Alloc, Free and Initialize which will not be discussed here.)
 					</p>
 					<p>
 						To access any library function, an application must transfer control to the code at memory address 0 using the instruction <b>CALL</b>. This is the first memory address in the library region. The arguments to the call specify which library function is being invoked. The library interface is specified <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank">here</a>.
@@ -537,7 +537,7 @@ and invoke the read system call.  With this strategy, the following exercise can
                         </div>
                     </p>
                     <p>
-                        The main difference between the system call interface and the library interface come at the next instruction. If we were using the system call interface,  we would have called the interrupt for write (INT 7).   Here instead, we will always use <b>CALL 0</b> to transfer control to the library. (Remember that library file is loaded in the memory addresses 0 - 1024.). The library understands that the action requested is a write operation by looking at the function code passed as argument (in this case "Write"). If the action requested is a read operation, then "Read" is passed, and so on.
+                        The main difference between the system call interface and the library interface come at the next instruction. If we were using the system call interface,  we would have called the interrupt for write (INT 7).   Here instead, we will always use <b>CALL 0</b> to transfer control to the library. (Remember that library file is loaded in the memory addresses 0 - 1023.). The library understands that the action requested is a write operation by looking at the function code passed as argument (in this case "Write"). If the action requested is a read operation, then "Read" is passed, and so on.
                         <div class="syntax">
                             CALL 0
                         </div>
