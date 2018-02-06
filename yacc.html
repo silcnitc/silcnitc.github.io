@@ -53,6 +53,9 @@
 				</center><br>
 				<p> The source SIL program is fed as the input to the generated parser ( a.out ).
 				   The <i>parser</i> checks whether the program satisfies the syntax specification given in the input_file.y file.
+           <p>
+             <a href="https://en.wikipedia.org/wiki/Yacc" target="_blank">YACC</a> was developed by <a href="https://en.wikipedia.org/wiki/Stephen_C._Johnson" target="_blank">Stephen C. Johnson</a> at <a href="https://en.wikipedia.org/wiki/Bell_Labs" target="_blank">Bell labs</a>. 
+           </p>
 
          <p>
             	<big><b>Parser</b>:</big></p><p>A parser is a program that checks whether its input (viewed as a stream of tokens) meets a given grammar specification.  The syntax of SIL can be specified
@@ -909,14 +912,14 @@ yacc: 4 shift/reduce conflicts.
 <p>
 The expressions 2+3+5, 2*3+5, 2+3*5 and 2*3*5 are examples that demonstrate
 the four different shift reduce conflict cases.   In the first example, after
-reading 2+3 the parser must do a reduce operation because + is left associative (why?).  
+reading 2+3 the parser must do a reduce operation because + is left associative (why?).
 In the third expression, the parser should not perform a reduce operation after reading 2+3 because * has
-higher precedence over +, whereas, in the second expression, the parser must indeed reduce after reading 2*3 (why?).  
-Thus, the parser must be told the precedence and associativity of operators to avoid such conflicts.  <br><br> 
+higher precedence over +, whereas, in the second expression, the parser must indeed reduce after reading 2*3 (why?).
+Thus, the parser must be told the precedence and associativity of operators to avoid such conflicts.  <br><br>
 
 	The precedence of these operators can be specified as shown below:
 </p>
-	
+
 <pre>
 %left '+'   /*    '+' is left associative */
 %left '*'   /*    '*' is left associative and has higher precedence over '+' */

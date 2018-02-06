@@ -64,11 +64,19 @@ The rule in this example specifies that the lexical analyzer must return the tok
 A rule in a LEX program comprises of a 'pattern' part (specified by a regular expression) and a corresponding (semantic) 'action' part (a sequence of C statements).
 In the above example,  “integer” is the pattern and {return ID_TYPE_INTEGER;} is the corresponding action. The statements in the action part will be executed when the pattern is detected in the input.
 </p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Lex_(software)" target="_blank">Lex</a> was developed by <a href="https://en.wikipedia.org/wiki/Mike_Lesk" target="_blank">Mike Lesk</a> and <a href="https://en.wikipedia.org/wiki/Eric_Schmidt" target="_blank">Eric Schmidt</a> at <a href="https://en.wikipedia.org/wiki/Bell_Labs" target="_blank">Bell labs</a>. 
+</p>
+
 </article>
+
+
 
 <div class="up grid col-one-third" style="float:right">
 <a href="#navtop" title="Go back up"> top ↑</a>
 </div>
+
 
 <article id="navstructure" class="detail">
 <h2>The structure of LEX programs</h2>
@@ -295,6 +303,8 @@ the example LEX programs under section 3.2 and 4.1 for the following input :
  <br> 25 <br> 32 <br> 44 <br>
  Would both the outputs be the same? If not, explain why.
 </p>
+
+
 
 
 <h3 id="navyywrap">4.2 &nbsp; yywrap()</h3>
