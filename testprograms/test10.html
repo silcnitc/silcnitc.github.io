@@ -1,0 +1,69 @@
+type
+	List{
+		int a;
+		int b;
+		int d;
+		int x;
+		int y;
+		List next;
+	}
+endtype
+decl
+    List gcd(int a,int b);
+	List head;
+enddecl
+List gcd(int a,int b){
+	decl
+		List temp,z;
+		int q,r,t;
+	enddecl
+	begin
+		if(b==0) then
+			temp=alloc();
+			temp.next=null;
+			temp.a=a;
+			temp.b=b;
+			temp.d=a;
+			temp.x=1;
+			temp.y=0;
+			head=temp;
+		else
+			q=a/b;
+			r=a-q*b;
+			z=gcd(b,r);
+			temp=alloc();
+			temp.next=head;
+			t=z.x;
+			temp.x=z.y;
+			temp.y=t-(q*z.y);
+			temp.d=z.d;
+			temp.a=a;
+			temp.b=b;
+			head=temp;
+		endif;
+		return head;
+	end
+}
+int main(){
+	decl
+		int x,a,b;
+	enddecl
+	begin
+		x=initialize();
+		head=null;
+		read(a);
+		read(b);
+		head=gcd(a,b);
+		write("output");
+		while(head!= null) do
+			write(head.a);
+			write(head.b);
+			write(head.d);
+			write(head.x);
+			write(head.y);
+			write("next");
+			head=head.next;
+		endwhile;
+		return 1;
+	end
+}
