@@ -118,15 +118,15 @@
                                 <tr>
                                     <td>0</td>
                                     <td>Success</td>
-                                </tr> 
+                                </tr>
                                 <tr>
                                     <td>-1</td>
                                     <td>Failure</td>
-                                </tr> 
+                                </tr>
                             </table>
                             <br>
                             <p>
-                                Description: Intitalizes the heap data structures and sets up the heap area of the process.It is the applications responsibility to invoke Initialize() before the first use of Alloc(). The behaviour of Alloc() and Free() when invoked without an Intialize() operation is undefined. Any memory allocated before an Intialize() operation will be reclaimed for future allocation. 
+                                Description: Intitalizes the heap data structures and sets up the heap area of the process.It is the applications responsibility to invoke Initialize() before the first use of Alloc(). The behaviour of Alloc() and Free() when invoked without an Intialize() operation is undefined. Any memory allocated before an Intialize() operation will be reclaimed for future allocation.
                             </p>
                         </p>
                         <h4>Alloc</h4>
@@ -137,15 +137,15 @@
                                 <tr>
                                     <td>integer</td>
                                     <td>Address in the heap allocated</td>
-                                </tr> 
+                                </tr>
                                 <tr>
                                     <td>-1</td>
                                     <td>No allocation</td>
-                                </tr>  
+                                </tr>
                             </table>
                             <br>
                             <p>
-                                Description: The Alloc operation takes as input an integer, allocates contiguous words equal to the input specified and returns a pointer (i.e., an integer memory address) to the beginning of the allocated memory in the heap. 
+                                Description: The Alloc operation takes as input an integer, allocates contiguous words equal to the input specified and returns a pointer (i.e., an integer memory address) to the beginning of the allocated memory in the heap.
                             </p>
                         </p>
                         <h4>Free</h4>
@@ -156,15 +156,15 @@
                                 <tr>
                                     <td>0</td>
                                     <td>Success</td>
-                                </tr> 
+                                </tr>
                                 <tr>
                                     <td>-1</td>
                                     <td>Failure</td>
-                                </tr>  
+                                </tr>
                             </table>
                             <br>
                             <p>
-                                Description: The Free operation takes a pointer (i.e., an integer memory address) of a previously allocated memory block and returns it to the heap memory pool.  If the pointer does not correspond to a valid reference to the beginning of a previously allocated memory block, the behaviour of Free is not defined.  
+                                Description: The Free operation takes a pointer (i.e., an integer memory address) of a previously allocated memory block and returns it to the heap memory pool.  If the pointer does not correspond to a valid reference to the beginning of a previously allocated memory block, the behaviour of Free is not defined.
                             </p>
                         </p>
                     </article>
@@ -172,22 +172,50 @@
             </section>
         </div>
     </div>
-        <footer class="center part clearfix">
-        <ul class="grid col-one-third social">
-            <li><a href="http://github.com/silcnitc">Github</a></li>
-        </ul>
-        <div class="grid col-one-third" style="color:black;"> 
-            <p style="font-weight: bold;">Contributed By : <a href="https://www.linkedin.com/in/dattathallam">Thallam Sai Sree Datta</a>, <a href="https://www.linkedin.com/in/n-ruthviik-0a0539100">N Ruthvik</a>
-            </p>
+    <footer class="center part clearfix">
+
+
+
+    <ul class="social column3 mright">
+        <li><a href="https://github.com/silcnitc">Github</a></li>
+     <!--   <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">Google+</a></li>
+        <li><a href="#">Flickr</a></li>
+      -->
+      <li>  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+          <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a></li>
+    </ul>
+
+
+
+
+        <div class="up column3 mright">
+
+          <a href="#navtop" class="ir">Go up</a>
+
         </div>
-        <nav class="grid col-one-third ">
-            <ul >
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <!-- <li><a href="uc.html">Contact</a></li> -->
-            </ul>
-        </nav>
-        <br>
+
+    <!--
+
+    <ul class="social column3 mright">
+        <li>  <a href="#navtop" class="ir">Go up</a></li>
+    </ul>
+
+
+
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+          <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a>
+
+    -->
+
+      <nav class="column3">
+        <ul>
+
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
     </footer>
     <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
     <script src="js/scripts.js"></script>

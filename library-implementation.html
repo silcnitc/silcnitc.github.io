@@ -57,7 +57,7 @@
                         Initialize, Alloc and Free are <i>heap management functions</i>.  Each application program has a heap memory region which is attached to logical pages 2 and 3 of the address space.  The heap management functions support allocation and de-allocation of dynamic memory.  The <i>Initialize</i> function initializes the heap data structures.  The library must contain code to allocate and de-allocate memory when requested by the application.  In the case of an allocation request, the address of the first memory address of the allocated memory must be returned.
                     </p>
                     <p>
-                        Various dynamic memory allocation algorithms exist.   A very simple allocation policy would be to always allocate fixed sized memory blocks.  The following document discusses this simple allocation scheme and a more complex variable block allocation method called the <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">Buddy System Allocation</a> scheme.  In the project, you will be primarily implementing a fixed size allocator.   One of the exercises in the roadmap asks you to implement the buddy system allocator. 
+                        Various dynamic memory allocation algorithms exist.   A very simple allocation policy would be to always allocate fixed sized memory blocks.  The following document discusses this simple allocation scheme and a more complex variable block allocation method called the <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">Buddy System Allocation</a> scheme.  In the project, you will be primarily implementing a fixed size allocator.   One of the exercises in the roadmap asks you to implement the buddy system allocator.
                     </p>
                     <p>
                         The advantage of using a library for dynamic memory allocation is that this common code can be loaded by the OS during boot time at some memory and can be attached to the address space of every application, saving memory space.
@@ -73,9 +73,9 @@
                     </p>
                     <p>
                         The ABI stipulates that all the library function calls are invoked using CALL 0 instruction. The library differentiates the calls using function code, pushed by the user program on to the stack, before the CALL 0 instruction. The library should read the function code from the stack and jump to the starting address of the corresponding function logic.
-                    </p> 
+                    </p>
                     <p>
-                        The following snippet gives the overview of the design of the library. 
+                        The following snippet gives the overview of the design of the library.
                         <div class="syntax">
                             //get function code from stack<br>
                             ....<br>
@@ -98,7 +98,7 @@
                             <br>
                             RET<br>
                             ....<br>
-                        </div>                        
+                        </div>
                     </p>
                     <p>
                         As shown above, the function code that was pushed by the application program is used to direct the control of the program to the corresponding function logic. In case of Alloc(), Free() and  Initialize() calls, the library contains the logic whereas in case of Read() and Write() system calls the library should invoke the kernel using <a href="abi.html#nav-lowlevel-syscall-interface" target="_blank"> low level system call interface</a>. The appropriate arguments required for the system call can be obtained from the user stack.
@@ -115,21 +115,49 @@
     </div>
     </body>
     <footer class="center part clearfix">
-        <ul class="grid col-one-third social">
-            <li><a href="http://github.com/silcnitc">Github</a></li>
-        </ul>
-        <div class="grid col-one-third" style="color:black;"> 
-            <p style="font-weight: bold;">Contributed By : <a href="https://www.linkedin.com/in/dattathallam">Thallam Sai Sree Datta</a>, <a href="https://www.linkedin.com/in/n-ruthviik-0a0539100">N Ruthvik</a>
-            </p>
+
+
+
+    <ul class="social column3 mright">
+        <li><a href="https://github.com/silcnitc">Github</a></li>
+     <!--   <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">Google+</a></li>
+        <li><a href="#">Flickr</a></li>
+      -->
+      <li>  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+          <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a></li>
+    </ul>
+
+
+
+
+        <div class="up column3 mright">
+
+          <a href="#navtop" class="ir">Go up</a>
+
         </div>
-        <nav class="grid col-one-third ">
-            <ul >
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <!-- <li><a href="uc.html">Contact</a></li> -->
-            </ul>
-        </nav>
-        <br>
+
+    <!--
+
+    <ul class="social column3 mright">
+        <li>  <a href="#navtop" class="ir">Go up</a></li>
+    </ul>
+
+
+
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+          <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a>
+
+    -->
+
+      <nav class="column3">
+        <ul>
+
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
     </footer>
     <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
     <script src="js/scripts.js"></script>
