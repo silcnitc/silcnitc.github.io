@@ -787,7 +787,15 @@
                             If you permit assignments like p=&amp;x; and q=&amp;p; , pointer variables may also be permitted in expressions like *p=*q+1; for referring to the data pointed to, as permitted in the C programming language. Semantic rules as in the C programming language may be assumed.
                         </p>
                         <p>
-                            <b>Note</b>:  Right now, you are not equipped to do dynamic memory allocation for pointer variables (as done by the malloc() function of C).  Hence, a pointer type variable can be used as a pointer to another statically declared variable of the corresponding type.  Dynamic memory allocation will be discussed in later stages.
+                            <b>Note</b>:  Right now, you are not equipped to do dynamic memory
+                             allocation for pointer variables (as done by the malloc() function of C).
+                             Hence, a pointer type variable can be used as a pointer to another statically
+                             declared variable of the corresponding type.  Dynamic memory allocation will be discussed in later stages.
+                        </p>
+                        <p>
+                          Check your implementation with the following test cases : <br>
+                          1) <a href="http://silcnitc.github.io/testprograms/test1.html" target="_blank">Test Case 1</a> <br>
+                          2) <a href="http://silcnitc.github.io/testprograms/test2.html" target="_blank">Test Case 2</a> <br>
                         </p>
                     </article>
                     <article class="grid col-full" id="nav-stage5">
@@ -1218,6 +1226,14 @@
 
                             Allow tuples and pointers to tuples to be passed as arguments to functions.  (Allowing the whole tuple to be passed creates more work in parameter passing, though not difficult in principle).   Functions may be permitted to return tuples as return values.   Permit a function that takes an argument/returns a tuple or pointers to tuple type to be declared only after the declaration of the concerned tuples (this is to avoid the <a href="https://en.wikipedia.org/wiki/Forward_declaration" target="_blank">forward reference problem</a>).  Design syntax, semantics and code generation strategies appropriately.
                         </p>
+                        <p>
+                          Check your implementation with the following test cases : <br>
+                          1) <a href="http://silcnitc.github.io/testprograms/test3.html" target="_blank">Test Case 1</a> <br>
+                          2) <a href="http://silcnitc.github.io/testprograms/test4.html" target="_blank">Test Case 2</a> <br>
+                          3) <a href="http://silcnitc.github.io/testprograms/test5.html" target="_blank">Test Case 3</a> <br>
+                          4) <a href="http://silcnitc.github.io/testprograms/test6.html" target="_blank">Test Case 4</a> <br>
+                          5) <a href="http://silcnitc.github.io/testprograms/test7.html" target="_blank">Test Case 5</a> <br>
+                        </p>
                             <div class="up column3 mright">
                                 <a href="#navtop">  &#x2191; </a>
                             </div>
@@ -1384,22 +1400,22 @@
                         <p>
                             However, there is a better way of doing things when OS support for shared library is available.
                             Note that we have been using the shared library for console input, output etc.
-                            Since the routines Alloc(), Free() and Initialize() will be used by <b>every</b> ExpL program
+                            <b>Since the routines <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> will be used by <b>every</b> ExpL program
                             (that uses user-defined types), it would be profitable to write these routines once
-                            and add them as part of the library.  Since the OS loader loads the
-                            shared library to the memory region 0-1023 of the address space of each program loaded for execution,
-                            the code for Alloc(), Free() and Initialize() too will be available to the program.
+                            and add them as part of the library.</b>  Since the OS loader loads the
+                            shared library to the memory region 0-1023 of the address space of each program,
+                            the code for <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> too will be available to the program.
                             The library interface must be defined so that the calling conventions for invoking each of the above
                             functions are clearly specified.
                           </p>
                           <p>
                             With this strategy, when an ExpL program
-                            is compiled, the compiler will not generate code to implement Alloc(), Free() or Initialize().
-                            Instead, the compiler will generate a CALL to the library (using the
+                            is compiled, the compiler will not generate code to implement <i>Alloc()</i>, <i>Free()</i> or <i>Initialize()</i>.
+                            <b>Instead, the compiler will generate a CALL to the library (using the
                             library interface) with appropriate arguments so that the corresponding library routine
-                            is invoked.  You need to modify the library code so that the assembly code for Alloc(), Free()
-                            and Initialize() are added to the library.  The advantage of this method is that
-                               the code implementing Alloc(), Free() and Initialize() need not be part of the the code of every
+                            is invoked.  You need to modify the library code so that the assembly code for <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> are added to the library.</b>
+                            The advantage of this method is that
+                               the code implementing <i>Alloc()</i>, <i>Free()</i> and <i>Initialize()</i> need not be part of the the code of every
                                executable program, saving both load-time and system memory.  The technical jargon calls
                                such a library a run time loading library.
                         </p>
@@ -1409,7 +1425,9 @@
 
 
                         <p>
-                            The <a href="abi.html" target="_blank">ABI</a> stipulates that calls to the dynamic memory functions shall be directed through the Library.   Thus, you must add Alloc(), Free() and Initialize() as library functions.  As noted previously, the region of memory between address 1024 and 2047 must be used for heap memory allocation.
+                            The <a href="abi.html" target="_blank">ABI</a> stipulates that calls to the dynamic memory functions shall be directed
+                             through the Library.   Thus, you must add Alloc(), Free() and Initialize() as library functions.
+                              As noted previously, the region of memory between address 1024 and 2047 must be used for heap memory allocation.
                         </p>
                         <p>
                             It is <b>absolutely necessary</b> to read and understand <a href="run_data_structures/heap.html" target="_blank">Dynamic memory allocation</a> (<b>except</b> Buddy System Allocation) to proceed further.  An overall picture of the ExpOS library design is outlined in the <a href="library-implementation.html" target="_blank">library implementation</a> documentation. We are now ready to complete the back end.
@@ -1427,7 +1445,14 @@
                             If you want to do <b>variable sized block allocation</b>, more complex allocation schemes like the <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank"><b>Buddy System Algorithm</b></a> will be required.  One would also need to understand the issue of <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)" target="_blank"><b>memory fragmentation</b></a> that can arise when variable sized allocation is done.
                         </p>
                         <p>
-                            <b>Exercise 2</b>:   (Nontrivial!)  Modify <i>Alloc()</i> and <i>Free()</i> library functions to implement the </b>Buddy memory allocator described <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">here</a>.  You will have to modify <i>Initialize()</i> appropriately.   The buddy system allocator is too complex to write in assembly language.  Hence write them in ExpL itself and modify your label translation scheme to generate target addresses correctly.<br>
+                            <b>Exercise 2</b>:   (Optional)  Modify <i>Alloc()</i> and <i>Free()</i> library functions to implement the </b>Buddy memory allocator described <a href="run_data_structures/heap.html#nav-buddy-allocation" target="_blank">here</a>.  You will have to modify <i>Initialize()</i> appropriately.   The buddy system allocator is too complex to write in assembly language.  Hence write them in ExpL itself and modify your label translation scheme to generate target addresses correctly.<br>
+                        </p>
+                        <p>
+                          Check your implementation with the following test cases : <br>
+                          1) <a href="http://silcnitc.github.io/testprograms/test8.html" target="_blank">Test Case 1</a> <br>
+                          2) <a href="http://silcnitc.github.io/testprograms/test9.html" target="_blank">Test Case 2</a> <br>
+                          3) <a href="http://silcnitc.github.io/testprograms/test10.html" target="_blank">Test Case 3</a> <br>
+                          4) <a href="http://silcnitc.github.io/testprograms/test11.html" target="_blank">Test Case 4</a> <br>
                         </p>
                         <div class="up column3">
                             <a href="#navtop">&#x2191; </a>
@@ -1829,6 +1854,13 @@
                             <i>Exercise 2</i>:  What modifications must be done to allow functions to have locally declared variables of class?
                         </p>
 
+                        <p>
+                          Check your implementation with the following test cases : <br>
+                          1) <a href="http://silcnitc.github.io/oexpltestprograms/test1.html" target="_blank">Test Case 1</a> <br>
+                          2) <a href="http://silcnitc.github.io/oexpltestprograms/test2.html" target="_blank">Test Case 2</a> <br>
+                          3) <a href="http://silcnitc.github.io/oexpltestprograms/test3.html" target="_blank">Test Case 3</a> <br>
+                        </p>
+
 
                         </article>
 
@@ -2139,9 +2171,17 @@
                             <b>Task 2:</b>  Complete the OExpL compiler.
                         </p>
 
+
+                          <!--  You may test your compiler implementation with the test programs given <a href="oexpl-testprograms.html" target="_blank">here</a> -->
+
                         <p>
-                            You may test your compiler implementation with the test programs given <a href="oexpl-testprograms.html" target="_blank">here</a>.
+                          Check your implementation with the following test cases : <br>
+                          1) <a href="http://silcnitc.github.io/oexpltestprograms/test4.html" target="_blank">Test Case 1</a> <br>
+                          2) <a href="http://silcnitc.github.io/oexpltestprograms/test5.html" target="_blank">Test Case 2</a> <br>
+                          3) <a href="http://silcnitc.github.io/oexpltestprograms/test6.html" target="_blank">Test Case 3</a> <br>
+                          4) <a href="http://silcnitc.github.io/oexpltestprograms/test7.html" target="_blank">Test Case 4</a> <br>
                         </p>
+
 
 
                         <p>
