@@ -7,75 +7,38 @@
 </head>
 <body>
 <pre>
-type
-	List{
-		int a;
-		int b;
-		int d;
-		int x;
-		int y;
-		List next;
+	decl
+		int n,fibo(int n);
+	enddecl
+
+	int fibo(int n){
+		decl
+			int res;
+		enddecl
+		begin
+			if(n==0)then
+				res=0;
+			else
+				if(n==1)then
+					res=1;
+				else
+					res=fibo(n-1)+fibo(n-2);
+				endif;
+			endif;
+			return res;
+		end
 	}
-endtype
-decl
-    List gcd(int a,int b);
-	List head;
-enddecl
-List gcd(int a,int b){
-	decl
-		List temp,z;
-		int q,r,t;
-	enddecl
-	begin
-		if(b==0) then
-			temp=alloc();
-			temp.next=null;
-			temp.a=a;
-			temp.b=b;
-			temp.d=a;
-			temp.x=1;
-			temp.y=0;
-			head=temp;
-		else
-			q=a/b;
-			r=a-q*b;
-			z=gcd(b,r);
-			temp=alloc();
-			temp.next=head;
-			t=z.x;
-			temp.x=z.y;
-			temp.y=t-(q*z.y);
-			temp.d=z.d;
-			temp.a=a;
-			temp.b=b;
-			head=temp;
-		endif;
-		return head;
-	end
-}
-int main(){
-	decl
-		int x,a,b;
-	enddecl
-	begin
-		x=initialize();
-		head=null;
-		read(a);
-		read(b);
-		head=gcd(a,b);
-		write("output");
-		while(head!= null) do
-			write(head.a);
-			write(head.b);
-			write(head.d);
-			write(head.x);
-			write(head.y);
-			write("next");
-			head=head.next;
-		endwhile;
-		return 1;
-	end
-}
+	int main(){
+		decl
+			int result;
+		enddecl
+		begin
+			read(n);
+			result = fibo(n);
+			write(result);
+			return 0;
+		end
+	}
 </pre>
 </body>
 </html>
