@@ -1,0 +1,34 @@
+<!Doctype html>
+<html lang="en">
+<head>
+<title>TESTCASE 1</title>
+<meta charset="UTF-8">
+<link rel="../stylesheet" href="../css/style.css">
+</head>
+<body>
+<pre>
+decl
+    int n,i,j,sum,k;
+enddecl
+	read(n);
+	sum=0;
+	k=1;
+	while(k&le;n)do
+		if(n&le;1) then
+			sum=sum+1;
+		else
+			i=1;
+			j=1;
+			while(i&le;k)do
+				j=j*i;
+				i=i+1;
+			endwhile;
+			sum=sum+j;
+		endif;
+		k=k+1;
+	endwhile;
+	write(sum);
+
+</pre>
+</body>
+</html>
