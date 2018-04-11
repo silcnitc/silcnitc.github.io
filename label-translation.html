@@ -128,10 +128,10 @@
                             Now, the label translation procedure can be explained with the help of an example label F0 from the <a href="#fig1">figure1</a>.<br>
                             <br>
                             First <b>"F0:"</b> needs to be recognized as a label and the memory address of the label occurence need to be stored in a table called the <b>Label-Address Table</b>.  In the above example, the address corresponding to <b>F0:</b> is 2066.
-                            We need to parse the entire machine code to identify all the labels in the program and store all the (label, address) pairs in the Label-Address table.
+                            We need to parse the entire machine code to identify all the labels in the program and store all the (label, address) pairs in the Label-Address table. We can remove the label F0: (and other labels) from the program once the corresponding (label,address) pair is entered into the label-address table.   
                           </p>
                             <p>
-                             In this pass, we remove the label F0: as well as other labels from the program. The next task is to replace labels occuring in instructions with the addresses of the labels from the label-address table.  Refering to the <a href="#fig1">figure1</a>, there are two instructions that use the label F0: <b> CALL F0 occuring at address 2136 </b> and <b>CALL F0 occuring at address 2302</b>. We will replace the labels in these instructions with the address of F0 (2066) by looking up the label-address table.  Thus, after translation, both these instructions will translate to <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
+                             The next task is to replace labels occuring in instructions with the addresses of the labels from the label-address table.  Refering to the <a href="#fig1">figure1</a>, there are two instructions that use the label F0: <b> CALL F0 occuring at address 2136 </b> and <b>CALL F0 occuring at address 2302</b>. We will replace the labels in these instructions with the address of F0 (2066) by looking up the label-address table.  Thus, after translation, both these instructions will translate to <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
 
                         </p>
                         <p>
@@ -174,7 +174,7 @@
                         </p>
                         <p>
                           The first pass must collect all the label declarations and simultaneously keep track of the addresses of the
-                          instructions corresponding to the label.  Since the pattern "<i>letter.(letter|digit)*:</i>"
+                          instructions corresponding to the labels.  Since the pattern "<i>letter.(letter|digit)*:</i>"
                           identifies a label, it is easy to design a LEX rule to recognize all label declarations in the program.
                           The compiler must ensure that label names are different from instructions, to avoid confusion.
                         </p>
