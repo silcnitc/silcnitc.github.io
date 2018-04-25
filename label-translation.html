@@ -128,7 +128,7 @@
                             Now, the label translation procedure can be explained with the help of an example label F0 from the <a href="#fig1">figure1</a>.<br>
                             <br>
                             First <b>"F0:"</b> needs to be recognized as a label and the memory address of the label occurence need to be stored in a table called the <b>Label-Address Table</b>.  In the above example, the address corresponding to <b>F0:</b> is 2066.
-                            We need to parse the entire machine code to identify all the labels in the program and store all the (label, address) pairs in the Label-Address table. We can remove the label F0: (and other labels) from the program once the corresponding (label,address) pair is entered into the label-address table.   
+                            We need to parse the entire machine code to identify all the labels in the program and store all the (label, address) pairs in the Label-Address table. We can remove the label F0: (and other labels) from the program once the corresponding (label,address) pair is entered into the label-address table.
                           </p>
                             <p>
                              The next task is to replace labels occuring in instructions with the addresses of the labels from the label-address table.  Refering to the <a href="#fig1">figure1</a>, there are two instructions that use the label F0: <b> CALL F0 occuring at address 2136 </b> and <b>CALL F0 occuring at address 2302</b>. We will replace the labels in these instructions with the address of F0 (2066) by looking up the label-address table.  Thus, after translation, both these instructions will translate to <b>CALL 2066</b> as shown in <a href="#fig2">figure2</a>.
@@ -222,51 +222,27 @@
         </div>
     </div>
     </body>
+
+
     <footer class="center part clearfix">
-
-
-
-    <ul class="social column3 mright">
-        <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/silcnitc">Github</a></li>
-     <!--   <li><a href="#">Facebook</a></li>
-        <li><a href="#">Twitter</a></li>
-        <li><a href="#">Google+</a></li>
-        <li><a href="#">Flickr</a></li>
-      -->
-      <li>  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
-          <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a></li>
-    </ul>
-
-
-
-
-        <div class="up column3 mright">
-
-          <a href="#navtop" class="ir">Go up</a>
-
-        </div>
-
-    <!--
-
-    <ul class="social column3 mright">
-        <li>  <a href="#navtop" class="ir">Go up</a></li>
-    </ul>
-
-
-
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
-          <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a>
-
-    -->
-
-      <nav class="column3">
-        <ul>
-
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-      </nav>
-    </footer>
+       <ul class="grid col-one-third social">
+           <li><a href="http://github.com/silcnitc">Github</a></li>
+           <li>  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+               <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a></li>
+       </ul>
+       <div class="grid col-one-third" style="color:black;">
+           <p style="font-weight: bold;">Contributed By : <a href="https://www.linkedin.com/in/dattathallam">Thallam Sai Sree Datta</a>, <a href="https://www.linkedin.com/in/n-ruthviik-0a0539100">N Ruthvik</a>
+           </p>
+       </div>
+       <nav class="grid col-one-third ">
+           <ul >
+               <li><a href="index.html">Home</a></li>
+               <li><a href="about.html">About</a></li>
+               <!-- <li><a href="uc.html">Contact</a></li> -->
+           </ul>
+       </nav>
+       <br>
+   </footer>
     <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
     <script src="js/scripts.js"></script>
 </html>
