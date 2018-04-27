@@ -113,14 +113,29 @@
                             <hr>
                         </p>
                         <p>
-                            The strategy of the roadmap is to help you build the compiler in stages.  We start here by building a compiler for simple arithmetic expressions. In subsequent stages, we will add features of the language one by one, learning the relevant theoretical concepts along the way.
-                        </p>
+                            A compiler is a software that takes as input a high level program and produces a machine
+                            recognizible target program as output.  The high level program typically allows variables,
+                            expressions, conditionals, iterative constructs, user defined types, functions etc.
+                            The low level target program on the other hand will be a sequence of assembly level
+                            instructions that can be run on a target machine (which is the XSM simulator in this
+                            project).
+                          </p>
                         <p>
+                            The strategy of the roadmap is to help you build the compiler in stages.
+                            We start here by building a very simple compiler whose input (high level) program
+                            contains only simple arithmetic expressions.
+                            In subsequent stages, we will add more and more constructs to the
+                            input language one by one, learning the relevant theoretical concepts along the way.
+                        </p>
+
+                      <!--  <p>
                             In this stage, you will implement a very simple compiler that can take an arithmetic expression as input (from some input file)  and generate a target executable file containing XSM instructions to evaluate the expression and output the result.
-                        </p>
+                        </p> -->
                         <p>
-                            We assume that you have implemented the library routine for handling console output, which you were asked to do in the <a href="xsm-environment-tut.html" target="_blank">XSM execution environment tutorial</a>.
+                            We assume that you have implemented the library routine for handling console output,
+                            which you were asked to do in the <a href="xsm-environment-tut.html" target="_blank">XSM execution environment tutorial</a>.
                         </p>
+
                         <p>
                             Consider arithmetic expressions with the following syntax.
                             <div class="syntax">
@@ -303,7 +318,7 @@
                             <a href="#navtop">  &#x2191; </a>
                         </div>
                     </article>
-                    
+
                     <article class="grid col-full" id="nav-stage2">
                         <h2>Stage 2. Introduction to static storage allocation</h2>
                            <b>Time Estimate :</b> 0.5 week, 5-10 hours/week
