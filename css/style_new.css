@@ -802,6 +802,13 @@ header > nav > ul > li{
   padding: 5px;
 }
 
+.column2 {
+  width: 70%;
+  padding-left: 330px;
+	padding-top : 5px;
+	padding-bottom: 5px;
+	padding-right:5px;
+}
 /* Clear floats after image containers */
 .row::after {
   content: "";
