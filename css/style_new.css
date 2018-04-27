@@ -809,6 +809,8 @@ header > nav > ul > li{
 	padding-bottom: 5px;
 	padding-right:5px;
 }
+
+
 /* Clear floats after image containers */
 .row::after {
   content: "";
