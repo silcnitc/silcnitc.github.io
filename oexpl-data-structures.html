@@ -113,6 +113,12 @@
                              <li>
                                void <b>Class_Minstall</b>(struct Classtable *cptr, char *name, struct Typetable *type, struct Paramstruct *Paramlist) : Installs the method into the given class table entry which is given as an argument.
                              </li>
+                             <li>
+                             struct Memberfunclist* <b>Class_Mlookup </b>(struct Classtable* Ctype,char* Name) : Search through the VFunclist of the class using Ctype that is being parsed and return pointer to the entry in the list with function name as <i>Name</i>. Returns NULL if entry is not found.
+                             </li>
+                             <li>
+                             struct Fieldlist* <b>Class_Flookup</b>(struct Classtable* Ctype,char* Name)) : Search through the Memberfield of the current class using Ctype that is being parsed and return pointer to the entry in the list with variable name as <i>Name</i>. Returns NULL if entry is not found.
+                             </li>
                          </ul>
                      </article>
                      <article class="grid col-full" id="nav-illustration">
