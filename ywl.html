@@ -809,21 +809,71 @@ expr: expr OP expr { printf("%c %c %c",$2,$1,$3);}
 </div>
 <p>The type of YYSTYPE can be overriden manually as shown below. The following line has to be added to the declarations section of the YACC program. This may be used (not recommended) to change the type of all the attributes from int to some other type.
 </p>
-<div class="syntax">#define char YYSTYPE;</div>
+<div class="syntax">#define YYSTYPE char</div>
 <p>In general, YACC sets the type of yylval to that defined by YYSTYPE. Hence, in this case, only character variables and constants can be assigned to yylval.</p>
+
+<p>But in order to have multiple custom attribute values, YACC offers a useful feature called %union to customize the type of YYSTYPE. %union is useful when we require to have different tokens of different types. For example if we wanted some tokens to be of the  type int and some tokens to be of the type char. The following code segment can be added to declarations section of the YACC program to achieve that.</p>
+
+<pre>
+/* YACC Auxiliary declarations*/
+
+/* YACC Declarations*/
+
+%union
+{
+	char character;
+	int integer;
+
+};
+
+%token OP
+%token NUMBER
+
+%type &lt;character&gt; OP
+%type &lt;integer&gt; NUMBER
+
+%%
+
+expr: expr OP expr { printf("%c %d %d",$&lt;character&gt;2,$&lt;integer&gt;1,$&lt;integer&gt;3); }
+    | DIGIT        { $&lt;integer&gt;$=$&lt;integer&gt;1; }
+    ;
+
+%%
+
+/* Auxiliary functions */
+</pre>
+<p>Note that the type of the attribute of each token must be mentioned when the token is being declared using the following syntax.
+</p>
+<div class="syntax">
+%token tokenname <br/>
+%type &lt;token-type&gt; tokenname<br/>
+</div>
+<p>
+'token-type' must be declared under %union prior to use in the declaration of a token. If the type of a token is not explicitly mentioned, no attribute value can be assigned to the token i.e, it is assumed to be of type void.
+</p>
+
 <h3>Exercise:</h3>
-<p> 1. Set YYSTYPE to char and do Infix to postfix conversion where lexemes are either operators or single characters instead of numbers.
+<p><b>Use the %union feature for doing the following exercises</b></p>
+<p> 1.Do Infix to postfix conversion where lexemes are either operators or single characters instead of numbers.
 </p><p><b>Sample input:</b> a+b*c</p>
       <p> <b> Sample output:</b> abc*+</p>
-      <p> Hint: This is similar to infix to postfix conversion in stage 2. Here we need to output the lexemes of a token instead of just the token names. Here each lexeme is a single character.  Use yylval to pass the lexemes as the attribute values for each token.
+      <p>The %union feature may be used as follows:</p>
+      <pre>
+		%union{
+		           char c;
+		      }
+
+	  </pre>
+      <p> Hint: This exercise is similar to infix to postfix conversion in stage 2. Here we need to output the lexemes of a token instead of just the token names. Here each lexeme is a single character.  Use yylval to pass the lexemes as the attribute values for each token.
 </p>
-<p> 2. Set YYSTYPE to char* and do symbolic infix to postfix conversion: </p>
+<p> 2.Do symbolic infix to postfix conversion: </p>
        <p><b>Sample input:</b> hello+my*world</p>
        <p><b>Sample output:</b> hello my world * +</p>
 
-<p> 3. Set YYSTYPE to char* and do symbolic infix to prefix conversion: </p>
+<p> 3.Do symbolic infix to prefix conversion: </p>
        <p><b>Sample input:</b> hello+my*world</p>
        <p><b>Sample output:</b> + hello * my world</p>
+
 <p>IMPORTANT NOTE: Now the attribute values to be passed are strings like “hello”.   Hence YYSTYPE has to be set to char*.  YACC sets the type of yylval to char*. Hence yylval can hold a pointer to a character string.  Note that yytext holds the lexeme that was most recently read by yylex(). Hence, if we were to assign yytext directly to yylval, then yylval would point to this lexeme as required. When yylex() returns the token to yyparse(), this pointer gets pushed to the attribute stack corresponding to the token. However, this method fails because the location that yytext points to gets overwritten when the next lexeme is read from the input by yylex(). Hence the previously read string  would be lost from that location. This corrupts the data referenced by the pointer in the attribute stack. To avoid this problem, separate memory should be allocated (using malloc) and the string in yytext should be copied (using strcpy) to this memory and yylval should be set to the newly allocated store. (Alternately the library function strdup may be used. This function allocates a new space, duplicates the string provided as input into this space and returns pointer to it.)
 </p>
 
@@ -835,7 +885,7 @@ expr: expr OP expr { printf("%c %c %c",$2,$1,$3);}
 <article id="navexptree" class="detail">
 <h3> Example </h3>
 
-<p>Let us look at an example program that creates an expression tree by setting YYSTYPE to a user defined type.
+<p>Let us look at an example program that creates an expression tree using union.
 </p>
 <p>Sample input: 33+42*(21-16)
 </p>
@@ -844,146 +894,169 @@ expr: expr OP expr { printf("%c %c %c",$2,$1,$3);}
 </p>
 <p>Sample output:  243  </p>
 <p>To build such a data structure, we will use a user defined type tnode containing the following fields:
-<br>
-<br><i>int</i> flag -  We will set this to 0 or 1 to indicate whether the node is a leaf node storing  an integer value (like 16 ) or an internal node storing an operator (like  +).
+<br><pre>
+<br><i>int</i> flag -  We will set this to 0 or 1 to indicate whether the node is a leaf node storing  an integer value or an internal node.
 <br><i>int</i> val – To store the value in case of leaf node.
 <br><i>char</i> op- To store the operator in case of internal node
 <br><i>struct</i> tnode *right-  To store pointer to right child.
 <br><i>struct</i> tnode *left-  To store pointer to left child.
-</p>
-<p>Once this is done, we will set YYSTYPE to this type using #define.
-</p>
+</p></pre>
+
 <p>We will create a header file by the name exptree.h for the necessary declarations. This file is to be included in the lex and yacc programs.
 </p>
 <p>
     NOTE : Always keep declarations in a header file, function definitions in .c file and include them in your yacc file. This would keep your code clean.
 </p>
 <p>exprtree.h</p>
-<script src="js/e10adeb0a6e91fbcc02b.js"></script>
+<!--<script src="js/e10adeb0a6e91fbcc02b.js"></script>-->
+<pre>
+typedef struct tnode{
+ int val; //value of the expression tree
+ char *op; //indicates the opertor
+ struct tnode *left,*right; //left and right branches
+ }tnode;
+	
+/*Make a leaf tnode and set the value of val field*/
+struct tnode* makeLeafNode(int n);
+	
+/*Make a tnode with opertor, left and right branches set*/
+struct tnode* makeOperatorNode(char c,struct tnode *l,struct tnode *r);
+	
+/*To evaluate an expression tree*/
+int evaluate(struct tnode *t);
+</pre>
 <p> As the lexer scans the input, it should recognise two types of tokens – numbers and operators. ( In the following example we have used literal tokens to indicate each of the  operators '+' , '-', '*', '/'. ) The attribute value corresponding to these tokens can be made to indicate which number/operator was read. We will pack this information in the node structure tnode mentioned above .</p>
 
 <p>exprtree.l</p>
-<script src="js/e0fe5bb9afa1e35ccff3.js"></script>
-<!--<pre>
+<!--<script src="js/e0fe5bb9afa1e35ccff3.js"></script>-->
+<pre>
 %{
 	#include &ltstdlib.h&gt
-	#include &ltstring.h&gt
-	#include &ltmalloc.h&gt
-        #include "exptree.h"
-
-	void yyerror(char *);
+	#include &ltstdio.h&gt
 	#include "y.tab.h"
+	#include "exprtree.h"
+
+	int number;
+
 %}
 
 %%
-[0-9]+ 		{yylval=(node *)malloc(sizeof(node));
-		 yylval->val= atoi(yytext);
-         	 yylval->flag= 0;
-		 yylval->left=NULL;
-		 yylval->right=NULL;
-		 return DIGIT;}
 
-[-+*/] 		{yylval=(node *)malloc(sizeof(node));
-         	 yylval->op=*yytext;
-         	 yylval->flag=1;
-		 yylval->left=NULL;
-		 yylval->right=NULL;
-         	 return *yytext;}
-
-[()] 		return *yytext;
-
-\n 		return *yytext;
-
-[ \t] 		; 					/* skip whitespace */
-
-.  yyerror("invalid");
+[0-9]+	{number = atoi(yytext); yylval.no = makeLeafNode(number); return NUM;}
+"+"	{return PLUS;}
+"-"	{return MINUS;}
+"*"	{return MUL;}
+"/"	{return DIV;}
+[ \t]	{}
+[()]	{return *yytext;}
+[\n]	{return END;}
+.	{yyerror("unknown character\n");exit(1);}
 
 %%
 
 int yywrap(void) {
-return 1;
+	return 1;
 }
-</pre>-->
-<p>Notice that yylval is assigned a pointer to newly allocated (using malloc) node of type node.   This is possible because we have already set YYSTYPE to node * and hence yylval assumes this type.   Thus, for each token that is a number (DIGIT)  or operator(returned as literal tokens '+', '-' , '*', '/' ) that is recognized by the lexer, we pack the information in a node structure and a pointer to this node is passed as attribute to the parser.   During reductions, the semantic actions specified in the parser will set the left and the right pointers of these nodes appropriately to complete the creation of the expression tree. We will see how these actions are executed in detail next.</p>
+</pre>
+<p>Notice that yylval is assigned a pointer to newly allocated (using malloc) node of type node. For each token that is a number (DIGIT)  or operator(returned as literal tokens '+', '-' , '*', '/' ) that is recognized by the lexer, we pack the information in a node structure and a pointer to this node is passed as attribute to the parser.   During reductions, the semantic actions specified in the parser will set the left and the right pointers of these nodes appropriately to complete the creation of the expression tree. We will see how these actions are executed in detail next.</p>
 <p>exprtree.y</p>
-<script src="js/5031b7ea3f3ae455902c.js"></script>
-<p>
-    The following .c file gives the required function definitions.
-</p>
-<script src="js/93043940064376273a29.js"></script>
-<!--
+<!--<script src="js/5031b7ea3f3ae455902c.js"></script>-->
 <pre>
 %{
-	#include <stdio.h>
-	#include <stdlib.h>
-	#include <string.h>
-	#include <malloc.h>
-	#include "exptree.h"
+	#include &ltstdlib.h&gt
+	#include &ltstdio.h&gt
+	#include "exprtree.h"
+	#include "exprtree.c"
 	int yylex(void);
-	void yyerror(char *);
-	int evaltree(node *);
 %}
 
-%token DIGIT
-%left '+' '-'
-%left '*' '/'
-%%
-
-program	:	program expr'\n'  	{$$=$2;
-                     			 int n=evaltree($$);
-					 printf("%d",n);}
-		|
-		;
-
-expr	:	DIGIT 		{$$=$1;}
-
-		| '(' expr ')' 		{$$=$2;}
-
-		| expr '+' expr 	{$2->left=$1;
-					 $2->right=$3;
-					 $$=$2;}
-
-		| expr '-' expr 	{$2->left=$1;
-					 $2->right=$3;
-					 $$=$2;}
-
-		| expr '*' expr 	{$2->left=$1;
-					 $2->right=$3;
-					 $$=$2;}
-
-		| expr '/' expr 	{$2->left=$1;
-					 $2->right=$3;
-					 $$=$2;}
-		;
+%union{
+	struct tnode *no;
+	
+}
+%type &ltno&gt expr NUM program END
+%token NUM PLUS MINUS MUL DIV END
+%left PLUS MINUS
+%left MUL DIV
 
 %%
 
-void yyerror(char *s) {
-	fprintf(stderr, "%s\n", s);
+program : expr END	{
+				$$ = $2;
+				printf("Answer : %d\n",evaluate($1));
+				
+				exit(1);
+			}
+		;
+
+expr : expr PLUS expr		{$$ = makeOperatorNode('+',$1,$3);}
+	 | expr MINUS expr  	{$$ = makeOperatorNode('-',$1,$3);}
+	 | expr MUL expr	{$$ = makeOperatorNode('*',$1,$3);}
+	 | expr DIV expr	{$$ = makeOperatorNode('/',$1,$3);}
+	 | '(' expr ')'		{$$ = $2;}
+	 | NUM			{$$ = $1;}
+	 ;
+
+%%
+
+yyerror(char const *s)
+{
+    printf("yyerror %s",s);
 }
 
-int evaltree(node *nd){
-	if(nd->flag==0){
-		return nd->val;
-	}
-	else{
-		if(nd->op=='+')
-			return (evaltree(nd->left)+evaltree(nd->right));
-		else if(nd->op=='-')
-			return (evaltree(nd->left) - evaltree(nd->right));
-		else if(nd->op== '*')
-			return (evaltree(nd->left) * evaltree(nd->right));
-		else if(nd->op=='/')
-			return (evaltree(nd->left) / evaltree(nd->right));
-	}
-}
 
 int main(void) {
 	yyparse();
+	
 	return 0;
 }
 </pre>
--->
+<p>
+    The following .c file gives the required function definitions.</br>exprtree.c
+</p>
+<!--<script src="js/93043940064376273a29.js"></script>-->
+<pre>
+struct tnode* makeLeafNode(int n)
+{
+    struct tnode *temp;
+    temp = (struct tnode*)malloc(sizeof(struct tnode));
+    temp->op = NULL;
+    temp->val = n;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+struct tnode* makeOperatorNode(char c,struct tnode *l,struct tnode *r){
+    struct tnode *temp;
+    temp = (struct tnode*)malloc(sizeof(struct tnode));
+    temp->op = malloc(sizeof(char));
+    *(temp->op) = c;
+    temp->left = l;
+    temp->right = r;
+    return temp;
+}
+
+int evaluate(struct tnode *t){
+    if(t->op == NULL)
+    {
+        return t->val;
+    }
+    else{
+        switch(*(t->op)){
+            case '+' : return evaluate(t->left) + evaluate(t->right);
+                       break;
+            case '-' : return evaluate(t->left) - evaluate(t->right);
+                       break;
+            case '*' : return evaluate(t->left) * evaluate(t->right);
+                       break;
+            case '/' : return evaluate(t->left) / evaluate(t->right);
+                       break;
+        }
+    }
+}
+</pre>
+
 
 
 <p>Let us now see how the expression tree for the sample input 33+42*(21 - 16) was created.</p>
@@ -1067,45 +1140,6 @@ int main(void) {
 <right><img src="img/ywlexp37.png" style="max-width=50%" </right>
 <p>PARSE STACK-AFTER READ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATTRIBUTE STACK-AFTER READ</p>
 <p>16.  An inorder evaluation of the tree returns 243 which is printed as result.</p>
-<p>But in order to have multiple custom attribute values, YACC offers a useful feature called %union to customize the type of YYSTYPE. %union is useful when we require to have different tokens of different types. For example if we wanted some tokens to be of the  type int and some tokens to be of the type char. The following code segment can be added to declarations section of the YACC program to achieve that.</p>
-
-<pre>
-/* YACC Auxiliary declarations*/
-
-/* YACC Declarations*/
-
-%union
-{
-	char character;
-	int integer;
-
-};
-
-%token OP
-%token NUMBER
-
-%type &lt;character&gt; OP
-%type &lt;integer&gt; NUMBER
-
-%%
-
-expr: expr OP expr { printf("%c %d %d",$2,$1,$3); }
-    | DIGIT        { $$=$1; }
-    ;
-
-%%
-
-/* Auxiliary functions */
-</pre>
-<p>Note that the type of the attribute of each token must be mentioned when the token is being declared using the following syntax.
-</p>
-<div class="syntax">
-%token tokenname <br/>
-%type &lt;token-type&gt; tokenname<br/>
-</div>
-<p>
-'token-type' must be declared under %union prior to use in the declaration of a token. If the type of a token is not explicitly mentioned, no attribute value can be assigned to the token i.e, it is assumed to be of type void.
-</p>
 
 </article>
 
