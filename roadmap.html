@@ -570,7 +570,7 @@
                             MOV R0, [4096]&nbsp;&nbsp;// transfer a to R0<br>
                             MOV R1, [4097]&nbsp;&nbsp;//  transfer b to R1<br>
                             LT R0, R1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  a&lt;b<br>
-                            JZ L2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  if (a&lt;b) is false goto L2  <br>
+                            JZ R0,L2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  if (a&lt;b) is false goto L2  <br>
                             MOV R0, [4096]&nbsp;&nbsp;//  transfer a to R0<br>
                             ADD R0, 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//  add 1  <br>
                             MOV [4096], R0&nbsp;&nbsp;// transfer sum back to a<br>
