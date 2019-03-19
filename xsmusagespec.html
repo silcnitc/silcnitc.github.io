@@ -1,216 +1,197 @@
 <!Doctype html>
 <html lang="en">
-    <head>
-        <title>XSM Usage specification for Compiler Lab</title>
-        <meta charset="UTF-8">
-        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
-        <link rel="stylesheet" href="css/style_new.css">
-        <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
-        <script src="js/bootstrap.min.js" charset="utf-8"></script>
-        <script src="js/sticky_sidebar.js" charset="utf-8"></script>
 
-    </head>
-    <div class="container">
-        <header id="navtop">
-            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
-            <nav class="fright">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
+<head>
+    <title>XSM Usage specification for Compiler Lab</title>
+    <meta charset="UTF-8">
+    <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="css/style_new.css">
+    <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
+    <script src="js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="js/sticky_sidebar.js" charset="utf-8"></script>
 
-        			    <li><a href="roadmap.html">Roadmap</a></li>
-        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
-                </ul>
-            </nav>
+</head>
+<div class="container">
+    <header id="navtop">
+        <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+        <nav class="fright">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="documentation.html" class="navactive">Documentation</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="Services-page main grid-wrap">
+        <header class="grid col-full">
+            <hr />
+            <p class="fleft">XSM Simulator Usage specification</p>
+            <br>
+            <br>
+            <!-- <a class="button" href="#"> Download as PDF </a> -->
         </header>
-        <div class="Services-page main grid-wrap">
-            <header class="grid col-full">
-                <hr/>
-                <p class="fleft">XSM Simulator Usage specification</p>
-                <br>
-                <br>
-                <!-- <a class="button" href="#"> Download as PDF </a> -->
-            </header>
 
-            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar" style="position: static;">
-              <menu>
+        <aside class="grid col-one-quarter mq2-col-full sticky_sidebar" style="position: static;">
+            <menu>
                 <ul>
-                  <li><a class="sec" href="#nav-debug">Debugging</a></li>
+                    <li><a class="sec" href="#nav-debug">Debugging</a></li>
                 </ul>
-              </menu>
-            </aside>
-            <section class="grid col-three-quarters mq2-col-full">
-                <div class="grid-wrap">
-                    <article class="grid col-full" id="nav-intro">
-                        <!-- <h2>Expl Usage specification for Compiler Lab</h2> -->
-                        <p>
-                            The <b>XSM (eXperimental String Machine)</b> Simulator is used to simulate the hardware and OS abstractions specified in the ExpOS <a href="abi.html" target="_blank" >Application Binary Interface</a>.<br>
-                            <br/>
-                            Within your XSM directory, use the following command to run the simulator
-                        </p>
-                        <pre>
+            </menu>
+        </aside>
+        <section class="grid col-three-quarters mq2-col-full">
+            <div class="grid-wrap">
+                <article class="grid col-full" id="nav-intro">
+                    <!-- <h2>Expl Usage specification for Compiler Lab</h2> -->
+                    <p>
+                        The <b>XSM (eXperimental String Machine)</b> Simulator is used to simulate the hardware and OS
+                        abstractions specified in the ExpOS <a href="abi.html" target="_blank">Application Binary
+                            Interface</a>.<br>
+                        <br />
+                        Within your XSM directory, use the following command to run the simulator
+                    </p>
+                    <pre>
                             <b><i>./xsm [-l library.lib] -e &lt;filename.xsm&gt; [--debug]</i></b>
                         </pre>
-                        <br>
-                        <p>
+                    <br>
+                    <p>
 
-                            (i) <b><i>Syntax</i></b> : -l library.lib <br>
-                            <b><i>Semantics</i></b> : This flag loads the library, library.lib to the machine memory. (The simulator specification does not allow any name other than library.lib for the library file.) The argument is optional and needs to be given only if the library is to be linked to page 0 and page 1 of the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> virtual address space </a><br><br>
+                        (i) <b><i>Syntax</i></b> : -l library.lib <br>
+                        <b><i>Semantics</i></b> : This flag loads the library, library.lib to the machine memory. (The
+                        simulator specification does not allow any name other than library.lib for the library file.)
+                        The argument is optional and needs to be given only if the library is to be linked to page 0 and
+                        page 1 of the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> virtual
+                            address space </a><br><br>
 
-                            (ii) <b><i>Syntax</i></b> : -e &lt;filename.xsm&gt; <br>
-                            <b><i>Semantics</i></b> : This flag loads the executable file named as filename which is of the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> XEXE format </a>.  This argument is mandatory.  The file is loaded into pages 4,5,6 and 7 in the <a href="abi.html#nav-virtual-address-space-model" target="_blank"> virtual address space </a>. <br><br>
+                        (ii) <b><i>Syntax</i></b> : -e &lt;filename.xsm&gt; <br>
+                        <b><i>Semantics</i></b> : This flag loads the executable file named as filename which is of the
+                        <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> XEXE format </a>. This
+                        argument is mandatory. The file is loaded into pages 4,5,6 and 7 in the <a
+                            href="abi.html#nav-virtual-address-space-model" target="_blank"> virtual address space </a>.
+                        <br><br>
 
-                            (iii) <b><i>Syntax</i></b> : --debug <br>
-                            <b><i>Semantics</i></b> : This flag sets the machine into DEBUG mode when it encounters a BRKP machine instruction. Any <a href="abi.html#nav-debug" target="_blank"> BRKP instruction </a> in the program will be ignored by the machine if this flag is not set. Further details are given in the section below.<br><br>
-                        </p>
-                        <br>
-                    </article>
-                    <article class="grid col-full" id="nav-debug">
-                        <h2>Debugging</h2>
-                        <p>
-                            The --debug flag is used to debug the running machine. When this flag is set and the machine encounters a breakpoint instruction, the machine enters the DEBUG mode. In this mode a prompt is displayed which allows the user to enter commands to inspect the state of the machine.
+                        (iii) <b><i>Syntax</i></b> : --debug <br>
+                        <b><i>Semantics</i></b> : This flag sets the machine into DEBUG mode when it encounters a BRKP
+                        machine instruction. Any <a href="abi.html#nav-debug" target="_blank"> BRKP instruction </a> in
+                        the program will be ignored by the machine if this flag is not set. Further details are given in
+                        the section below.<br><br>
+                    </p>
+                    <br>
+                </article>
+                <article class="grid col-full" id="nav-debug">
+                    <h2>Debugging</h2>
+                    <p>
+                        The --debug flag is used to debug the running machine. When this flag is set and the machine
+                        encounters a breakpoint instruction, the machine enters the DEBUG mode. In this mode a prompt is
+                        displayed which allows the user to enter commands to inspect the state of the machine.
 
-                            The commands in DEBUG mode are :
+                        The commands in DEBUG mode are :
 
-                        </p>
+                    </p>
 
-                        <p>
-                            (1) <b><i>Syntax</i></b> : step / s <br>
-                            <b><i>Semantics</i></b> : The execution proceeds by a single step.
-                        </p>
+                    <p>
+                        (1) <b><i>Syntax</i></b> : step / s <br>
+                        <b><i>Semantics</i></b> : The execution proceeds by a single step.
+                    </p>
 
-                        <p>
-                            (2) <b><i>Syntax</i></b> : continue / c <br>
-                            <b><i>Semantics</i></b> : The execution proceeds till the next breakpoint (BRKP) instruction.
-                        </p>
+                    <p>
+                        (2) <b><i>Syntax</i></b> : continue / c <br>
+                        <b><i>Semantics</i></b> : The execution proceeds till the next breakpoint (BRKP) instruction.
+                    </p>
 
-                         <p>
-                            (3) <b><i>Syntax</i></b> : reg / r <br>
-                            <b><i>Semantics</i></b> : Displays the contents of all the machine registers namely IP, SP, BP, PTBR, PTLR, EIP, EC, EPN, EMA, R0-R19 in that order.
-                        </p>
+                    <p>
+                        (3) <b><i>Syntax</i></b> : reg / r <br>
+                        <b><i>Semantics</i></b> : Displays the contents of all the machine registers namely IP, SP, BP,
+                        PTBR, PTLR, EIP, EC, EPN, EMA, R0-R19 in that order.
+                    </p>
 
-                        <p>
-                            (4) <b><i>Syntax</i></b> : reg / r &lt;register_name&gt; <br>
-                            <b><i>Semantics</i></b> : Displays the contents of the specified register. <br>
-                            Sample usage: r R5, reg SP
-                        </p>
+                    <p>
+                        (4) <b><i>Syntax</i></b> : reg / r &lt;register_name&gt; <br>
+                        <b><i>Semantics</i></b> : Displays the contents of the specified register. <br>
+                        Sample usage: r R5, reg SP
+                    </p>
 
-                         <p>
-                            (5) <b><i>Syntax</i></b> : reg / r &lt;register_name_1&gt; &lt;register_name_2&gt; <br>
-                            <b><i>Semantics</i></b> : Displays the contents of the registers from &lt;register_name_1&gt; to lt;register_name_2&gt; in the order specified in (3).
-                        </p>
+                    <p>
+                        (5) <b><i>Syntax</i></b> : reg / r &lt;register_name_1&gt; &lt;register_name_2&gt; <br>
+                        <b><i>Semantics</i></b> : Displays the contents of the registers from &lt;register_name_1&gt; to
+                        lt;register_name_2&gt; in the order specified in (3).
+                    </p>
 
-<!--                         <p>
-                            (6) <b><i>Syntax</i></b> : mem / m &lt;page_num&gt;  <br>
-                            <b><i>Semantics</i></b> : Displays the contents of the memory page <page_num>. <br>
-                            Sample usage: mem 5, m 20
-                        </p>
+                    <p>
+                        (6) <b><i>Syntax</i></b> : mem / m &lt;page_num&gt; <br>
+                        <b><i>Semantics</i></b> : Displays the contents of the memory page <page_num> in the virtual
+                            address space. <br>
+                            Sample usage: mem 5, m 8
+                    </p>
 
-                         <p>
-                            (7) <b><i>Syntax</i></b> : mem / m &lt;page_num_1&gt; &lt;page_num_2&gt; :<br>
-                            <b><i>Semantics</i></b> : Displays the contents of the memory from pages <page_num_1> to <page_num_2>.
-                            <br>Sample usage: mem 5 8, m 0 10
-                        </p>
+                    <p>
+                        (7) <b><i>Syntax</i></b> : mem / m &lt;page_num_1&gt; &lt;page_num_2&gt; <br>
+                        <b><i>Semantics</i></b> : Displays the contents of the memory from pages <page_num_1> to
+                            <page_num_2> in the virtual address space.
+                                <br>Sample usage: mem 4 7, m 8 9
+                    </p>
 
-                         <p>
-                            (8) <b><i>Syntax</i></b> : pcb / p<br>
-                            <b><i>Semantics</i></b> : Displays the Process Control Block of the process with the state as RUNNING.
+                    <p>
+                        (8) <b><i>Syntax</i></b> : list / l <br>
+                        <b><i>Semantics</i></b> : List 10 instructions before and after the current instruction.
+                    </p>
 
-                        </p>
+                    <p>
+                        (9) <b><i>Syntax</i></b> : val / v &lt;virtual_address&gt; <br>
+                        <b><i>Semantics</i></b> : Displays the content at memory address.
+                    </p>
+                    <p>
+                        (10) <b><i>Syntax</i></b> : watch / w &lt;virtual_address&gt; <br>
+                            <b><i>Semantics</i></b> : Sets a watch point to this address. Watch point is used to track
+                            changes of a particular memory location. Whenever a word which is watched is altered,
+                            program execution is stopped and the debug interface is invoked. Atmost 16 watch points can
+                            be set.
+                    </p>
 
-                         <p>
-                            (9) <b><i>Syntax</i></b> : pcb / p <pid><br>
-                            <b><i>Semantics</i></b> : Displays the Process Control Block of the process with the given <pid>.
-                        </p>
+                    <p>
+                        (11) <b><i>Syntax</i></b> : watchclear / wc <br>
+                        <b><i>Semantics</i></b> : Clears all the watch points.
+                    </p>
 
-                         <p>
-                            (10) <b><i>Syntax</i></b> : pagetable / pt<br>
-                            <b><i>Semantics</i></b> : Displays the Page Table at the location pointed by PTBR (Page Table Base Register).
-                        </p>
+                    <p>
+                        (12) <b><i>Syntax</i></b> : exit / e <br>
+                        <b><i>Semantics</i></b> : Exits the debug prompt and halts the machine.
+                    </p>
 
-                        <p>
-                            (11) <b><i>Syntax</i></b> : pagetable / pt <pid> :<br>
-                            <b><i>Semantics</i></b> : Displays the <pid>th Page Table.
-                        </p>
+                    <p>
+                        (13) <b><i>Syntax</i></b> : help / h <br>
+                        <b><i>Semantics</i></b> : Displays commands.
+                    </p>
 
-                        <p>
-                            (12) <b><i>Syntax</i></b> : filetable / ft<br>
-                            <b><i>Semantics</i></b> : Displays the System Wide Open File Table.
-                        </p>
-
-                        <p>
-                            (13) <b><i>Syntax</i></b> : memfreelist / mf <br>
-                            <b><i>Semantics</i></b> : Displays the Memory Free List.
-                        </p>
-
-                        <p>
-                            (14) <b><i>Syntax</i></b> : diskfreelist / df <br>
-                            <b><i>Semantics</i></b> : Displays the memory copy of the Disk Free List.
-                        </p>
-
-                        <p>
-                            (15) <b><i>Syntax</i></b> : inodetable / it<br>
-                            <b><i>Semantics</i></b> : Displays the memory copy of the Inode Table.
-                        </p>
-
-                        <p>
-                            (16) <b><i>Syntax</i></b> : usertable / ut<br>
-                            <b><i>Semantics</i></b> : Displays the memory copy of the User Table.
-                        </p>
-
-                        <p>
-                            (17) <b><i>Syntax</i></b> : location / l &lt;address&gt;<br>
-                            <b><i>Semantics</i></b> : Displays the content at memory address (Address Translation takes place if used in USER mode)
-                        </p>
-
-                        <p>
-                            (18) <b><i>Syntax</i></b> : watch / w <physical_address> <br>
-                            <b><i>Semantics</i></b> : Sets a watch point to this address. Watch point is used to track changes of a particular memory location. Whenever a word which is watched is altered, program execution is stopped and the debug interface is invoked. Atmost 16 watch points can be set.
-                        </p>
-
-                        <p>
-                            (19) <b><i>Syntax</i></b> : watchclear / wc  <br>
-                            <b><i>Semantics</i></b> : Clears all the watch points.
-                        </p>
-
-                        <p>
-                            (20) <b><i>Syntax</i></b> : exit / e <br>
-                            <b><i>Semantics</i></b> : Exits the debug prompt and halts the machine.
-                        </p>
-
-                        <p>
-                            (21) <b><i>Syntax</i></b> : help / h  <br>
-                            <b><i>Semantics</i></b> : Displays commands.
-                        </p>
- -->
-                        <br>
-                    </article>
-                </div>
-            </section>
-        </div>
+                    <br>
+                </article>
+            </div>
+        </section>
     </div>
-            <div class="divide-top">
-            
-              <footer class="">
-            <ul class="grid col-one-third social">
-                <li><a href="http://github.com/xosnitc">Github</a></li>
-                <li>  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+</div>
+<div class="divide-top">
+
+    <footer class="">
+        <ul class="grid col-one-third social">
+            <li><a href="http://github.com/xosnitc">Github</a></li>
+            <li> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
                     <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a></li>
+        </ul>
+
+        <div class="up grid col-one-third ">
+            <a href="#navtop" title="Go back up">↑</a>
+        </div>
+
+        <nav class="grid col-one-third ">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="uc.html">Contact</a></li>
             </ul>
 
-            <div class="up grid col-one-third ">
-                <a href="#navtop" title="Go back up">↑</a>
-            </div>
+        </nav>
+    </footer>
+</div>
 
-            <nav class="grid col-one-third ">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="uc.html">Contact</a></li>
-                </ul>
-
-            </nav>
-        </footer>
-        </div>
-    </div>
 </html>
