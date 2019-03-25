@@ -138,29 +138,31 @@
                     </p>
 
                     <p>
-                        (9) <b><i>Syntax</i></b> : val / v &lt;virtual_address&gt; <br>
-                        <b><i>Semantics</i></b> : Displays the content at memory address.
-                    </p>
-                    <p>
-                        (10) <b><i>Syntax</i></b> : watch / w &lt;virtual_address&gt; <br>
-                            <b><i>Semantics</i></b> : Sets a watch point to this address. Watch point is used to track
-                            changes of a particular memory location. Whenever a word which is watched is altered,
-                            program execution is stopped and the debug interface is invoked. Atmost 16 watch points can
-                            be set.
+                        (9) <b><i>Syntax</i></b> : stacktrace / st <br>
+                        <b><i>Semantics</i></b> : List 10 instructions before and after the top of the stack (memory address stored in SP register).
                     </p>
 
                     <p>
-                        (11) <b><i>Syntax</i></b> : watchclear / wc <br>
+                        (10) <b><i>Syntax</i></b> : val / v &lt;virtual_address&gt; <br>
+                        <b><i>Semantics</i></b> : Displays the content at memory address.
+                    </p>
+                    <p>
+                        (11) <b><i>Syntax</i></b> : watch / w &lt;virtual_address&gt; <br>
+                            <b><i>Semantics</i></b> : Sets a watch point to this address. Watch point is used to track changes of a particular memory location. Whenever a word which is watched is altered, program execution is stopped and the debug interface is invoked. Atmost 16 watch points can be set.
+                    </p>
+
+                    <p>
+                        (12) <b><i>Syntax</i></b> : watchclear / wc <br>
                         <b><i>Semantics</i></b> : Clears all the watch points.
                     </p>
 
                     <p>
-                        (12) <b><i>Syntax</i></b> : exit / e <br>
+                        (13) <b><i>Syntax</i></b> : exit / e <br>
                         <b><i>Semantics</i></b> : Exits the debug prompt and halts the machine.
                     </p>
 
                     <p>
-                        (13) <b><i>Syntax</i></b> : help / h <br>
+                        (14) <b><i>Syntax</i></b> : help / h <br>
                         <b><i>Semantics</i></b> : Displays commands.
                     </p>
 
