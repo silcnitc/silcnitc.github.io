@@ -103,12 +103,23 @@ yum install bison
             You may get some warnings and they can be ignored. If you get any <b>fatal error</b>,
             then install the following dependencies and try running "make" again : <br>
             <b>sudo apt-get install libreadline-dev</b> <br>
-            <b>sudo apt-get install lib6-dev</b> <br>
+            <b>sudo apt-get install libc6-dev</b> <br>
             If any other dependencies are missing (this depends on your system configuration), you have to install the missing dependencies
             and run "make" again.
+	    (Optional) While running "./xsm" after Step 2 if you get this error:<br>
+		  <i>/usr/bin/ld: cannot find -ll
+		  collect2: error: ld returned 1 exit status</i>
+		  Then you need to install:<br>
+		  <b>sudo apt-get install libfl-dev</b> <br>
+		  and edit the <b>Makefile</b> of <b>xsm_dev</b> folder, to proceed 
+		  find the line where "-ll" is used as option and update it to "-lfl" to use the "flex" library we installed above.
+	    Now you can run "make" again after navigating into the folder <b>xsm_expl</b> through the terminal.
           </p></li>
           <li id="otis">2. Type "cd ../xfs-interface/" and type "./init".</li>
-        </ul>
+	  <li id="otis">3.(Optional) Add this line <b>#!/usr/bin/env bash</b> as first line to the <b>xsm</b> file in <b>xsm_expl</b> folder.</li>
+          This step is for those who don't have <b>bash</b> or <b>sh</b> as their "default shell" and therefore may be using other 
+	  customizable shells like <b>zsh</b>, etc as their default shell. You can check your default shell by using <b>echo $SHELL</b> in terminal.
+	</ul>
     </p>
     <p>The usage instructions for the XSM simulator can be found <a href="xsmusagespec.html" target="_blank"> here</a>.</p>
 
