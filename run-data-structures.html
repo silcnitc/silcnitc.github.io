@@ -1,108 +1,236 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Run Time Data Structures</title>
-        <meta charset="UTF-8">
-        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
-        <link rel="stylesheet" href="css/style_new.css">
-        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist"></div>
-        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist"></div>
-        <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
-        <script src="js/bootstrap.min.js" charset="utf-8"></script>
-        <script src="js/sticky_sidebar.js" charset="utf-8"></script>
+  <head>
+    <title>Run Time Data Structures</title>
+    <meta charset="UTF-8" />
+    <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="css/style_new.css" />
+    <link
+      rel="stylesheet"
+      href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"
+    />
+    <div id="gist28627206" class="gist"></div>
+    <link
+      rel="stylesheet"
+      href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"
+    />
+    <div id="gist28627206" class="gist"></div>
+    <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
+    <script src="js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="js/sticky_sidebar.js" charset="utf-8"></script>
+  </head>
+  <div class="container">
+    <header id="navtop">
+      <a href="index.html" class="logo fleft"
+        ><img src="img/logo.png" alt=""
+      /></a>
+      <nav class="fright">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
 
-    </head>
-    <div class="container">
-        <header id="navtop">
-            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
-            <nav class="fright">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-
-        			    <li><a href="roadmap.html">Roadmap</a></li>
-        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
-                </ul>
-            </nav>
-        </header>
-        <div class="Services-page main grid-wrap">
-            <header class="grid col-full">
-                <hr/>
-                <p class="fleft">Run Time Data Structures</p>
-                <br>
-                <br>
-            </header>
-            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
-              <menu>
-                <ul>
-                  <li><a class="sec" href="#nav-introduction">Introduction</a></li>
-                  <li><a class="sec" href="#nav-memory-model">The memory model</a></li>
-                  <li><a class="sec" href="#nav-register-allocation">Temporary Allocation</a></li>
-                  <li><a class="sec" href="#nav-static-allocation">Static Allocation</a></li>
-                  <li><a class="sec" href="#nav-run-time-stack-allocation">Run Time Stack Allocation</a></li>
-                  <li><a class="sec" href="#nav-heap-allocation">Heap Allocation</a></li>
-              </ul>
-              </menu>
-              <!-- <a class="button" href="">Download as PDF</a> -->
-            </aside>
-            <section class="grid col-three-quarters mq2-col-full">
-                <div class="grid-wrap">
-                    <article class="grid col-full" id="nav-introduction">
-                        <h2>Introduction</h2>
-                        <p>
-                            This document explains how the compiler allocates memory for variables in a program. First it is necessary to understand the requirements and the underlying theoretical concepts in some detail.
-                        </p>
-                        <h4>The storage allocation Problem </h4>
-                        <p>
-                            A program contains global variables as well as variables that are local to functions, both requiring memory space. Of these, global variables are the simplest to handle because during the analysis phase we know how many global variables are there in the program (all global variables are declared) and how much space needs to be allocated for each of them (why?). Thus, the storage requirements for global variables are completely determined at compile time and they can be assigned memory addresses during the analysis phase itself. Such allocation is called <b>static allocation</b>. The binding field of the global symbol table entry for a variable  is set to the memory address allocated to the variable. This symbol table information will be used during the code generation phase to find out the address of the variable in memory.
-                        </p>
-                        <p>
-                            During the analysis phase the compiler <b>will not</b> decide on the addresses in the <i>code area</i> of memory where a function's code is loaded. Hence, the compiler cannot fix the address to which function must be attached. To handle this issue, the compiler will assign a <b>pseudo address</b> to each function, which will be stored in the binding field of the function's global symbol table entry. All calls to the function will be translated to an assembly level call to this pseudo address. The correct addresses will be assigned later during <a href="#"><b>label translation</b></a>.
-                        </p>
-                        <p>
-                            Variables which are local to functions demand more complicated allocation. This is because a function may be invoked several times and <i>for each invocation, separate storage needs to be allocated for variables defined within the scope of the function</i> (i.e., local variables and arguments).  [Why?] Moreover, we do not know during the analysis phase how many times a function will be invoked during the execution. [Why?]
-                        </p>
-                        <p>
-                            To understand this, consider the factorial program below.
-                        </p>
-                        <script src="js/f0127bf97757874e7cc2.js"></script>
-                        <p>
-                            The function factorial contains an argument 'n'. Suppose the initial value of 'n' input by the user at run time was 5, then factorial(n) with n=5 is invoked from the main. This function invokes factorial(n) with n=4. However, we need to retain the old value of n since the orginal factorial function must resume execution after the completion of factorial(4). Thus, we cannot statically assign a fixed memory address to the variable n. Instead, for each invocation of the function, we need to create a different memory space for storing the value of n. Moreover, the initial value of n given by the user is not known at compile time. Hence, we cannot determine at compile time the exact storage requirements. The compiler should generate code in such a way that necessary memory space is allocated at run time as required.
-                        </p>
-                        <p>
-                            In addition to allocating storage for  local variables and arguments, additional storage needs to be allocated at run time for each invocation of a function to store the return values of the call and control information like a pointer to the next instruction in the calling function (return address).
-                        </p>
-                        <p>
-                            The classical solution to handle the above problem is to maintain a <b>run time stack</b>. Whenever a function is invoked during execution, <b>an activation record</b> is created in the run time stack with sufficient space for storing local variables, arguments, return values and return address, and the stack grows. Upon return from the function, the activation record is popped out of the stack and the stack shrinks, leaving the activation record of the calling program at the top of the stack. Thus, at each point during execution, the activation record of the currently executing function will be on the top of the stack. Such storage allocation is called <b>stack based run time allocation</b>.
-                        </p>
-                        <p>
-                            [Note:  The semantics of ExpL makes stack based allocation possible. Primarily, this is possible because data stored in an activation record can be forgotten once the execution of the call is finished. There are languages like LISP which permit <a href="https://en.wikipedia.org/wiki/Higher-order_function">higher order functions</a> where a stack based run time allocation is not possible.  Languages which permit stack based run time allocation for function invocations are said to follow <b>stack discipline</b>.]
-                        </p>
-                        <p>
-                            Observe  that for each function defined in an ExpL program, the amount of storage needed in its activation record is known during the analysis phase.  [Why?] What is not known is how many activation records will have to be created in the stack as this is known only during execution time.
-                        </p>
-                        <p>
-                            In addition to allocating storage for global variables and variables local to functions, ExpL supports <b>dynamic memory allocation</b> through the alloc() function. The alloc() function allows a program to request for memory space at run time. Since the amount of memory requested is not known during the analysis phase (why?), static allocation is not possible in this case. Stack allocation also is ruled out because memory allocated by alloc() inside a function is not de-allocated when the function returns. Hence, a mechanism to dynamically allocate memory on demand at run time is required.
-                        </p>
-                        <p>
-                            The classical solution to this problem is to maintain a contiguous area of memory called the <b>heap memory</b> from which memory is allocated by alloc() on demand. Heap management algorithms like the <b>fixed size allocator algorithm</b> and the <b>buddy system algorithm</b> are explained in detail later in this documentation.
-                        </p>
-                        <p>
-                            Finally, intermediate values generated during program execution needs <b>temporary storage</b>. For example, while evaluating an expression (a+b)*(c+d), the values of the sub-expressions (a+b) and (c+d) might need temporary storage. The <b>machine registers</b> are used for temporary storage.  When a function invokes another function, the registers in current use will be pushed to the stack (activation record of the caller) so that the called function (callee) has the full set of registers free for its use. Upon return from the callee, the values pushed into the stack are restored to the registers before the caller resumes its execution.
-                        </p>
-                        <p>
-                            To summarize, we have four kinds of memory allocation – static, stack, heap and register (temporary). The implemention of each of these are discussed below.
-                        </p>
-                    </article>
-                    <article class="grid col-full" id="nav-memory-model">
-                        <h2>The memory model</h2>
-                        <p>
-                            The compiler assumes an address space model for the target program, determined by the target machine architecture as well as the target operating system.
-                        </p>
-                        <p>
-                            The memory model provided for application programs running on the Experimental Operating System(eXpOS) for the XSM machine architecture is explained below. For further details, see the <a href="abi.html">Application Binary Interface(ABI)</a> Specification documentation.
-                        </p>
-                        <!--<p>
+          <li><a href="roadmap.html">Roadmap</a></li>
+          <li>
+            <a href="documentation.html" class="navactive">Documentation</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div class="Services-page main grid-wrap">
+      <header class="grid col-full">
+        <hr />
+        <p class="fleft">Run Time Data Structures</p>
+        <br />
+        <br />
+      </header>
+      <aside class="grid col-one-quarter mq2-col-full sticky_sidebar">
+        <menu>
+          <ul>
+            <li><a class="sec" href="#nav-introduction">Introduction</a></li>
+            <li>
+              <a class="sec" href="#nav-memory-model">The memory model</a>
+            </li>
+            <li>
+              <a class="sec" href="#nav-register-allocation"
+                >Temporary Allocation</a
+              >
+            </li>
+            <li>
+              <a class="sec" href="#nav-static-allocation">Static Allocation</a>
+            </li>
+            <li>
+              <a class="sec" href="#nav-run-time-stack-allocation"
+                >Run Time Stack Allocation</a
+              >
+            </li>
+            <li>
+              <a class="sec" href="#nav-heap-allocation">Heap Allocation</a>
+            </li>
+          </ul>
+        </menu>
+        <!-- <a class="button" href="">Download as PDF</a> -->
+      </aside>
+      <section class="grid col-three-quarters mq2-col-full">
+        <div class="grid-wrap">
+          <article class="grid col-full" id="nav-introduction">
+            <h2>Introduction</h2>
+            <p>
+              This document explains how the compiler allocates memory for
+              variables in a program. First it is necessary to understand the
+              requirements and the underlying theoretical concepts in some
+              detail.
+            </p>
+            <h4>The storage allocation Problem</h4>
+            <p>
+              A program contains global variables as well as variables that are
+              local to functions, both requiring memory space. Of these, global
+              variables are the simplest to handle because during the analysis
+              phase we know how many global variables are there in the program
+              (all global variables are declared) and how much space needs to be
+              allocated for each of them (why?). Thus, the storage requirements
+              for global variables are completely determined at compile time and
+              they can be assigned memory addresses during the analysis phase
+              itself. Such allocation is called <b>static allocation</b>. The
+              binding field of the global symbol table entry for a variable is
+              set to the memory address allocated to the variable. This symbol
+              table information will be used during the code generation phase to
+              find out the address of the variable in memory.
+            </p>
+            <p>
+              During the analysis phase the compiler <b>will not</b> decide on
+              the addresses in the <i>code area</i> of memory where a function's
+              code is loaded. Hence, the compiler cannot fix the address to
+              which function must be attached. To handle this issue, the
+              compiler will assign a <b>pseudo address</b> to each function,
+              which will be stored in the binding field of the function's global
+              symbol table entry. All calls to the function will be translated
+              to an assembly level call to this pseudo address. The correct
+              addresses will be assigned later during
+              <a href="#"><b>label translation</b></a
+              >.
+            </p>
+            <p>
+              Variables which are local to functions demand more complicated
+              allocation. This is because a function may be invoked several
+              times and
+              <i
+                >for each invocation, separate storage needs to be allocated for
+                variables defined within the scope of the function</i
+              >
+              (i.e., local variables and arguments).  [Why?] Moreover, we do not
+              know during the analysis phase how many times a function will be
+              invoked during the execution. [Why?]
+            </p>
+            <p>To understand this, consider the factorial program below.</p>
+            <script src="js/f0127bf97757874e7cc2.js"></script>
+            <p>
+              The function factorial contains an argument 'n'. Suppose the
+              initial value of 'n' input by the user at run time was 5, then
+              factorial(n) with n=5 is invoked from the main. This function
+              invokes factorial(n) with n=4. However, we need to retain the old
+              value of n since the orginal factorial function must resume
+              execution after the completion of factorial(4). Thus, we cannot
+              statically assign a fixed memory address to the variable n.
+              Instead, for each invocation of the function, we need to create a
+              different memory space for storing the value of n. Moreover, the
+              initial value of n given by the user is not known at compile time.
+              Hence, we cannot determine at compile time the exact storage
+              requirements. The compiler should generate code in such a way that
+              necessary memory space is allocated at run time as required.
+            </p>
+            <p>
+              In addition to allocating storage for local variables and
+              arguments, additional storage needs to be allocated at run time
+              for each invocation of a function to store the return values of
+              the call and control information like a pointer to the next
+              instruction in the calling function (return address).
+            </p>
+            <p>
+              The classical solution to handle the above problem is to maintain
+              a <b>run time stack</b>. Whenever a function is invoked during
+              execution, <b>an activation record</b> is created in the run time
+              stack with sufficient space for storing local variables,
+              arguments, return values and return address, and the stack grows.
+              Upon return from the function, the activation record is popped out
+              of the stack and the stack shrinks, leaving the activation record
+              of the calling program at the top of the stack. Thus, at each
+              point during execution, the activation record of the currently
+              executing function will be on the top of the stack. Such storage
+              allocation is called <b>stack based run time allocation</b>.
+            </p>
+            <p>
+              [Note: The semantics of ExpL makes stack based allocation
+              possible. Primarily, this is possible because data stored in an
+              activation record can be forgotten once the execution of the call
+              is finished. There are languages like LISP which permit
+              <a href="https://en.wikipedia.org/wiki/Higher-order_function"
+                >higher order functions</a
+              >
+              where a stack based run time allocation is not possible. Languages
+              which permit stack based run time allocation for function
+              invocations are said to follow <b>stack discipline</b>.]
+            </p>
+            <p>
+              Observe that for each function defined in an ExpL program, the
+              amount of storage needed in its activation record is known during
+              the analysis phase. [Why?] What is not known is how many
+              activation records will have to be created in the stack as this is
+              known only during execution time.
+            </p>
+            <p>
+              In addition to allocating storage for global variables and
+              variables local to functions, ExpL supports
+              <b>dynamic memory allocation</b> through the alloc() function. The
+              alloc() function allows a program to request for memory space at
+              run time. Since the amount of memory requested is not known during
+              the analysis phase (why?), static allocation is not possible in
+              this case. Stack allocation also is ruled out because memory
+              allocated by alloc() inside a function is not de-allocated when
+              the function returns. Hence, a mechanism to dynamically allocate
+              memory on demand at run time is required.
+            </p>
+            <p>
+              The classical solution to this problem is to maintain a contiguous
+              area of memory called the <b>heap memory</b> from which memory is
+              allocated by alloc() on demand. Heap management algorithms like
+              the <b>fixed size allocator algorithm</b> and the
+              <b>buddy system algorithm</b> are explained in detail later in
+              this documentation.
+            </p>
+            <p>
+              Finally, intermediate values generated during program execution
+              needs <b>temporary storage</b>. For example, while evaluating an
+              expression (a+b)*(c+d), the values of the sub-expressions (a+b)
+              and (c+d) might need temporary storage. The
+              <b>machine registers</b> are used for temporary storage. When a
+              function invokes another function, the registers in current use
+              will be pushed to the stack (activation record of the caller) so
+              that the called function (callee) has the full set of registers
+              free for its use. Upon return from the callee, the values pushed
+              into the stack are restored to the registers before the caller
+              resumes its execution.
+            </p>
+            <p>
+              To summarize, we have four kinds of memory allocation – static,
+              stack, heap and register (temporary). The implemention of each of
+              these are discussed below.
+            </p>
+          </article>
+          <article class="grid col-full" id="nav-memory-model">
+            <h2>The memory model</h2>
+            <p>
+              The compiler assumes an address space model for the target
+              program, determined by the target machine architecture as well as
+              the target operating system.
+            </p>
+            <p>
+              The memory model provided for application programs running on the
+              Experimental Operating System(eXpOS) for the XSM machine
+              architecture is explained below. For further details, see the
+              <a href="abi.html">Application Binary Interface(ABI)</a>
+              Specification documentation.
+            </p>
+            <!--<p>
                              The <a href="http://exposnitc.github.io/abi.html">application binary interface (ABI)</a> defines the
                             <ul>
                                 <li>Virtual address space</li>
@@ -112,93 +240,200 @@
                             </ul>
                             Here we will assume that <a href="http://exposnitc.github.io/abi.html">eXpOS ABI</a> for the <a href="http://exposnitc.github.io/arch_spec.html">XSM machine architecture</a>.
                         </p>-->
-                        <p>
-
-                        </p>
-                        <br>
-                        <center><img style="margin-left:-10%" src="img/memory_model_1.png" alt="" /></center>
-                        <br>
-                        <br>
-                        <p>
-                            The figure shows that the target code generated by the compiler will be loaded to memory addresses 2048 to 4095 (total 2048 memory words). Since each XSM instruction occupies two memory words, the target program can have at most 1024 machine instructions.
-                        </p>
-                        <!--<p>
+            <p></p>
+            <br />
+            <center>
+              <img
+                style="margin-left: -10%"
+                src="img/memory_model_1.png"
+                alt=""
+              />
+            </center>
+            <br />
+            <br />
+            <p>
+              The figure shows that the target code generated by the compiler
+              will be loaded to memory addresses 2048 to 4095 (total 2048 memory
+              words). Since each XSM instruction occupies two memory words, the
+              target program can have at most 1024 machine instructions.
+            </p>
+            <!--<p>
                             The target code must be prepared in the <a href="http://exposnitc.github.io/abi.html#collapse3">XEXE executable file format</a>.  The XEXE format is simple, the target code is preceded with an 8 word header.  Important fields are the entry point and the library flag.  The entry point stipulates the initial value to which the OS will set the instruction pointer while loading the executable into memory.  The library flag must be set if the target program uses dynamic memory allocation routines - viz. Initialise(), Alloc() and Free().
                         </p>-->
-                        <p>
-                            Since  the <a href="abi.html#nav-XEXE-executable-file-format" target="_blank"> XEXE executable format </a> stipulated in the eXpOS ABI does not provide separate memory areas for static and run time data, the compiler must allocate both static variables and run time stack between memory addresses 4096 and 5119. The recommended convention is to allocate global variables in the initial portion of this memory and then the run time stack may be initialized to the top of this data so that it can grow upward during run time.  Note that the target program must contain instructions to initialize the run time stack. This is because eXpOS does not initialize the stack pointer when the program is loaded for execution. The OS instead  expects the loaded executable to contain instructions to set up the stack.
-                        </p>
-                        <p>
-                            When an XEXE executable file is loaded by the OS into the memory, the OS loader will link a collection of pre-loaded routines in memory (called the <a href="abi.html#nav-eXpOS-system-library-interface" target="_blank" >library </a> to the address space of the newly loaded program.  These routines include the dynamic memory routines - alloc(), free(), Initialize() and input-output routines read() and write().  This makes compiler design easy because the compiler just has to translate any high level invocation of the above functions to low level calls to the corresponding library routines.  The details of how to generate code to invoke library routines is specified in the <a href="abi.html#nav-eXpOS-system-library-interface">library interface</a>.
+            <p>
+              Since the
+              <a
+                href="abi.html#nav-XEXE-executable-file-format"
+                target="_blank"
+              >
+                XEXE executable format
+              </a>
+              stipulated in the eXpOS ABI does not provide separate memory areas
+              for static and run time data, the compiler must allocate both
+              static variables and run time stack between memory addresses 4096
+              and 5119. The recommended convention is to allocate global
+              variables in the initial portion of this memory and then the run
+              time stack may be initialized to the top of this data so that it
+              can grow upward during run time. Note that the target program must
+              contain instructions to initialize the run time stack. This is
+              because eXpOS does not initialize the stack pointer when the
+              program is loaded for execution. The OS instead expects the loaded
+              executable to contain instructions to set up the stack.
+            </p>
+            <p>
+              When an XEXE executable file is loaded by the OS into the memory,
+              the OS loader will link a collection of pre-loaded routines in
+              memory (called the
+              <a
+                href="abi.html#nav-eXpOS-system-library-interface"
+                target="_blank"
+                >library
+              </a>
+              to the address space of the newly loaded program. These routines
+              include the dynamic memory routines - alloc(), free(),
+              Initialize() and input-output routines read() and write(). This
+              makes compiler design easy because the compiler just has to
+              translate any high level invocation of the above functions to low
+              level calls to the corresponding library routines. The details of
+              how to generate code to invoke library routines is specified in
+              the
+              <a href="abi.html#nav-eXpOS-system-library-interface"
+                >library interface</a
+              >. [Note 1: You can design and implement the library routines
+              yourself in ExpL and install your library routines into the OS so
+              that OS uses your routines as its library.] [Note 2: The first
+              eight words of an XEXE executable contains a header. One of the
+              fields in the header is a library flag. While preparing the
+              executable file, the compiler must set this flag bit to tell the
+              OS loader that the library must be linked to the address space at
+              the time of loading the program] The library routines for alloc(),
+              free() and initialize() as implemented in eXpOS library uses the
+              heap region in the address space for managing dynamic memory.
+              Hence, the compiler must <b>not</b> allocate its own variables in
+              this space. The static and runtime memory allocation by the
+              compiler can instead use the stack region, as described
+              previously.
+            </p>
+            <p>
+              Finally, the XSM machine provides 20 registers R0-R19 for storing
+              temporary values. The machine requires operands to be loaded to
+              registers before doing arithmetic/logical operations.
+            </p>
+            <p>
+              In the following, we describe how activation records are allocated
+              in the stack, how the library routines for Alloc() and Free() must
+              manage heap memory and how the compiler may allocate registers for
+              temporary storage.
+            </p>
+            <br />
+          </article>
+          <article
+            class="grid col-one-half mq3-col-full"
+            id="nav-register-allocation"
+          >
+            <div class="sepmini"></div>
+            <h4>Temporary Allocation</h4>
+            <div class="sepmini"></div>
+            <p>
+              Register allocation is performed through two simple functions. int
+              get_register()...
+            </p>
 
-                            [Note 1:  You can design and implement the library routines yourself in ExpL and install your library routines into the OS so that OS uses your routines as its library.]
-
-                            [Note 2:  The first eight words of an XEXE executable contains a header.  One of the fields in the header is a library flag.  While preparing the executable file, the  compiler must set this flag bit to tell the OS loader that the library must be linked to the address space at the time of loading the program]
-
-                            The library routines for alloc(), free() and initialize() as implemented in eXpOS library uses the heap region in the address space for managing dynamic memory.  Hence, the compiler must <b>not</b> allocate its own variables in this space.  The static and runtime memory allocation by the compiler can instead use the stack region, as described previously.
-                        </p>
-                        <p>
-                            Finally, the XSM machine provides 20 registers R0-R19 for storing temporary values.  The machine requires operands to be loaded to registers before doing arithmetic/logical operations.
-                        </p>
-                        <p>
-                            In the following, we describe how activation records are allocated in the stack, how the library routines for Alloc() and Free() must manage heap memory and how  the compiler may allocate registers for temporary storage.
-                        </p>
-                        <br>
-                    </article>
-                    <article class="grid col-one-half mq3-col-full" id="nav-register-allocation">
-                      <div class="sepmini"></div>
-                      <h4>Temporary Allocation</h4>
-                      <div class="sepmini"></div>
-                      <p>Register allocation is performed through two simple functions. int get_register()...</p>
-
-                	<a href="run_data_structures/register.html" class="arrow fright">Read more</a>
-                    </article>
-                    <article class="grid col-one-half mq3-col-full" id="nav-static-allocation">
-                      <div class="sepmini"></div>
-                      <h4>Static Allocation</h4>
-                      <div class="sepmini"></div>
-                      <p>Global variables are allocated statically. In our interpreter, the initial portion of the stack will be used for ....</p>
-                	<a href="run_data_structures/static-allocation.html" class="arrow fright">Read more</a>
-                    </article>
-                    <article class="grid col-one-half mq3-col-full" id="nav-run-time-stack-allocation">
-                      <div class="sepmini"></div>
-                      <h4>Run time Stack Allocation</h4>
-                      <div class="sepmini"></div>
-                      <p>During run-time, when an ExpL function is invoked, space has to be allocated for storing the arguments of a function, return value...</p>
-                	<a href="run_data_structures/run-time-stack.html" class="arrow fright">Read more</a>
-                    </article>
-                    <article class="grid col-one-half mq3-col-full" id="nav-heap-allocation">
-                      <div class="sepmini"></div>
-                      <h4>Heap Allocation</h4>
-                      <div class="sepmini"></div>
-                      <p>ExpL specification stipulates that variables of user defined types are allocated dynamically using the alloc() function. The alloc() function has the following syntax:  ....</p>
-                	<a href="run_data_structures/heap.html" class="arrow fright">Read more</a>
-                    </article>
-                </div>
-            </section>
+            <a href="run_data_structures/register.html" class="arrow fright"
+              >Read more</a
+            >
+          </article>
+          <article
+            class="grid col-one-half mq3-col-full"
+            id="nav-static-allocation"
+          >
+            <div class="sepmini"></div>
+            <h4>Static Allocation</h4>
+            <div class="sepmini"></div>
+            <p>
+              Global variables are allocated statically. In our interpreter, the
+              initial portion of the stack will be used for ....
+            </p>
+            <a
+              href="run_data_structures/static-allocation.html"
+              class="arrow fright"
+              >Read more</a
+            >
+          </article>
+          <article
+            class="grid col-one-half mq3-col-full"
+            id="nav-run-time-stack-allocation"
+          >
+            <div class="sepmini"></div>
+            <h4>Run time Stack Allocation</h4>
+            <div class="sepmini"></div>
+            <p>
+              During run-time, when an ExpL function is invoked, space has to be
+              allocated for storing the arguments of a function, return value...
+            </p>
+            <a
+              href="run_data_structures/run-time-stack.html"
+              class="arrow fright"
+              >Read more</a
+            >
+          </article>
+          <article
+            class="grid col-one-half mq3-col-full"
+            id="nav-heap-allocation"
+          >
+            <div class="sepmini"></div>
+            <h4>Heap Allocation</h4>
+            <div class="sepmini"></div>
+            <p>
+              ExpL specification stipulates that variables of user defined types
+              are allocated dynamically using the alloc() function. The alloc()
+              function has the following syntax: ....
+            </p>
+            <a href="run_data_structures/heap.html" class="arrow fright"
+              >Read more</a
+            >
+          </article>
         </div>
+      </section>
     </div>
+  </div>
 
-
-    <footer class="center part clearfix">
-      <ul class="grid col-one-third social">
-          <li><a href="http://github.com/silcnitc">Github</a></li>
-          <li>  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
-              <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a></li>
+  <footer class="center part clearfix">
+    <ul class="grid col-one-third social">
+      <li><a href="http://github.com/silcnitc">Github</a></li>
+      <li>
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+          <img
+            alt="Creative Commons License"
+            style="border-width: 0"
+            src="img/creativecommons.png"
+        /></a>
+      </li>
+    </ul>
+    <div class="grid col-one-third" style="color: black">
+      <p style="font-weight: bold">
+        Contributed By :
+        <a href="https://www.linkedin.com/in/suryaharshanunnaguppala"
+          >Nunnaguppala Surya Harsha</a
+        >, <br />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a
+          href="https://in.linkedin.com/in/vishnupriyamatha"
+          >Vishnu Priya Matha</a
+        >
+      </p>
+    </div>
+    <nav class="grid col-one-third">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <!-- <li><a href="uc.html">Contact</a></li> -->
       </ul>
-      <div class="grid col-one-third" style="color:black;">
-          <p style="font-weight: bold;">Contributed By : <a href="https://www.linkedin.com/in/suryaharshanunnaguppala">Nunnaguppala Surya Harsha</a>, <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="https://in.linkedin.com/in/vishnupriyamatha">Vishnu Priya Matha</a>
-          </p>
-      </div>
-      <nav class="grid col-one-third ">
-          <ul >
-              <li><a href="index.html">Home</a></li>
-              <li><a href="about.html">About</a></li>
-              <!-- <li><a href="uc.html">Contact</a></li> -->
-          </ul>
-      </nav>
-      <br>
+    </nav>
+    <br />
   </footer>
-    <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
-    <script src="js/scripts.js"></script>
+  <script>
+    window.jQuery ||
+      document.write('<script src="js/jquery-1.7.2.min.js"><\/script>');
+  </script>
+  <script src="js/scripts.js"></script>
+  <script src="js/inject.js"></script>
 </html>
