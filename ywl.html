@@ -189,7 +189,7 @@ expr: expr '+' expr
         user@localhost:~$ gcc lex.yy.c y.tab.c -o in2post.exe <br>
 		user@localhost:~$ ./in2post.exe <br>
 		11+22-33 <br>
-		11 22 33 + - <br>
+		11 22 33 - + <br>
 		user@localhost:~$
 	</div>
 <!--	<p>There exists an alternative method in which the definition of yylex() can be made visible to yyparse(). It can be done by compiling both the .c files (lex.yy.c & y.tab.c) by providing multiple arguments to gcc. An example has been shown below: </p>
