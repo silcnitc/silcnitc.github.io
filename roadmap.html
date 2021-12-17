@@ -622,6 +622,9 @@
                             <b>Exercise</b> : Add <i>repeat-until</i> and <i>do-while</i> statements to the language with standard semantics.
                         </p>
                         <p>
+                            <b>Reading Exercise</b> : Please read the <a href="gdb.html" target="_blank">GNU Debugger (GDB) tutorial</a> ,before proceeding to the next stage for learning the GDB debugger.
+                        </p>
+                        <p>
                             <b>Note</b>:  Often in practice, programming languages allow a program to be split into different functions, written in different source files. In such cases, each file is separately compiled and the compiler generates target code with labels without translating them into addresses.  Even variable references will be symbolic and the actual addresses may not be determined.  Such target files are called <a href="https://en.wikipedia.org/wiki/Object_file" target="_blank">object files</a>.  The compiler will include symbol table information in the object file for translation later.  A separate software called the <a href="https://en.wikipedia.org/wiki/Linker_(computing)" target="_blank">linker</a> will collect the information in all the symbol tables and combine the object files into a single executable file replacing labels and symbolic variable references with actual addresses.
                         </p>
                         <div class="up column3 mright">
@@ -631,6 +634,13 @@
                     <article class="grid col-full" id="nav-stage4">
                         <h2>Stage 4:  User Defined Variables and arrays</h2>
                            <b>Time Estimate :</b> 1 week, 5-10 hours/week
+                           <br>
+                        <p>
+                            <b>Prerequisites</b>:<br/>
+                            <ul>
+                                <li id="otis">1.  You must have completed the <a href="gdb.html" target="_blank">GNU Debugger (GDB) tutorial</a> before starting this stage.</li>
+                            </ul>
+                        </p>
                         <p>
                             <b>Learning Objectives</b>:<br>
                             You will extend the language of Stage 3 to permit users to declare and use variables of <i>integer</i> and <i>string</i> types. You will learn <b>symbol table</b> management enroute.

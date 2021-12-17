@@ -1,0 +1,599 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <title>GNU Debugger</title>
+        <meta charset="UTF-8">
+        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/style_new.css">
+        <script src="js/jquery-1.12.1.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="js/embed-2cd369fa1c0830bd3aa06c21d4f14a13e060d2d31bbaae740f4af4.css"><div id="gist28627206" class="gist">
+        <link rel="stylesheet" href="js/embed-cbe5b40fa72b0964f90d4919c2da8f8f94d7c9f6c2aa49c07f6fa3.css"><div id="gist28627206" class="gist">
+        <script src="js/bootstrap.min.js" charset="utf-8"></script>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    </head>
+    <div class="container">
+        <header id="navtop">
+            <a href="index.html" class="logo fleft"><img src="img/logo.png" alt=""></a>
+            <nav class="fright">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+        			 <!--   <li><a href="help.html">Help</a></li> -->
+        			    <li><a href="roadmap.html">Roadmap</a></li>
+        			    <li><a href="documentation.html" class="navactive">Documentation</a></li>
+                </ul>
+            </nav>
+        </header>
+        <body>
+        <div class="Services-page main grid-wrap">
+            <header class="grid col-full">
+                <hr/>
+                <p class="fleft">GNU Debugger (GDB)</p>
+                <br>
+                <br>
+            </header>
+            <aside class="grid col-one-quarter mq2-col-full sticky_sidebar" style="position: static;">
+              <menu>
+                <ul>
+                  <li><a class="sec" href="#nav-introduction">Introduction</a></li>
+                  <li><a class="sec" href="#nav-installation">Installation</a></li>
+                  <li><a class="sec" href="#nav-demo">Demo</a></li>
+                  <li><a class="sec" href="#nav-commands">Commands</a></li>
+                </ul>
+              </menu>
+               <!-- <a class="button" href="">Download as PDF</a> -->
+            </aside>
+            <section class="grid col-three-quarters mq2-col-full">
+                <div class="grid-wrap">
+                    <article class="grid col-full" id="nav-introduction">
+                        <h2>Introduction</h2>
+                        <p>
+                            <P>A debugger is a program that runs other programs, allowing the user to exercise control over these programs, and to examine variables when problems arise.
+                            GDB allows you to run the program up to a certain point, then stop and print out the values of certain variables at that point, or step through the program one line at a time and print out the values of each variable after executing each line.
+                            </P>
+                            <p>
+                                Errors like segmentation faults may be easier to find with the help of gdb.
+
+                            </p>
+                            <br>
+                            GDB allows you to:-
+                            <ul>
+                                <li>Pause and continue its execution</li>
+                                <li>Set "break points" or conditions where the execution pauses so you can look at its state (the value of the variables at that point).</li>
+                                <li>View and "watch" variable values</li>
+                                <li>Step through the program line-by-line (or instruction by instruction)</li>
+                            </ul>
+                        </p>
+                    </article>
+
+                    <article class="grid col-full" id="nav-installation">
+                        <h2>Installation</h2>
+                        <p>Before you install GDB, check whether you have already installed it.</p>
+                        <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                            <p> &nbsp; &nbsp; $ gdb -help </p>
+                        </div>
+                        <P>If you have already installed GDB, then it will display all the available options within your GDB,<br>
+                        Else if the terminal says "command not found", then you can proceed with the installation process.</p>
+                        <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                            <p> &nbsp; &nbsp; $ sudo apt-get update </p>
+                        </div>
+                        <br>
+                        <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                            <p> &nbsp; &nbsp; $ sudo apt-get install gdb </p>
+                        </div>
+                        <P>Now you can confirm the installation of GDB by executing the command 1 again, and checking out whether the terminal recognizes the word "gdb".</P>
+                    </article>
+
+                    
+                    <article class="grid col-full" id="nav-demo">
+                        <h2>Demo</h2>
+                        <p>Let's demonstrate an use case</p>
+                        <p>Let's say we want to convert an infix expression to prefix expression</p>
+                        <p></p>
+                        <p>This is our lex file <a href="gdb_input.html#nav-lex">lex.l</a></p>
+                        <p>This is our yacc file <a href="gdb_input.html#nav-parser">parser.y</a></p>
+                        <p>This is our function to convert an infix expression to prefix expression <a href="gdb_input.html#nav-function">infixtoprefix</a></p>
+                        <p>This is our input file <a href="gdb_input.html#nav-input">input.txt</a></p>
+                        <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px;">
+                            <p class="alert-warning"> &nbsp; &nbsp;<b>Input : </b>abc+(bcd-efg)*hij</p>
+                            <p class="alert-success"> &nbsp; &nbsp;<b>Expected Output :</b> + abc * - bcd efg hij</p>
+                        </div>
+                        <p></p>
+                        We know that we have to construct a infix expression tree by parsing the input string, and then we can do a preorder traversal on that tree to get the prefix. Here, lets see how we can use GDB to verify whether our expression tree / syntax tree is constructed properly.
+                        <p>We know that by manual drawing, the expexted expression tree structure is as follows:-</p>
+                        <img src="img/gdb/infix_expression_tree.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="Infix expression tree">
+                        <br><br><br>
+                        <p>Now let's start our gnu debugger</p>
+                        
+                        <p>First we genreate our lexical anaylser from our rules in our lex file <a href="gdb_input.html#nav-lex">lex.l</a></p>
+                        <div class="well" style="color:rgb(83, 11, 35); font-size: large;background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;padding-top:15px;padding-bottom:15px;width:400px;">
+                            <p> &nbsp; &nbsp;$ lex lex.l</p>
+                        </div>
+                        <p>This genererates our lex.yy.c, the lexical analyser file.</p>
+
+                        <p>Then we generate our parser from our grammar in our yacc file <a href="gdb_input.html#nav-parser">parser.y</a></p>
+                        <div class="well" style="color:rgb(83, 11, 35); font-size: large;background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;padding-top:15px;padding-bottom:15px;width:400px;">
+                            <p> &nbsp; &nbsp;$ yacc -d parser.y</p>
+                        </div>
+                        <p>This genererates our y.tab.c, the parser file.</p>
+                        
+                        <p>To run the program using gdb, we need to compile the lexical analyser and the parser using the -g flag of gcc,  so that we can see the functions and variables names during the execution of the program in the gdb environment.   The -g flag preserves the symbol table information generated during compilation of the source program in the target file enabling the debugger to display variable/function names associated with addresses in the program during debugging. </p>
+                        <div class="well" style="color:rgb(83, 11, 35);background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;width:400px;">
+                            <p> &nbsp; &nbsp;$ gcc -g lex.yy.c y.tab.c</p>
+                        </div>
+                        <br>
+                        <p>Now, an executable file a.out would be generated.</p>
+                        <p>Now we can execute the a.out file with passing our input file <a href ="gdb_input.html#nav-input">input.txt</a> to it.</p>
+                        <p>In GDB, we use --args flag, if we have to pass any parameters.</p>
+                        <div class="well" style="color:rgb(83, 11, 35);background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;width:400px;">
+                            <p> &nbsp; &nbsp;$ gdb --args a.out input.txt</p>
+                        </div>
+                        <br>
+                        <p>Now our GDB is up.</p>
+
+                        <p><b>layout next</b> - Opens a Graphical user interface, where you can view the part of the code currently executing along with the code line numbers</p>
+                        <div class="well" style="color:rgb(83, 11, 35);background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;width:400px;">
+                            <p> &nbsp; &nbsp;$(gdb) layout next</p>
+                        </div>
+                        <br>
+                        <p><b>break</b> - You can pass a function name or line number as an argument to this command. It will set a break point corresponding to that line number or function. So that when we run the gdb, it halts at the break point, and then we can move incrementally (step by step) exploring the variables and the execution flow.</p>
+
+                        <p>Here we can use the break command to halt at the start of the execution of the infixtoprefix function <a href ="gdb_input.html#nav-function">infixtoprefix</a>, to examine the working of the function in detail.</p>
+                        <div class="well" style="color:rgb(83, 11, 35);background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;width:400px;">
+                            <p> &nbsp; &nbsp;(gdb) break infixtoprefix</p>
+                        </div>
+                        <br>
+                        <p><b>run</b> - It runs the program until it encounters one of the break points.</p>
+
+                        <div class="well" style="color:rgb(83, 11, 35);background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;width:400px;">
+                            <p> &nbsp; &nbsp;run</p>
+                        </div>
+                        <br>
+                        <p>Now, we would have stopped at the start of the execution of the function infixtoprefix <a href="gdb_input.html#nav-function">infixtoprefix</a></p>
+                        <br>
+                        <p><b>next</b> or <b>n</b> - To move to the next line in the local scope, it is basically a step over function, i.e it do not enter any function code.</p>
+                        <div class="well" style="color:rgb(83, 11, 35);background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;width:400px;">
+                            <p> &nbsp; &nbsp;next</p>
+                        </div>
+                        <br>
+                        <p>Now, let's print the symbol stored at the root of the tree, and also view a snapshot of the gdb GUI, after executing the above instructions.</p>
+                        <br>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="col-md-6">
+                                    <div class="well" style="color:rgb(83, 11, 35); font-size: large;background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;padding-top:21px;padding-bottom:21px;width:400px;">
+                                        <p> &nbsp; &nbsp;(gdb) print root->symbol</p>
+                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img src="img/gdb/start_ss.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start screenshot">
+                            </div>
+                        </div>
+                        <p><b>print</b> - you can use this to print the value of the variables at that point.</li></p>
+                        <p>In the above image we can see that the command layout next gave us the graphical user interface which allows us to see the code segment currently executing while debugging.</p>
+                        <p>The break statement helped us to reach the interested target function, so that from there we can proceed step by step exploring the contents.</p>
+                        <br>
+                        <p>Now let's verify whether we have constructed our expression tree correctly</p>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x5555555638f0</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$2 = 0x55555555afe6 "+"</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                            </div>
+                            <img src="img/gdb/root.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <p>root is the pointer to the nodes in the tree, initially root would be pointing at the root of the syntax tree.</p>
+                        <p>When we print out the content in the node, pointed by root, using GDB, we get the output as "+" as expected.</p>
+                        <p>The right side of the image is just to show where the pointer root is pointing at currently in the syntax tree, and we are constructing that tree only from the information that we are gettig through print statements in our gdb.</p>
+                        <p>As the root node is perfect, we are safe to proceed in checking the values of the remaining nodes.</p>
+                        
+                        <hr style="border-top: 3px solid #bbb";>
+                        <p><b>continue</b> - To run until you encounter next breakpoint</p>
+                        <p>Since the infixtoprefix function is a pre-order traversal of the tree, the function would be recursively called again with the left child of the root node.</p>
+                        <p>Since, we have executed the "continue" statement, the gdb will be executing the code, and halt again only when it reaches the start of the function again, this time due to the recursive call with the left child of root node. This is because we have set a break point at the start of the infixtoprefix function.</p>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) next</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x555555563710</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$2 = 0x55555555636f0 "abc"</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                            </div>
+                            <img src="img/gdb/t1.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <p>"next" command is used to enter inside the function</p>
+                        <p>Now, same as before we print out the content of the current node, and then we execute the "continue" statement to reach the next node.</p>
+                        <p>Here we found "abc" to the left of "+" node as expected</p>
+
+                        <hr style="border-top: 3px solid #bbb";>
+
+                        <p>Moving on to the left node of the current node</p>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) next</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x0</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                            </div>
+                            <img src="img/gdb/t2.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <p>We habe reached Null node represented by 0x0 in hexadecimal</p>
+
+                        <hr style="border-top: 3px solid #bbb";>
+
+                        <p>Now we move to the right node, following the pre-order</p>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) next</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x0</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                            </div>
+                            <img src="img/gdb/t3.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <p>This helps us to infer that "abc" node is a leaf node</p>
+
+                        <hr style="border-top: 3px solid #bbb";>
+
+                        <p>Continuing the preorder traversal</p>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) next</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x555555563711</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$2 = 0x55555555636f0 "*"</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                            </div>
+                            <img src="img/gdb/t4.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <p>As expected we found "*" to the right of "+" node</p>
+
+                        <hr style="border-top: 3px solid #bbb";>
+
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) next</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x555555563720</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$2 = 0x55555555636f1 "-"</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                            </div>
+                            <img src="img/gdb/t5.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <p>As expected we found "-" to the left of "+" node</p>
+
+                        <hr style="border-top: 3px solid #bbb";>
+
+                        <p>Continuing the same steps, we will find node "bcd" to the left of "-" node, and as expected it turns out to be a leaf node</p>
+                        <p>When we move right from the current node "-"</p>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) next</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x55555556371b</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$2 = 0x55555555636f6 "efg"</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                            </div>
+                            <img src="img/gdb/t6.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <p>As expected we found "efg" to the right of "-" node</p>
+
+                        <hr style="border-top: 3px solid #bbb";>
+
+                        <p>Further continuing the debugging, we will discover node "efg" to be a leaf node</p>
+                        <p>Now, when we move right from node "*"</p>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) next</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x5555555637c0</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$2 = 0x55555555636c2 "hij"</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                            </div>
+                            <img src="img/gdb/t15.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <p>As expected we found "hij" to the right of "*" node</p>
+
+                        <hr style="border-top: 3px solid #bbb";>
+
+                        <p>Further continuing the debugging, we will find Null node to the left of "hij" node</p>
+                        <p>Now, when we move right from node "hij"</p>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) next</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x0</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                            </div>
+                            <img src="img/gdb/t14.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <p>Now the program exits, as we have traversed every node of the expression tree via GDB, and verified the contents of all the nodes, and the expression tree is just as expected.</p>
+                        <p>An alternate way is to set a watchpoint</p>
+                        <p><b>watch</b> - You can use a watchpoint to stop execution whenever the value of an expression changes, without having to predict a particular place where this may happen.</p>
+                        <br>
+                        <div class="well" style="color:rgb(83, 11, 35);background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;width:400px;">
+                            <p> &nbsp; &nbsp;$(gdb) watch root</p>
+                        </div>
+                        <br>
+                        <p>GDB will monitor the value of the root pointer, and whenever the value of the variable "root" changes (when root points to a different node), gdb halts the execution, and prints the old value and the new value of the "root" variable.</p>
+                        <h2>Infinte Loop</h2>
+                        One of the important use cases of GDB start when we encounter a segmentation fault or infinte loop, and trust me, we encounter such errors more often than we thin in the upcoming stages, as the syntax tree becomes more and more complex, during those times, GDB debugging of the syntax tree to verify the contents and to find out went wrong is very helpful and saves a lot of time.
+
+                        <br>
+                        <br>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-between align-items-center">
+                            <div class ="col-md-8">
+                                <p>In this example, we can see an infinite loop, for the problem infix to prefix problem. Let's see how we can use GDB to find the error in the construction of the express tree / syntax tree.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <img src="img/gdb/inf.jpeg" style="max-width: 320px;" class="img-responsive img-rounded" alt="start">
+                            </div>
+                        </div>
+                        <br>
+                        <hr style="border-top: 3px solid #bbb";>
+                        <br><br>
+                        <p>Let's print the contents of the tree</p>
+                        <br>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->right->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$3 = 0x55555555637f7 "*"</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->right->left->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$4 = 0x55555555631f1 "-"</p>
+                                
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->right->left->left->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$5 = 0x55555555635f2 "bcd"</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->right->left->right->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$6 = 0x55555555631f9 "efg"</p>
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->right->right->symbol</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$7 = 0x55555555636f0 "hij"</p>
+
+                                <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->right->right->left</p>
+                                <p class="alert-warning"> &nbsp; &nbsp;$8 = (struct tnode*) 0x0</p>     
+                            </div>
+                            <img src="img/gdb/t16.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br><br>
+                        <hr style="border-top: 3px solid #bbb";>
+                        <br>
+                        <p>Everything seems fine so far, let's now verify the contents to the right of node "hij".</p>
+                        <br>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
+                                    <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->right->right->right</p>
+                                    <p class="alert-warning"> &nbsp; &nbsp;$1 = (struct tnode*) 0x5555555637f0</p>
+                                    <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->right->symbol</p>
+                                    <p class="alert-warning"> &nbsp; &nbsp;$2 = 0x55555555637f7 "*"</p>    
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <p>Now, we are not sure whether this node "*" is a new node to the right of node "hij" <b>OR</b> it is the same node which is a right of node "+", and node "hij" is making a cyclic loop with this node.</p>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
+                            <img src="img/gdb/t11.jpeg" style="max-width: 400px;" class="img-responsive img-rounded" alt="start">
+                            <img src="img/gdb/question.jpg" style="max-width: 100px; max-height: 200px;" class="img-responsive img-rounded" alt="start">
+                            <img src="img/gdb/t12.jpeg" style="max-width: 400px;" class="img-responsive img-rounded" alt="start">
+                        </div>
+                        <br>
+                        <hr style="border-top: 3px solid #bbb";>
+                        <br>
+                        <p>Next, we check whether they are different nodes as shown in the image in the left or it is the same node as in the image shown in the right.</p>
+                        <br>
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-between align-items-center">
+                            <div class ="col-md-6 col-sm-12">
+                                <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:470px; float:left;">
+                                    <p class="alert-info"> &nbsp; &nbsp;(gdb) print root->right == root->right->right->right</p>
+                                    <p class="alert-warning"> &nbsp; &nbsp;$11 = 1</p>   
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <p>Now, we do find that both the node "*" is actually the same node, and this cyclic loop was actually the cause of our infinite loop. These checkings could be done in minutes to find the source of the error and thus saving a lot of time for you.</p>
+                            </div>
+                        </div>
+                        <br><br>
+                        <p>Now, we will remove the loop, and check whether our program runs smoothly now.</p>
+                        
+                        <div class="d-flex flex-md-row flex-sm-column justify-content-between align-items-center">
+                            <div class ="col-md-6 col-sm-12">
+                                <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:470px; float:left;">
+                                    <p class="alert-info"> &nbsp; &nbsp;(gdb) set root->right->right->right = 0x0</p>
+                                    <p class="alert-info"> &nbsp; &nbsp;(gdb) clear infixtoprefix</p>
+                                    <p class="alert-info"> &nbsp; &nbsp;(gdb) continue</p>
+                                    <p class="alert-warning"> Deleted breakpoint 1 continuing.</p>   
+                                    <p class="alert-warning"> Inferior 1 (process 10496) exited normally]</p>   
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <p>Now, we have removed the cyclic loop, and set the right child of node "hij" as NULL, as it was supposed to be. Then when we resume our program, we can see that <b>"(process 10496) exited normally"</b>, which confirms the fact that our program does not have an additional errors, and the only error was the cyclic loop, and we need to remove it.</p>
+                            </div>
+                        </div>
+                        <br><br>
+                        <p><b>set var</b> - This command is used to modify the current value of a varible, and to see it's effect. An example would be "set var my_sum_var=100"</p>
+                        <p>In the above image, we can see that, we have used the "set" command to change the value of the pointer root->right->right->right to NULL, this actually helped us to check whether this modification helps in solving our infinite loop problem, which it does in this case.</p>
+                        <p>GDB, thus, helps us to save a lot of time in debugging.</p>
+                    </article>
+                    <article class="grid col-full" id="nav-commands">
+                        <h2>Some of the important GDB commands are :-</h4>
+                        <ul>
+                            <li><b>layout next</b> - Opens a Graphical user interface, where you can view the part of the code currently executing along with the code line numbers</li>
+                            <li><b>start</b> - It starts debugging from top, and gives control to user</li>
+                            <li><b>break</b> - You can pass a function name or line number as an argument to this command. It will set a break point corresponding to that line number or function. So that when we run the gdb, it halts at the break point, and then we can move incrementally (step by step) exploring the variables and the execution flow.</li>
+                            <li><b>continue</b> - To run until you encounter next breakpoint</li>
+                            <li><b>run</b> - It runs the program until it encounters one of the break points.</li>
+                            <li><b>next</b> or <b>n</b> - To move to the next line in the immediate scope, it is basically a step over function, i.e it do not enter any function code.</li>
+                            <li><b>step</b> or <b>s</b> - To step into the function, so that we can look into the details of the currently executing function</li>
+                            <li><b>print</b> - you can use this to print the value of the variables at that point.</li>
+                            <li><b>set var</b> - This command is used to modify the current value of a varible, and to see it's effect. An example would be "set var my_sum_var=100"</li>
+                            <li><b>quit</b> - To stop the debugging process</li>
+                            <li><b>refresh</b> - To restart the debugging process from the top.</li>
+                            <li><b>clear</b> - This command is used to clear the set breakpoints, an example could be "clear my_func"</li>
+                            <li><b>backtrace full</b> - This is a useful command when you encounter a segmentation fault. A backtrace is a summary of how your program got where it is. It shows one line per frame, for many frames, starting with the currently executing frame (frame zero), followed by its caller (frame one), and on up the stack. </li>
+                            <li><b>watch</b> - You can use a watchpoint to stop execution whenever the value of an expression changes, without having to predict a particular place where this may happen.</li>
+                            <li><b>rwatch</b> - Set a watchpoint that will break when the value of expr is read by the program.</li>
+                            <li><b>awatch</b> - Set a watchpoint that will break when expr is either read from or written into by the program.</li>
+                            <li><b>info watch</b> - This command prints a list of watch points</li>
+                            <li><b>info break</b> - This command prints a list of break points</li>
+                            <li><b>list</b> - Lists the source code (10 lines around the PC)</li>
+                            <li><b>dele {val}</b> To delete the set watch points or break points.</li>
+                            <li><b> x {var_name}</b> - It shows the memory location where this variable is stored and the value stored in that address, both in hexadecimal.</li>
+                            <li><b>quit</b> - To stop the debugging process</li>
+                        </ul>
+                        <br>
+                        <h4>Some important commands in detail:-</h4>
+                        <ul style="list-style-type: square;">
+                            <li style="padding-bottom: 20px;">
+                                <b>Run</b><br>
+                                <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                                    <p> &nbsp; &nbsp; (gdb) run </p>
+                                </div>
+                                If it has no serious problems (i.e. the normal program didn’t
+                                get a segmentation fault, etc.), the program should run fine
+                                here too.<br>
+                                If the program did have issues, then you (should) get some
+                                useful information like the line number where it crashed, and
+                                parameters to the function that caused the error.
+                            </li>
+                            <li style="padding-bottom: 20px;">
+                                <b>Break</b><br>
+                                <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                                    <p> &nbsp; &nbsp;(gdb) break my_file_1.c:5</p>
+                                </div>
+                                This sets a breakpoint at line 5, of my_file_1.c. Now, if the program
+                                ever reaches that location when running, the program will pause
+                                and prompt you for another command.
+                                <br>
+                                <br>
+                                You can set as many breakpoints as you want, and the program
+                                should stop execution if it reaches any of them.
+                                <br>
+                                <br>
+                                Typing “step” or “next” a lot of times can be tedious. If you just
+                                press ENTER, gdb will repeat the same command you just gave it.
+                                You can do this a bunch of times.
+                            </li>
+                            <li style="padding-bottom: 20px;">
+                                <b>Watch</b><br>
+                                <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                                    <p> &nbsp; &nbsp;(gdb) watch my_var</p>
+                                </div>
+                                Whereas breakpoints interrupt the program at a particular line or
+                                function, watchpoints act on variables. They pause the program
+                                whenever a watched variable’s value is modified.
+                                In the above example, whenever my_var’s value is modified, the program will
+                                interrupt and print out the old and new values.
+
+                            </li>
+                            <li style="padding-bottom: 20px;">
+                                <b>Conditional Breakpoints</b><br>
+                                Breakpoints by themselves may seem too tedious. You have to
+                                keep stepping, and stepping, and stepping. . .
+                                <br>
+                                <br>
+                                Once we develop an idea for what the error could be (like dereferencing a
+                                NULL pointer, or going past the bounds of an array), we probably only
+                                care if such an event happens; we don’t want to break at each iteration
+                                regardless
+                                <br>
+                                <br>
+                                So ideally, we’d like to condition on a particular requirement (or set
+                                of requirements). Using conditional breakpoints allow us to
+                                accomplish this goal. . .
+                                <br>
+                                <br>
+                                Just like regular breakpoints, except that you get to specify some
+                                criterion that must be met for the breakpoint to trigger. We use
+                                the same break command as before:
+                                <br>
+                                <br>
+
+                                <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                                    <p> &nbsp; &nbsp;(gdb) break my_file_1.c:5 if i >= SIZE_OF_ARRAY</p>
+                                </div>
+                                <br>
+                                This command sets a breakpoint at line 5 of file my_file_1.c, which
+                                triggers only if the variable i is greater than or equal to the size of
+                                the array (which probably is bad if line 5 does something like
+                                array[i]). Conditional breakpoints can most likely avoid all the
+                                unnecessary stepping, etc.
+
+                            </li>
+                            <li style="padding-bottom: 20px;">
+                                <b>Pointer Operations</b><br>
+                                See the value (memory address) of the pointer:
+                                <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                                    <p> &nbsp; &nbsp;(gdb) print struct_pointer</p>
+                                </div>
+                                <br>
+                                See a particular field of the struct the pointer is referencing:
+                                <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                                    <p> &nbsp; &nbsp;(gdb) print struct_pointer->name</p>
+                                </div>
+                                <br>
+                                You can also use the dereference (*) and dot (.) operators in place
+                                of the arrow operator (->):
+                                <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                                    <p> &nbsp; &nbsp;(gdb) print *struct_pointer</p>
+                                </div>
+                                <br>
+                                See the entire contents of the struct the pointer references
+                                <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                                    <p> &nbsp; &nbsp;(gdb) print (*struct_pointer).name</p>
+                                </div>
+                                <br>
+                                You can also follow pointers iteratively, like in a linked list:
+                                <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
+                                    <p> &nbsp; &nbsp;(gdb) print list_prt->next->next->next->data</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </article>
+
+                </div>
+            </section>
+        </div>
+    </div>
+    </body>
+    <footer class="center part clearfix">
+        <ul class="grid col-one-third social">
+            <li><a href="http://github.com/silcnitc">Github</a></li>
+            <li>  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+                <img alt="Creative Commons License" style="border-width:0" src="img/creativecommons.png" /></a></li>
+        </ul>
+        <div class="grid col-one-third" style="color:black;">
+            <p style="font-weight: bold;">Contributed By : <a href="https://www.linkedin.com/in/in/siddharth-ravi-6a1876198/">S R Siddharth</a>
+            </p>
+        </div>
+        <nav class="grid col-one-third ">
+            <ul >
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <!-- <li><a href="uc.html">Contact</a></li> -->
+            </ul>
+        </nav>
+        <br>
+    </footer>
+    <script>window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')</script>
+    <script src="js/scripts.js"></script>
+    <script src="js/inject.js"></script>
+</html>
