@@ -84,14 +84,14 @@
                         <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;">
                             <p> &nbsp; &nbsp; $ sudo apt-get install gdb </p>
                         </div>
-                        <P>Now you can confirm the installation of GDB by executing the command 1 again, and checking out whether the terminal recognizes the word "gdb".</P>
+                        <P>Now you can confirm the installation of GDB by executing the command $ gdb -help again.</P>
                     </article>
 
                     
                     <article class="grid col-full" id="nav-demo">
                         <h2>Demo</h2>
-                        <p>Let's demonstrate an use case</p>
-                        <p>Let's say we want to convert an infix expression to prefix expression</p>
+                        <p>let us demonstrate an use case</p>
+                        <p>let us say we want to convert an infix expression to prefix expression</p>
                         <p></p>
                         <p>This is our lex file <a href="gdb_input.html#nav-lex">lex.l</a></p>
                         <p>This is our yacc file <a href="gdb_input.html#nav-parser">parser.y</a></p>
@@ -102,11 +102,11 @@
                             <p class="alert-success"> &nbsp; &nbsp;<b>Expected Output :</b> + abc * - bcd efg hij</p>
                         </div>
                         <p></p>
-                        We know that we have to construct a infix expression tree by parsing the input string, and then we can do a preorder traversal on that tree to get the prefix. Here, lets see how we can use GDB to verify whether our expression tree / syntax tree is constructed properly.
+                        We know that we have to construct a infix expression tree by parsing the input string, and then we can do a preorder traversal on that tree to get the prefix. Here, let us see how we can use GDB to verify whether our expression tree / syntax tree is constructed properly.
                         <p>We know that by manual drawing, the expexted expression tree structure is as follows:-</p>
                         <img src="img/gdb/infix_expression_tree.jpeg" style="max-width: 695px;" class="img-responsive img-rounded" alt="Infix expression tree">
                         <br><br><br>
-                        <p>Now let's start our gnu debugger</p>
+                        <p>Now let us start our gnu debugger</p>
                         
                         <p>First we genreate our lexical anaylser from our rules in our lex file <a href="gdb_input.html#nav-lex">lex.l</a></p>
                         <div class="well" style="color:rgb(83, 11, 35); font-size: large;background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px;padding-top:15px;padding-bottom:15px;width:400px;">
@@ -159,7 +159,7 @@
                             <p> &nbsp; &nbsp;next</p>
                         </div>
                         <br>
-                        <p>Now, let's print the symbol stored at the root of the tree, and also view a snapshot of the gdb GUI, after executing the above instructions.</p>
+                        <p>Now, let us print the symbol stored at the root of the tree, and also view a snapshot of the gdb GUI, after executing the above instructions.</p>
                         <br>
                         <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
                             <div class="col-md-6">
@@ -175,7 +175,7 @@
                         <p>In the above image we can see that the command layout next gave us the graphical user interface which allows us to see the code segment currently executing while debugging.</p>
                         <p>The break statement helped us to reach the interested target function, so that from there we can proceed step by step exploring the contents.</p>
                         <br>
-                        <p>Now let's verify whether we have constructed our expression tree correctly</p>
+                        <p>Now let us verify whether we have constructed our expression tree correctly</p>
                         <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
                             <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
                                 <p class="alert-info"> &nbsp; &nbsp;(gdb) print root</p>
@@ -341,7 +341,7 @@
                         <br>
                         <div class="d-flex flex-md-row flex-sm-column justify-content-between align-items-center">
                             <div class ="col-md-8">
-                                <p>In this example, we can see an infinite loop, for the problem infix to prefix problem. Let's see how we can use GDB to find the error in the construction of the express tree / syntax tree.</p>
+                                <p>In this example, we can see an infinite loop, for the problem infix to prefix problem. let us see how we can use GDB to find the error in the construction of the express tree / syntax tree.</p>
                             </div>
                             <div class="col-md-4">
                                 <img src="img/gdb/inf.jpeg" style="max-width: 320px;" class="img-responsive img-rounded" alt="start">
@@ -350,7 +350,7 @@
                         <br>
                         <hr style="border-top: 3px solid #bbb";>
                         <br><br>
-                        <p>Let's print the contents of the tree</p>
+                        <p>let us print the contents of the tree</p>
                         <br>
                         <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
                             <div class="well" style="background-color: rgb(247, 241, 241); border-radius: 5px; padding: 10px; width:400px; float:left;">
@@ -374,7 +374,7 @@
                         <br><br>
                         <hr style="border-top: 3px solid #bbb";>
                         <br>
-                        <p>Everything seems fine so far, let's now verify the contents to the right of node "hij".</p>
+                        <p>Everything seems fine so far, let us now verify the contents to the right of node "hij".</p>
                         <br>
                         <div class="d-flex flex-md-row flex-sm-column justify-content-around align-items-center">
                             <div class="col-md-4 col-sm-12">
