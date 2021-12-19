@@ -42,6 +42,8 @@
                   <li><a class="sec" href="#nav-parser">parser.y file</a></li>
                   <li><a class="sec" href="#nav-function">infixtoprefix function</a></li>
                   <li><a class="sec" href="#nav-input">input file</a></li>
+				  <li><a class="sec" href="#nav-treeh">tree.h file</a></li>
+				  <li><a class="sec" href="#nav-treec">tree.c file</a></li>
                 </ul>
               </menu>
                <!-- <a class="button" href="">Download as PDF</a> -->
@@ -234,7 +236,7 @@ void infixtoprefix(FILE* fp, struct tnode* root){
                         </div>
                     </article>
 
-                    <article class="grid col-full" id="nav-input">
+                    <article class="grid col-full" id="nav-treeh">
                         <h2>tree.h file</h2>
                         <p>This is the header file for tree.c file</p>
                         <div class="well" style="background-color: rgb(243, 239, 234); border-radius: 5px; padding: 10px; padding-bottom: 3px;">
@@ -290,7 +292,7 @@ struct tnode* createTree(int val, int type, char* c, int nodeType, struct tnode 
                         </div>
                     </article>
 
-                    <article class="grid col-full" id="nav-input">
+                    <article class="grid col-full" id="nav-treec">
                         <h2>tree.c file</h2>
                         <p>This file contains the helper functions for the yacc file, like the createTree(), infixtoprefix() etc.</p>
                         <p>The yacc file imports the tree.c file and tree.h file</p>
