@@ -51,7 +51,7 @@ sudo apt-get install flex
 <p>
 For Fedora Users :
 <pre>
-yum install flex
+yum install flex flex-devel
 </pre>
 
 
@@ -73,7 +73,7 @@ sudo apt-get install bison
              <br>
 <p> For Fedora Users :</p>
 <pre>
-yum install bison
+yum install bison bison-devel byacc
 </pre>
 
 </article>
@@ -104,6 +104,7 @@ yum install bison
             then install the following dependencies and try running "make" again : <br>
             <b>sudo apt-get install libreadline-dev</b> <br>
             <b>sudo apt-get install libc6-dev</b> <br>
+            <b>sudo dnf install readline-devel # for fedora</b> <br>
             If any other dependencies are missing (this depends on your system configuration), you have to install the missing dependencies
             and run "make" again.
 	    (Optional) While running "./xsm" after Step 2 if you get this error:<br>
@@ -114,8 +115,13 @@ yum install bison
 		  and edit the <b>Makefile</b> of <b>xsm_dev</b> folder, to proceed 
 		  find the line where "-ll" is used as option and update it to "-lfl" to use the "flex" library we installed above.
 	    Now you can run "make" again after navigating into the folder <b>xsm_expl</b> through the terminal.
-          </p></li>
+          </p>
+          <p>If you run into errors pretaining to <b>/usr/include/readline/*</b>, Update <b>xfs-interface/interface.c</b> and include <b>stdio.h</b> before readline headers</p>
+            <br>
+
+          </li>
           <li id="otis">2. Type "cd ../xfs-interface/" and type "./init".</li>
+          <br>
 	  <li id="otis">3.(Optional) Add this line <b>#!/usr/bin/env bash</b> as first line to the <b>xsm</b> file in <b>xsm_expl</b> folder.</li>
           This step is for those who don't have <b>bash</b> or <b>sh</b> as their "default shell" and therefore may be using other 
 	  customizable shells like <b>zsh</b>, etc as their default shell. You can check your default shell by using <b>echo $SHELL</b> in terminal.
